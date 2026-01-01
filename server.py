@@ -175,11 +175,43 @@ def create_room(host_plays: bool = False):
         "code": code,
         "host_plays": host_plays,
         "players": {},
-        "started": False
+        "started": False,
+        "current_question": None,
+        "correct_answer": None  # A/B/C/D för aktuell fråga (sätts av host)
     }
 
     return {"roomCode": code}
 
+
+@app.post("/room/question")
+def set_question(room: str, question: dict):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    room_data["current_question"] = question
+    room_data["correct_answer"] = None  # reset när ny fråga sätts
+    return {"status": "question_set", "roomCode": room_code}
+
+
+@app.post("/room/correct")
+def set_correct_answer(room: str, correct_answer: str):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    if not room_data.get("current_question"):
+        raise HTTPException(status_code=400, detail="No active question")
+
+    if correct_answer not in ["A", "B", "C", "D"]:
+        raise HTTPException(status_code=400, detail="Invalid answer")
+
+    room_data["correct_answer"] = correct_answer
+    return {"status": "correct_answer_set", "roomCode": room_code, "correct_answer": correct_answer}
 
 @app.get("/room/{code}")
 def get_room(code: str):
