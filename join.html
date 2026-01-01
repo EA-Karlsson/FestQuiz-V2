@@ -128,6 +128,7 @@
                 }
 
                 const data = await res.json();
+                handleJoinSuccess(data);
                 statusEl.textContent = `Du är med, ${data.name}! Vänta på hosten.`;
             } catch {
                 statusEl.textContent = "Nätverksfel.";
