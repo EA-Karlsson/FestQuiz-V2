@@ -180,6 +180,31 @@
         setInterval(loadCurrentQuestion, 2000);
         loadCurrentQuestion();
 
+        const questionInput = document.getElementById("questionInput");
+        const setQuestionBtn = document.getElementById("setQuestionBtn");
+
+        setQuestionBtn.addEventListener("click", async () => {
+            const text = questionInput.value.trim();
+            if (!text) return;
+
+            try {
+                const res = await fetch(`/room/question?room=${roomCode}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text })
+                });
+
+                if (!res.ok) {
+                    alert("Kunde inte sätta fråga");
+                    return;
+                }
+
+                questionInput.value = "";
+            } catch {
+                alert("Nätverksfel");
+            }
+        });
+
     </script>
 </body>
 
