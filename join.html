@@ -187,6 +187,43 @@
         // kör ihop med befintlig polling
         setInterval(updateJoinUI, 2000);
 
+        let playerId = null;
+
+        // få playerId när join lyckas (lägg till detta där du redan hanterar join-svaret)
+        async function handleJoinSuccess(data) {
+            playerId = data.playerId;
+        }
+
+        // ⚠️ Lägg denna raden direkt efter att du fått `data` från /room/join
+        // handleJoinSuccess(data);
+
+
+        // === SKICKA SVAR ===
+        document.querySelectorAll(".answerBtn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                if (!playerId) return;
+
+                const answer = btn.dataset.answer;
+
+                try {
+                    const res = await fetch(
+                        `/room/answer?room=${room}&player_id=${playerId}&answer=${answer}`,
+                        { method: "POST" }
+                    );
+
+                    if (!res.ok) {
+                        alert("Kunde inte skicka svar");
+                        return;
+                    }
+
+                    // valfritt: lås knappar efter klick
+                    document.querySelectorAll(".answerBtn").forEach(b => b.disabled = true);
+                } catch {
+                    alert("Nätverksfel");
+                }
+            });
+        });
+
     </script>
 </body>
 
