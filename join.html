@@ -156,6 +156,37 @@
         setInterval(checkForQuestion, 2000);
         checkForQuestion();
 
+        const cardEl = document.querySelector(".card");
+        let hasJoined = false;
+
+        // markera att spelaren gått med
+        joinBtn.addEventListener("click", () => {
+            hasJoined = true;
+        });
+
+        async function updateJoinUI() {
+            try {
+                const res = await fetch(`/room/${room}`);
+                const data = await res.json();
+
+                if (hasJoined && data.current_question) {
+                    // dölj allt i kortet utom svarsknappar
+                    Array.from(cardEl.children).forEach(el => {
+                        if (el.id !== "answersBox") {
+                            el.style.display = "none";
+                        }
+                    });
+
+                    answersBox.style.display = "block";
+                }
+            } catch {
+                // ignorera
+            }
+        }
+
+        // kör ihop med befintlig polling
+        setInterval(updateJoinUI, 2000);
+
     </script>
 </body>
 
