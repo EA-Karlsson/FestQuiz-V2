@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz – Host</title>
+    <style>
+        body {
+            font-family: system-ui, Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 24px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .room {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 400px;
+        }
+
+        li {
+            background: #111827;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .hint {
+            opacity: 0.7;
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hostvy</h1>
+    <div class="room">Room: <strong id="roomCode">–</strong></div>
+
+    <div id="qrBlock" style="margin: 24px 0; text-align: center;">
+        <p style="margin-bottom: 12px; opacity: 0.8;">
+            Scanna för att gå med
+        </p>
+        <img id="qrImage" alt="QR-kod för att gå med" />
+    </div>
+
+    <h2>Spelare</h2>
+    <ul id="players"></ul>
+
+    <div class="hint">Uppdateras automatiskt</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const roomCode = params.get("room");
+
+        const roomEl = document.getElementById("roomCode");
+        const playersEl = document.getElementById("players");
+
+        if (!roomCode) {
+            roomEl.textContent = "SAKNAS";
+            playersEl.innerHTML = "<li>Ingen room-kod i URL</li>";
+            throw new Error("Missing room code");
+        }
+
+        roomEl.textContent = roomCode.toUpperCase();
+
+        // === QR-KOD ===
+        const joinUrl = `${window.location.origin}/static/join.html?room=${roomCode}`;
+        const qrImg = document.getElementById("qrImage");
+
+        qrImg.src =
+            "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+            encodeURIComponent(joinUrl);
+
+        async function loadRoom() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                playersEl.innerHTML = "";
+
+                const players = data.players || {};
+                const ids = Object.keys(players);
+
+                if (ids.length === 0) {
+                    playersEl.innerHTML = "<li>Inga spelare ännu…</li>";
+                    return;
+                }
+
+                ids.forEach(id => {
+                    const li = document.createElement("li");
+                    li.textContent = players[id].name;
+                    playersEl.appendChild(li);
+                });
+            } catch (err) {
+                playersEl.innerHTML = "<li>Kunde inte hämta room</li>";
+            }
+        }
+
+        loadRoom();
+        setInterval(loadRoom, 2000);
+    </script>
+</body>
+
+</html>

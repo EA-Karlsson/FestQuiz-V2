@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz – Gå med</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: system-ui, Arial, sans-serif;
+            background: #020617;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #22c55e;
+            color: #052e16;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .status {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Gå med i quizet</h1>
+
+        <input id="name" type="text" placeholder="Ditt namn" autocomplete="off" />
+
+        <button id="joinBtn">Gå med</button>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const room = params.get("room");
+
+        const nameInput = document.getElementById("name");
+        const joinBtn = document.getElementById("joinBtn");
+        const statusEl = document.getElementById("status");
+
+        if (!room) {
+            joinBtn.disabled = true;
+            statusEl.textContent = "Ingen room-kod hittades.";
+        }
+
+        joinBtn.addEventListener("click", async () => {
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                statusEl.textContent = "Skriv ditt namn först.";
+                return;
+            }
+
+            joinBtn.disabled = true;
+            statusEl.textContent = "Går med…";
+
+            try {
+                const res = await fetch(
+                    `/room/join?room=${encodeURIComponent(room)}&name=${encodeURIComponent(name)}`,
+                    { method: "POST" }
+                );
+
+                if (!res.ok) {
+                    const err = await res.json();
+                    statusEl.textContent = err.detail || "Kunde inte gå med.";
+                    joinBtn.disabled = false;
+                    return;
+                }
+
+                const data = await res.json();
+                statusEl.textContent = `Du är med, ${data.name}! Vänta på hosten.`;
+            } catch {
+                statusEl.textContent = "Nätverksfel.";
+                joinBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
