@@ -54,6 +54,13 @@
         <img id="qrImage" alt="QR-kod för att gå med" />
     </div>
 
+    <div id="questionBox" style="margin:16px 0; padding:16px; background:#111827; border-radius:8px;">
+        <div style="opacity:0.7; margin-bottom:8px;">Aktuell fråga</div>
+        <div id="currentQuestion" style="font-size:1.2rem;">
+            Ingen fråga aktiv
+        </div>
+    </div>
+
     <button id="startBtn" style="margin:16px 0; padding:12px 16px;">
         Starta quiz
     </button>
@@ -141,6 +148,28 @@
 
         loadRoom();
         setInterval(loadRoom, 2000);
+
+        const currentQuestionEl = document.getElementById("currentQuestion");
+
+        async function loadCurrentQuestion() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                if (data.current_question && data.current_question.text) {
+                    currentQuestionEl.textContent = data.current_question.text;
+                } else {
+                    currentQuestionEl.textContent = "Ingen fråga aktiv";
+                }
+            } catch {
+                currentQuestionEl.textContent = "Kunde inte hämta fråga";
+            }
+        }
+
+        // hämta fråga regelbundet
+        setInterval(loadCurrentQuestion, 2000);
+        loadCurrentQuestion();
+
     </script>
 </body>
 
