@@ -206,7 +206,8 @@ def join_room(room: str, name: str):
     room_data["players"][player_id] = {
         "id": player_id,
         "name": name,
-        "score": 0
+        "score": 0,
+        "answers": []
     }
 
     return {
@@ -236,6 +237,24 @@ def set_question(room: str, question: dict):
 
     room_data["current_question"] = question
     return {"status": "question_set", "roomCode": room_code}
+
+@app.post("/room/answer")
+def submit_answer(room: str, player_id: str, answer: str):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    player = room_data["players"].get(player_id)
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    player["answers"].append({
+        "answer": answer
+    })
+
+    return {"status": "answer_received"}
 
 # ================== API ==================
 
