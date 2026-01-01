@@ -197,6 +197,21 @@ function showQuestion(questionText, answersDiv) {
     const nextBtn = document.getElementById("nextBtn");
     if (nextBtn) nextBtn.classList.remove("hidden");
 
+    // --- V2 SYNC: skicka frågan som visas (inkl. A/B/C/D-mappning) ---
+    if (typeof window.sendQuestionToV2 === "function") {
+        window.sendQuestionToV2({
+            id: `${currentIndex + 1}/${questions.length}`,
+            question: q.question,
+            options: {
+                A: answers[0],
+                B: answers[1],
+                C: answers[2],
+                D: answers[3],
+            },
+            correct_letter: correctLetter
+        });
+    }
+
     startTimer();
 }
 

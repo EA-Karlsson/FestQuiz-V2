@@ -60,6 +60,28 @@
     </div>
 
     <script src="app.js"></script>
+
+    <script>
+        (function () {
+            // Kräver att room-kod finns i URL: ?room=AB12
+            const params = new URLSearchParams(window.location.search);
+            const roomCode = params.get("room");
+            if (!roomCode) return;
+
+            // Hook: anropa denna när V1 byter till ny fråga
+            window.sendQuestionToV2 = async function (questionObject) {
+                try {
+                    await fetch(`/room/question?room=${roomCode}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(questionObject)
+                    });
+                } catch (e) {
+                    console.error("Kunde inte skicka fråga till V2", e);
+                }
+            };
+        })();
+    </script>
 </body>
 
 </html>
