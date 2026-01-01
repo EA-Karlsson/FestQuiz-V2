@@ -176,51 +176,10 @@ def create_room(host_plays: bool = False):
         "host_plays": host_plays,
         "players": {},
         "started": False,
-        "current_question": None,
-        "correct_answer": None  # A/B/C/D för aktuell fråga (sätts av host)
+        "current_question": None  # hela frågeobjektet från V1
     }
 
     return {"roomCode": code}
-
-
-@app.post("/room/question")
-def set_question(room: str, question: dict):
-    room_code = room.upper()
-    room_data = ROOMS.get(room_code)
-
-    if not room_data:
-        raise HTTPException(status_code=404, detail="Room not found")
-
-    room_data["current_question"] = question
-    room_data["correct_answer"] = None  # reset när ny fråga sätts
-    return {"status": "question_set", "roomCode": room_code}
-
-
-@app.post("/room/correct")
-def set_correct_answer(room: str, correct_answer: str):
-    room_code = room.upper()
-    room_data = ROOMS.get(room_code)
-
-    if not room_data:
-        raise HTTPException(status_code=404, detail="Room not found")
-
-    if not room_data.get("current_question"):
-        raise HTTPException(status_code=400, detail="No active question")
-
-    if correct_answer not in ["A", "B", "C", "D"]:
-        raise HTTPException(status_code=400, detail="Invalid answer")
-
-    room_data["correct_answer"] = correct_answer
-    return {"status": "correct_answer_set", "roomCode": room_code, "correct_answer": correct_answer}
-
-@app.get("/room/{code}")
-def get_room(code: str):
-    room = ROOMS.get(code.upper())
-
-    if not room:
-        return {"error": "Room not found"}
-
-    return room
 
 @app.post("/room/join")
 def join_room(room: str, name: str):
@@ -261,14 +220,35 @@ def start_room(room: str):
 
 @app.post("/room/question")
 def set_question(room: str, question: dict):
+    import json
+    import hashlib
+
     room_code = room.upper()
     room_data = ROOMS.get(room_code)
 
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
+    # Säkerställ stabilt id på frågan (om V1 inte skickar id)
+    if not question.get("id"):
+        # deterministiskt id baserat på innehållet
+        canonical = json.dumps(question, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+        question["id"] = hashlib.sha1(canonical.encode("utf-8")).hexdigest()[:10]
+
     room_data["current_question"] = question
-    return {"status": "question_set", "roomCode": room_code}
+
+    # Skapa ett answer-slot per spelare för just den här frågan
+    for player in room_data["players"].values():
+        player["answers"].append({
+            "question_id": question["id"],
+            "answer": None
+        })
+
+    return {
+        "status": "question_set",
+        "roomCode": room_code,
+        "question_id": question["id"]
+    }
 
 @app.post("/room/answer")
 def submit_answer(room: str, player_id: str, answer: str):
@@ -278,15 +258,42 @@ def submit_answer(room: str, player_id: str, answer: str):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
+    if not room_data.get("current_question"):
+        raise HTTPException(status_code=400, detail="No active question")
+
     player = room_data["players"].get(player_id)
     if not player:
         raise HTTPException(status_code=404, detail="Player not found")
 
-    player["answers"].append({
-        "answer": answer
-    })
+    if answer not in ["A", "B", "C", "D"]:
+        raise HTTPException(status_code=400, detail="Invalid answer")
+
+    current_q = room_data["current_question"]
+    current_q_id = current_q.get("id")
+
+    if not player["answers"]:
+        raise HTTPException(status_code=400, detail="Answer slot not initialized")
+
+    last_answer = player["answers"][-1]
+
+    if last_answer["question_id"] != current_q_id:
+        raise HTTPException(status_code=400, detail="Answer mismatch")
+
+    if last_answer["answer"] is not None:
+        raise HTTPException(status_code=400, detail="Answer already submitted")
+
+    last_answer["answer"] = answer
 
     return {"status": "answer_received"}
+
+@app.get("/room/{code}")
+def get_room(code: str):
+    room = ROOMS.get(code.upper())
+
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    return room
 
 # ================== API ==================
 

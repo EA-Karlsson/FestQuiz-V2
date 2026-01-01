@@ -54,16 +54,6 @@
         <img id="qrImage" alt="QR-kod för att gå med" />
     </div>
 
-    <div id="setQuestionBox"
-        style="margin:16px 0; padding:16px; background:#020617; border:1px solid #1e293b; border-radius:8px;">
-        <div style="opacity:0.7; margin-bottom:8px;">Sätt fråga (test)</div>
-        <input id="questionInput" type="text" placeholder="Skriv en fråga här…"
-            style="width:100%; padding:10px; border-radius:6px; border:none; margin-bottom:8px;" />
-        <button id="setQuestionBtn" style="padding:10px 14px;">
-            Sätt fråga
-        </button>
-    </div>
-
     <div id="questionBox" style="margin:16px 0; padding:16px; background:#111827; border-radius:8px;">
         <div style="opacity:0.7; margin-bottom:8px;">Aktuell fråga</div>
         <div id="currentQuestion" style="font-size:1.2rem;">
@@ -83,6 +73,10 @@
         Starta quiz
     </button>
 
+    <button id="nextQuestionBtn" style="margin:16px 0; padding:12px 16px;">
+        Nästa fråga
+    </button>
+
     <div id="status" style="margin-bottom:12px; opacity:0.8;"></div>
 
     <h2>Spelare</h2>
@@ -98,6 +92,8 @@
         const playersEl = document.getElementById("players");
         const startBtn = document.getElementById("startBtn");
         const statusEl = document.getElementById("status");
+        const currentQuestionEl = document.getElementById("currentQuestion");
+        const answersListEl = document.getElementById("answersList");
 
         if (!roomCode) {
             roomEl.textContent = "SAKNAS";
@@ -159,62 +155,33 @@
                     li.textContent = players[id].name;
                     playersEl.appendChild(li);
                 });
-            } catch (err) {
+            } catch {
                 playersEl.innerHTML = "<li>Kunde inte hämta room</li>";
             }
         }
 
-        loadRoom();
-        setInterval(loadRoom, 2000);
-
-        const currentQuestionEl = document.getElementById("currentQuestion");
-
+        // === VISA AKTUELL FRÅGA (ROBUST) ===
         async function loadCurrentQuestion() {
             try {
                 const res = await fetch(`/room/${roomCode}`);
                 const data = await res.json();
 
-                if (data.current_question && data.current_question.text) {
-                    currentQuestionEl.textContent = data.current_question.text;
-                } else {
+                if (!data.current_question) {
                     currentQuestionEl.textContent = "Ingen fråga aktiv";
+                    return;
                 }
+
+                // Visa något begripligt utan att anta struktur
+                currentQuestionEl.textContent =
+                    data.current_question.question ||
+                    data.current_question.text ||
+                    "[Fråga mottagen]";
             } catch {
                 currentQuestionEl.textContent = "Kunde inte hämta fråga";
             }
         }
 
-        // hämta fråga regelbundet
-        setInterval(loadCurrentQuestion, 2000);
-        loadCurrentQuestion();
-
-        const questionInput = document.getElementById("questionInput");
-        const setQuestionBtn = document.getElementById("setQuestionBtn");
-
-        setQuestionBtn.addEventListener("click", async () => {
-            const text = questionInput.value.trim();
-            if (!text) return;
-
-            try {
-                const res = await fetch(`/room/question?room=${roomCode}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ text })
-                });
-
-                if (!res.ok) {
-                    alert("Kunde inte sätta fråga");
-                    return;
-                }
-
-                questionInput.value = "";
-            } catch {
-                alert("Nätverksfel");
-            }
-        });
-
-        const answersListEl = document.getElementById("answersList");
-
+        // === ANTAL SVAR (SENASTE FRÅGAN) ===
         async function loadAnswerCount() {
             try {
                 const res = await fetch(`/room/${roomCode}`);
@@ -223,23 +190,74 @@
                 const players = data.players || {};
                 const totalPlayers = Object.keys(players).length;
 
-                let totalAnswers = 0;
+                let answered = 0;
+
                 Object.values(players).forEach(player => {
-                    totalAnswers += (player.answers || []).length;
+                    if (!player.answers || player.answers.length === 0) return;
+
+                    const last = player.answers[player.answers.length - 1];
+                    if (last.answer !== null) {
+                        answered += 1;
+                    }
                 });
 
                 answersListEl.innerHTML = "";
                 const li = document.createElement("li");
-                li.textContent = `Svar inkomna: ${totalAnswers} / ${totalPlayers}`;
+                li.textContent = `Svar inkomna: ${answered} / ${totalPlayers}`;
                 answersListEl.appendChild(li);
+
             } catch {
                 answersListEl.innerHTML = "<li>Kunde inte hämta svarstatus</li>";
             }
         }
 
-        // uppdatera räknaren live
-        setInterval(loadAnswerCount, 2000);
+        // === POLLING ===
+        loadRoom();
+        loadCurrentQuestion();
         loadAnswerCount();
+
+        setInterval(loadRoom, 2000);
+        setInterval(loadCurrentQuestion, 2000);
+        setInterval(loadAnswerCount, 2000);
+
+        const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+
+        nextQuestionBtn.addEventListener("click", async () => {
+            nextQuestionBtn.disabled = true;
+            statusEl.textContent = "Hämtar fråga…";
+
+            try {
+                // 1. Hämta EN fråga från V1
+                const quizRes = await fetch("/quiz?amount=1");
+                if (!quizRes.ok) {
+                    statusEl.textContent = "Kunde inte hämta fråga.";
+                    nextQuestionBtn.disabled = false;
+                    return;
+                }
+
+                const questions = await quizRes.json();
+                const question = questions[0];
+
+                // 2. Skicka hela frågeobjektet till rummet
+                const roomRes = await fetch(`/room/question?room=${roomCode}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(question)
+                });
+
+                if (!roomRes.ok) {
+                    statusEl.textContent = "Kunde inte sätta fråga.";
+                    nextQuestionBtn.disabled = false;
+                    return;
+                }
+
+                statusEl.textContent = "Ny fråga skickad.";
+            } catch {
+                statusEl.textContent = "Nätverksfel.";
+            } finally {
+                nextQuestionBtn.disabled = false;
+            }
+        });
 
     </script>
 </body>
