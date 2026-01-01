@@ -76,6 +76,18 @@
         <button id="joinBtn">Gå med</button>
 
         <div class="status" id="status"></div>
+
+        <div id="answersBox" style="margin-top:16px; display:none;">
+            <div style="opacity:0.7; margin-bottom:8px;">Välj svar</div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button class="answerBtn" data-answer="A">A</button>
+                <button class="answerBtn" data-answer="B">B</button>
+                <button class="answerBtn" data-answer="C">C</button>
+                <button class="answerBtn" data-answer="D">D</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -122,6 +134,28 @@
                 joinBtn.disabled = false;
             }
         });
+
+        const answersBox = document.getElementById("answersBox");
+
+        async function checkForQuestion() {
+            try {
+                const res = await fetch(`/room/${room}`);
+                const data = await res.json();
+
+                if (data.current_question) {
+                    answersBox.style.display = "block";
+                } else {
+                    answersBox.style.display = "none";
+                }
+            } catch {
+                // gör inget – behåll senaste läge
+            }
+        }
+
+        // kolla regelbundet om fråga finns
+        setInterval(checkForQuestion, 2000);
+        checkForQuestion();
+
     </script>
 </body>
 
