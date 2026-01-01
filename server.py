@@ -226,6 +226,16 @@ def start_room(room: str):
     room_data["started"] = True
     return {"status": "started", "roomCode": room_code}
 
+@app.post("/room/question")
+def set_question(room: str, question: dict):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    room_data["current_question"] = question
+    return {"status": "question_set", "roomCode": room_code}
 
 # ================== API ==================
 
