@@ -205,6 +205,34 @@
             }
         });
 
+        const answersListEl = document.getElementById("answersList");
+
+        async function loadAnswerCount() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                const players = data.players || {};
+                const totalPlayers = Object.keys(players).length;
+
+                let totalAnswers = 0;
+                Object.values(players).forEach(player => {
+                    totalAnswers += (player.answers || []).length;
+                });
+
+                answersListEl.innerHTML = "";
+                const li = document.createElement("li");
+                li.textContent = `Svar inkomna: ${totalAnswers} / ${totalPlayers}`;
+                answersListEl.appendChild(li);
+            } catch {
+                answersListEl.innerHTML = "<li>Kunde inte hämta svarstatus</li>";
+            }
+        }
+
+        // uppdatera räknaren live
+        setInterval(loadAnswerCount, 2000);
+        loadAnswerCount();
+
     </script>
 </body>
 
