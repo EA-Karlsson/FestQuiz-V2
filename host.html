@@ -101,6 +101,8 @@
             throw new Error("Missing room code");
         }
 
+        startV2Countdown(roomCode);
+
         roomEl.textContent = roomCode.toUpperCase();
 
         // === QR-KOD ===

@@ -82,6 +82,41 @@
             };
         })();
     </script>
+
+    <script>
+        /* ================================
+           V2 TIMER → VISUELL NEDRÄKNING (V1)
+           ================================ */
+
+        let v2TimerInterval = null;
+
+        function startV2Countdown(roomCode) {
+            if (v2TimerInterval) clearInterval(v2TimerInterval);
+
+            v2TimerInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/room/${roomCode}`);
+                    if (!res.ok) return;
+
+                    const data = await res.json();
+                    if (!data.timer || !data.timer.ends_at) return;
+
+                    const now = Date.now() / 1000;
+                    const remaining = Math.max(0, Math.ceil(data.timer.ends_at - now));
+
+                    // ⬇️ HÄR uppdaterar du din befintliga timer-text i V1
+                    const timerEl = document.getElementById("timer");
+                    if (timerEl) {
+                        timerEl.textContent = remaining;
+                    }
+
+                } catch (e) {
+                    // tyst – ingen logg på TV
+                }
+            }, 500);
+        }
+    </script>
+
 </body>
 
 </html>
