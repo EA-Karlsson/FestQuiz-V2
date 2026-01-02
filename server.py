@@ -295,6 +295,65 @@ def get_room(code: str):
 
     return room
 
+import threading
+import time
+
+# --- TIMER CONFIG (LÅST) ---
+DIFFICULTY_SECONDS = {
+    "easy": 25,
+    "medium": 20,
+    "hard": 15
+}
+
+def start_question_timer(room_code: str):
+    room = ROOMS.get(room_code)
+    if not room:
+        return
+
+    difficulty = room.get("difficulty", "medium")
+    seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
+
+    # Markera timer aktiv
+    room["timer"] = {
+        "running": True,
+        "ends_at": time.time() + seconds
+    }
+
+    def _run():
+        time.sleep(seconds)
+        # Om rummet fortfarande finns och timern är aktiv
+        room = ROOMS.get(room_code)
+        if not room or not room.get("timer", {}).get("running"):
+            return
+
+        # Lås svar
+        room["answers_locked"] = True
+
+        # Signalera auto-next
+        room["phase"] = "locked"  # frontend pollar detta
+        room["timer"]["running"] = False
+
+    threading.Thread(target=_run, daemon=True).start()
+
+@app.post("/room/question")
+def set_question(room: str, question: dict):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    # Sätt ny fråga
+    room_data["current_question"] = question
+    room_data["answers_locked"] = False
+    room_data["phase"] = "question"
+
+    # Starta timer
+    start_question_timer(room_code)
+
+    return {"status": "question_set", "roomCode": room_code}
+
+
 # ================== API ==================
 
 @app.get("/quiz")
