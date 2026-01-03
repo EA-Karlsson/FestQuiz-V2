@@ -366,12 +366,13 @@ def get_room(code: str):
             }
 
             # 📦 SPARA FACITDATA FÖR SLUTFACIT
-            room["final_results"].append({
-                "question_id": room["current_question"].get("id"),
-                "question": room["current_question"].get("question"),
-                "correct_letter": correct_letter,
-                "right_players": right_players,
-                "wrong_players": wrong_players
+            if not room.get("final_results") or room["final_results"][-1]["question_id"] != room["current_question"].get("id"):
+                room["final_results"].append({
+                    "question_id": room["current_question"].get("id"),
+                    "question": room["current_question"].get("question"),
+                    "correct_letter": correct_letter,
+                    "right_players": right_players,
+                    "wrong_players": wrong_players
             })
 
     return room
