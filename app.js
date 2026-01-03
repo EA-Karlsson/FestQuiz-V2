@@ -421,6 +421,12 @@ async function renderScoreboard(roomCode) {
 
     if (timerEl) timerEl.style.display = "none";
 
+    // 🔒 Tvinga centrering av innehållet
+    answersDiv.style.display = "flex";
+    answersDiv.style.justifyContent = "center";
+    answersDiv.style.alignItems = "flex-start";
+    answersDiv.style.width = "100%";
+
     questionText.innerHTML = `<span class="facit-title">🏆 Resultat</span>`;
     answersDiv.innerHTML = `<div style="opacity:.7;">Laddar scoreboard…</div>`;
 
@@ -435,25 +441,36 @@ async function renderScoreboard(roomCode) {
             .map(p => ({ name: p.name, score: p.score || 0 }))
             .sort((a, b) => b.score - a.score);
 
+        const winner = scoreboard[0];
+        const others = scoreboard.slice(1);
+
         answersDiv.innerHTML = `
-            <div class="facit-item" style="padding:32px; max-width:700px;">
+            <div class="facit-item" style="
+                padding:32px;
+                max-width:700px;
+                width:100%;
+                text-align:left;
+            ">
+
                 <div style="font-size:1.8rem; margin-bottom:20px;">
                     🏆 <strong>Vinnare</strong>
                 </div>
 
                 <div style="font-size:2.4rem; margin-bottom:30px;">
-                    🥇 <strong>${scoreboard[0]?.name || "–"}</strong>
-                    <span style="opacity:.8;">– ${scoreboard[0]?.score || 0} poäng</span>
+                    🥇 <strong>${winner?.name || "–"}</strong>
+                    <span style="opacity:.8;">– ${winner?.score || 0} poäng</span>
                 </div>
 
-                <div>
-                    ${scoreboard.map((p, i) => `
-                        <div style="margin:14px 0; font-size:1.5rem;">
-                            ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "•"}
-                            <strong>${p.name}</strong> – ${p.score}
-                        </div>
-                    `).join("")}
-                </div>
+                ${others.length > 0 ? `
+                    <div>
+                        ${others.map((p, i) => `
+                            <div style="margin:14px 0; font-size:1.5rem;">
+                                ${i === 0 ? "🥈" : i === 1 ? "🥉" : "•"}
+                                <strong>${p.name}</strong> – ${p.score}
+                            </div>
+                        `).join("")}
+                    </div>
+                ` : ""}
 
                 <div style="margin-top:28px;">
                     <button
@@ -471,6 +488,7 @@ async function renderScoreboard(roomCode) {
                         Visa facit
                     </button>
                 </div>
+
             </div>
         `;
 
