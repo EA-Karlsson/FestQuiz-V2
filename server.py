@@ -379,6 +379,9 @@ def get_room(code: str):
 
             # 📊 RÄKNA RÄTT / FEL (AGGREGERAT)
             correct_letter = room["current_question"].get("correct_letter")
+            options = room["current_question"].get("options", {})
+            correct_text = options.get(correct_letter, "")
+
             right = 0
             wrong = 0
 
@@ -412,6 +415,7 @@ def get_room(code: str):
                     "question_id": room["current_question"].get("id"),
                     "question": room["current_question"].get("question"),
                     "correct_letter": correct_letter,
+                    "correct_text": correct_text,
                     "right_players": right_players,
                     "wrong_players": wrong_players
                 })
