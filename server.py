@@ -209,6 +209,8 @@ def join_room(room: str, name: str):
 
 from fastapi import Body
 
+from fastapi import Body
+
 @app.post("/room/start")
 def start_room(room: str, payload: dict = Body(default={})):
     room_code = room.upper()
@@ -217,10 +219,14 @@ def start_room(room: str, payload: dict = Body(default={})):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # ⬇️ SÄTT DIFFICULTY I RUMMET (V2-ÄGD)
+    # sätt svårighetsgrad
     room_data["difficulty"] = payload.get("difficulty", "medium")
 
     room_data["started"] = True
+
+    # ⬇️ STARTA FÖRSTA V2-TIMERN
+    start_question_timer(room_code)
+
     return {"status": "started", "roomCode": room_code}
 
 @app.post("/room/question")
