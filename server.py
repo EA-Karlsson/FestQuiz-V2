@@ -324,7 +324,6 @@ def set_question(room: str, question: dict):
         "seconds": seconds
     }
 
-
 @app.post("/room/answer")
 def submit_answer(room: str, player_id: str, answer: str):
     room_code = room.upper()
@@ -332,9 +331,6 @@ def submit_answer(room: str, player_id: str, answer: str):
 
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
-
-    # 🔒 AUTO-LOCK CHECK
-    maybe_lock_answers(room_data)
 
     if room_data.get("answers_locked"):
         raise HTTPException(status_code=400, detail="Answers are locked")
@@ -360,13 +356,10 @@ def submit_answer(room: str, player_id: str, answer: str):
     if last_answer["question_id"] != current_q_id:
         raise HTTPException(status_code=400, detail="Answer mismatch")
 
-    if last_answer["answer"] is not None:
-        raise HTTPException(status_code=400, detail="Answer already submitted")
-
+    # 🔁 TILLÅT ALLTID ÄNDRING AV SVAR TILLS TIMERN LÅSER
     last_answer["answer"] = answer
 
     return {"status": "answer_received"}
-
 
 @app.get("/room/{code}")
 def get_room(code: str):
