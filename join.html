@@ -64,20 +64,12 @@
 
         .answerBtn {
             background: #facc15;
-            /* gul */
             color: #1f2937;
         }
 
         .answerBtn.selected {
             background: #22c55e;
-            /* grön */
             color: #052e16;
-        }
-
-        .status {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 0.95rem;
         }
 
         .hint {
@@ -93,13 +85,12 @@
         <h1 id="title">Gå med i quizet</h1>
 
         <input id="name" type="text" placeholder="Ditt namn" autocomplete="off" />
-
         <button id="joinBtn" class="join-btn">Gå med</button>
 
-        <div class="status" id="status"></div>
+        <div class="hint" id="status"></div>
 
         <div id="answersBox" style="margin-top:16px; display:none;">
-            <div class="hint" id="answerHint">Välj ditt svar</div>
+            <div class="hint" id="answerHint"></div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <button class="answerBtn" data-answer="A">A</button>
@@ -123,115 +114,88 @@
         const answerButtons = document.querySelectorAll(".answerBtn");
 
         let playerId = null;
-        let lastQuestionKey = null;
+        let lastQuestionId = null;
+        let questionIndex = 0;
         let selectedAnswer = null;
-
-        if (!roomCode) {
-            statusEl.textContent = "Ingen room-kod i URL.";
-            throw new Error("Missing room code");
-        }
 
         // === GÅ MED ===
         joinBtn.addEventListener("click", async () => {
             const name = nameInput.value.trim();
             if (!name) return;
 
-            try {
-                const res = await fetch(
-                    `/room/join?room=${roomCode}&name=${encodeURIComponent(name)}`,
-                    { method: "POST" }
-                );
+            const res = await fetch(
+                `/room/join?room=${roomCode}&name=${encodeURIComponent(name)}`,
+                { method: "POST" }
+            );
 
-                if (!res.ok) {
-                    statusEl.textContent = "Kunde inte gå med.";
-                    return;
-                }
+            if (!res.ok) return;
 
-                const data = await res.json();
-                playerId = data.playerId;
+            const data = await res.json();
+            playerId = data.playerId;
 
-                titleEl.textContent = "Du är med i quizet";
-                nameInput.style.display = "none";
-                joinBtn.style.display = "none";
+            nameInput.style.display = "none";
+            joinBtn.style.display = "none";
 
-                statusEl.textContent = "Väntar på fråga…";
-            } catch {
-                statusEl.textContent = "Nätverksfel.";
-            }
+            titleEl.textContent = "Väntar på fråga…";
         });
 
-        // === POLLA FRÅGA ===
-        async function pollQuestion() {
+        // === POLLA ===
+        async function poll() {
             if (!playerId) return;
 
-            try {
-                const res = await fetch(`/room/${roomCode}`);
-                const data = await res.json();
+            const res = await fetch(`/room/${roomCode}`);
+            const data = await res.json();
 
-                const q = data.current_question;
+            const q = data.current_question;
 
-                if (!q) {
-                    answersEl.style.display = "none";
-                    statusEl.textContent = "Väntar på fråga…";
-                    return;
-                }
+            if (!q) {
+                answersEl.style.display = "none";
+                titleEl.textContent = "Väntar på fråga…";
+                return;
+            }
 
-                const questionKey = q.id ?? JSON.stringify(q);
+            if (q.id !== lastQuestionId) {
+                lastQuestionId = q.id;
+                questionIndex++;
+                selectedAnswer = null;
+                updateSelection();
+            }
 
-                if (questionKey !== lastQuestionKey) {
-                    lastQuestionKey = questionKey;
-                    selectedAnswer = null;
-                    clearSelection();
-                }
+            titleEl.textContent = `Fråga ${questionIndex}`;
+            answersEl.style.display = "block";
 
-                answersEl.style.display = "block";
-
-                if (data.answers_locked) {
-                    answerHintEl.textContent = "Svar låst";
-                    disableButtons();
-                } else {
-                    answerHintEl.textContent = "";
-                    enableButtons();
-                }
-
-            } catch {
-                statusEl.textContent = "Kunde inte hämta fråga.";
+            if (data.answers_locked) {
+                answerHintEl.textContent = "Svar låst";
+                disableButtons();
+            } else {
+                answerHintEl.textContent = "";
+                enableButtons();
             }
         }
 
-        // === SVARA / ÄNDRA SVAR ===
+        // === SVARA / BYTA SVAR ===
         answerButtons.forEach(btn => {
             btn.addEventListener("click", async () => {
                 if (!playerId) return;
 
                 const answer = btn.dataset.answer;
 
-                try {
-                    const res = await fetch(
-                        `/room/answer?room=${roomCode}&player_id=${playerId}&answer=${answer}`,
-                        { method: "POST" }
-                    );
+                const res = await fetch(
+                    `/room/answer?room=${roomCode}&player_id=${playerId}&answer=${answer}`,
+                    { method: "POST" }
+                );
 
-                    if (!res.ok) return;
+                if (!res.ok) return;
 
-                    selectedAnswer = answer;
-                    updateSelection();
-                } catch { }
+                selectedAnswer = answer;
+                updateSelection();
             });
         });
 
         function updateSelection() {
             answerButtons.forEach(b => {
-                b.classList.toggle(
-                    "selected",
-                    b.dataset.answer === selectedAnswer
-                );
+                b.classList.toggle("selected", b.dataset.answer === selectedAnswer);
             });
-        }
-
-        function clearSelection() {
-            selectedAnswer = null;
-            updateSelection();
         }
 
         function disableButtons() {
@@ -242,7 +206,7 @@
             answerButtons.forEach(b => b.disabled = false);
         }
 
-        setInterval(pollQuestion, 1500);
+        setInterval(poll, 1000);
     </script>
 </body>
 
