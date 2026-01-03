@@ -365,7 +365,7 @@ async function renderV2Final(roomCode) {
             <div class="facit-item">
                 <strong>${i + 1}. ${r.question}</strong>
                 <div class="facit-answer">
-                    Rätt svar: <span>${r.correct_letter}</span>
+                    Rätt svar: <span>${r.correct_letter}</span> – ${r.correct_text}
                 </div>
                 <div style="margin-top:6px;">
                     ✅ Rätt: ${r.right_players.join(", ") || "–"}
