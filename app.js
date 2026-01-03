@@ -210,6 +210,10 @@ function showQuestion(questionText, answersDiv) {
         window.sendQuestionToV2({
             id: questionId,
             question: q.question,
+
+            // 🔑 VIKTIGT: skicka svårighetsgrad till backend
+            difficulty: document.getElementById("difficulty")?.value || "medium",
+
             options: {
                 A: answers[0],
                 B: answers[1],
