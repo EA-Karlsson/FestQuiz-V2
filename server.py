@@ -209,8 +209,6 @@ def join_room(room: str, name: str):
 
 from fastapi import Body
 
-from fastapi import Body
-
 @app.post("/room/start")
 def start_room(room: str, payload: dict = Body(default={})):
     room_code = room.upper()
@@ -219,20 +217,20 @@ def start_room(room: str, payload: dict = Body(default={})):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # sätt svårighetsgrad
+    room_data["started"] = True
     room_data["difficulty"] = payload.get("difficulty", "medium")
 
-    room_data["started"] = True
-
-    # ⬇️ STARTA FÖRSTA V2-TIMERN
-    start_question_timer(room_code)
+    # VIKTIGT: ingen timer här
+    room_data["timer"] = None
 
     return {"status": "started", "roomCode": room_code}
+
 
 @app.post("/room/question")
 def set_question(room: str, question: dict):
     import json
     import hashlib
+    import time
 
     room_code = room.upper()
     room_data = ROOMS.get(room_code)
@@ -242,18 +240,42 @@ def set_question(room: str, question: dict):
 
     # Säkerställ stabilt id på frågan (om V1 inte skickar id)
     if not question.get("id"):
-        # deterministiskt id baserat på innehållet
-        canonical = json.dumps(question, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
-        question["id"] = hashlib.sha1(canonical.encode("utf-8")).hexdigest()[:10]
+        canonical = json.dumps(
+            question,
+            sort_keys=True,
+            ensure_ascii=False,
+            separators=(",", ":")
+        )
+        question["id"] = hashlib.sha1(
+            canonical.encode("utf-8")
+        ).hexdigest()[:10]
 
+    # Sätt aktuell fråga
     room_data["current_question"] = question
 
-    # Skapa ett answer-slot per spelare för just den här frågan
+    # Skapa answer-slot per spelare
     for player in room_data["players"].values():
         player["answers"].append({
             "question_id": question["id"],
             "answer": None
         })
+
+    # ================================
+    # STARTA V2-TIMER (ENDA STÄLLET)
+    # ================================
+    DIFFICULTY_SECONDS = {
+        "easy": 25,
+        "medium": 20,
+        "hard": 15
+    }
+
+    difficulty = room_data.get("difficulty", "medium")
+    seconds = DIFFICULTY_SECONDS[difficulty]
+
+    room_data["timer"] = {
+        "ends_at": time.time() + seconds,
+        "phase": "question"
+    }
 
     return {
         "status": "question_set",
@@ -306,7 +328,6 @@ def get_room(code: str):
 
     return room
 
-import threading
 import time
 
 # --- TIMER CONFIG (LÅST) ---
@@ -322,29 +343,16 @@ def start_question_timer(room_code: str):
         return
 
     difficulty = room.get("difficulty", "medium")
-    seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
+    seconds = DIFFICULTY_SECONDS[difficulty]
 
-    # Markera timer aktiv
+    now = time.time()
+
     room["timer"] = {
-        "running": True,
-        "ends_at": time.time() + seconds
+        "ends_at": now + seconds
     }
 
-    def _run():
-        time.sleep(seconds)
-        # Om rummet fortfarande finns och timern är aktiv
-        room = ROOMS.get(room_code)
-        if not room or not room.get("timer", {}).get("running"):
-            return
-
-        # Lås svar
-        room["answers_locked"] = True
-
-        # Signalera auto-next
-        room["phase"] = "locked"  # frontend pollar detta
-        room["timer"]["running"] = False
-
-    threading.Thread(target=_run, daemon=True).start()
+    room["phase"] = "question"
+    room["answers_locked"] = False
 
 @app.post("/room/question")
 def set_question(room: str, question: dict):
