@@ -376,6 +376,25 @@ def get_room(code: str):
             room["answers_locked"] = True
             room["phase"] = "locked"
 
+            # 📊 RÄKNA RÄTT / FEL (AGGREGERAT)
+            correct_letter = room["current_question"].get("correct_letter")
+            right = 0
+            wrong = 0
+
+            for p in room["players"].values():
+                ans = p["answers"][-1]["answer"]
+                if ans is None:
+                    wrong += 1
+                elif ans == correct_letter:
+                    right += 1
+                else:
+                    wrong += 1
+
+            room["last_result"] = {
+                "right": right,
+                "wrong": wrong
+            }
+
     return room
 
 # ================== API ==================

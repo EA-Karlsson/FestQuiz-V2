@@ -215,7 +215,7 @@ function showQuestion(questionText, answersDiv) {
     watchForAutoNext(questionText, answersDiv);
 }
 
-// ================== AUTO NEXT (TIMER SLUT) ==================
+// ================== AUTO NEXT + LADD-SIDA ==================
 let autoNextTriggered = false;
 
 function watchForAutoNext(questionText, answersDiv) {
@@ -234,17 +234,27 @@ function watchForAutoNext(questionText, answersDiv) {
 
             const data = await res.json();
 
-            if (data.answers_locked === true) {
+            if (data.answers_locked === true && data.last_result) {
                 autoNextTriggered = true;
 
-                if (statusEl) {
-                    statusEl.textContent = "Svar låsta – nästa fråga…";
-                }
+                const { right, wrong } = data.last_result;
+
+                // 🧱 VISA LADD-SIDA
+                questionText.textContent = "Svar låsta";
+                answersDiv.innerHTML = `
+                    <div style="font-size:1.5rem; margin-top:20px;">
+                        ✅ Rätt: ${right}<br>
+                        ❌ Fel: ${wrong}
+                    </div>
+                    <div style="opacity:.7; margin-top:12px;">
+                        Nästa fråga laddas…
+                    </div>
+                `;
 
                 setTimeout(() => {
                     clearInterval(interval);
                     nextQuestion(questionText, answersDiv);
-                }, 1500);
+                }, 2500);
             }
         } catch {
             // tyst
