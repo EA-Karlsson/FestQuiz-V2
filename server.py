@@ -167,6 +167,27 @@ def smart_translate(text: str) -> str:
 
 # ================== V2 ROOM API ==================
 
+import time
+from fastapi import Body, HTTPException
+
+def maybe_lock_answers(room_data):
+    timer = room_data.get("timer")
+    if not timer:
+        return
+
+    if room_data.get("answers_locked"):
+        return
+
+    ends_at = timer.get("ends_at")
+    if not ends_at:
+        return
+
+    now = time.time()
+    if now >= ends_at:
+        room_data["answers_locked"] = True
+        room_data["phase"] = "locked"
+
+
 @app.post("/room/create")
 def create_room(host_plays: bool = False):
     code = generate_room_code()
@@ -218,8 +239,6 @@ def join_room(room: str, name: str):
     }
 
 
-from fastapi import Body
-
 @app.post("/room/start")
 def start_room(room: str, payload: dict = Body(default={})):
     room_code = room.upper()
@@ -244,11 +263,11 @@ def start_room(room: str, payload: dict = Body(default={})):
 
     return {"status": "started", "roomCode": room_code}
 
+
 @app.post("/room/question")
 def set_question(room: str, question: dict):
     import json
     import hashlib
-    import time
 
     room_code = room.upper()
     room_data = ROOMS.get(room_code)
@@ -285,7 +304,6 @@ def set_question(room: str, question: dict):
         "hard": 18
     }
 
-    # 🔑 FRÅGAN HAR ALLTID FÖRETRÄDE (VIKTIGT)
     difficulty = question.get("difficulty") or room_data.get("difficulty", "medium")
     seconds = DIFFICULTY_SECONDS.get(difficulty, 23)
 
@@ -306,6 +324,7 @@ def set_question(room: str, question: dict):
         "seconds": seconds
     }
 
+
 @app.post("/room/answer")
 def submit_answer(room: str, player_id: str, answer: str):
     room_code = room.upper()
@@ -313,6 +332,12 @@ def submit_answer(room: str, player_id: str, answer: str):
 
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
+
+    # 🔒 AUTO-LOCK CHECK
+    maybe_lock_answers(room_data)
+
+    if room_data.get("answers_locked"):
+        raise HTTPException(status_code=400, detail="Answers are locked")
 
     if not room_data.get("current_question"):
         raise HTTPException(status_code=400, detail="No active question")
@@ -349,6 +374,9 @@ def get_room(code: str):
 
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
+
+    # 🔒 AUTO-LOCK CHECK (poll-trigger)
+    maybe_lock_answers(room)
 
     return room
 
