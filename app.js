@@ -287,7 +287,7 @@ function nextQuestion(questionText, answersDiv) {
     if (currentIndex >= questions.length) {
         const params = new URLSearchParams(window.location.search);
         const roomCode = params.get("room");
-        renderV2Final(roomCode);
+        renderScoreboard(roomCode);
         return;
     }
 
@@ -408,6 +408,56 @@ async function renderV2Final(roomCode) {
 
     } catch {
         answersDiv.innerHTML = "Kunde inte ladda slutfacit.";
+    }
+}
+
+async function renderScoreboard(roomCode) {
+    clearInterval(timer);
+    mode = "scoreboard";
+
+    const questionText = document.getElementById("questionText");
+    const answersDiv = document.getElementById("answers");
+
+    questionText.innerHTML = `<span class="facit-title">🏆 Resultat</span>`;
+    answersDiv.innerHTML = `<div style="opacity:.7;">Laddar scoreboard…</div>`;
+
+    try {
+        const res = await fetch(`/room/${roomCode}`);
+        if (!res.ok) throw new Error();
+
+        const data = await res.json();
+        const playersObj = data.players || {};
+
+        const scoreboard = Object.values(playersObj)
+            .map(p => ({ name: p.name, score: p.score || 0 }))
+            .sort((a, b) => b.score - a.score);
+
+        answersDiv.innerHTML = `
+            <div class="facit-item">
+                <strong>Vinnare</strong>
+                <div style="margin:12px 0; font-size:1.2rem;">
+                    🥇 ${scoreboard[0]?.name || "–"} – ${scoreboard[0]?.score || 0} poäng
+                </div>
+                <div style="margin-top:10px;">
+                    ${scoreboard.map((p, i) => `
+                        <div style="margin:6px 0;">
+                            ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "•"}
+                            ${p.name} – <strong>${p.score}</strong>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        `;
+
+        const btn = document.createElement("button");
+        btn.textContent = "Visa facit";
+        btn.className = "restart-btn";
+        btn.onclick = () => renderV2Final(roomCode);
+
+        answersDiv.appendChild(btn);
+
+    } catch {
+        answersDiv.innerHTML = "Kunde inte ladda scoreboard.";
     }
 }
 
