@@ -417,6 +417,9 @@ async function renderScoreboard(roomCode) {
 
     const questionText = document.getElementById("questionText");
     const answersDiv = document.getElementById("answers");
+    const timerEl = document.getElementById("timer");
+
+    if (timerEl) timerEl.style.display = "none";
 
     questionText.innerHTML = `<span class="facit-title">🏆 Resultat</span>`;
     answersDiv.innerHTML = `<div style="opacity:.7;">Laddar scoreboard…</div>`;
@@ -432,9 +435,8 @@ async function renderScoreboard(roomCode) {
             .map(p => ({ name: p.name, score: p.score || 0 }))
             .sort((a, b) => b.score - a.score);
 
-        // ===== SCOREBOARD =====
         answersDiv.innerHTML = `
-            <div class="facit-item" style="padding:32px;">
+            <div class="facit-item" style="padding:32px; max-width:700px;">
                 <div style="font-size:1.8rem; margin-bottom:20px;">
                     🏆 <strong>Vinnare</strong>
                 </div>
@@ -452,24 +454,30 @@ async function renderScoreboard(roomCode) {
                         </div>
                     `).join("")}
                 </div>
+
+                <div style="margin-top:28px;">
+                    <button
+                        onclick="renderV2Final('${roomCode}')"
+                        style="
+                            font-size:14px;
+                            padding:10px 18px;
+                            background:#333;
+                            color:#fff;
+                            border-radius:8px;
+                            border:none;
+                            cursor:pointer;
+                        "
+                    >
+                        Visa facit
+                    </button>
+                </div>
             </div>
         `;
-
-        // ===== KNAPP UNDER (MINDRE) =====
-        const btn = document.createElement("button");
-        btn.textContent = "Visa facit";
-        btn.className = "restart-btn";
-        btn.style.marginTop = "24px";
-        btn.style.fontSize = "16px";
-        btn.onclick = () => renderV2Final(roomCode);
-
-        answersDiv.appendChild(btn);
 
     } catch {
         answersDiv.innerHTML = "Kunde inte ladda scoreboard.";
     }
 }
-
 
 // ================== UTILS ==================
 function shuffle(arr) {
