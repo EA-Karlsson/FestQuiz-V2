@@ -56,7 +56,7 @@
         <h2 id="questionText"></h2>
         <div id="answers"></div>
         <button id="nextBtn" class="hidden">Nästa fråga ➡️</button>
-        <p id="timer">Tid kvar: 30</p>
+        <p id="timer"></p>
     </div>
 
     <script src="app.js"></script>
@@ -118,9 +118,11 @@
     </script>
 
     <script>
-        // STARTA V2-TIMER VISUELLT NÄR TV-VYN LADDAS
+        // Starta V2-timer visuellt med room från URL
         document.addEventListener("DOMContentLoaded", () => {
-            startV2Countdown(window.ROOM_CODE);
+            const params = new URLSearchParams(window.location.search);
+            const roomCode = params.get("room");
+            startV2Countdown(roomCode);
         });
     </script>
 
