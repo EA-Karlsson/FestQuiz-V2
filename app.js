@@ -212,7 +212,6 @@ function showQuestion(questionText, answersDiv) {
         });
     }
 
-    startTimer();
 }
 
 // ================== NEXT QUESTION ==================
@@ -245,26 +244,6 @@ function nextQuestion(questionText, answersDiv) {
     }
 
     showQuestion(questionText, answersDiv);
-}
-
-// ================== TIMER ==================
-function startTimer() {
-    clearInterval(timer);
-
-    const timerEl = document.getElementById("timer");
-    let time = 30;
-
-    timerEl.textContent = `Tid kvar: ${time}`;
-
-    timer = setInterval(() => {
-        time--;
-        timerEl.textContent = `Tid kvar: ${time}`;
-
-        if (time <= 0) {
-            clearInterval(timer);
-            timerEl.textContent = "Tiden är slut – tryck Nästa";
-        }
-    }, 1000);
 }
 
 // ================== FACIT ==================
