@@ -207,12 +207,15 @@ function showQuestion(questionText, answersDiv) {
     ) {
         lastSentQuestionId = questionId;
 
+        const selectedDifficulty =
+            document.getElementById("difficulty")?.value;
+
         window.sendQuestionToV2({
             id: questionId,
             question: q.question,
 
-            // 🔑 VIKTIGT: skicka svårighetsgrad till backend
-            difficulty: document.getElementById("difficulty")?.value || "medium",
+            // 🔑 KORREKT: blandad → använd frågans difficulty
+            difficulty: selectedDifficulty || q.difficulty || "medium",
 
             options: {
                 A: answers[0],

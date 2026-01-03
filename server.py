@@ -244,7 +244,6 @@ def start_room(room: str, payload: dict = Body(default={})):
 
     return {"status": "started", "roomCode": room_code}
 
-
 @app.post("/room/question")
 def set_question(room: str, question: dict):
     import json
@@ -281,13 +280,14 @@ def set_question(room: str, question: dict):
 
     # ===== TIMER STARTAR HÄR (ENDA STÄLLET) =====
     DIFFICULTY_SECONDS = {
-        "easy": 25,
-        "medium": 20,
-        "hard": 15
+        "easy": 28,
+        "medium": 23,
+        "hard": 18
     }
 
-    difficulty = question.get("difficulty", room_data.get("difficulty", "medium"))
-    seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
+    # 🔑 FRÅGAN HAR ALLTID FÖRETRÄDE (VIKTIGT)
+    difficulty = question.get("difficulty") or room_data.get("difficulty", "medium")
+    seconds = DIFFICULTY_SECONDS.get(difficulty, 23)
 
     now = time.time()
 
