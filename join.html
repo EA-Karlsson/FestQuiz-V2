@@ -47,8 +47,6 @@
             padding: 12px;
             border-radius: 8px;
             border: none;
-            background: #22c55e;
-            color: #052e16;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -59,26 +57,49 @@
             cursor: default;
         }
 
+        .join-btn {
+            background: #22c55e;
+            color: #052e16;
+        }
+
+        .answerBtn {
+            background: #facc15;
+            /* gul */
+            color: #1f2937;
+        }
+
+        .answerBtn.selected {
+            background: #22c55e;
+            /* grön */
+            color: #052e16;
+        }
+
         .status {
             margin-top: 12px;
             text-align: center;
             font-size: 0.95rem;
+        }
+
+        .hint {
+            opacity: 0.7;
+            margin-bottom: 8px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <div class="card">
-        <h1>Gå med i quizet</h1>
+        <h1 id="title">Gå med i quizet</h1>
 
         <input id="name" type="text" placeholder="Ditt namn" autocomplete="off" />
 
-        <button id="joinBtn">Gå med</button>
+        <button id="joinBtn" class="join-btn">Gå med</button>
 
         <div class="status" id="status"></div>
 
         <div id="answersBox" style="margin-top:16px; display:none;">
-            <div style="opacity:0.7; margin-bottom:8px;">Välj svar</div>
+            <div class="hint" id="answerHint">Välj ditt svar</div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <button class="answerBtn" data-answer="A">A</button>
@@ -87,21 +108,23 @@
                 <button class="answerBtn" data-answer="D">D</button>
             </div>
         </div>
-
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const roomCode = params.get("room");
 
+        const titleEl = document.getElementById("title");
         const nameInput = document.getElementById("name");
         const joinBtn = document.getElementById("joinBtn");
         const statusEl = document.getElementById("status");
         const answersEl = document.getElementById("answersBox");
+        const answerHintEl = document.getElementById("answerHint");
+        const answerButtons = document.querySelectorAll(".answerBtn");
 
         let playerId = null;
         let lastQuestionKey = null;
-        let hasAnsweredCurrent = false;
+        let selectedAnswer = null;
 
         if (!roomCode) {
             statusEl.textContent = "Ingen room-kod i URL.";
@@ -126,11 +149,11 @@
 
                 const data = await res.json();
                 playerId = data.playerId;
+
+                titleEl.textContent = "Du är med i quizet";
                 nameInput.style.display = "none";
                 joinBtn.style.display = "none";
 
-                nameInput.disabled = true;
-                joinBtn.disabled = true;
                 statusEl.textContent = "Väntar på fråga…";
             } catch {
                 statusEl.textContent = "Nätverksfel.";
@@ -153,28 +176,33 @@
                     return;
                 }
 
-                // stabil nyckel för aktuell fråga
                 const questionKey = q.id ?? JSON.stringify(q);
 
-                // ny fråga → återställ UI
                 if (questionKey !== lastQuestionKey) {
                     lastQuestionKey = questionKey;
-                    hasAnsweredCurrent = false;
-                    enableButtons();
+                    selectedAnswer = null;
+                    clearSelection();
                 }
 
                 answersEl.style.display = "block";
-                statusEl.textContent = "Välj ditt svar";
+
+                if (data.answers_locked) {
+                    answerHintEl.textContent = "Svar låst";
+                    disableButtons();
+                } else {
+                    answerHintEl.textContent = "";
+                    enableButtons();
+                }
 
             } catch {
                 statusEl.textContent = "Kunde inte hämta fråga.";
             }
         }
 
-        // === SVARA ===
-        document.querySelectorAll(".answerBtn").forEach(btn => {
+        // === SVARA / ÄNDRA SVAR ===
+        answerButtons.forEach(btn => {
             btn.addEventListener("click", async () => {
-                if (!playerId || hasAnsweredCurrent) return;
+                if (!playerId) return;
 
                 const answer = btn.dataset.answer;
 
@@ -184,26 +212,34 @@
                         { method: "POST" }
                     );
 
-                    if (!res.ok) {
-                        alert("Svaret kunde inte skickas.");
-                        return;
-                    }
+                    if (!res.ok) return;
 
-                    hasAnsweredCurrent = true;
-                    disableButtons();
-                    statusEl.textContent = "Svar låst";
-                } catch {
-                    alert("Nätverksfel");
-                }
+                    selectedAnswer = answer;
+                    updateSelection();
+                } catch { }
             });
         });
 
+        function updateSelection() {
+            answerButtons.forEach(b => {
+                b.classList.toggle(
+                    "selected",
+                    b.dataset.answer === selectedAnswer
+                );
+            });
+        }
+
+        function clearSelection() {
+            selectedAnswer = null;
+            updateSelection();
+        }
+
         function disableButtons() {
-            document.querySelectorAll(".answerBtn").forEach(b => b.disabled = true);
+            answerButtons.forEach(b => b.disabled = true);
         }
 
         function enableButtons() {
-            document.querySelectorAll(".answerBtn").forEach(b => b.disabled = false);
+            answerButtons.forEach(b => b.disabled = false);
         }
 
         setInterval(pollQuestion, 1500);
