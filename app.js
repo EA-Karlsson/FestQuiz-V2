@@ -285,7 +285,9 @@ function nextQuestion(questionText, answersDiv) {
     currentIndex++;
 
     if (currentIndex >= questions.length) {
-        showFacit();
+        const params = new URLSearchParams(window.location.search);
+        const roomCode = params.get("room");
+        renderV2Final(roomCode);
         return;
     }
 
@@ -340,6 +342,50 @@ function showFacit() {
     });
 
     answersDiv.appendChild(btn);
+}
+
+async function renderV2Final(roomCode) {
+    clearInterval(timer);
+    mode = "facit";
+
+    const questionText = document.getElementById("questionText");
+    const answersDiv = document.getElementById("answers");
+
+    questionText.innerHTML = `<span class="facit-title">📊 Slutfacit</span>`;
+    answersDiv.innerHTML = `<div style="opacity:.7;">Laddar resultat…</div>`;
+
+    try {
+        const res = await fetch(`/room/${roomCode}`);
+        if (!res.ok) throw new Error();
+
+        const data = await res.json();
+        const results = data.final_results || [];
+
+        answersDiv.innerHTML = results.map((r, i) => `
+            <div class="facit-item">
+                <strong>${i + 1}. ${r.question}</strong>
+                <div class="facit-answer">
+                    Rätt svar: <span>${r.correct_letter}</span>
+                </div>
+                <div style="margin-top:6px;">
+                    ✅ Rätt: ${r.right_players.join(", ") || "–"}
+                </div>
+                <div style="margin-top:4px; opacity:.8;">
+                    ❌ Fel: ${r.wrong_players.join(", ") || "–"}
+                </div>
+            </div>
+        `).join("");
+
+        const btn = document.createElement("button");
+        btn.textContent = "Till startsidan";
+        btn.className = "restart-btn";
+        btn.onclick = () => window.location.href = "/static/index.html";
+
+        answersDiv.appendChild(btn);
+
+    } catch {
+        answersDiv.innerHTML = "Kunde inte ladda slutfacit.";
+    }
 }
 
 // ================== UTILS ==================

@@ -201,7 +201,8 @@ def create_room(host_plays: bool = False):
         "difficulty": "medium",
         "timer": None,
         "phase": "idle",
-        "answers_locked": False
+        "answers_locked": False,
+        "final_results": []
     }
 
     return {"roomCode": code}
@@ -324,43 +325,6 @@ def set_question(room: str, question: dict):
         "seconds": seconds
     }
 
-@app.post("/room/answer")
-def submit_answer(room: str, player_id: str, answer: str):
-    room_code = room.upper()
-    room_data = ROOMS.get(room_code)
-
-    if not room_data:
-        raise HTTPException(status_code=404, detail="Room not found")
-
-    if room_data.get("answers_locked"):
-        raise HTTPException(status_code=400, detail="Answers are locked")
-
-    if not room_data.get("current_question"):
-        raise HTTPException(status_code=400, detail="No active question")
-
-    player = room_data["players"].get(player_id)
-    if not player:
-        raise HTTPException(status_code=404, detail="Player not found")
-
-    if answer not in ["A", "B", "C", "D"]:
-        raise HTTPException(status_code=400, detail="Invalid answer")
-
-    current_q = room_data["current_question"]
-    current_q_id = current_q.get("id")
-
-    if not player["answers"]:
-        raise HTTPException(status_code=400, detail="Answer slot not initialized")
-
-    last_answer = player["answers"][-1]
-
-    if last_answer["question_id"] != current_q_id:
-        raise HTTPException(status_code=400, detail="Answer mismatch")
-
-    # 🔁 TILLÅT ALLTID ÄNDRING AV SVAR TILLS TIMERN LÅSER
-    last_answer["answer"] = answer
-
-    return {"status": "answer_received"}
-
 @app.get("/room/{code}")
 def get_room(code: str):
     import time
@@ -381,19 +345,34 @@ def get_room(code: str):
             right = 0
             wrong = 0
 
+            right_players = []
+            wrong_players = []
+
             for p in room["players"].values():
                 ans = p["answers"][-1]["answer"]
                 if ans is None:
                     wrong += 1
+                    wrong_players.append(p["name"])
                 elif ans == correct_letter:
                     right += 1
+                    right_players.append(p["name"])
                 else:
                     wrong += 1
+                    wrong_players.append(p["name"])
 
             room["last_result"] = {
                 "right": right,
                 "wrong": wrong
             }
+
+            # 📦 SPARA FACITDATA FÖR SLUTFACIT
+            room["final_results"].append({
+                "question_id": room["current_question"].get("id"),
+                "question": room["current_question"].get("question"),
+                "correct_letter": correct_letter,
+                "right_players": right_players,
+                "wrong_players": wrong_players
+            })
 
     return room
 
