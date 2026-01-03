@@ -334,7 +334,7 @@ def get_room(code: str):
         raise HTTPException(status_code=404, detail="Room not found")
 
     # ⏱️ AUTO-LOCK NÄR TIMER GÅTT UT
-    if room.get("timer") and not room.get("answers_locked"):
+    if room.get("timer") and not room.get("answers_locked") and room.get("phase") == "question":
         ends_at = room["timer"].get("ends_at")
         if ends_at and time.time() >= ends_at:
             room["answers_locked"] = True
