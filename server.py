@@ -300,9 +300,9 @@ def set_question(room: str, question: dict):
 
     # ===== TIMER STARTAR HÄR (ENDA STÄLLET) =====
     DIFFICULTY_SECONDS = {
-        "easy": 28,
-        "medium": 23,
-        "hard": 18
+        "easy": 25,
+        "medium": 20,
+        "hard": 15
     }
 
     difficulty = question.get("difficulty") or room_data.get("difficulty", "medium")

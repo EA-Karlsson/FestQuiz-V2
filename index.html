@@ -93,7 +93,7 @@
                     if (!data.timer || !data.timer.ends_at) return;
 
                     const now = Date.now() / 1000;
-                    const remaining = Math.max(0, Math.ceil(data.timer.ends_at - now));
+                    const remaining = Math.max(0, Math.round(data.timer.ends_at - now));
 
                     const timerEl = document.getElementById("timer");
                     if (timerEl) timerEl.textContent = remaining;
@@ -109,4 +109,5 @@
     </script>
 
 </body>
+
 </html>
