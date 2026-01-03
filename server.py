@@ -363,10 +363,18 @@ def submit_answer(room: str, player_id: str, answer: str):
 
 @app.get("/room/{code}")
 def get_room(code: str):
-    room = ROOMS.get(code.upper())
+    import time
 
+    room = ROOMS.get(code.upper())
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
+
+    # ⏱️ AUTO-LOCK NÄR TIMER GÅTT UT
+    if room.get("timer") and not room.get("answers_locked"):
+        ends_at = room["timer"].get("ends_at")
+        if ends_at and time.time() >= ends_at:
+            room["answers_locked"] = True
+            room["phase"] = "locked"
 
     return room
 
