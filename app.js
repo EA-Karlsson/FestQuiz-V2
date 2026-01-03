@@ -432,26 +432,35 @@ async function renderScoreboard(roomCode) {
             .map(p => ({ name: p.name, score: p.score || 0 }))
             .sort((a, b) => b.score - a.score);
 
+        // ===== SCOREBOARD =====
         answersDiv.innerHTML = `
-            <div class="facit-item">
-                <strong>Vinnare</strong>
-                <div style="margin:12px 0; font-size:1.2rem;">
-                    🥇 ${scoreboard[0]?.name || "–"} – ${scoreboard[0]?.score || 0} poäng
+            <div class="facit-item" style="padding:32px;">
+                <div style="font-size:1.8rem; margin-bottom:20px;">
+                    🏆 <strong>Vinnare</strong>
                 </div>
-                <div style="margin-top:10px;">
+
+                <div style="font-size:2.4rem; margin-bottom:30px;">
+                    🥇 <strong>${scoreboard[0]?.name || "–"}</strong>
+                    <span style="opacity:.8;">– ${scoreboard[0]?.score || 0} poäng</span>
+                </div>
+
+                <div>
                     ${scoreboard.map((p, i) => `
-                        <div style="margin:6px 0;">
+                        <div style="margin:14px 0; font-size:1.5rem;">
                             ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "•"}
-                            ${p.name} – <strong>${p.score}</strong>
+                            <strong>${p.name}</strong> – ${p.score}
                         </div>
                     `).join("")}
                 </div>
             </div>
         `;
 
+        // ===== KNAPP UNDER (MINDRE) =====
         const btn = document.createElement("button");
         btn.textContent = "Visa facit";
         btn.className = "restart-btn";
+        btn.style.marginTop = "24px";
+        btn.style.fontSize = "16px";
         btn.onclick = () => renderV2Final(roomCode);
 
         answersDiv.appendChild(btn);
@@ -460,6 +469,7 @@ async function renderScoreboard(roomCode) {
         answersDiv.innerHTML = "Kunde inte ladda scoreboard.";
     }
 }
+
 
 // ================== UTILS ==================
 function shuffle(arr) {
