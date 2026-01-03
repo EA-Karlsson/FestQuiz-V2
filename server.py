@@ -375,9 +375,6 @@ def get_room(code: str):
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # 🔒 AUTO-LOCK CHECK (poll-trigger)
-    maybe_lock_answers(room)
-
     return room
 
 # ================== API ==================
