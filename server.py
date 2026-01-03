@@ -377,25 +377,23 @@ def get_room(code: str):
             room["answers_locked"] = True
             room["phase"] = "locked"
 
-            # 📊 RÄKNA RÄTT / FEL (AGGREGERAT)
             correct_letter = room["current_question"].get("correct_letter")
             options = room["current_question"].get("options", {})
             correct_text = options.get(correct_letter, "")
 
             right = 0
             wrong = 0
-
             right_players = []
             wrong_players = []
 
+            # 📊 RÄKNA SVAR + GE POÄNG
             for p in room["players"].values():
                 ans = p["answers"][-1]["answer"]
-                if ans is None:
-                    wrong += 1
-                    wrong_players.append(p["name"])
-                elif ans == correct_letter:
+
+                if ans == correct_letter:
                     right += 1
                     right_players.append(p["name"])
+                    p["score"] += 1          # 👈 POÄNG HÄR
                 else:
                     wrong += 1
                     wrong_players.append(p["name"])
@@ -405,7 +403,7 @@ def get_room(code: str):
                 "wrong": wrong
             }
 
-            # 📦 SPARA FACITDATA FÖR SLUTFACIT (EN GÅNG PER FRÅGA)
+            # 📦 SPARA FACITDATA (EN GÅNG PER FRÅGA)
             if (
                 not room.get("final_results")
                 or room["final_results"][-1]["question_id"]

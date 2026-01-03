@@ -360,12 +360,14 @@ async function renderV2Final(roomCode) {
 
         const data = await res.json();
         const results = data.final_results || [];
+        const playersObj = data.players || {};
 
-        answersDiv.innerHTML = results.map((r, i) => `
+        // ===== FACIT PER FRÅGA =====
+        const facitHtml = results.map((r, i) => `
             <div class="facit-item">
                 <strong>${i + 1}. ${r.question}</strong>
                 <div class="facit-answer">
-                    Rätt svar: <span>${r.correct_letter}</span> – ${r.correct_text}
+                    Rätt svar: <span>${r.correct_letter}</span> – ${r.correct_text || ""}
                 </div>
                 <div style="margin-top:6px;">
                     ✅ Rätt: ${r.right_players.join(", ") || "–"}
@@ -375,6 +377,27 @@ async function renderV2Final(roomCode) {
                 </div>
             </div>
         `).join("");
+
+        // ===== SCOREBOARD =====
+        const scoreboard = Object.values(playersObj)
+            .map(p => ({ name: p.name, score: p.score || 0 }))
+            .sort((a, b) => b.score - a.score);
+
+        const scoreboardHtml = `
+            <div class="facit-item">
+                <strong>🏆 Scoreboard</strong>
+                <div style="margin-top:10px;">
+                    ${scoreboard.map((p, i) => `
+                        <div style="margin:6px 0;">
+                            ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "•"}
+                            ${p.name} – <strong>${p.score}</strong>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        `;
+
+        answersDiv.innerHTML = facitHtml + scoreboardHtml;
 
         const btn = document.createElement("button");
         btn.textContent = "Till startsidan";
