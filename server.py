@@ -325,6 +325,43 @@ def set_question(room: str, question: dict):
         "seconds": seconds
     }
 
+@app.post("/room/answer")
+def submit_answer(room: str, player_id: str, answer: str):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    if room_data.get("answers_locked"):
+        raise HTTPException(status_code=400, detail="Answers are locked")
+
+    if not room_data.get("current_question"):
+        raise HTTPException(status_code=400, detail="No active question")
+
+    player = room_data["players"].get(player_id)
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    if answer not in ["A", "B", "C", "D"]:
+        raise HTTPException(status_code=400, detail="Invalid answer")
+
+    current_q = room_data["current_question"]
+    current_q_id = current_q.get("id")
+
+    if not player["answers"]:
+        raise HTTPException(status_code=400, detail="Answer slot not initialized")
+
+    last_answer = player["answers"][-1]
+
+    if last_answer["question_id"] != current_q_id:
+        raise HTTPException(status_code=400, detail="Answer mismatch")
+
+    # tillåt byte av svar tills timer låser
+    last_answer["answer"] = answer
+
+    return {"status": "answer_received"}
+
 @app.get("/room/{code}")
 def get_room(code: str):
     import time
