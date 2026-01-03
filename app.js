@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
 // ================== START QUIZ ==================
 async function startQuiz(
     startScreen,
@@ -162,6 +161,8 @@ async function startQuiz(
 }
 
 // ================== SHOW QUESTION ==================
+let lastSentQuestionId = null;
+
 function showQuestion(questionText, answersDiv) {
     clearInterval(timer);
 
@@ -197,10 +198,17 @@ function showQuestion(questionText, answersDiv) {
     const nextBtn = document.getElementById("nextBtn");
     if (nextBtn) nextBtn.classList.remove("hidden");
 
-    // --- V2 SYNC: skicka frågan som visas (inkl. A/B/C/D-mappning) ---
-    if (typeof window.sendQuestionToV2 === "function") {
+    // --- V2 SYNC: skicka frågan EN GÅNG per fråga ---
+    const questionId = `${currentIndex + 1}/${questions.length}`;
+
+    if (
+        typeof window.sendQuestionToV2 === "function" &&
+        questionId !== lastSentQuestionId
+    ) {
+        lastSentQuestionId = questionId;
+
         window.sendQuestionToV2({
-            id: `${currentIndex + 1}/${questions.length}`,
+            id: questionId,
             question: q.question,
             options: {
                 A: answers[0],
@@ -211,7 +219,6 @@ function showQuestion(questionText, answersDiv) {
             correct_letter: correctLetter
         });
     }
-
 }
 
 // ================== NEXT QUESTION ==================
