@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoryButtons = document.querySelectorAll("#categories button[data-category]");
     const randomBtn = document.getElementById("randomCategory");
     const musicBtn = document.getElementById("musicBtn");
-    const nextBtn = document.getElementById("nextBtn");
+
 
     // Säkerhetscheck
     if (
@@ -38,8 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         !startBtn ||
         !questionCount ||
         !difficultySelect ||
-        !musicBtn ||
-        !nextBtn
+        !musicBtn
     ) {
         console.error("DOM saknas");
         return;
@@ -96,15 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
             difficultySelect
         )
     );
-
-    // ================== NÄSTA FRÅGA ==================
-    nextBtn.addEventListener("click", () => {
-        if (mode !== "quiz") return;
-
-        clearInterval(timer);
-        nextBtn.classList.add("hidden");
-        nextQuestion(questionText, answersDiv);
-    });
 
     // ================== MUSIKKNAPP ==================
     musicBtn.addEventListener("click", () => {
@@ -194,10 +184,6 @@ function showQuestion(questionText, answersDiv) {
         answersDiv.appendChild(div);
     });
 
-    // VISA NÄSTA-KNAPPEN
-    const nextBtn = document.getElementById("nextBtn");
-    if (nextBtn) nextBtn.classList.remove("hidden");
-
     // --- V2 SYNC: skicka frågan EN GÅNG per fråga ---
     const questionId = `${currentIndex + 1}/${questions.length}`;
 
@@ -213,10 +199,7 @@ function showQuestion(questionText, answersDiv) {
         window.sendQuestionToV2({
             id: questionId,
             question: q.question,
-
-            // 🔑 KORREKT: blandad → använd frågans difficulty
             difficulty: selectedDifficulty || q.difficulty || "medium",
-
             options: {
                 A: answers[0],
                 B: answers[1],
@@ -226,13 +209,53 @@ function showQuestion(questionText, answersDiv) {
             correct_letter: correctLetter
         });
     }
+
+    // 🔁 AUTO-NEXT KOPPLING (DET SOM SAKNADES)
+    autoNextTriggered = false;
+    watchForAutoNext(questionText, answersDiv);
+}
+
+// ================== AUTO NEXT (TIMER SLUT) ==================
+let autoNextTriggered = false;
+
+function watchForAutoNext(questionText, answersDiv) {
+    const params = new URLSearchParams(window.location.search);
+    const roomCode = params.get("room");
+    if (!roomCode) return;
+
+    const statusEl = document.getElementById("statusText");
+
+    const interval = setInterval(async () => {
+        if (mode !== "quiz" || autoNextTriggered) return;
+
+        try {
+            const res = await fetch(`/room/${roomCode}`);
+            if (!res.ok) return;
+
+            const data = await res.json();
+
+            if (data.answers_locked === true) {
+                autoNextTriggered = true;
+
+                if (statusEl) {
+                    statusEl.textContent = "Svar låsta – nästa fråga…";
+                }
+
+                setTimeout(() => {
+                    clearInterval(interval);
+                    nextQuestion(questionText, answersDiv);
+                }, 1500);
+            }
+        } catch {
+            // tyst
+        }
+    }, 500);
 }
 
 // ================== NEXT QUESTION ==================
 function nextQuestion(questionText, answersDiv) {
     const q = questions[currentIndex];
 
-    // find correct letter from rendered answers
     let correctLetter = "";
     const answerEls = document.querySelectorAll(".answer");
 
@@ -243,7 +266,6 @@ function nextQuestion(questionText, answersDiv) {
         }
     });
 
-    // store result ONCE per question
     results.push({
         question: q.question,
         correct_answer: q.correct_answer,

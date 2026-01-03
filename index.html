@@ -47,15 +47,14 @@
 
         <button id="startBtn">Starta quiz</button>
         <button id="musicBtn">▶️ Starta musik</button>
-
     </div>
 
     <!-- QUIZ -->
     <div id="quizScreen" class="hidden">
         <p id="progress"></p>
         <h2 id="questionText"></h2>
+        <p id="statusText" style="opacity:.7; min-height:1.2em;"></p>
         <div id="answers"></div>
-        <button id="nextBtn" class="hidden">Nästa fråga ➡️</button>
         <p id="timer"></p>
     </div>
 
@@ -63,12 +62,10 @@
 
     <script>
         (function () {
-            // Kräver att room-kod finns i URL: ?room=AB12
             const params = new URLSearchParams(window.location.search);
             const roomCode = params.get("room");
             if (!roomCode) return;
 
-            // Hook: anropa denna när V1 byter till ny fråga
             window.sendQuestionToV2 = async function (questionObject) {
                 try {
                     await fetch(`/room/question?room=${roomCode}`, {
@@ -76,18 +73,12 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(questionObject)
                     });
-                } catch (e) {
-                    console.error("Kunde inte skicka fråga till V2", e);
-                }
+                } catch { }
             };
         })();
     </script>
 
     <script>
-        /* ================================
-           V2 TIMER → VISUELL NEDRÄKNING (V1)
-           ================================ */
-
         let v2TimerInterval = null;
 
         function startV2Countdown(roomCode) {
@@ -104,21 +95,12 @@
                     const now = Date.now() / 1000;
                     const remaining = Math.max(0, Math.ceil(data.timer.ends_at - now));
 
-                    // ⬇️ HÄR uppdaterar du din befintliga timer-text i V1
                     const timerEl = document.getElementById("timer");
-                    if (timerEl) {
-                        timerEl.textContent = remaining;
-                    }
-
-                } catch (e) {
-                    // tyst – ingen logg på TV
-                }
+                    if (timerEl) timerEl.textContent = remaining;
+                } catch { }
             }, 500);
         }
-    </script>
 
-    <script>
-        // Starta V2-timer visuellt med room från URL
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             const roomCode = params.get("room");
@@ -127,5 +109,4 @@
     </script>
 
 </body>
-
 </html>
