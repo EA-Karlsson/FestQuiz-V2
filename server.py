@@ -176,10 +176,15 @@ def create_room(host_plays: bool = False):
         "host_plays": host_plays,
         "players": {},
         "started": False,
-        "current_question": None  # hela frågeobjektet från V1
+        "current_question": None,
+        "difficulty": "medium",
+        "timer": None,
+        "phase": "idle",
+        "answers_locked": False
     }
 
     return {"roomCode": code}
+
 
 @app.post("/room/join")
 def join_room(room: str, name: str):
@@ -191,6 +196,11 @@ def join_room(room: str, name: str):
 
     if room_data["started"]:
         raise HTTPException(status_code=400, detail="Game already started")
+
+    # Unika spelnamn (case-insensitive)
+    for p in room_data["players"].values():
+        if p["name"].lower() == name.lower():
+            raise HTTPException(status_code=400, detail="Name already taken")
 
     player_id = str(uuid.uuid4())[:8]
 
@@ -207,6 +217,7 @@ def join_room(room: str, name: str):
         "name": name
     }
 
+
 from fastapi import Body
 
 @app.post("/room/start")
@@ -220,8 +231,16 @@ def start_room(room: str, payload: dict = Body(default={})):
     room_data["started"] = True
     room_data["difficulty"] = payload.get("difficulty", "medium")
 
-    # VIKTIGT: ingen timer här
+    # Nollställ spelstate
+    room_data["current_question"] = None
     room_data["timer"] = None
+    room_data["phase"] = "idle"
+    room_data["answers_locked"] = False
+
+    # Nollställ spelardata
+    for player in room_data["players"].values():
+        player["answers"] = []
+        player["score"] = 0
 
     return {"status": "started", "roomCode": room_code}
 
@@ -238,7 +257,7 @@ def set_question(room: str, question: dict):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # Säkerställ stabilt id på frågan (om V1 inte skickar id)
+    # Säkerställ stabilt fråge-ID
     if not question.get("id"):
         canonical = json.dumps(
             question,
@@ -260,27 +279,31 @@ def set_question(room: str, question: dict):
             "answer": None
         })
 
-    # ================================
-    # STARTA V2-TIMER (ENDA STÄLLET)
-    # ================================
+    # ===== TIMER STARTAR HÄR (ENDA STÄLLET) =====
     DIFFICULTY_SECONDS = {
         "easy": 25,
         "medium": 20,
         "hard": 15
     }
 
-    difficulty = room_data.get("difficulty", "medium")
-    seconds = DIFFICULTY_SECONDS[difficulty]
+    difficulty = question.get("difficulty", room_data.get("difficulty", "medium"))
+    seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
+
+    now = time.time()
 
     room_data["timer"] = {
-        "ends_at": time.time() + seconds,
-        "phase": "question"
+        "ends_at": now + seconds
     }
+
+    room_data["phase"] = "question"
+    room_data["answers_locked"] = False
 
     return {
         "status": "question_set",
         "roomCode": room_code,
-        "question_id": question["id"]
+        "question_id": question["id"],
+        "difficulty": difficulty,
+        "seconds": seconds
     }
 
 @app.post("/room/answer")
@@ -319,6 +342,7 @@ def submit_answer(room: str, player_id: str, answer: str):
 
     return {"status": "answer_received"}
 
+
 @app.get("/room/{code}")
 def get_room(code: str):
     room = ROOMS.get(code.upper())
@@ -327,51 +351,6 @@ def get_room(code: str):
         raise HTTPException(status_code=404, detail="Room not found")
 
     return room
-
-import time
-
-# --- TIMER CONFIG (LÅST) ---
-DIFFICULTY_SECONDS = {
-    "easy": 25,
-    "medium": 20,
-    "hard": 15
-}
-
-def start_question_timer(room_code: str):
-    room = ROOMS.get(room_code)
-    if not room:
-        return
-
-    difficulty = room.get("difficulty", "medium")
-    seconds = DIFFICULTY_SECONDS[difficulty]
-
-    now = time.time()
-
-    room["timer"] = {
-        "ends_at": now + seconds
-    }
-
-    room["phase"] = "question"
-    room["answers_locked"] = False
-
-@app.post("/room/question")
-def set_question(room: str, question: dict):
-    room_code = room.upper()
-    room_data = ROOMS.get(room_code)
-
-    if not room_data:
-        raise HTTPException(status_code=404, detail="Room not found")
-
-    # Sätt ny fråga
-    room_data["current_question"] = question
-    room_data["answers_locked"] = False
-    room_data["phase"] = "question"
-
-    # Starta timer
-    start_question_timer(room_code)
-
-    return {"status": "question_set", "roomCode": room_code}
-
 
 # ================== API ==================
 

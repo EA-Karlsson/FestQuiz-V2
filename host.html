@@ -94,6 +94,7 @@
         const statusEl = document.getElementById("status");
         const currentQuestionEl = document.getElementById("currentQuestion");
         const answersListEl = document.getElementById("answersList");
+        const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 
         if (!roomCode) {
             roomEl.textContent = "SAKNAS";
@@ -105,9 +106,7 @@
 
         // === QR-KOD ===
         const joinUrl = `${window.location.origin}/static/join.html?room=${roomCode}`;
-        const qrImg = document.getElementById("qrImage");
-
-        qrImg.src =
+        document.getElementById("qrImage").src =
             "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
             encodeURIComponent(joinUrl);
 
@@ -117,44 +116,31 @@
             statusEl.textContent = "Startar quiz…";
 
             try {
-                const res = await fetch(`/room/start?room=${roomCode}`, {
-                    method: "POST"
-                });
-
-                if (!res.ok) {
-                    statusEl.textContent = "Kunde inte starta quiz.";
-                    startBtn.disabled = false;
-                    return;
-                }
-
-                // 🔥 VIKTIGT: öppna V1 som spelvy
+                const res = await fetch(`/room/start?room=${roomCode}`, { method: "POST" });
+                if (!res.ok) throw new Error();
                 window.location.href = `/static/index.html?room=${roomCode}`;
-
             } catch {
-                statusEl.textContent = "Nätverksfel.";
+                statusEl.textContent = "Kunde inte starta quiz.";
                 startBtn.disabled = false;
             }
         });
 
-        // === LADDA SPELARE ===
         async function loadRoom() {
             try {
                 const res = await fetch(`/room/${roomCode}`);
                 const data = await res.json();
 
                 playersEl.innerHTML = "";
-
                 const players = data.players || {};
-                const ids = Object.keys(players);
 
-                if (ids.length === 0) {
+                if (Object.keys(players).length === 0) {
                     playersEl.innerHTML = "<li>Inga spelare ännu…</li>";
                     return;
                 }
 
-                ids.forEach(id => {
+                Object.values(players).forEach(p => {
                     const li = document.createElement("li");
-                    li.textContent = players[id].name;
+                    li.textContent = p.name;
                     playersEl.appendChild(li);
                 });
             } catch {
@@ -162,7 +148,6 @@
             }
         }
 
-        // === VISA AKTUELL FRÅGA (ROBUST) ===
         async function loadCurrentQuestion() {
             try {
                 const res = await fetch(`/room/${roomCode}`);
@@ -173,7 +158,6 @@
                     return;
                 }
 
-                // Visa något begripligt utan att anta struktur
                 currentQuestionEl.textContent =
                     data.current_question.question ||
                     data.current_question.text ||
@@ -183,7 +167,6 @@
             }
         }
 
-        // === ANTAL SVAR (SENASTE FRÅGAN) ===
         async function loadAnswerCount() {
             try {
                 const res = await fetch(`/room/${roomCode}`);
@@ -191,23 +174,17 @@
 
                 const players = data.players || {};
                 const totalPlayers = Object.keys(players).length;
-
                 let answered = 0;
 
                 Object.values(players).forEach(player => {
-                    if (!player.answers || player.answers.length === 0) return;
-
-                    const last = player.answers[player.answers.length - 1];
-                    if (last.answer !== null) {
-                        answered += 1;
-                    }
+                    const last = player.answers?.at(-1);
+                    if (last && last.answer !== null) answered++;
                 });
 
                 answersListEl.innerHTML = "";
                 const li = document.createElement("li");
                 li.textContent = `Svar inkomna: ${answered} / ${totalPlayers}`;
                 answersListEl.appendChild(li);
-
             } catch {
                 answersListEl.innerHTML = "<li>Kunde inte hämta svarstatus</li>";
             }
@@ -222,46 +199,10 @@
         setInterval(loadCurrentQuestion, 2000);
         setInterval(loadAnswerCount, 2000);
 
-        const nextQuestionBtn = document.getElementById("nextQuestionBtn");
-
-        nextQuestionBtn.addEventListener("click", async () => {
-            nextQuestionBtn.disabled = true;
-            statusEl.textContent = "Hämtar fråga…";
-
-            try {
-                // 1. Hämta EN fråga från V1
-                const quizRes = await fetch("/quiz?amount=1");
-                if (!quizRes.ok) {
-                    statusEl.textContent = "Kunde inte hämta fråga.";
-                    nextQuestionBtn.disabled = false;
-                    return;
-                }
-
-                const questions = await quizRes.json();
-                const question = questions[0];
-
-                // 2. Skicka hela frågeobjektet till rummet
-                const roomRes = await fetch(`/room/question?room=${roomCode}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(question)
-                });
-
-                if (!roomRes.ok) {
-                    statusEl.textContent = "Kunde inte sätta fråga.";
-                    nextQuestionBtn.disabled = false;
-                    return;
-                }
-
-                statusEl.textContent = "Ny fråga skickad.";
-            } catch {
-                statusEl.textContent = "Nätverksfel.";
-            } finally {
-                nextQuestionBtn.disabled = false;
-            }
-        });
-
+        // === NÄSTA FRÅGA ===
+        nextQuestionBtn.disabled = true; // med flit
     </script>
+
 </body>
 
 </html>
