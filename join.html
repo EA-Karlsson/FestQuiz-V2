@@ -188,6 +188,23 @@
             const data = await res.json();
             const q = data.current_question;
 
+            // 🔔 VIBRATION VID 5 SEKUNDER KVAR (EN GÅNG PER FRÅGA)
+            if (data.timer && data.timer.ends_at && q) {
+                const now = Date.now();
+                const endsAt = new Date(data.timer.ends_at).getTime();
+                const secondsLeft = Math.ceil((endsAt - now) / 1000);
+
+                if (window.__vibratedQuestionId !== q.id) {
+                    window.__vibratedAt5 = false;
+                    window.__vibratedQuestionId = q.id;
+                }
+
+                if (secondsLeft === 5 && !window.__vibratedAt5) {
+                    if (navigator.vibrate) navigator.vibrate(200);
+                    window.__vibratedAt5 = true;
+                }
+            }
+
             // ✅ KRITISK FIX: När ny omgång / ingen aktiv fråga → nolla mobilens lokala index/state
             if (!q) {
                 answersEl.style.display = "none";
