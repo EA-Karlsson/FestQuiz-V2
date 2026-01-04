@@ -5,6 +5,18 @@ import requests
 import os
 import html
 import re
+from collections import deque, defaultdict
+import hashlib
+
+DEDUP_MAX = 300  # justerbart 200–300
+seen_questions = deque(maxlen=DEDUP_MAX)  # FIFO
+seen_by_category = defaultdict(deque)     # per kategori, FIFO
+
+def question_hash(question_text: str, options: dict) -> str:
+    payload = question_text.strip() + "|" + "|".join(
+        f"{k}:{options[k]}" for k in sorted(options)
+    )
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()
 
 # ================== APP & CACHE ==================
 
@@ -270,7 +282,6 @@ def start_room(room: str, payload: dict = Body(default={})):
 @app.post("/room/question")
 def set_question(room: str, question: dict):
     import json
-    import hashlib
     import time
 
     room_code = room.upper()
@@ -279,10 +290,29 @@ def set_question(room: str, question: dict):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # ===== ORIGINAL: kategori sätts från room/fallback =====
+    # ===== KATEGORI =====
     question["category"] = room_data.get("category_name", "Allmänbildning")
 
-    # Säkerställ stabilt fråge-ID
+    # ===== DEDUP-CHECK =====
+    q_hash = question_hash(
+        question.get("question", ""),
+        question.get("options", {})
+    )
+
+    category = question.get("category", "unknown")
+
+    # Hoppa över fråga om den redan använts
+    if q_hash in seen_questions:
+        return {
+            "status": "duplicate_question",
+            "roomCode": room_code
+        }
+
+    # Spara i dedup-minne
+    seen_questions.append(q_hash)
+    seen_by_category[category].append(q_hash)
+
+    # ===== STABILT FRÅGE-ID =====
     if not question.get("id"):
         canonical = json.dumps(
             question,
@@ -296,7 +326,7 @@ def set_question(room: str, question: dict):
 
     room_data["current_question"] = question
 
-    # Skapa answer-slot per spelare (KRITISKT)
+    # ===== ANSWER-SLOTS (KRITISKT) =====
     for player in room_data["players"].values():
         player["answers"].append({
             "question_id": question["id"],
