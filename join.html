@@ -102,44 +102,73 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const roomCode = params.get("room");
-
-        const titleEl = document.getElementById("title");
-        const nameInput = document.getElementById("name");
-        const joinBtn = document.getElementById("joinBtn");
-        const statusEl = document.getElementById("status");
-        const answersEl = document.getElementById("answersBox");
-        const answerHintEl = document.getElementById("answerHint");
-        const answerButtons = document.querySelectorAll(".answerBtn");
-
+        let roomCode = "";
         let playerId = null;
+        let selectedAnswer = null;
         let lastQuestionId = null;
         let questionIndex = 0;
-        let selectedAnswer = null;
 
-        // === GÅ MED ===
-        joinBtn.addEventListener("click", async () => {
-            const name = nameInput.value.trim();
-            if (!name) return;
+        const titleEl = document.getElementById("questionTitle");
+        const answersEl = document.getElementById("answers");
+        const answerHintEl = document.getElementById("answerHint");
 
-            const res = await fetch(
-                `/room/join?room=${roomCode}&name=${encodeURIComponent(name)}`,
-                { method: "POST" }
-            );
+        const buttons = Array.from(document.querySelectorAll(".answer-btn"));
 
-            if (!res.ok) return;
+        function disableButtons() {
+            buttons.forEach(b => b.disabled = true);
+        }
 
-            const data = await res.json();
-            playerId = data.playerId;
+        function enableButtons() {
+            buttons.forEach(b => b.disabled = false);
+        }
 
-            nameInput.style.display = "none";
-            joinBtn.style.display = "none";
+        function updateSelection() {
+            buttons.forEach(btn => {
+                btn.classList.toggle("selected", btn.dataset.answer === selectedAnswer);
+            });
+        }
 
-            titleEl.textContent = "Väntar på fråga…";
+        buttons.forEach(btn => {
+            btn.addEventListener("click", async () => {
+                if (!playerId) return;
+                if (selectedAnswer) return;
+
+                selectedAnswer = btn.dataset.answer;
+                updateSelection();
+
+                await fetch("/answer", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        room: roomCode,
+                        player_id: playerId,
+                        answer: selectedAnswer
+                    })
+                });
+            });
         });
 
-        // === POLLA ===
+        async function joinRoom() {
+            roomCode = document.getElementById("roomCode").value.trim();
+            const name = document.getElementById("playerName").value.trim();
+            if (!roomCode || !name) return;
+
+            const res = await fetch("/join", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ room: roomCode, name })
+            });
+
+            const data = await res.json();
+            playerId = data.player_id;
+
+            document.getElementById("joinScreen").style.display = "none";
+            document.getElementById("gameScreen").style.display = "block";
+
+            poll();
+            setInterval(poll, 1000);
+        }
+
         async function poll() {
             if (!playerId) return;
 
@@ -148,9 +177,19 @@
 
             const q = data.current_question;
 
+            // ✅ KRITISK FIX:
+            // När ny omgång / ingen aktiv fråga → nolla ALLT lokalt mobil-state
             if (!q) {
-                answersEl.style.display = "none";
                 titleEl.textContent = "Väntar på fråga…";
+                answersEl.style.display = "none";
+
+                lastQuestionId = null;
+                questionIndex = 0;
+                selectedAnswer = null;
+                updateSelection();
+
+                answerHintEl.textContent = "";
+                enableButtons();
                 return;
             }
 
@@ -172,41 +211,6 @@
                 enableButtons();
             }
         }
-
-        // === SVARA / BYTA SVAR ===
-        answerButtons.forEach(btn => {
-            btn.addEventListener("click", async () => {
-                if (!playerId) return;
-
-                const answer = btn.dataset.answer;
-
-                const res = await fetch(
-                    `/room/answer?room=${roomCode}&player_id=${playerId}&answer=${answer}`,
-                    { method: "POST" }
-                );
-
-                if (!res.ok) return;
-
-                selectedAnswer = answer;
-                updateSelection();
-            });
-        });
-
-        function updateSelection() {
-            answerButtons.forEach(b => {
-                b.classList.toggle("selected", b.dataset.answer === selectedAnswer);
-            });
-        }
-
-        function disableButtons() {
-            answerButtons.forEach(b => b.disabled = true);
-        }
-
-        function enableButtons() {
-            answerButtons.forEach(b => b.disabled = false);
-        }
-
-        setInterval(poll, 1000);
     </script>
 </body>
 
