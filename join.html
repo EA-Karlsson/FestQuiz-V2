@@ -199,7 +199,7 @@
                     window.__vibratedQuestionId = q.id;
                 }
 
-                if (secondsLeft === 5 && !window.__vibratedAt5) {
+                if (secondsLeft <= 5 && secondsLeft > 0 && !window.__vibratedAt5) {
                     if (navigator.vibrate) navigator.vibrate(200);
                     window.__vibratedAt5 = true;
                 }
