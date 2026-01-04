@@ -370,13 +370,24 @@ async function renderV2Final(roomCode) {
         answersDiv.style.overflowY = "auto";
         answersDiv.style.paddingRight = "6px";
 
+        const formatPlayerLine = (p) => {
+            if (!p) return "–";
+            const name = p.name || "–";
+            const letter = p.answer_letter ? p.answer_letter : "(inget svar)";
+            const text = p.answer_letter ? (p.answer_text || "") : "";
+            return `${name} – ${letter}${text ? " – " + text : ""}`;
+        };
+
+        const buildListHtml = (arr, emptyText) => {
+            if (!Array.isArray(arr) || arr.length === 0) return emptyText;
+            return arr
+                .map(p => `<div style="margin-top:4px;">${formatPlayerLine(p)}</div>`)
+                .join("");
+        };
+
         answersDiv.innerHTML = results.map((r, i) => {
-            const wrongList =
-                r.wrong_players && r.wrong_players.length
-                    ? r.wrong_players
-                        .map(name => `❌ ${name}`)
-                        .join("<br>")
-                    : "–";
+            const rightHtml = buildListHtml(r.right_players, "–");
+            const wrongHtml = buildListHtml(r.wrong_players, "–");
 
             return `
                 <div class="facit-item">
@@ -389,12 +400,17 @@ async function renderV2Final(roomCode) {
                     <div class="facit-answer" style="margin-top:8px;">
                         Rätt svar:
                         <span>${r.correct_letter}</span>
-                        – ${r.correct_text}
+                        – ${r.correct_text || ""}
                     </div>
 
                     <div style="margin-top:10px; font-size:0.95rem;">
-                        <strong>Fel svar:</strong><br>
-                        ${wrongList}
+                        <strong>✅ Rätt:</strong>
+                        ${rightHtml}
+                    </div>
+
+                    <div style="margin-top:10px; font-size:0.95rem;">
+                        <strong>❌ Fel:</strong>
+                        ${wrongHtml}
                     </div>
                 </div>
             `;
@@ -407,7 +423,6 @@ async function renderV2Final(roomCode) {
             window.location.href = "/static/index.html";
         };
 
-        // Knappen under gridet
         const wrapper = document.createElement("div");
         wrapper.style.marginTop = "24px";
         wrapper.style.gridColumn = "1 / -1";
