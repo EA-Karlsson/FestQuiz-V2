@@ -210,7 +210,7 @@ function showQuestion(questionText, answersDiv) {
         });
     }
 
-    // 🔁 AUTO-NEXT KOPPLING
+    // 🔁 AUTO-NEXT KOPPLING (DET SOM SAKNADES)
     autoNextTriggered = false;
     watchForAutoNext(questionText, answersDiv);
 }
