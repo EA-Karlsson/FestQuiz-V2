@@ -435,7 +435,7 @@ async function renderV2Final(roomCode) {
                 const r = await fetch(`/room/reset?room=${roomCode}`, { method: "POST" });
                 if (!r.ok) throw new Error();
 
-                window.location.href = `/static/index.html?room=${roomCode}`;
+                window.location.href = `/static/index.html?room=${roomCode}&category=${encodeURIComponent(selectedCategoryName)}`;
             } catch {
                 alert("Kunde inte starta ny omgång.");
             }
