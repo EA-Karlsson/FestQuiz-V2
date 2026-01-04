@@ -102,115 +102,130 @@
     </div>
 
     <script>
-        let roomCode = "";
-        let playerId = null;
-        let selectedAnswer = null;
-        let lastQuestionId = null;
-        let questionIndex = 0;
+        document.addEventListener("DOMContentLoaded", () => {
 
-        const titleEl = document.getElementById("questionTitle");
-        const answersEl = document.getElementById("answers");
-        const answerHintEl = document.getElementById("answerHint");
+            let roomCode = "";
+            let playerId = null;
+            let selectedAnswer = null;
+            let lastQuestionId = null;
+            let questionIndex = 0;
 
-        const buttons = Array.from(document.querySelectorAll(".answer-btn"));
+            const titleEl = document.getElementById("questionTitle");
+            const answersEl = document.getElementById("answers");
+            const answerHintEl = document.getElementById("answerHint");
 
-        function disableButtons() {
-            buttons.forEach(b => b.disabled = true);
-        }
+            const joinBtn = document.getElementById("joinBtn");
+            const roomInput = document.getElementById("roomCode");
+            const nameInput = document.getElementById("playerName");
 
-        function enableButtons() {
-            buttons.forEach(b => b.disabled = false);
-        }
+            const buttons = Array.from(document.querySelectorAll(".answer-btn"));
 
-        function updateSelection() {
-            buttons.forEach(btn => {
-                btn.classList.toggle("selected", btn.dataset.answer === selectedAnswer);
-            });
-        }
+            function disableButtons() {
+                buttons.forEach(b => b.disabled = true);
+            }
 
-        buttons.forEach(btn => {
-            btn.addEventListener("click", async () => {
-                if (!playerId) return;
-                if (selectedAnswer) return;
+            function enableButtons() {
+                buttons.forEach(b => b.disabled = false);
+            }
 
-                selectedAnswer = btn.dataset.answer;
-                updateSelection();
+            function updateSelection() {
+                buttons.forEach(btn => {
+                    btn.classList.toggle("selected", btn.dataset.answer === selectedAnswer);
+                });
+            }
 
-                await fetch("/answer", {
+            // === JOIN ===
+            joinBtn.addEventListener("click", joinRoom);
+
+            async function joinRoom() {
+                roomCode = roomInput.value.trim();
+                const name = nameInput.value.trim();
+
+                if (!roomCode || !name) return;
+
+                const res = await fetch("/join", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        room: roomCode,
-                        player_id: playerId,
-                        answer: selectedAnswer
-                    })
+                    body: JSON.stringify({ room: roomCode, name })
+                });
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+                playerId = data.player_id;
+
+                document.getElementById("joinScreen").style.display = "none";
+                document.getElementById("gameScreen").style.display = "block";
+
+                poll();
+                setInterval(poll, 1000);
+            }
+
+            // === ANSWERS ===
+            buttons.forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    if (!playerId) return;
+                    if (selectedAnswer) return;
+
+                    selectedAnswer = btn.dataset.answer;
+                    updateSelection();
+
+                    await fetch("/answer", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            room: roomCode,
+                            player_id: playerId,
+                            answer: selectedAnswer
+                        })
+                    });
                 });
             });
+
+            // === POLL ===
+            async function poll() {
+                if (!playerId) return;
+
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                const q = data.current_question;
+
+                // RESET mellan rundor
+                if (!q) {
+                    titleEl.textContent = "Väntar på fråga…";
+                    answersEl.style.display = "none";
+
+                    lastQuestionId = null;
+                    questionIndex = 0;
+                    selectedAnswer = null;
+                    updateSelection();
+
+                    answerHintEl.textContent = "";
+                    enableButtons();
+                    return;
+                }
+
+                if (q.id !== lastQuestionId) {
+                    lastQuestionId = q.id;
+                    questionIndex++;
+                    selectedAnswer = null;
+                    updateSelection();
+                }
+
+                titleEl.textContent = `Fråga ${questionIndex}`;
+                answersEl.style.display = "block";
+
+                if (data.answers_locked) {
+                    answerHintEl.textContent = "Svar låst";
+                    disableButtons();
+                } else {
+                    answerHintEl.textContent = "";
+                    enableButtons();
+                }
+            }
+
         });
-
-        async function joinRoom() {
-            roomCode = document.getElementById("roomCode").value.trim();
-            const name = document.getElementById("playerName").value.trim();
-            if (!roomCode || !name) return;
-
-            const res = await fetch("/join", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ room: roomCode, name })
-            });
-
-            const data = await res.json();
-            playerId = data.player_id;
-
-            document.getElementById("joinScreen").style.display = "none";
-            document.getElementById("gameScreen").style.display = "block";
-
-            poll();
-            setInterval(poll, 1000);
-        }
-
-        async function poll() {
-            if (!playerId) return;
-
-            const res = await fetch(`/room/${roomCode}`);
-            const data = await res.json();
-
-            const q = data.current_question;
-
-            // ✅ KRITISK FIX:
-            // När ny omgång / ingen aktiv fråga → nolla ALLT lokalt mobil-state
-            if (!q) {
-                titleEl.textContent = "Väntar på fråga…";
-                answersEl.style.display = "none";
-
-                lastQuestionId = null;
-                questionIndex = 0;
-                selectedAnswer = null;
-                updateSelection();
-
-                answerHintEl.textContent = "";
-                enableButtons();
-                return;
-            }
-
-            if (q.id !== lastQuestionId) {
-                lastQuestionId = q.id;
-                questionIndex++;
-                selectedAnswer = null;
-                updateSelection();
-            }
-
-            titleEl.textContent = `Fråga ${questionIndex}`;
-            answersEl.style.display = "block";
-
-            if (data.answers_locked) {
-                answerHintEl.textContent = "Svar låst";
-                disableButtons();
-            } else {
-                answerHintEl.textContent = "";
-                enableButtons();
-            }
-        }
     </script>
 </body>
 
