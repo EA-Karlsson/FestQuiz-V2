@@ -383,20 +383,29 @@ def get_room(code: str):
 
             right = 0
             wrong = 0
+
+            # Spara detaljer per spelare
             right_players = []
             wrong_players = []
 
-            # 📊 RÄKNA SVAR + GE POÄNG
+            # 📊 RÄKNA SVAR + GE POÄNG + SPARA VAD DE VALDE
             for p in room["players"].values():
-                ans = p["answers"][-1]["answer"]
+                ans_letter = p["answers"][-1]["answer"]  # "A"/"B"/"C"/"D" eller None
+                ans_text = options.get(ans_letter, "") if ans_letter else ""
 
-                if ans == correct_letter:
+                entry = {
+                    "name": p["name"],
+                    "answer_letter": ans_letter,
+                    "answer_text": ans_text
+                }
+
+                if ans_letter == correct_letter:
                     right += 1
-                    right_players.append(p["name"])
-                    p["score"] += 1          # 👈 POÄNG HÄR
+                    right_players.append(entry)
+                    p["score"] += 1
                 else:
                     wrong += 1
-                    wrong_players.append(p["name"])
+                    wrong_players.append(entry)
 
             room["last_result"] = {
                 "right": right,
@@ -412,6 +421,7 @@ def get_room(code: str):
                 room["final_results"].append({
                     "question_id": room["current_question"].get("id"),
                     "question": room["current_question"].get("question"),
+                    "category": room["current_question"].get("category"),
                     "correct_letter": correct_letter,
                     "correct_text": correct_text,
                     "right_players": right_players,
