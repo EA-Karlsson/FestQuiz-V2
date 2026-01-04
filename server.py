@@ -293,25 +293,6 @@ def set_question(room: str, question: dict):
     # ===== KATEGORI =====
     question["category"] = room_data.get("category_name", "Allmänbildning")
 
-    # ===== DEDUP-CHECK =====
-    q_hash = question_hash(
-        question.get("question", ""),
-        question.get("options", {})
-    )
-
-    category = question.get("category", "unknown")
-
-    # Hoppa över fråga om den redan använts
-    if q_hash in seen_questions:
-        return {
-            "status": "duplicate_question",
-            "roomCode": room_code
-        }
-
-    # Spara i dedup-minne
-    seen_questions.append(q_hash)
-    seen_by_category[category].append(q_hash)
-
     # ===== STABILT FRÅGE-ID =====
     if not question.get("id"):
         canonical = json.dumps(
@@ -520,7 +501,11 @@ def quiz(
     data = requests.get(url).json()
     questions = []
 
-    for q in data["results"]:
+    # Slumpa ordningen direkt från API-svaret
+    api_questions = data.get("results", [])
+    random.shuffle(api_questions)
+
+    for q in api_questions:
         raw_question = html.unescape(q["question"])
         raw_correct = html.unescape(q["correct_answer"])
         raw_incorrect = [html.unescape(a) for a in q["incorrect_answers"]]
@@ -551,10 +536,33 @@ def quiz(
                 else:
                     incorrect.append(normalize_numbers(smart_translate(a)))
 
+        options = {
+            "correct": correct,
+            "incorrect": incorrect
+        }
+
+        # ===== DEDUP VID URVAL =====
+        q_hash = question_hash(question_text, {
+            "correct": correct,
+            **{f"i{i}": v for i, v in enumerate(incorrect)}
+        })
+
+        if q_hash in seen_questions:
+            continue  # hoppa dubblett
+
+        # Spara i dedup-minne
+        seen_questions.append(q_hash)
+        seen_by_category[category or "unknown"].append(q_hash)
+
         questions.append({
             "question": question_text,
             "correct_answer": correct,
             "incorrect_answers": incorrect
         })
 
+        # Sluta när vi fått tillräckligt många unika frågor
+        if len(questions) >= amount:
+            break
+
     return questions
+
