@@ -267,8 +267,6 @@ def start_room(room: str, payload: dict = Body(default={})):
 
 @app.post("/room/question")
 def set_question(room: str, question: dict):
-    import json
-    import hashlib
     import time
 
     room_code = room.upper()
@@ -277,44 +275,23 @@ def set_question(room: str, question: dict):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # ===== SÄKER KATEGORI (DEFAULT) =====
-    # Frontend skickar inte kategori ännu → sätt från room eller fallback
-    question["category"] = room_data.get("category_name", "Allmänbildning")
+    # ✅ KATEGORI PER FRÅGA – INGEN ROOM-STATE
+    question["category"] = (question.get("category") or "").strip() or "Allmänbildning"
 
-    # Säkerställ stabilt fråge-ID
-    if not question.get("id"):
-        canonical = json.dumps(
-            question,
-            sort_keys=True,
-            ensure_ascii=False,
-            separators=(",", ":")
-        )
-        question["id"] = hashlib.sha1(
-            canonical.encode("utf-8")
-        ).hexdigest()[:10]
-
-    # Sätt aktuell fråga
-    room_data["current_question"] = question
-
-    # Skapa answer-slot per spelare
-    for player in room_data["players"].values():
-        player["answers"].append({
-            "question_id": question["id"],
-            "answer": None
-        })
-
-    # ===== TIMER (ENDA STÄLLET) =====
+    # ⏱️ TIMER
     DIFFICULTY_SECONDS = {
         "easy": 25,
         "medium": 20,
         "hard": 15
     }
 
-    difficulty = question.get("difficulty") or room_data.get("difficulty", "medium")
+    difficulty = question.get("difficulty", "medium")
     seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
 
     now = time.time()
 
+    room_data["current_question"] = question
+    room_data["difficulty"] = difficulty
     room_data["timer"] = {
         "ends_at": now + seconds
     }

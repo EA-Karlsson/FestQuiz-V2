@@ -200,6 +200,7 @@ function showQuestion(questionText, answersDiv) {
             id: questionId,
             question: q.question,
             difficulty: selectedDifficulty || q.difficulty || "medium",
+            category: q.category || "Allmänbildning",
             options: {
                 A: answers[0],
                 B: answers[1],
@@ -210,7 +211,7 @@ function showQuestion(questionText, answersDiv) {
         });
     }
 
-    // 🔁 AUTO-NEXT KOPPLING (DET SOM SAKNADES)
+    // 🔁 AUTO-NEXT KOPPLING
     autoNextTriggered = false;
     watchForAutoNext(questionText, answersDiv);
 }
