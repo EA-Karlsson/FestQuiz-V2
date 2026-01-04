@@ -428,11 +428,27 @@ async function renderV2Final(roomCode) {
         newRoundBtn.className = "restart-btn";
         newRoundBtn.onclick = async () => {
             try {
+                // ✅ NOLLSTÄLL FRONTEND-STATE DIREKT (så "Fråga 6" aldrig hinner visas)
+                results = [];
+                questions = [];
+                currentIndex = 0;
+                mode = "quiz";
+                lastSentQuestionId = null;
+
+                const progressEl = document.getElementById("progress");
+                if (progressEl) progressEl.textContent = "";
+
+                const catEl = document.getElementById("categoryLine");
+                if (catEl) catEl.textContent = "";
+
+                const timerEl = document.getElementById("timer");
+                if (timerEl) timerEl.textContent = "";
+
                 const r = await fetch(`/room/reset?room=${roomCode}`, { method: "POST" });
                 if (!r.ok) throw new Error();
 
-                // 👇 Tvinga riktig reload (ny URL varje gång)
-                window.location.href = `/static/index.html?room=${roomCode}&r=${Date.now()}`;
+                // Byt sida efter reset (ny runda i samma room)
+                window.location.href = `/static/index.html?room=${roomCode}`;
             } catch {
                 alert("Kunde inte starta ny omgång.");
             }
