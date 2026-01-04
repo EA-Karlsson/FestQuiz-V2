@@ -352,7 +352,7 @@ async function renderV2Final(roomCode) {
     const answersDiv = document.getElementById("answers");
 
     questionText.innerHTML = `<span class="facit-title">📊 Slutfacit</span>`;
-    answersDiv.innerHTML = `<div style="opacity:.7;">Laddar resultat…</div>`;
+    answersDiv.innerHTML = `<div style="opacity:.7;">Laddar facit…</div>`;
 
     try {
         const res = await fetch(`/room/${roomCode}`);
@@ -360,51 +360,60 @@ async function renderV2Final(roomCode) {
 
         const data = await res.json();
         const results = data.final_results || [];
-        const playersObj = data.players || {};
 
-        // ===== FACIT PER FRÅGA =====
-        const facitHtml = results.map((r, i) => `
-            <div class="facit-item">
-                <strong>${i + 1}. ${r.question}</strong>
-                <div class="facit-answer">
-                    Rätt svar: <span>${r.correct_letter}</span> – ${r.correct_text || ""}
-                </div>
-                <div style="margin-top:6px;">
-                    ✅ Rätt: ${r.right_players.join(", ") || "–"}
-                </div>
-                <div style="margin-top:4px; opacity:.8;">
-                    ❌ Fel: ${r.wrong_players.join(", ") || "–"}
-                </div>
-            </div>
-        `).join("");
+        // 🧱 FACIT-GRID (scroll + auto-fit)
+        answersDiv.style.display = "grid";
+        answersDiv.style.gridTemplateColumns = "repeat(auto-fit, minmax(320px, 1fr))";
+        answersDiv.style.gap = "16px";
+        answersDiv.style.alignItems = "start";
+        answersDiv.style.maxHeight = "70vh";
+        answersDiv.style.overflowY = "auto";
+        answersDiv.style.paddingRight = "6px";
 
-        // ===== SCOREBOARD =====
-        const scoreboard = Object.values(playersObj)
-            .map(p => ({ name: p.name, score: p.score || 0 }))
-            .sort((a, b) => b.score - a.score);
+        answersDiv.innerHTML = results.map((r, i) => {
+            const wrongList =
+                r.wrong_players && r.wrong_players.length
+                    ? r.wrong_players
+                        .map(name => `❌ ${name}`)
+                        .join("<br>")
+                    : "–";
 
-        const scoreboardHtml = `
-            <div class="facit-item">
-                <strong>🏆 Scoreboard</strong>
-                <div style="margin-top:10px;">
-                    ${scoreboard.map((p, i) => `
-                        <div style="margin:6px 0;">
-                            ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "•"}
-                            ${p.name} – <strong>${p.score}</strong>
-                        </div>
-                    `).join("")}
+            return `
+                <div class="facit-item">
+                    <div style="opacity:.7; font-size:0.85rem; margin-bottom:4px;">
+                        ${r.category || "Kategori okänd"}
+                    </div>
+
+                    <strong>${i + 1}. ${r.question}</strong>
+
+                    <div class="facit-answer" style="margin-top:8px;">
+                        Rätt svar:
+                        <span>${r.correct_letter}</span>
+                        – ${r.correct_text}
+                    </div>
+
+                    <div style="margin-top:10px; font-size:0.95rem;">
+                        <strong>Fel svar:</strong><br>
+                        ${wrongList}
+                    </div>
                 </div>
-            </div>
-        `;
-
-        answersDiv.innerHTML = facitHtml + scoreboardHtml;
+            `;
+        }).join("");
 
         const btn = document.createElement("button");
         btn.textContent = "Till startsidan";
         btn.className = "restart-btn";
-        btn.onclick = () => window.location.href = "/static/index.html";
+        btn.onclick = () => {
+            window.location.href = "/static/index.html";
+        };
 
-        answersDiv.appendChild(btn);
+        // Knappen under gridet
+        const wrapper = document.createElement("div");
+        wrapper.style.marginTop = "24px";
+        wrapper.style.gridColumn = "1 / -1";
+        wrapper.appendChild(btn);
+
+        answersDiv.appendChild(wrapper);
 
     } catch {
         answersDiv.innerHTML = "Kunde inte ladda slutfacit.";
