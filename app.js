@@ -7,6 +7,7 @@ let questions = [];
 let currentIndex = 0;
 let timer = null;
 let selectedCategory = "";
+let selectedCategoryName = "";
 
 let results = [];     // sparar facitdata
 let mode = "quiz";    // quiz | facit
@@ -66,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 selectedCategory = btn.dataset.category;
             }
+
+            // ✅ ENDA NYA RADEN
+            selectedCategoryName = btn.textContent.trim();
         });
     });
 
