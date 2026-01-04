@@ -116,7 +116,16 @@
             statusEl.textContent = "Startar quiz…";
 
             try {
-                const res = await fetch(`/room/start?room=${roomCode}`, { method: "POST" });
+                const res = await fetch(`/room/start?room=${roomCode}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        category: window.selectedCategoryName
+                    })
+                });
+
                 if (!res.ok) throw new Error();
                 window.location.href = `/static/index.html?room=${roomCode}`;
             } catch {
