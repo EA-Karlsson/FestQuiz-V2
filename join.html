@@ -102,130 +102,147 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const roomCode = (params.get("room") || "").toUpperCase();
 
-            let roomCode = "";
-            let playerId = null;
-            let selectedAnswer = null;
-            let lastQuestionId = null;
-            let questionIndex = 0;
+        const titleEl = document.getElementById("title");
+        const nameInput = document.getElementById("name");
+        const joinBtn = document.getElementById("joinBtn");
+        const statusEl = document.getElementById("status");
+        const answersEl = document.getElementById("answersBox");
+        const answerHintEl = document.getElementById("answerHint");
+        const answerButtons = document.querySelectorAll(".answerBtn");
 
-            const titleEl = document.getElementById("questionTitle");
-            const answersEl = document.getElementById("answers");
-            const answerHintEl = document.getElementById("answerHint");
+        let playerId = null;
+        let lastQuestionId = null;
+        let questionIndex = 0;
+        let selectedAnswer = null;
 
-            const joinBtn = document.getElementById("joinBtn");
-            const roomInput = document.getElementById("roomCode");
-            const nameInput = document.getElementById("playerName");
+        function updateSelection() {
+            answerButtons.forEach(b => {
+                b.classList.toggle("selected", b.dataset.answer === selectedAnswer);
+            });
+        }
 
-            const buttons = Array.from(document.querySelectorAll(".answer-btn"));
+        function disableButtons() {
+            answerButtons.forEach(b => b.disabled = true);
+        }
 
-            function disableButtons() {
-                buttons.forEach(b => b.disabled = true);
+        function enableButtons() {
+            answerButtons.forEach(b => b.disabled = false);
+        }
+
+        // Om room saknas i URL: visa fel direkt (QR ska alltid ha ?room=XXXX)
+        if (!roomCode) {
+            statusEl.textContent = "Fel: room saknas i länken (QR-koden).";
+            joinBtn.disabled = true;
+        }
+
+        // === GÅ MED ===
+        joinBtn.addEventListener("click", async () => {
+            const name = nameInput.value.trim();
+            if (!name || !roomCode) return;
+
+            statusEl.textContent = "";
+
+            const res = await fetch(
+                `/room/join?room=${encodeURIComponent(roomCode)}&name=${encodeURIComponent(name)}`,
+                { method: "POST" }
+            );
+
+            if (!res.ok) {
+                let msg = "Kunde inte gå med.";
+                try {
+                    const err = await res.json();
+                    if (err && err.detail) msg = err.detail;
+                } catch (_) { }
+                statusEl.textContent = msg;
+                return;
             }
 
-            function enableButtons() {
-                buttons.forEach(b => b.disabled = false);
+            const data = await res.json();
+            playerId = data.playerId;
+
+            nameInput.style.display = "none";
+            joinBtn.style.display = "none";
+
+            titleEl.textContent = "Väntar på fråga…";
+            answersEl.style.display = "none";
+
+            // Nolla lokalt state vid join (städar upp vid ev reload)
+            lastQuestionId = null;
+            questionIndex = 0;
+            selectedAnswer = null;
+            updateSelection();
+            enableButtons();
+            answerHintEl.textContent = "";
+        });
+
+        // === POLLA ===
+        async function poll() {
+            if (!playerId) return;
+
+            const res = await fetch(`/room/${encodeURIComponent(roomCode)}`);
+            if (!res.ok) return;
+
+            const data = await res.json();
+            const q = data.current_question;
+
+            // ✅ KRITISK FIX: När ny omgång / ingen aktiv fråga → nolla mobilens lokala index/state
+            if (!q) {
+                answersEl.style.display = "none";
+                titleEl.textContent = "Väntar på fråga…";
+
+                lastQuestionId = null;
+                questionIndex = 0;
+                selectedAnswer = null;
+                updateSelection();
+
+                answerHintEl.textContent = "";
+                enableButtons();
+                return;
             }
 
-            function updateSelection() {
-                buttons.forEach(btn => {
-                    btn.classList.toggle("selected", btn.dataset.answer === selectedAnswer);
-                });
+            // Ny fråga → bumpa index (per omgång)
+            if (q.id !== lastQuestionId) {
+                lastQuestionId = q.id;
+                questionIndex++;
+                selectedAnswer = null;
+                updateSelection();
             }
 
-            // === JOIN ===
-            joinBtn.addEventListener("click", joinRoom);
+            titleEl.textContent = `Fråga ${questionIndex}`;
+            answersEl.style.display = "block";
 
-            async function joinRoom() {
-                roomCode = roomInput.value.trim();
-                const name = nameInput.value.trim();
+            if (data.answers_locked) {
+                answerHintEl.textContent = "Svar låst";
+                disableButtons();
+            } else {
+                answerHintEl.textContent = "";
+                enableButtons();
+            }
+        }
 
-                if (!roomCode || !name) return;
+        // === SVARA / BYTA SVAR ===
+        answerButtons.forEach(btn => {
+            btn.addEventListener("click", async () => {
+                if (!playerId) return;
 
-                const res = await fetch("/join", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ room: roomCode, name })
-                });
+                const answer = btn.dataset.answer;
+
+                const res = await fetch(
+                    `/room/answer?room=${encodeURIComponent(roomCode)}&player_id=${encodeURIComponent(playerId)}&answer=${encodeURIComponent(answer)}`,
+                    { method: "POST" }
+                );
 
                 if (!res.ok) return;
 
-                const data = await res.json();
-                playerId = data.player_id;
-
-                document.getElementById("joinScreen").style.display = "none";
-                document.getElementById("gameScreen").style.display = "block";
-
-                poll();
-                setInterval(poll, 1000);
-            }
-
-            // === ANSWERS ===
-            buttons.forEach(btn => {
-                btn.addEventListener("click", async () => {
-                    if (!playerId) return;
-                    if (selectedAnswer) return;
-
-                    selectedAnswer = btn.dataset.answer;
-                    updateSelection();
-
-                    await fetch("/answer", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            room: roomCode,
-                            player_id: playerId,
-                            answer: selectedAnswer
-                        })
-                    });
-                });
+                selectedAnswer = answer;
+                updateSelection();
             });
-
-            // === POLL ===
-            async function poll() {
-                if (!playerId) return;
-
-                const res = await fetch(`/room/${roomCode}`);
-                const data = await res.json();
-
-                const q = data.current_question;
-
-                // RESET mellan rundor
-                if (!q) {
-                    titleEl.textContent = "Väntar på fråga…";
-                    answersEl.style.display = "none";
-
-                    lastQuestionId = null;
-                    questionIndex = 0;
-                    selectedAnswer = null;
-                    updateSelection();
-
-                    answerHintEl.textContent = "";
-                    enableButtons();
-                    return;
-                }
-
-                if (q.id !== lastQuestionId) {
-                    lastQuestionId = q.id;
-                    questionIndex++;
-                    selectedAnswer = null;
-                    updateSelection();
-                }
-
-                titleEl.textContent = `Fråga ${questionIndex}`;
-                answersEl.style.display = "block";
-
-                if (data.answers_locked) {
-                    answerHintEl.textContent = "Svar låst";
-                    disableButtons();
-                } else {
-                    answerHintEl.textContent = "";
-                    enableButtons();
-                }
-            }
-
         });
+
+        setInterval(poll, 1000);
     </script>
 </body>
 
