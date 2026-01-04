@@ -435,6 +435,30 @@ def get_room(code: str):
 
     return room
 
+@app.post("/room/reset")
+def reset_room(room: str):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    # Behåll spelare, nollställ spelstate
+    room_data["started"] = False
+    room_data["current_question"] = None
+    room_data["timer"] = None
+    room_data["phase"] = "idle"
+    room_data["answers_locked"] = False
+    room_data["last_result"] = None
+    room_data["final_results"] = []
+
+    # Nollställ spelardata
+    for player in room_data["players"].values():
+        player["answers"] = []
+        player["score"] = 0
+
+    return {"status": "reset", "roomCode": room_code}
+
 # ================== API ==================
 
 @app.get("/quiz")

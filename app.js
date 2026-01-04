@@ -392,7 +392,7 @@ async function renderV2Final(roomCode) {
             return `
                 <div class="facit-item">
                     <div style="opacity:.7; font-size:0.85rem; margin-bottom:4px;">
-                        ${r.category || "Kategori okänd"}
+                        ${r.category || ""}
                     </div>
 
                     <strong>${i + 1}. ${r.question}</strong>
@@ -416,18 +416,27 @@ async function renderV2Final(roomCode) {
             `;
         }).join("");
 
-        const btn = document.createElement("button");
-        btn.textContent = "Till startsidan";
-        btn.className = "restart-btn";
-        btn.onclick = () => {
-            window.location.href = "/static/index.html";
+        // ===== ENDA KNAPPEN: NY OMGÅNG =====
+        const wrapper = document.createElement("div");
+        wrapper.style.marginTop = "28px";
+        wrapper.style.gridColumn = "1 / -1";
+        wrapper.style.display = "flex";
+        wrapper.style.justifyContent = "center";
+
+        const newRoundBtn = document.createElement("button");
+        newRoundBtn.textContent = "Ny omgång";
+        newRoundBtn.className = "restart-btn";
+        newRoundBtn.onclick = async () => {
+            try {
+                const r = await fetch(`/room/reset?room=${roomCode}`, { method: "POST" });
+                if (!r.ok) throw new Error();
+                window.location.href = `/static/index.html?room=${roomCode}`;
+            } catch {
+                alert("Kunde inte starta ny omgång.");
+            }
         };
 
-        const wrapper = document.createElement("div");
-        wrapper.style.marginTop = "24px";
-        wrapper.style.gridColumn = "1 / -1";
-        wrapper.appendChild(btn);
-
+        wrapper.appendChild(newRoundBtn);
         answersDiv.appendChild(wrapper);
 
     } catch {
