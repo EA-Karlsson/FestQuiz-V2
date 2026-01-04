@@ -370,7 +370,7 @@ def get_room(code: str):
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # ⏱️ AUTO-LOCK NÄR TIMER GÅTT UT
+    # AUTO-LOCK NÄR TIMER GÅTT UT
     if room.get("timer") and not room.get("answers_locked") and room.get("phase") == "question":
         ends_at = room["timer"].get("ends_at")
         if ends_at and time.time() >= ends_at:
@@ -383,14 +383,11 @@ def get_room(code: str):
 
             right = 0
             wrong = 0
-
-            # Spara detaljer per spelare
             right_players = []
             wrong_players = []
 
-            # 📊 RÄKNA SVAR + GE POÄNG + SPARA VAD DE VALDE
             for p in room["players"].values():
-                ans_letter = p["answers"][-1]["answer"]  # "A"/"B"/"C"/"D" eller None
+                ans_letter = p["answers"][-1]["answer"]
                 ans_text = options.get(ans_letter, "") if ans_letter else ""
 
                 entry = {
@@ -412,7 +409,6 @@ def get_room(code: str):
                 "wrong": wrong
             }
 
-            # 📦 SPARA FACITDATA (EN GÅNG PER FRÅGA)
             if (
                 not room.get("final_results")
                 or room["final_results"][-1]["question_id"]
@@ -427,6 +423,24 @@ def get_room(code: str):
                     "right_players": right_players,
                     "wrong_players": wrong_players
                 })
+
+    # RANKING NÄR SCOREBOARD VISAS
+    if room.get("phase") == "scoreboard":
+        players = list(room["players"].items())
+        players.sort(key=lambda x: x[1]["score"], reverse=True)
+
+        ranks = {}
+        last_score = None
+        current_rank = 0
+
+        for index, (pid, p) in enumerate(players):
+            if p["score"] != last_score:
+                current_rank = index + 1
+                last_score = p["score"]
+            ranks[pid] = current_rank
+
+        room["player_ranks"] = ranks
+        room["player_count"] = len(players)
 
     return room
 
