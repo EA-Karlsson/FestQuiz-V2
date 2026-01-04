@@ -269,12 +269,19 @@ def start_room(room: str, payload: dict = Body(default={})):
 def set_question(room: str, question: dict):
     import json
     import hashlib
+    import time
 
     room_code = room.upper()
     room_data = ROOMS.get(room_code)
 
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
+
+    # ===== KATEGORI (REN STRÄNG TILL FRONTEND) =====
+    # Förväntat: frontend skickar t.ex. "Film", "Sport", "Musik"
+    category_name = question.get("category")
+    if category_name:
+        question["category"] = category_name.strip()
 
     # Säkerställ stabilt fråge-ID
     if not question.get("id"):

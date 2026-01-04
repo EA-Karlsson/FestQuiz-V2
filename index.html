@@ -51,12 +51,14 @@
 
     <!-- QUIZ -->
     <div id="quizScreen" class="hidden">
+        <p id="categoryLine" style="opacity:.7; font-size:0.85rem; margin:6px 0 2px;"></p>
         <p id="progress"></p>
         <h2 id="questionText"></h2>
         <p id="statusText" style="opacity:.7; min-height:1.2em;"></p>
         <div id="answers"></div>
         <p id="timer"></p>
     </div>
+
 
     <script src="app.js"></script>
 
@@ -91,32 +93,19 @@
 
                     const data = await res.json();
 
-                    // ===== TIMER =====
+                    // TIMER (orörd)
                     if (data.timer && data.timer.ends_at) {
                         const now = Date.now() / 1000;
-                        const remaining = Math.max(
-                            0,
-                            Math.round(data.timer.ends_at - now)
-                        );
-
+                        const remaining = Math.max(0, Math.round(data.timer.ends_at - now));
                         const timerEl = document.getElementById("timer");
                         if (timerEl) timerEl.textContent = remaining;
                     }
 
-                    // ===== KATEGORI ÖVER FRÅGA X / Y =====
-                    const progressEl = document.getElementById("progress");
-                    if (progressEl && data.current_question) {
-                        const category =
-                            data.current_question.category || "Kategori okänd";
-
-                        progressEl.innerHTML = `
-                        <div style="opacity:.7; font-size:0.85rem; margin-bottom:2px;">
-                            ${category}
-                        </div>
-                        <div>
-                            Fråga ${data.current_question.index ?? ""}
-                        </div>
-                    `;
+                    // KATEGORI (NY, EGET ELEMENT)
+                    const catEl = document.getElementById("categoryLine");
+                    if (catEl) {
+                        catEl.textContent =
+                            data?.current_question?.category || "Kategori okänd";
                     }
 
                 } catch {
