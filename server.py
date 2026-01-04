@@ -443,7 +443,7 @@ def reset_room(room: str):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # Behåll spelare, nollställ spelstate
+    # 🔄 Reset spelstate (backend är enda sanningen)
     room_data["started"] = False
     room_data["current_question"] = None
     room_data["timer"] = None
@@ -452,7 +452,10 @@ def reset_room(room: str):
     room_data["last_result"] = None
     room_data["final_results"] = []
 
-    # Nollställ spelardata
+    # ❗️VIKTIGT: nollställ kategori
+    room_data["difficulty"] = None
+
+    # Reset spelare
     for player in room_data["players"].values():
         player["answers"] = []
         player["score"] = 0
