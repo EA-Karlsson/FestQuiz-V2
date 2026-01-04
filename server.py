@@ -425,7 +425,7 @@ def get_room(code: str):
                 })
 
     # RANKING NÄR SCOREBOARD VISAS
-    if room.get("phase") == "scoreboard":
+    if room.get("phase") == "locked":
         players = list(room["players"].items())
         players.sort(key=lambda x: x[1]["score"], reverse=True)
 
