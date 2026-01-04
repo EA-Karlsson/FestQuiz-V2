@@ -251,6 +251,9 @@ def start_room(room: str, payload: dict = Body(default={})):
     room_data["started"] = True
     room_data["difficulty"] = payload.get("difficulty", "medium")
 
+    # ✅ SPARA VALD KATEGORI (DETTA VAR DET SOM SAKNADES)
+    room_data["category_name"] = payload.get("category", "Allmänbildning")
+
     # Nollställ spelstate
     room_data["current_question"] = None
     room_data["timer"] = None
@@ -263,7 +266,6 @@ def start_room(room: str, payload: dict = Body(default={})):
         player["score"] = 0
 
     return {"status": "started", "roomCode": room_code}
-
 
 @app.post("/room/question")
 def set_question(room: str, question: dict):
