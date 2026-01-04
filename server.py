@@ -277,11 +277,9 @@ def set_question(room: str, question: dict):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # ===== KATEGORI (REN STRÄNG TILL FRONTEND) =====
-    # Förväntat: frontend skickar t.ex. "Film", "Sport", "Musik"
-    category_name = question.get("category")
-    if category_name:
-        question["category"] = category_name.strip()
+    # ===== SÄKER KATEGORI (DEFAULT) =====
+    # Frontend skickar inte kategori ännu → sätt från room eller fallback
+    question["category"] = room_data.get("category_name", "Allmänbildning")
 
     # Säkerställ stabilt fråge-ID
     if not question.get("id"):
@@ -305,7 +303,7 @@ def set_question(room: str, question: dict):
             "answer": None
         })
 
-    # ===== TIMER STARTAR HÄR (ENDA STÄLLET) =====
+    # ===== TIMER (ENDA STÄLLET) =====
     DIFFICULTY_SECONDS = {
         "easy": 25,
         "medium": 20,
@@ -313,7 +311,7 @@ def set_question(room: str, question: dict):
     }
 
     difficulty = question.get("difficulty") or room_data.get("difficulty", "medium")
-    seconds = DIFFICULTY_SECONDS.get(difficulty, 23)
+    seconds = DIFFICULTY_SECONDS.get(difficulty, 20)
 
     now = time.time()
 
