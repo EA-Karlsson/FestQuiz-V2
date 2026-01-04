@@ -430,7 +430,9 @@ async function renderV2Final(roomCode) {
             try {
                 const r = await fetch(`/room/reset?room=${roomCode}`, { method: "POST" });
                 if (!r.ok) throw new Error();
-                window.location.href = `/static/index.html?room=${roomCode}`;
+
+                // 👇 Tvinga riktig reload (ny URL varje gång)
+                window.location.href = `/static/index.html?room=${roomCode}&r=${Date.now()}`;
             } catch {
                 alert("Kunde inte starta ny omgång.");
             }
