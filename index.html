@@ -90,21 +90,45 @@
                     if (!res.ok) return;
 
                     const data = await res.json();
-                    if (!data.timer || !data.timer.ends_at) return;
 
-                    const now = Date.now() / 1000;
-                    const remaining = Math.max(0, Math.round(data.timer.ends_at - now));
+                    // ===== TIMER =====
+                    if (data.timer && data.timer.ends_at) {
+                        const now = Date.now() / 1000;
+                        const remaining = Math.max(
+                            0,
+                            Math.round(data.timer.ends_at - now)
+                        );
 
-                    const timerEl = document.getElementById("timer");
-                    if (timerEl) timerEl.textContent = remaining;
-                } catch { }
+                        const timerEl = document.getElementById("timer");
+                        if (timerEl) timerEl.textContent = remaining;
+                    }
+
+                    // ===== KATEGORI ÖVER FRÅGA X / Y =====
+                    const progressEl = document.getElementById("progress");
+                    if (progressEl && data.current_question) {
+                        const category =
+                            data.current_question.category || "Kategori okänd";
+
+                        progressEl.innerHTML = `
+                        <div style="opacity:.7; font-size:0.85rem; margin-bottom:2px;">
+                            ${category}
+                        </div>
+                        <div>
+                            Fråga ${data.current_question.index ?? ""}
+                        </div>
+                    `;
+                    }
+
+                } catch {
+                    // tyst
+                }
             }, 500);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             const roomCode = params.get("room");
-            startV2Countdown(roomCode);
+            if (roomCode) startV2Countdown(roomCode);
         });
     </script>
 
