@@ -52,17 +52,48 @@
     <div class="card">
         <h1>🎉 FestQuiz</h1>
         <p>Skanna QR-koden för att bli spelledare</p>
-
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" id="qr" alt="QR-kod till host" />
+        <img id="qr" alt="QR-kod till host" />
     </div>
 
     <script>
-        // QR ska peka till backend-entryn som skapar room + redirectar
-        const hostUrl = `${window.location.origin}/host`;
+        let roomCode = null;
+        let redirected = false;
 
-        document.getElementById("qr").src =
-            "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-            encodeURIComponent(hostUrl);
+        async function createRoom() {
+            const res = await fetch("/room/create", { method: "POST" });
+            if (!res.ok) return;
+
+            const data = await res.json();
+            roomCode = data.roomCode;
+
+            const hostUrl =
+                `${window.location.origin}/static/host_entry.html?room=${roomCode}`;
+
+            document.getElementById("qr").src =
+                "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+                encodeURIComponent(hostUrl);
+        }
+
+        async function pollForStart() {
+            if (!roomCode || redirected) return;
+
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                if (!res.ok) return;
+
+                const data = await res.json();
+                if (data.started === true) {
+                    redirected = true;
+                    window.location.href =
+                        `/static/index.html?room=${roomCode}`;
+                }
+            } catch {
+                // tyst
+            }
+        }
+
+        createRoom();
+        setInterval(pollForStart, 1000);
     </script>
 
 </body>
