@@ -7,6 +7,7 @@ import html
 import re
 from collections import deque, defaultdict
 import hashlib
+from fastapi.responses import FileResponse, RedirectResponse
 
 DEDUP_MAX = 300  # justerbart 200–300
 seen_questions = deque(maxlen=DEDUP_MAX)  # FIFO
@@ -457,6 +458,7 @@ def get_room(code: str):
 
     return room
 
+
 # ✅ EXPLICIT SCOREBOARD-TRIGGER (HOST / TV)
 @app.post("/room/scoreboard")
 def show_scoreboard(room: str):
@@ -501,11 +503,6 @@ def reset_room(room: str):
 
     return {"status": "reset", "roomCode": room_code}
 
-
-# ================== START.HTML (MINIMALT, KRÄVS) ==================
-
-from fastapi.responses import FileResponse
-
 @app.get("/")
 def serve_start():
     return FileResponse(os.path.join(BASE_DIR, "start.html"))
@@ -515,6 +512,27 @@ def serve_start():
 def serve_start_html():
     return FileResponse(os.path.join(BASE_DIR, "start.html"))
 
+
+# ENTRYPOINT FÖR HOST (MOBILEN)
+@app.get("/host")
+def host_entry():
+    code = generate_room_code()
+
+    ROOMS[code] = {
+        "code": code,
+        "host_plays": False,
+        "players": {},
+        "started": False,
+        "current_question": None,
+        "difficulty": "medium",
+        "timer": None,
+        "phase": "idle",
+        "answers_locked": False,
+        "last_result": None,
+        "final_results": []
+    }
+
+    return RedirectResponse(url=f"/static/host.html?room={code}")
 
 # ================== API ==================
 
