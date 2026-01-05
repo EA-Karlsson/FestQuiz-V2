@@ -172,8 +172,13 @@
 
                 if (!res.ok) throw new Error();
 
-                // ✅ ÄNDRAT: INGEN redirect till index här (mobilen ska stanna host)
                 statusEl.textContent = "Quiz startat.";
+
+                // ✅ NYTT: om hosten spelar → gå till join-vyn för att kunna svara
+                if (hostPlays) {
+                    window.location.href = `/static/join.html?room=${roomCode}`;
+                }
+
             } catch {
                 statusEl.textContent = "Kunde inte starta quiz.";
                 startBtn.disabled = false;
