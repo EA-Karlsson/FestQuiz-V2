@@ -471,6 +471,7 @@ def show_scoreboard(room: str):
 
     return {"status": "scoreboard", "roomCode": room_code}
 
+
 @app.post("/room/reset")
 def reset_room(room: str):
     room_code = room.upper()
@@ -499,6 +500,21 @@ def reset_room(room: str):
         player["score"] = 0
 
     return {"status": "reset", "roomCode": room_code}
+
+
+# ================== START.HTML (MINIMALT, KRÄVS) ==================
+
+from fastapi.responses import FileResponse
+
+@app.get("/")
+def serve_start():
+    return FileResponse(os.path.join(BASE_DIR, "start.html"))
+
+
+@app.get("/start.html")
+def serve_start_html():
+    return FileResponse(os.path.join(BASE_DIR, "start.html"))
+
 
 # ================== API ==================
 
@@ -537,17 +553,12 @@ def quiz(
 
         question_text = smart_translate(raw_question)
 
-        # 🎮 SPEL → ALLA SVAR ORÖRDA (ENGELSKA)
         if is_game_question(raw_question):
             correct = raw_correct
             incorrect = raw_incorrect
-
-        # 🎬 MEDIA → SVAR ORÖRDA
         elif is_media_question(raw_question):
             correct = raw_correct
             incorrect = raw_incorrect
-
-        # 📚 FAKTA / ALLMÄNBILDNING
         else:
             if looks_like_quote(raw_correct):
                 correct = raw_correct
@@ -583,6 +594,8 @@ def quiz(
         handle_question(q)
         if len(questions) >= amount:
             break
+
+    return questions
 
     # ================== THE TRIVIA API (FALLBACK) ==================
     if len(questions) < amount:
