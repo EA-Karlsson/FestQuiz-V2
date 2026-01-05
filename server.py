@@ -1,3 +1,4 @@
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -7,7 +8,6 @@ import html
 import re
 from collections import deque, defaultdict
 import hashlib
-from fastapi.responses import FileResponse, RedirectResponse
 
 DEDUP_MAX = 300  # justerbart 200–300
 seen_questions = deque(maxlen=DEDUP_MAX)  # FIFO
