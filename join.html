@@ -188,8 +188,8 @@
             const data = await res.json();
             const q = data.current_question;
 
-            // VISA PLACERING NÄR SCOREBOARD VISAS
-            if (data.phase === "locked" && data.player_ranks && data.player_count) {
+            // VISA PLACERING ENDAST NÄR SCOREBOARD VISAS
+            if (data.phase === "scoreboard" && data.player_ranks && data.player_count) {
                 const rank = data.player_ranks[playerId];
                 const total = data.player_count;
 

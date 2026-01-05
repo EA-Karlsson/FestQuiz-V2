@@ -251,7 +251,6 @@ def join_room(room: str, name: str):
         "name": name
     }
 
-
 @app.post("/room/start")
 def start_room(room: str, payload: dict = Body(default={})):
     room_code = room.upper()
@@ -435,8 +434,8 @@ def get_room(code: str):
                     "wrong_players": wrong_players
                 })
 
-    # RANKING NÄR SCOREBOARD VISAS
-    if room.get("phase") == "locked":
+    # ✅ RANKING ENDAST NÄR SCOREBOARD VISAS
+    if room.get("phase") == "scoreboard":
         players = list(room["players"].items())
         players.sort(key=lambda x: x[1]["score"], reverse=True)
 
@@ -455,6 +454,20 @@ def get_room(code: str):
 
     return room
 
+# ✅ EXPLICIT SCOREBOARD-TRIGGER (HOST / TV)
+@app.post("/room/scoreboard")
+def show_scoreboard(room: str):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    room_data["phase"] = "scoreboard"
+    room_data["answers_locked"] = True
+
+    return {"status": "scoreboard", "roomCode": room_code}
+
 @app.post("/room/reset")
 def reset_room(room: str):
     room_code = room.upper()
@@ -472,7 +485,9 @@ def reset_room(room: str):
     room_data["last_result"] = None
     room_data["final_results"] = []
 
-    # ❗️VIKTIGT: nollställ kategori
+    room_data.pop("player_ranks", None)
+    room_data.pop("player_count", None)
+
     room_data["difficulty"] = None
 
     # Reset spelare
@@ -499,14 +514,20 @@ def quiz(
     if difficulty:
         url += f"&difficulty={difficulty}"
 
-    data = requests.get(url).json()
     questions = []
+    skipped_dedup = 0
+    fetched_total = 0
 
-    # Slumpa ordningen direkt från API-svaret
+    # ================== OPEN TDB ==================
+    data = requests.get(url).json()
     api_questions = data.get("results", [])
     random.shuffle(api_questions)
 
-    for q in api_questions:
+    def handle_question(q):
+        nonlocal skipped_dedup, fetched_total
+
+        fetched_total += 1
+
         raw_question = html.unescape(q["question"])
         raw_correct = html.unescape(q["correct_answer"])
         raw_incorrect = [html.unescape(a) for a in q["incorrect_answers"]]
@@ -537,21 +558,15 @@ def quiz(
                 else:
                     incorrect.append(normalize_numbers(smart_translate(a)))
 
-        options = {
-            "correct": correct,
-            "incorrect": incorrect
-        }
-
-        # ===== DEDUP VID URVAL =====
         q_hash = question_hash(question_text, {
             "correct": correct,
             **{f"i{i}": v for i, v in enumerate(incorrect)}
         })
 
         if q_hash in seen_questions:
-            continue  # hoppa dubblett
+            skipped_dedup += 1
+            return
 
-        # Spara i dedup-minne
         seen_questions.append(q_hash)
         seen_by_category[category or "unknown"].append(q_hash)
 
@@ -561,9 +576,38 @@ def quiz(
             "incorrect_answers": incorrect
         })
 
-        # Sluta när vi fått tillräckligt många unika frågor
+    for q in api_questions:
+        handle_question(q)
         if len(questions) >= amount:
             break
 
-    return questions
+    # ================== THE TRIVIA API (FALLBACK) ==================
+    if len(questions) < amount:
+        try:
+            trivia_url = f"https://the-trivia-api.com/api/questions?limit={API_MAX}"
+            if difficulty:
+                trivia_url += f"&difficulty={difficulty}"
 
+            trivia_data = requests.get(trivia_url, timeout=5).json()
+            random.shuffle(trivia_data)
+
+            for q in trivia_data:
+                mapped = {
+                    "question": q.get("question", ""),
+                    "correct_answer": q.get("correctAnswer", ""),
+                    "incorrect_answers": q.get("incorrectAnswers", [])
+                }
+                handle_question(mapped)
+                if len(questions) >= amount:
+                    break
+        except Exception:
+            pass
+
+    # ===== DEDUP-VERIFIERING (TILLFÄLLIG LOGG) =====
+    print(
+        f"[QUIZ] fetched={fetched_total} "
+        f"dedup_skipped={skipped_dedup} "
+        f"returned={len(questions)}"
+    )
+
+    return questions

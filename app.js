@@ -453,6 +453,13 @@ async function renderScoreboard(roomCode) {
     clearInterval(timer);
     mode = "scoreboard";
 
+    // ✅ NYTT: tala om för backend att scoreboard visas
+    try {
+        await fetch(`/room/scoreboard?room=${roomCode}`, { method: "POST" });
+    } catch {
+        // tyst – scoreboard på TV ska inte dö om detta misslyckas
+    }
+
     const questionText = document.getElementById("questionText");
     const answersDiv = document.getElementById("answers");
     const timerEl = document.getElementById("timer");
