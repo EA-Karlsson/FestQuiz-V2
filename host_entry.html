@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz – Välj roll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+            color: #fff;
+            font-family: system-ui, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 28px;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 1.8rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .host-only {
+            background: #334155;
+            color: #fff;
+        }
+
+        .host-player {
+            background: #22c55e;
+            color: #052e16;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Hur vill du delta?</h1>
+
+        <button class="host-only" id="hostOnlyBtn">
+            Jag är bara spelledare
+        </button>
+
+        <button class="host-player" id="hostPlayerBtn">
+            Jag spelar själv också
+        </button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const room = params.get("room");
+
+        if (!room) {
+            alert("Room saknas.");
+            throw new Error("Missing room");
+        }
+
+        document.getElementById("hostOnlyBtn").onclick = () => {
+            window.location.href =
+                `/static/host.html?room=${room}&hostPlays=false`;
+        };
+
+        document.getElementById("hostPlayerBtn").onclick = () => {
+            window.location.href =
+                `/static/host.html?room=${room}&hostPlays=true`;
+        };
+    </script>
+</body>
+
+</html>

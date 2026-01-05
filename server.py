@@ -532,7 +532,7 @@ def host_entry():
         "final_results": []
     }
 
-    return RedirectResponse(url=f"/static/host.html?room={code}")
+    return RedirectResponse(url=f"/static/host_entry.html?room={code}")
 
 # ================== API ==================
 
