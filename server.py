@@ -490,6 +490,7 @@ def quiz(
     category: str = "",
     difficulty: str = ""
 ):
+    API_MAX = 50
     url = f"https://opentdb.com/api.php?amount={amount}&type=multiple"
 
     if category:
