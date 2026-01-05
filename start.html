@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+            color: #fff;
+            font-family: system-ui, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 28px;
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 2rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: linear-gradient(135deg, #ffb347, #ffcc33);
+            color: #000;
+        }
+
+        .secondary {
+            background: #334155;
+            color: #fff;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .hint {
+            opacity: 0.7;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🎉 FestQuiz</h1>
+
+    <!-- STEG 1 -->
+    <div id="stepStart">
+        <button id="startGameBtn" class="primary">Starta spel</button>
+    </div>
+
+    <!-- STEG 2 -->
+    <div id="stepRole" class="hidden">
+        <button id="hostOnlyBtn" class="secondary">🧑‍🏫 Jag är spelledare</button>
+        <button id="hostPlayBtn" class="primary">🎮 Jag vill spela med</button>
+    </div>
+
+    <!-- STEG 3 -->
+    <div id="stepName" class="hidden">
+        <input id="nameInput" placeholder="Ditt namn" autocomplete="off" />
+        <button id="confirmNameBtn" class="primary">Fortsätt</button>
+        <div id="error" class="hint"></div>
+    </div>
+</div>
+
+<script>
+    const stepStart = document.getElementById("stepStart");
+    const stepRole = document.getElementById("stepRole");
+    const stepName = document.getElementById("stepName");
+
+    const startGameBtn = document.getElementById("startGameBtn");
+    const hostOnlyBtn = document.getElementById("hostOnlyBtn");
+    const hostPlayBtn = document.getElementById("hostPlayBtn");
+
+    const nameInput = document.getElementById("nameInput");
+    const confirmNameBtn = document.getElementById("confirmNameBtn");
+    const errorEl = document.getElementById("error");
+
+    let roomCode = null;
+
+    startGameBtn.onclick = () => {
+        stepStart.classList.add("hidden");
+        stepRole.classList.remove("hidden");
+    };
+
+    hostOnlyBtn.onclick = async () => {
+        const res = await fetch("/room/create?host_plays=false", { method: "POST" });
+        const data = await res.json();
+        window.location.href = `/static/host.html?room=${data.roomCode}`;
+    };
+
+    hostPlayBtn.onclick = async () => {
+        const res = await fetch("/room/create?host_plays=true", { method: "POST" });
+        const data = await res.json();
+        roomCode = data.roomCode;
+
+        stepRole.classList.add("hidden");
+        stepName.classList.remove("hidden");
+    };
+
+    confirmNameBtn.onclick = async () => {
+        const name = nameInput.value.trim();
+        if (!name) return;
+
+        errorEl.textContent = "";
+
+        const res = await fetch(
+            `/room/join?room=${roomCode}&name=${encodeURIComponent(name)}`,
+            { method: "POST" }
+        );
+
+        if (!res.ok) {
+            try {
+                const err = await res.json();
+                errorEl.textContent = err.detail || "Kunde inte gå med.";
+            } catch {
+                errorEl.textContent = "Kunde inte gå med.";
+            }
+            return;
+        }
+
+        window.location.href = `/static/host.html?room=${roomCode}`;
+    };
+</script>
+
+</body>
+</html>

@@ -214,11 +214,14 @@ def create_room(host_plays: bool = False):
         "timer": None,
         "phase": "idle",
         "answers_locked": False,
+        "last_result": None,
         "final_results": []
     }
 
-    return {"roomCode": code}
-
+    return {
+        "roomCode": code,
+        "host_plays": host_plays
+    }
 
 @app.post("/room/join")
 def join_room(room: str, name: str):
