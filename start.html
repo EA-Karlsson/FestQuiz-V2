@@ -5,6 +5,10 @@
     <meta charset="UTF-8" />
     <title>FestQuiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- QR-bibliotek (lokal generering, funkar på TV) -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -40,11 +44,11 @@
             font-size: 1.1rem;
         }
 
-        img {
-            width: 420px;
-            height: 420px;
-            max-width: 80vw;
-            max-height: 80vh;
+        #qr {
+            display: inline-block;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 16px;
         }
     </style>
 </head>
@@ -54,12 +58,13 @@
     <div class="card">
         <h1>🎉 FestQuiz</h1>
         <p>Skanna QR-koden för att bli spelledare</p>
-        <img id="qr" alt="QR-kod till host" />
+        <div id="qr"></div>
     </div>
 
     <script>
         let roomCode = null;
         let redirected = false;
+        let qrInstance = null;
 
         async function createRoom() {
             const res = await fetch("/room/create", { method: "POST" });
@@ -71,9 +76,17 @@
             const hostUrl =
                 `${window.location.origin}/static/host_entry.html?room=${roomCode}`;
 
-            document.getElementById("qr").src =
-                "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-                encodeURIComponent(hostUrl);
+            const qrEl = document.getElementById("qr");
+            qrEl.innerHTML = "";
+
+            qrInstance = new QRCode(qrEl, {
+                text: hostUrl,
+                width: 420,
+                height: 420,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
         }
 
         async function pollForStart() {
