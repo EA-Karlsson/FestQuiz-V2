@@ -145,6 +145,11 @@
 
                     if (!res.ok) throw new Error();
 
+                    const data = await res.json();
+
+                    // ✅ NYTT: spara playerId för senare användning
+                    localStorage.setItem("festquiz_playerId", data.playerId);
+
                     statusEl.textContent = "Du är med som spelare.";
                     hostPlaysBox.style.display = "none";
                 } catch {
@@ -174,9 +179,11 @@
 
                 statusEl.textContent = "Quiz startat.";
 
-                // ✅ NYTT: om hosten spelar → gå till join-vyn för att kunna svara
+                // ✅ NYTT: om hosten spelar → gå till join-vyn med playerId
                 if (hostPlays) {
-                    window.location.href = `/static/join.html?room=${roomCode}`;
+                    const pid = localStorage.getItem("festquiz_playerId");
+                    window.location.href =
+                        `/static/join.html?room=${roomCode}&playerId=${pid}`;
                 }
 
             } catch {

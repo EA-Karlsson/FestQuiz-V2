@@ -105,6 +105,12 @@
         const params = new URLSearchParams(window.location.search);
         const roomCode = (params.get("room") || "").toUpperCase();
 
+        // ✅ NYTT: tillåt återinträde med befintlig playerId
+        let playerId =
+            params.get("playerId") ||
+            localStorage.getItem("festquiz_playerId") ||
+            null;
+
         const titleEl = document.getElementById("title");
         const nameInput = document.getElementById("name");
         const joinBtn = document.getElementById("joinBtn");
@@ -113,7 +119,6 @@
         const answerHintEl = document.getElementById("answerHint");
         const answerButtons = document.querySelectorAll(".answerBtn");
 
-        let playerId = null;
         let lastQuestionId = null;
         let questionIndex = 0;
         let selectedAnswer = null;
@@ -132,14 +137,27 @@
             answerButtons.forEach(b => b.disabled = false);
         }
 
-        // Om room saknas i URL: visa fel direkt (QR ska alltid ha ?room=XXXX)
+        // Om room saknas i URL: visa fel direkt
         if (!roomCode) {
             statusEl.textContent = "Fel: room saknas i länken (QR-koden).";
             joinBtn.disabled = true;
         }
 
-        // === GÅ MED ===
+        // ✅ NYTT: om playerId redan finns → hoppa över join
+        if (playerId) {
+            nameInput.style.display = "none";
+            joinBtn.style.display = "none";
+            titleEl.textContent = "Väntar på fråga…";
+            answersEl.style.display = "none";
+
+            // säkerställ att hostens playerId finns kvar
+            localStorage.setItem("festquiz_playerId", playerId);
+        }
+
+        // === GÅ MED (endast om ingen playerId finns) ===
         joinBtn.addEventListener("click", async () => {
+            if (playerId) return;
+
             const name = nameInput.value.trim();
             if (!name || !roomCode) return;
 
@@ -163,13 +181,15 @@
             const data = await res.json();
             playerId = data.playerId;
 
+            // spara så reload / redirect funkar
+            localStorage.setItem("festquiz_playerId", playerId);
+
             nameInput.style.display = "none";
             joinBtn.style.display = "none";
 
             titleEl.textContent = "Väntar på fråga…";
             answersEl.style.display = "none";
 
-            // Nolla lokalt state vid join (städar upp vid ev reload)
             lastQuestionId = null;
             questionIndex = 0;
             selectedAnswer = null;
@@ -200,7 +220,6 @@
                 return;
             }
 
-            // ✅ KRITISK FIX: När ny omgång / ingen aktiv fråga → nolla mobilens lokala index/state
             if (!q) {
                 answersEl.style.display = "none";
                 titleEl.textContent = "Väntar på fråga…";
@@ -209,13 +228,11 @@
                 questionIndex = 0;
                 selectedAnswer = null;
                 updateSelection();
-
                 answerHintEl.textContent = "";
                 enableButtons();
                 return;
             }
 
-            // Ny fråga → bumpa index (per omgång)
             if (q.id !== lastQuestionId) {
                 lastQuestionId = q.id;
                 questionIndex++;
@@ -256,6 +273,7 @@
 
         setInterval(poll, 1000);
     </script>
+
 </body>
 
 </html>
