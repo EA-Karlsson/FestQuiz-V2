@@ -491,15 +491,21 @@ def get_qr(room: str, request: Request):
     room = room.upper()
 
     base = str(request.base_url).rstrip("/")
-    join_url = f"{base}/static/host_entry.html?room={room}"
 
-    img = qrcode.make(join_url)
+    room_data = ROOMS.get(room)
+    host_ready = room_data.get("host_ready") if room_data else False
+
+    if host_ready:
+        target_url = f"{base}/static/join.html?room={room}"
+    else:
+        target_url = f"{base}/static/host_entry.html?room={room}"
+
+    img = qrcode.make(target_url)
     buf = BytesIO()
     img.save(buf)
     buf.seek(0)
 
     return Response(content=buf.getvalue(), media_type="image/png")
-
 
 # ================== HOST READY (NYTT, KRITISKT) ==================
 
