@@ -73,7 +73,7 @@
 
             // ✅ Backend-QR (PNG) – ENDA TILLÄGGET
             document.getElementById("qrImage").src =
-                `/qr/${roomCode}.png`;
+                `${window.location.origin}/qr/${roomCode}.png`;
         }
 
         async function pollForStart() {
