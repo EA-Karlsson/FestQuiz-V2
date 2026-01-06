@@ -6,6 +6,11 @@
     <title>FestQuiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- 🔴 KRITISKT: TV-cache OFF -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <style>
         body {
             margin: 0;
@@ -41,7 +46,6 @@
             font-size: 1.1rem;
         }
 
-        /* Backend-renderad QR (PNG) */
         #qrImage {
             width: 420px;
             height: 420px;
@@ -71,9 +75,9 @@
             const data = await res.json();
             roomCode = data.roomCode;
 
-            // ✅ Backend-QR (PNG) – ENDA TILLÄGGET
+            // 🔴 KRITISKT: cache-buster
             document.getElementById("qrImage").src =
-                `${window.location.origin}/qr/${roomCode}.png`;
+                `${window.location.origin}/qr/${roomCode}.png?v=${Date.now()}`;
         }
 
         async function pollForStart() {
@@ -86,13 +90,10 @@
                 const data = await res.json();
                 if (data.started === true) {
                     redirected = true;
-                    // ✅ RÄTT FLÖDE (som förut)
                     window.location.href =
                         `/static/host_entry.html?room=${roomCode}`;
                 }
-            } catch {
-                // tyst
-            }
+            } catch { }
         }
 
         createRoom();
