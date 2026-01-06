@@ -481,11 +481,17 @@ def show_scoreboard(room: str):
 
 # ================== QR-KOD (SERVER-SIDE PNG) ==================
 
+from fastapi import Request
+from fastapi.responses import Response
+from io import BytesIO
+import qrcode
+
 @app.get("/qr/{room}.png")
-def get_qr(room: str):
+def get_qr(room: str, request: Request):
     room = room.upper()
 
-    join_url = f"{os.getenv('BASE_URL', '').rstrip('/')}/static/join.html?room={room}"
+    base = str(request.base_url).rstrip("/")  # t.ex. https://festquiz-v2.onrender.com
+    join_url = f"{base}/static/join.html?room={room}"
 
     img = qrcode.make(join_url)
     buf = BytesIO()
