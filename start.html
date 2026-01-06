@@ -67,19 +67,22 @@
     </div>
 
     <script>
-        const roomMatch = "{{QR_SRC}}".match(/qr\/([A-Z0-9]+)\.png/i);
-        const roomCode = roomMatch ? roomMatch[1] : null;
-
-        if (!roomCode) return;
+        function getRoomCodeFromQR() {
+            const img = document.getElementById("qrImage");
+            const match = img.src.match(/qr\/([A-Z0-9]+)\.png/i);
+            return match ? match[1] : null;
+        }
 
         async function pollRoom() {
+            const roomCode = getRoomCodeFromQR();
+            if (!roomCode) return;
+
             try {
                 const res = await fetch(`/room/${roomCode}`);
                 if (!res.ok) return;
 
                 const data = await res.json();
 
-                // När hosten har gått in via mobilen
                 if (data.host_ready === true) {
                     document.getElementById("qrText").textContent =
                         "Skanna QR-koden för att gå med som spelare";
