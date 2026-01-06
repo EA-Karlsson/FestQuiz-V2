@@ -554,10 +554,32 @@ def reset_room(room: str):
 
 # ================== TV START (MINIMAL ÄNDRING) ==================
 
+from fastapi.responses import RedirectResponse
+
 @app.get("/", response_class=HTMLResponse)
 def serve_start(request: Request):
     room = request.query_params.get("room")
-    code = room.upper() if room else generate_room_code()
+
+    if not room:
+        code = generate_room_code()
+        ROOMS[code] = {
+            "code": code,
+            "host_plays": False,
+            "players": {},
+            "started": False,
+            "current_question": None,
+            "difficulty": "medium",
+            "timer": None,
+            "phase": "idle",
+            "answers_locked": False,
+            "last_result": None,
+            "final_results": [],
+            "host_ready": False
+        }
+        # 🔒 LÅS TV:N TILL ROOM VIA URL
+        return RedirectResponse(url=f"/?room={code}")
+
+    code = room.upper()
 
     if code not in ROOMS:
         ROOMS[code] = {
