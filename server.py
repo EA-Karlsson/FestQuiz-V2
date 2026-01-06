@@ -491,7 +491,7 @@ def get_qr(room: str, request: Request):
     room = room.upper()
 
     base = str(request.base_url).rstrip("/")  # t.ex. https://festquiz-v2.onrender.com
-    join_url = f"{base}/static/join.html?room={room}"
+    join_url = f"{base}/static/host_entry.html?room={room}"
 
     img = qrcode.make(join_url)
     buf = BytesIO()
