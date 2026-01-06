@@ -86,23 +86,7 @@
                 const data = await res.json();
 
                 if (data.host_ready === true) {
-                    document.getElementById("qrText").textContent =
-                        "Skanna QR-koden för att gå med som spelare";
-
-                    const newImg = document.createElement("img");
-                    newImg.id = "qrImage";
-                    newImg.alt = "QR-kod";
-                    newImg.src = `/qr/${roomCode}/player.png`;
-                    newImg.style.width = "420px";
-                    newImg.style.height = "420px";
-                    newImg.style.background = "#ffffff";
-                    newImg.style.borderRadius = "16px";
-                    newImg.style.padding = "16px";
-
-                    img.replaceWith(newImg);
-                    img = newImg;
-
-                    clearInterval(timer);
+                    window.location.reload();
                 }
             } catch { }
         }
