@@ -120,11 +120,9 @@
 
         roomEl.textContent = roomCode.toUpperCase();
 
-        // === QR-KOD ===
-        const joinUrl = `${window.location.origin}/static/join.html?room=${roomCode}`;
+        // === QR-KOD (BACKEND PNG) ===
         document.getElementById("qrImage").src =
-            "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-            encodeURIComponent(joinUrl);
+            `/qr/${roomCode}.png`;
 
         // ✅ NYTT: Om hosten ska spela, visa namn + join-knapp
         if (hostPlays) {

@@ -1,4 +1,4 @@
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response  # + Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -8,6 +8,11 @@ import html
 import re
 from collections import deque, defaultdict
 import hashlib
+
+# 🔽 NYTT – krävs för backend-QR
+import qrcode
+from io import BytesIO
+# 🔼 NYTT
 
 DEDUP_MAX = 300  # justerbart 200–300
 seen_questions = deque(maxlen=DEDUP_MAX)  # FIFO
@@ -474,6 +479,21 @@ def show_scoreboard(room: str):
     return {"status": "scoreboard", "roomCode": room_code}
 
 
+# ================== QR-KOD (SERVER-SIDE PNG) ==================
+
+@app.get("/qr/{room}.png")
+def get_qr(room: str):
+    room = room.upper()
+
+    join_url = f"{os.getenv('BASE_URL', '').rstrip('/')}/static/join.html?room={room}"
+
+    img = qrcode.make(join_url)
+    buf = BytesIO()
+    img.save(buf)
+    buf.seek(0)
+
+    return Response(content=buf.getvalue(), media_type="image/png")
+
 @app.post("/room/reset")
 def reset_room(room: str):
     room_code = room.upper()
@@ -533,6 +553,7 @@ def host_entry():
     }
 
     return RedirectResponse(url=f"/static/host_entry.html?room={code}")
+
 
 # ================== API ==================
 
