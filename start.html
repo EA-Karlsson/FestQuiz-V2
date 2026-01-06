@@ -60,11 +60,40 @@
 
     <div class="card">
         <h1>🎉 FestQuiz</h1>
-        <p>Skanna QR-koden för att bli spelledare</p>
+        <p id="qrText">Skanna QR-koden för att bli spelledare</p>
 
         <!-- QR sätts SERVER-SIDE -->
         <img id="qrImage" src="{{QR_SRC}}" alt="QR-kod" />
     </div>
+
+    <script>
+        const roomMatch = "{{QR_SRC}}".match(/qr\/([A-Z0-9]+)\.png/i);
+        const roomCode = roomMatch ? roomMatch[1] : null;
+
+        if (!roomCode) return;
+
+        async function pollRoom() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                if (!res.ok) return;
+
+                const data = await res.json();
+
+                // När hosten har gått in via mobilen
+                if (data.host_ready === true) {
+                    document.getElementById("qrText").textContent =
+                        "Skanna QR-koden för att gå med som spelare";
+
+                    document.getElementById("qrImage").src =
+                        `/qr/${roomCode}.png?v=${Date.now()}`;
+
+                    clearInterval(timer);
+                }
+            } catch { }
+        }
+
+        const timer = setInterval(pollRoom, 1000);
+    </script>
 
 </body>
 

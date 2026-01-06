@@ -482,7 +482,7 @@ def show_scoreboard(room: str):
 # ================== QR-KOD (SERVER-SIDE PNG) ==================
 
 from fastapi import Request
-from fastapi.responses import Response
+from fastapi.responses import Response, HTMLResponse
 from io import BytesIO
 import qrcode
 
@@ -490,7 +490,7 @@ import qrcode
 def get_qr(room: str, request: Request):
     room = room.upper()
 
-    base = str(request.base_url).rstrip("/")  # t.ex. https://festquiz-v2.onrender.com
+    base = str(request.base_url).rstrip("/")
     join_url = f"{base}/static/host_entry.html?room={room}"
 
     img = qrcode.make(join_url)
@@ -500,6 +500,27 @@ def get_qr(room: str, request: Request):
 
     return Response(content=buf.getvalue(), media_type="image/png")
 
+
+# ================== HOST READY (NYTT, KRITISKT) ==================
+
+from fastapi import Body
+
+@app.post("/room/host_ready")
+def set_host_ready(room: str, payload: dict = Body(default={})):
+    room_code = room.upper()
+    room_data = ROOMS.get(room_code)
+
+    if not room_data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    room_data["host_plays"] = bool(payload.get("host_plays", False))
+    room_data["host_ready"] = True   # 🔑 SIGNAL TILL TV
+
+    return {"status": "ok", "roomCode": room_code, "host_ready": True}
+
+
+# ================== RESET ==================
+
 @app.post("/room/reset")
 def reset_room(room: str):
     room_code = room.upper()
@@ -508,7 +529,6 @@ def reset_room(room: str):
     if not room_data:
         raise HTTPException(status_code=404, detail="Room not found")
 
-    # 🔄 Reset spelstate (backend är enda sanningen)
     room_data["started"] = False
     room_data["current_question"] = None
     room_data["timer"] = None
@@ -516,20 +536,21 @@ def reset_room(room: str):
     room_data["answers_locked"] = False
     room_data["last_result"] = None
     room_data["final_results"] = []
+    room_data["host_ready"] = False
 
     room_data.pop("player_ranks", None)
     room_data.pop("player_count", None)
 
     room_data["difficulty"] = None
 
-    # Reset spelare
     for player in room_data["players"].values():
         player["answers"] = []
         player["score"] = 0
 
     return {"status": "reset", "roomCode": room_code}
 
-from fastapi.responses import HTMLResponse
+
+# ================== TV START ==================
 
 @app.get("/", response_class=HTMLResponse)
 def serve_start():
@@ -546,7 +567,8 @@ def serve_start():
         "phase": "idle",
         "answers_locked": False,
         "last_result": None,
-        "final_results": []
+        "final_results": [],
+        "host_ready": False
     }
 
     with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
@@ -557,12 +579,14 @@ def serve_start():
         f"https://festquiz-v2.onrender.com/qr/{code}.png"
     )
 
+
 @app.get("/start.html")
 def serve_start_html():
     return FileResponse(os.path.join(BASE_DIR, "start.html"))
 
 
-# ENTRYPOINT FÖR HOST (MOBILEN)
+# ================== HOST ENTRY (MOBIL) ==================
+
 @app.get("/host")
 def host_entry():
     code = generate_room_code()
@@ -578,11 +602,11 @@ def host_entry():
         "phase": "idle",
         "answers_locked": False,
         "last_result": None,
-        "final_results": []
+        "final_results": [],
+        "host_ready": False
     }
 
     return RedirectResponse(url=f"/static/host_entry.html?room={code}")
-
 
 # ================== API ==================
 

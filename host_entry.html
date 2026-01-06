@@ -79,12 +79,26 @@
             throw new Error("Missing room");
         }
 
-        document.getElementById("hostOnlyBtn").onclick = () => {
+        async function notifyHostReady(hostPlays) {
+            try {
+                await fetch(`/room/host_ready?room=${room}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ host_plays: hostPlays })
+                });
+            } catch {
+                // även om detta misslyckas går vi vidare
+            }
+        }
+
+        document.getElementById("hostOnlyBtn").onclick = async () => {
+            await notifyHostReady(false);
             window.location.href =
                 `/static/host.html?room=${room}&hostPlays=false`;
         };
 
-        document.getElementById("hostPlayerBtn").onclick = () => {
+        document.getElementById("hostPlayerBtn").onclick = async () => {
+            await notifyHostReady(true);
             window.location.href =
                 `/static/host.html?room=${room}&hostPlays=true`;
         };
