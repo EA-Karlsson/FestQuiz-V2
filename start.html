@@ -67,7 +67,7 @@
     </div>
 
     <script>
-        const img = document.getElementById("qrImage");
+        let img = document.getElementById("qrImage");
         let timer = null;
 
         function getRoomCodeFromQR() {
@@ -89,14 +89,26 @@
                     document.getElementById("qrText").textContent =
                         "Skanna QR-koden för att gå med som spelare";
 
-                    img.src = `/qr/${roomCode}.png?v=${Date.now()}`;
+                    // 🔧 TV-FIX: tvinga omrendering genom att ersätta <img>-noden helt
+                    const newImg = document.createElement("img");
+                    newImg.id = "qrImage";
+                    newImg.alt = "QR-kod";
+                    newImg.src = `/qr/${roomCode}.png`;
+                    newImg.style.width = "420px";
+                    newImg.style.height = "420px";
+                    newImg.style.background = "#ffffff";
+                    newImg.style.borderRadius = "16px";
+                    newImg.style.padding = "16px";
+
+                    img.replaceWith(newImg);
+                    img = newImg;
 
                     clearInterval(timer);
                 }
             } catch { }
         }
 
-        // 🔴 VIKTIGT: starta pollingen FÖRST när QR-bilden är laddad
+        // starta pollingen först när QR-bilden är laddad
         img.onload = () => {
             if (!timer) {
                 timer = setInterval(pollRoom, 1000);
