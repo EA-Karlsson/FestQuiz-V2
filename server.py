@@ -523,10 +523,33 @@ def reset_room(room: str):
 
     return {"status": "reset", "roomCode": room_code}
 
-@app.get("/")
-def serve_start():
-    return FileResponse(os.path.join(BASE_DIR, "start.html"))
+from fastapi.responses import HTMLResponse
 
+@app.get("/", response_class=HTMLResponse)
+def serve_start():
+    code = generate_room_code()
+
+    ROOMS[code] = {
+        "code": code,
+        "host_plays": False,
+        "players": {},
+        "started": False,
+        "current_question": None,
+        "difficulty": "medium",
+        "timer": None,
+        "phase": "idle",
+        "answers_locked": False,
+        "last_result": None,
+        "final_results": []
+    }
+
+    with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+
+    return html.replace(
+        "{{QR_SRC}}",
+        f"https://festquiz-v2.onrender.com/qr/{code}.png"
+    )
 
 @app.get("/start.html")
 def serve_start_html():

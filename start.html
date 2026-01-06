@@ -6,7 +6,7 @@
     <title>FestQuiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- 🔴 KRITISKT: TV-cache OFF -->
+    <!-- TV-säker: ingen cache -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -61,44 +61,10 @@
     <div class="card">
         <h1>🎉 FestQuiz</h1>
         <p>Skanna QR-koden för att bli spelledare</p>
-        <img id="qrImage" alt="QR-kod laddas…" />
+
+        <!-- QR sätts SERVER-SIDE -->
+        <img id="qrImage" src="{{QR_SRC}}" alt="QR-kod" />
     </div>
-
-    <script>
-        let roomCode = null;
-        let redirected = false;
-
-        async function createRoom() {
-            const res = await fetch("/room/create", { method: "POST" });
-            if (!res.ok) return;
-
-            const data = await res.json();
-            roomCode = data.roomCode;
-
-            // 🔴 KRITISKT: cache-buster
-            document.getElementById("qrImage").src =
-                `${window.location.origin}/qr/${roomCode}.png?v=${Date.now()}`;
-        }
-
-        async function pollForStart() {
-            if (!roomCode || redirected) return;
-
-            try {
-                const res = await fetch(`/room/${roomCode}`);
-                if (!res.ok) return;
-
-                const data = await res.json();
-                if (data.started === true) {
-                    redirected = true;
-                    window.location.href =
-                        `/static/host_entry.html?room=${roomCode}`;
-                }
-            } catch { }
-        }
-
-        createRoom();
-        setInterval(pollForStart, 1000);
-    </script>
 
 </body>
 
