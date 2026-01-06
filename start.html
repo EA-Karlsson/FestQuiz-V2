@@ -67,8 +67,10 @@
     </div>
 
     <script>
+        const img = document.getElementById("qrImage");
+        let timer = null;
+
         function getRoomCodeFromQR() {
-            const img = document.getElementById("qrImage");
             const match = img.src.match(/qr\/([A-Z0-9]+)\.png/i);
             return match ? match[1] : null;
         }
@@ -87,15 +89,19 @@
                     document.getElementById("qrText").textContent =
                         "Skanna QR-koden för att gå med som spelare";
 
-                    document.getElementById("qrImage").src =
-                        `/qr/${roomCode}.png?v=${Date.now()}`;
+                    img.src = `/qr/${roomCode}.png?v=${Date.now()}`;
 
                     clearInterval(timer);
                 }
             } catch { }
         }
 
-        const timer = setInterval(pollRoom, 1000);
+        // 🔴 VIKTIGT: starta pollingen FÖRST när QR-bilden är laddad
+        img.onload = () => {
+            if (!timer) {
+                timer = setInterval(pollRoom, 1000);
+            }
+        };
     </script>
 
 </body>
