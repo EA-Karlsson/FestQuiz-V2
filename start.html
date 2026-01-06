@@ -86,7 +86,7 @@
                 const data = await res.json();
 
                 if (data.host_ready === true) {
-                    window.location.reload();
+                    window.location.href = `/?room=${roomCode}&v=${Date.now()}`;
                 }
             } catch { }
         }
