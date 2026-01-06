@@ -463,7 +463,6 @@ def get_room(code: str):
 
     return room
 
-
 # ✅ EXPLICIT SCOREBOARD-TRIGGER (HOST / TV)
 @app.post("/room/scoreboard")
 def show_scoreboard(room: str):
@@ -477,7 +476,6 @@ def show_scoreboard(room: str):
     room_data["answers_locked"] = True
 
     return {"status": "scoreboard", "roomCode": room_code}
-
 
 # ================== QR-KOD (SERVER-SIDE PNG) ==================
 
@@ -493,14 +491,12 @@ def make_qr_png(target_url: str) -> Response:
     buf.seek(0)
     return Response(content=buf.getvalue(), media_type="image/png")
 
-
 @app.get("/qr/{room}/host.png")
 def get_host_qr(room: str, request: Request):
     room = room.upper()
     base = str(request.base_url).rstrip("/")
     target_url = f"{base}/static/host_entry.html?room={room}"
     return make_qr_png(target_url)
-
 
 @app.get("/qr/{room}/player.png")
 def get_player_qr(room: str, request: Request):
@@ -525,7 +521,6 @@ def set_host_ready(room: str, payload: dict = Body(default={})):
     room_data["host_ready"] = True   # 🔑 SIGNAL TILL TV
 
     return {"status": "ok", "roomCode": room_code, "host_ready": True}
-
 
 # ================== RESET (ORÖRD) ==================
 
@@ -557,42 +552,40 @@ def reset_room(room: str):
 
     return {"status": "reset", "roomCode": room_code}
 
-
 # ================== TV START (MINIMAL ÄNDRING) ==================
 
 @app.get("/", response_class=HTMLResponse)
-def serve_start():
-    code = generate_room_code()
+def serve_start(request: Request):
+    room = request.query_params.get("room")
+    code = room.upper() if room else generate_room_code()
 
-    ROOMS[code] = {
-        "code": code,
-        "host_plays": False,
-        "players": {},
-        "started": False,
-        "current_question": None,
-        "difficulty": "medium",
-        "timer": None,
-        "phase": "idle",
-        "answers_locked": False,
-        "last_result": None,
-        "final_results": [],
-        "host_ready": False
-    }
+    if code not in ROOMS:
+        ROOMS[code] = {
+            "code": code,
+            "host_plays": False,
+            "players": {},
+            "started": False,
+            "current_question": None,
+            "difficulty": "medium",
+            "timer": None,
+            "phase": "idle",
+            "answers_locked": False,
+            "last_result": None,
+            "final_results": [],
+            "host_ready": False
+        }
 
     with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
-    # 🔑 STARTA ALLTID MED HOST-QR
     return html.replace(
         "{{QR_SRC}}",
         f"https://festquiz-v2.onrender.com/qr/{code}/host.png"
     )
 
-
 @app.get("/start.html")
 def serve_start_html():
     return FileResponse(os.path.join(BASE_DIR, "start.html"))
-
 
 # ================== HOST ENTRY (ORÖRD) ==================
 
