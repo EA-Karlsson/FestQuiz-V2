@@ -486,28 +486,30 @@ from fastapi.responses import Response, HTMLResponse
 from io import BytesIO
 import qrcode
 
-@app.get("/qr/{room}.png")
-def get_qr(room: str, request: Request):
-    room = room.upper()
-
-    base = str(request.base_url).rstrip("/")
-
-    room_data = ROOMS.get(room)
-    host_ready = room_data.get("host_ready") if room_data else False
-
-    if host_ready:
-        target_url = f"{base}/static/join.html?room={room}"
-    else:
-        target_url = f"{base}/static/host_entry.html?room={room}"
-
+def make_qr_png(target_url: str) -> Response:
     img = qrcode.make(target_url)
     buf = BytesIO()
     img.save(buf)
     buf.seek(0)
-
     return Response(content=buf.getvalue(), media_type="image/png")
 
-# ================== HOST READY (NYTT, KRITISKT) ==================
+
+@app.get("/qr/{room}/host.png")
+def get_host_qr(room: str, request: Request):
+    room = room.upper()
+    base = str(request.base_url).rstrip("/")
+    target_url = f"{base}/static/host_entry.html?room={room}"
+    return make_qr_png(target_url)
+
+
+@app.get("/qr/{room}/player.png")
+def get_player_qr(room: str, request: Request):
+    room = room.upper()
+    base = str(request.base_url).rstrip("/")
+    target_url = f"{base}/static/join.html?room={room}"
+    return make_qr_png(target_url)
+
+# ================== HOST READY (ORÖRD) ==================
 
 from fastapi import Body
 
@@ -525,7 +527,7 @@ def set_host_ready(room: str, payload: dict = Body(default={})):
     return {"status": "ok", "roomCode": room_code, "host_ready": True}
 
 
-# ================== RESET ==================
+# ================== RESET (ORÖRD) ==================
 
 @app.post("/room/reset")
 def reset_room(room: str):
@@ -556,7 +558,7 @@ def reset_room(room: str):
     return {"status": "reset", "roomCode": room_code}
 
 
-# ================== TV START ==================
+# ================== TV START (MINIMAL ÄNDRING) ==================
 
 @app.get("/", response_class=HTMLResponse)
 def serve_start():
@@ -580,9 +582,10 @@ def serve_start():
     with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
+    # 🔑 STARTA ALLTID MED HOST-QR
     return html.replace(
         "{{QR_SRC}}",
-        f"https://festquiz-v2.onrender.com/qr/{code}.png"
+        f"https://festquiz-v2.onrender.com/qr/{code}/host.png"
     )
 
 
@@ -591,7 +594,7 @@ def serve_start_html():
     return FileResponse(os.path.join(BASE_DIR, "start.html"))
 
 
-# ================== HOST ENTRY (MOBIL) ==================
+# ================== HOST ENTRY (ORÖRD) ==================
 
 @app.get("/host")
 def host_entry():
