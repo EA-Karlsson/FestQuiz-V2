@@ -71,9 +71,9 @@
             const data = await res.json();
             roomCode = data.roomCode;
 
-            // ✅ Backend-QR (PNG)
-            const qrImg = document.getElementById("qrImage");
-            qrImg.src = `/qr/${roomCode}.png`;
+            // ✅ Backend-QR (PNG) – ENDA TILLÄGGET
+            document.getElementById("qrImage").src =
+                `/qr/${roomCode}.png`;
         }
 
         async function pollForStart() {
@@ -86,8 +86,9 @@
                 const data = await res.json();
                 if (data.started === true) {
                     redirected = true;
+                    // ✅ RÄTT FLÖDE (som förut)
                     window.location.href =
-                        `/static/index.html?room=${roomCode}`;
+                        `/static/host_entry.html?room=${roomCode}`;
                 }
             } catch {
                 // tyst
