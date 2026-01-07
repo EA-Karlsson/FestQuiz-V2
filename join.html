@@ -108,7 +108,6 @@
         // ✅ NYTT: tillåt återinträde med befintlig playerId
         let playerId =
             params.get("playerId") ||
-            localStorage.getItem("festquiz_playerId") ||
             null;
 
         const titleEl = document.getElementById("title");
@@ -141,17 +140,6 @@
         if (!roomCode) {
             statusEl.textContent = "Fel: room saknas i länken (QR-koden).";
             joinBtn.disabled = true;
-        }
-
-        // ✅ NYTT: om playerId redan finns → hoppa över join
-        if (playerId) {
-            nameInput.style.display = "none";
-            joinBtn.style.display = "none";
-            titleEl.textContent = "Väntar på fråga…";
-            answersEl.style.display = "none";
-
-            // säkerställ att hostens playerId finns kvar
-            localStorage.setItem("festquiz_playerId", playerId);
         }
 
         // === GÅ MED (endast om ingen playerId finns) ===
@@ -200,12 +188,26 @@
 
         // === POLLA ===
         async function poll() {
-            if (!playerId) return;
-
             const res = await fetch(`/room/${encodeURIComponent(roomCode)}`);
             if (!res.ok) return;
 
             const data = await res.json();
+
+            // auto-återanslutning först när spelet har startat
+            if (!playerId && data.started === true) {
+                const storedId = localStorage.getItem("festquiz_playerId");
+                if (storedId) {
+                    playerId = storedId;
+
+                    nameInput.style.display = "none";
+                    joinBtn.style.display = "none";
+                    titleEl.textContent = "Väntar på fråga…";
+                    answersEl.style.display = "none";
+                }
+            }
+
+            if (!playerId) return;
+
             const q = data.current_question;
 
             // VISA PLACERING ENDAST NÄR SCOREBOARD VISAS
