@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TV Test</title>
+    <style>
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: system-ui, Arial;
+        }
+
+        .scene {
+            display: none;
+            text-align: center;
+            margin-top: 20vh;
+            font-size: 32px;
+        }
+
+        .on {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="scene-host" class="scene">HOST QR</div>
+    <div id="scene-join" class="scene">JOIN QR</div>
+    <div id="scene-game" class="scene">GAME</div>
+
+    <script>
+        // server injicerar current_scene (se steg 2)
+        const SCENE = "{{SCENE}}";
+        document.getElementById("scene-" + SCENE)?.classList.add("on");
+    </script>
+
+</body>
+
+</html>

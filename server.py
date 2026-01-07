@@ -639,6 +639,28 @@ def host_entry():
 
     return RedirectResponse(url=f"/static/host_entry.html?room={code}")
 
+from fastapi.responses import HTMLResponse
+
+@app.get("/tv_test")
+def tv_test(room: str):
+    room = room.upper()
+    data = ROOMS.get(room)
+    if not data:
+        return HTMLResponse("NO ROOM")
+
+    # Enkel test-mapping
+    if not data.get("host_ready"):
+        scene = "host"
+    elif not data.get("started"):
+        scene = "join"
+    else:
+        scene = "game"
+
+    with open(os.path.join(BASE_DIR, "tv_test.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+
+    return HTMLResponse(html.replace("{{SCENE}}", scene))
+
 # ================== API ==================
 
 @app.get("/quiz")
