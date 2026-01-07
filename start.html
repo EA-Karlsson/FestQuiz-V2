@@ -18,25 +18,28 @@
             background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
             color: #fff;
             font-family: system-ui, Arial, sans-serif;
+        }
+
+        .join-wrapper {
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .card {
+        .join-card {
             background: #020617;
             border: 1px solid #1e293b;
             border-radius: 14px;
             padding: 32px;
             width: 100%;
-            max-width: 420px;
+            max-width: 460px;
             box-sizing: border-box;
             text-align: center;
         }
 
         h1 {
-            margin-top: 0;
-            margin-bottom: 12px;
+            margin: 0 0 12px;
             font-size: 2.2rem;
         }
 
@@ -46,37 +49,63 @@
             font-size: 1.1rem;
         }
 
-        #qrImage {
+        .join-qr {
             width: 420px;
             height: 420px;
-            background: #ffffff;
+            background: #fff;
             border-radius: 16px;
             padding: 16px;
+        }
+
+        /* HOST-QR – liten, nere till vänster */
+        .host-qr {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            width: 120px;
+            height: 120px;
+        }
+
+        .host-label {
+            position: fixed;
+            bottom: 150px;
+            left: 24px;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="card">
-        <h1>🎉 FestQuiz</h1>
-        <p id="qrText">Skanna QR-koden för att bli spelledare</p>
+    <!-- JOIN – stor QR -->
+    <div class="join-wrapper">
+        <div class="join-card">
+            <h1>🎉 FestQuiz</h1>
+            <p>Skanna för att gå med i spelet</p>
 
-        <!-- QR sätts SERVER-SIDE -->
-        <img id="qrImage" src="{{QR_SRC}}" alt="QR-kod" />
+            <img id="joinQr" class="join-qr" src="{{JOIN_QR_SRC}}" alt="QR för spelare" />
+        </div>
     </div>
 
-    <script>
-        let img = document.getElementById("qrImage");
-        let timer = null;
+    <!-- HOST – liten QR -->
+    <div class="host-label">Spelledare</div>
+    <img id="hostQr" class="host-qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
 
-        function getRoomCodeFromQR() {
-            const match = img.src.match(/qr\/([A-Z0-9]+)\//i);
+    <script>
+        const joinImg = document.getElementById("joinQr");
+        let pollTimer = null;
+
+        function getRoomCode() {
+            const match = joinImg.src.match(/qr\/([A-Z0-9]+)\//i);
             return match ? match[1] : null;
         }
 
         async function pollRoom() {
-            const roomCode = getRoomCodeFromQR();
+            const roomCode = getRoomCode();
             if (!roomCode) return;
 
             try {
@@ -85,15 +114,16 @@
 
                 const data = await res.json();
 
-                if (data.host_ready === true) {
-                    window.location.href = `/?room=${roomCode}&v=${Date.now()}`;
+                if (data.started === true) {
+                    window.location.href =
+                        `/static/index.html?room=${roomCode}`;
                 }
             } catch { }
         }
 
-        img.onload = () => {
-            if (!timer) {
-                timer = setInterval(pollRoom, 1000);
+        joinImg.onload = () => {
+            if (!pollTimer) {
+                pollTimer = setInterval(pollRoom, 1000);
             }
         };
     </script>

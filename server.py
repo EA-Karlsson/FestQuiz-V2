@@ -600,10 +600,17 @@ def serve_start(request: Request):
     with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
-    return html.replace(
-        "{{QR_SRC}}",
-        f"https://festquiz-v2.onrender.com/qr/{code}/host.png"
+    base = str(request.base_url).rstrip("/")
+
+    html = html.replace(
+        "{{JOIN_QR_SRC}}",
+        f"{base}/qr/{code}/player.png"
+    ).replace(
+        "{{HOST_QR_SRC}}",
+        f"{base}/qr/{code}/host.png"
     )
+
+    return html
 
 @app.get("/start.html")
 def serve_start_html():
