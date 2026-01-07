@@ -32,9 +32,21 @@
     <div id="scene-game" class="scene">GAME</div>
 
     <script>
-        // server injicerar current_scene (se steg 2)
         const SCENE = "{{SCENE}}";
-        document.getElementById("scene-" + SCENE)?.classList.add("on");
+
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            `<div style="position:fixed;bottom:20px;left:20px;font-size:14px;opacity:.6">
+      SCENE = ${SCENE}
+     </div>`
+        );
+
+        const el = document.getElementById("scene-" + SCENE);
+        if (el) {
+            el.classList.add("on");
+        } else {
+            document.getElementById("scene-host").classList.add("on");
+        }
     </script>
 
 </body>

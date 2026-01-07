@@ -659,7 +659,7 @@ def tv_test(room: str):
     with open(os.path.join(BASE_DIR, "tv_test.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
-    return HTMLResponse(html.replace("{{SCENE}}", scene))
+    return HTMLResponse(html.replace("{{SCENE}}", scene or "host"))
 
 # ================== API ==================
 
