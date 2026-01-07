@@ -20,8 +20,6 @@
             font-family: system-ui, Arial, sans-serif;
         }
 
-        /* ===== STOR JOIN ===== */
-
         .join-wrapper {
             height: 100vh;
             display: flex;
@@ -38,10 +36,6 @@
             max-width: 480px;
             text-align: center;
             box-sizing: border-box;
-        }
-
-        .join-header {
-            margin-bottom: 18px;
         }
 
         .join-header h1 {
@@ -72,8 +66,6 @@
             padding: 16px;
         }
 
-        /* ===== HOST – LITEN BADGE ===== */
-
         .host-badge {
             position: fixed;
             bottom: 24px;
@@ -83,14 +75,13 @@
             border-radius: 14px;
             padding: 14px;
             width: 150px;
-            box-sizing: border-box;
             text-align: center;
+            box-sizing: border-box;
         }
 
         .host-badge h3 {
             margin: 0;
             font-size: 0.95rem;
-            font-weight: 600;
         }
 
         .host-badge p {
@@ -111,7 +102,6 @@
 
 <body>
 
-    <!-- STOR JOIN -->
     <div class="join-wrapper">
         <div class="join-card">
             <div class="join-header">
@@ -125,7 +115,6 @@
         </div>
     </div>
 
-    <!-- LITEN HOST -->
     <div class="host-badge">
         <h3>🎮 Spelledare</h3>
         <p>Skanna för att styra spelet</p>
@@ -163,6 +152,11 @@
                 pollTimer = setInterval(pollRoom, 1000);
             }
         };
+
+        // ===== TEST: TV redirect =====
+        setTimeout(() => {
+            window.location.href = "/static/index.html?room=TEST";
+        }, 3000);
     </script>
 
 </body>
