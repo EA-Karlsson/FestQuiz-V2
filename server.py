@@ -552,14 +552,15 @@ def reset_room(room: str):
 
     return {"status": "reset", "roomCode": room_code}
 
-# ================== TV START (MINIMAL ÄNDRING) ==================
+# ================== TV START (V2 – SCENE-BASERAD) ==================
 
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 @app.get("/", response_class=HTMLResponse)
-def serve_start(request: Request):
+def serve_tv(request: Request):
     room = request.query_params.get("room")
 
+    # Skapa room om den saknas
     if not room:
         code = generate_room_code()
         ROOMS[code] = {
@@ -576,7 +577,6 @@ def serve_start(request: Request):
             "final_results": [],
             "host_ready": False
         }
-        # 🔒 LÅS TV:N TILL ROOM VIA URL
         return RedirectResponse(url=f"/?room={code}")
 
     code = room.upper()
@@ -597,24 +597,32 @@ def serve_start(request: Request):
             "host_ready": False
         }
 
-    with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
+    room_data = ROOMS[code]
+
+    # ===== SCENE-LOGIK (LÅST MODELL) =====
+    if not room_data.get("host_ready"):
+        scene = "host"
+    elif not room_data.get("started"):
+        scene = "join"
+    elif room_data.get("phase") == "scoreboard":
+        scene = "scoreboard"
+    else:
+        scene = "game"
+
+    # ===== RENDER TV-INDEX =====
+    with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
     base = str(request.base_url).rstrip("/")
 
-    html = html.replace(
-        "{{JOIN_QR_SRC}}",
-        f"{base}/qr/{code}/player.png"
-    ).replace(
-        "{{HOST_QR_SRC}}",
-        f"{base}/qr/{code}/host.png"
+    html = (
+        html
+        .replace("{{SCENE}}", scene)
+        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
+        .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
     )
 
-    return html
-
-@app.get("/start.html")
-def serve_start_html():
-    return FileResponse(os.path.join(BASE_DIR, "start.html"))
+    return HTMLResponse(html)
 
 # ================== HOST ENTRY (ORÖRD) ==================
 

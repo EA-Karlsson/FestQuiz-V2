@@ -2,128 +2,198 @@
 <html lang="sv">
 
 <head>
-    <meta charset="UTF-8">
-    <title>🎉 FestQuiz</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <title>FestQuiz – TV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- TV-säker: ingen cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- 🔁 Automatisk reload (justera sekunder vid behov) -->
+    <meta http-equiv="refresh" content="4">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+            color: #fff;
+            font-family: system-ui, Arial, sans-serif;
+        }
+
+        .scene {
+            display: none;
+            height: 100vh;
+        }
+
+        .scene.on {
+            display: block;
+        }
+
+        /* ===== GEMENSAM CENTER ===== */
+        .center {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== JOIN / HOST ===== */
+        .card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 32px 32px 36px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .card h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .card p {
+            margin: 6px 0 0;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .qr-frame {
+            margin-top: 22px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .qr {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .host-badge {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 14px;
+            width: 150px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .host-badge h3 {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .host-badge p {
+            margin: 4px 0 10px;
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+
+        .host-qr {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        /* ===== GAME / SCOREBOARD (placeholder) ===== */
+        .big-text {
+            font-size: 3rem;
+            opacity: 0.85;
+        }
+
+        /* DEBUG */
+        .debug {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 14px;
+            opacity: .6;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- STARTSKÄRM -->
-    <div id="startScreen">
-        <h1>🎉 FestQuiz</h1>
+    <!-- ================= HOST SCENE ================= -->
+    <div id="scene-host" class="scene">
+        <div class="center">
+            <div class="card">
+                <h1>🎮 Spelledare</h1>
+                <p>Skanna för att starta spelet</p>
 
-        <h2>Välj kategori</h2>
-        <div id="categories">
-            <button data-category="">Alla</button>
-            <button data-category="modern">🆕 2025 & Nutid</button>
-            <button data-category="9">Allmänbildning</button>
-            <button data-category="11">Film</button>
-            <button data-category="12">Musik</button>
-            <button data-category="21">Sport</button>
-            <button data-category="15">TV-Spel</button>
-            <button data-category="23">Historia</button>
-            <button data-category="17">Vetenskap</button>
-            <button data-category="22">Geografi</button>
-            <button id="randomCategory">🎲 Slumpa kategori</button>
+                <div class="qr-frame">
+                    <img class="qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JOIN SCENE ================= -->
+    <div id="scene-join" class="scene">
+        <div class="center">
+            <div class="card">
+                <h1>🎉 FestQuiz</h1>
+                <p>Skanna för att gå med</p>
+
+                <div class="qr-frame">
+                    <img class="qr" src="{{JOIN_QR_SRC}}" alt="QR för spelare" />
+                </div>
+            </div>
         </div>
 
-        <h2>Antal frågor</h2>
-        <select id="questionCount">
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-        </select>
-
-        <h2>Svårighetsgrad</h2>
-        <select id="difficulty">
-            <option value="">Blandad</option>
-            <option value="easy">Lätt</option>
-            <option value="medium">Medel</option>
-            <option value="hard">Svår</option>
-        </select>
-
-        <button id="startBtn">Starta quiz</button>
-        <button id="musicBtn">▶️ Starta musik</button>
+        <div class="host-badge">
+            <h3>🎮 Spelledare</h3>
+            <p>Styr spelet</p>
+            <img class="host-qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
+        </div>
     </div>
 
-    <!-- QUIZ -->
-    <div id="quizScreen" class="hidden">
-        <p id="categoryLine" style="
-        font-size: 1.1rem;
-        font-weight: 700;
-        opacity: 0.85;
-        margin: 10px 0 2px;
-    "></p>
-
-        <p id="progress"></p>
-        <h2 id="questionText"></h2>
-        <p id="statusText" style="opacity:.7; min-height:1.2em;"></p>
-        <div id="answers"></div>
-        <p id="timer"></p>
+    <!-- ================= GAME SCENE ================= -->
+    <div id="scene-game" class="scene">
+        <div class="center">
+            <div class="big-text">Spelet pågår…</div>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- ================= SCOREBOARD SCENE ================= -->
+    <div id="scene-scoreboard" class="scene">
+        <div class="center">
+            <div class="big-text">Resultat</div>
+        </div>
+    </div>
 
+    <!-- ================= SCENE CONTROLLER ================= -->
     <script>
-        (function () {
-            const params = new URLSearchParams(window.location.search);
-            const roomCode = params.get("room");
-            if (!roomCode) return;
+        const SCENE = "{{SCENE}}";
 
-            window.sendQuestionToV2 = async function (questionObject) {
-                try {
-                    await fetch(`/room/question?room=${roomCode}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(questionObject)
-                    });
-                } catch { }
-            };
-        })();
-    </script>
-
-    <script>
-        let v2TimerInterval = null;
-
-        function startV2Countdown(roomCode) {
-            if (v2TimerInterval) clearInterval(v2TimerInterval);
-
-            v2TimerInterval = setInterval(async () => {
-                try {
-                    const res = await fetch(`/room/${roomCode}`);
-                    if (!res.ok) return;
-
-                    const data = await res.json();
-
-                    // TIMER (orörd)
-                    if (data.timer && data.timer.ends_at) {
-                        const now = Date.now() / 1000;
-                        const remaining = Math.max(0, Math.round(data.timer.ends_at - now));
-                        const timerEl = document.getElementById("timer");
-                        if (timerEl) timerEl.textContent = remaining;
-                    }
-
-                    // KATEGORI (NY, EGET ELEMENT)
-                    const catEl = document.getElementById("categoryLine");
-                    if (catEl) {
-                        catEl.textContent =
-                            data?.current_question?.category || "Kategori okänd";
-                    }
-
-                } catch {
-                    // tyst
-                }
-            }, 500);
+        const el = document.getElementById("scene-" + SCENE);
+        if (el) {
+            el.classList.add("on");
+        } else {
+            document.getElementById("scene-host").classList.add("on");
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const params = new URLSearchParams(window.location.search);
-            const roomCode = params.get("room");
-            if (roomCode) startV2Countdown(roomCode);
-        });
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            `<div class="debug">SCENE = ${SCENE}</div>`
+        );
     </script>
 
 </body>
