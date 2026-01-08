@@ -622,7 +622,7 @@ def serve_tv(request: Request):
         .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
     )
 
-    return HTMLResponse(html)
+    return HTMLResponse(html)git
 
 # ================== HOST ENTRY (ORÖRD) ==================
 

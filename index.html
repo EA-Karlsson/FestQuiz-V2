@@ -11,16 +11,19 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <!-- 🔁 Automatisk reload (justera sekunder vid behov) -->
-    <meta http-equiv="refresh" content="4">
+    <!-- 🔁 Automatisk reload (mindre blink) -->
+    <meta http-equiv="refresh" content="6">
 
+    <!-- ✅ GAMMAL CSS – exakt samma utseende -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- TV-specifik minimal CSS -->
     <style>
+        html,
         body {
             margin: 0;
-            height: 100vh;
+            height: 100%;
             background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
-            color: #fff;
-            font-family: system-ui, Arial, sans-serif;
         }
 
         .scene {
@@ -32,7 +35,6 @@
             display: block;
         }
 
-        /* ===== GEMENSAM CENTER ===== */
         .center {
             height: 100%;
             display: flex;
@@ -40,7 +42,7 @@
             justify-content: center;
         }
 
-        /* ===== JOIN / HOST ===== */
+        /* HOST / JOIN-kort */
         .card {
             background: #020617;
             border: 1px solid #1e293b;
@@ -50,17 +52,6 @@
             max-width: 480px;
             text-align: center;
             box-sizing: border-box;
-        }
-
-        .card h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-
-        .card p {
-            margin: 6px 0 0;
-            opacity: 0.8;
-            font-size: 1.1rem;
         }
 
         .qr-frame {
@@ -80,51 +71,10 @@
             padding: 16px;
         }
 
-        .host-badge {
-            position: fixed;
-            bottom: 24px;
-            left: 24px;
-            background: #020617;
-            border: 1px solid #1e293b;
-            border-radius: 14px;
-            padding: 14px;
-            width: 150px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .host-badge h3 {
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        .host-badge p {
-            margin: 4px 0 10px;
-            font-size: 0.8rem;
-            opacity: 0.75;
-        }
-
-        .host-qr {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #ffffff;
-            border-radius: 10px;
-            padding: 8px;
-        }
-
-        /* ===== GAME / SCOREBOARD (placeholder) ===== */
+        /* Scoreboard placeholder */
         .big-text {
             font-size: 3rem;
             opacity: 0.85;
-        }
-
-        /* DEBUG */
-        .debug {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-size: 14px;
-            opacity: .6;
         }
     </style>
 </head>
@@ -157,18 +107,43 @@
                 </div>
             </div>
         </div>
-
-        <div class="host-badge">
-            <h3>🎮 Spelledare</h3>
-            <p>Styr spelet</p>
-            <img class="host-qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
-        </div>
     </div>
 
     <!-- ================= GAME SCENE ================= -->
     <div id="scene-game" class="scene">
         <div class="center">
-            <div class="big-text">Spelet pågår…</div>
+            <div id="quizScreen">
+
+                <h1>🎉 FestQuiz</h1>
+
+                <p id="categoryLine">
+                    {{CATEGORY_NAME}}
+                </p>
+
+                <p id="progress">
+                    {{QUESTION_PROGRESS}}
+                </p>
+
+                <h2 id="questionText">
+                    {{QUESTION_TEXT}}
+                </h2>
+
+                <p id="statusText">
+                    {{STATUS_TEXT}}
+                </p>
+
+                <div id="answers">
+                    <div class="answer">A</div>
+                    <div class="answer">B</div>
+                    <div class="answer">C</div>
+                    <div class="answer">D</div>
+                </div>
+
+                <p id="timer">
+                    {{TIMER_TEXT}}
+                </p>
+
+            </div>
         </div>
     </div>
 
@@ -189,11 +164,6 @@
         } else {
             document.getElementById("scene-host").classList.add("on");
         }
-
-        document.body.insertAdjacentHTML(
-            "beforeend",
-            `<div class="debug">SCENE = ${SCENE}</div>`
-        );
     </script>
 
 </body>
