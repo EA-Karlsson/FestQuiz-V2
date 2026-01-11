@@ -79,9 +79,6 @@
             throw new Error("Missing room");
         }
 
-        // 🔴 NYTT: markera host_ready direkt vid load
-        fetch(`/room/host_ready?room=${room}`, { method: "POST" });
-
         async function notifyHostReady(hostPlays) {
             try {
                 await fetch(`/room/host_ready?room=${room}`, {
@@ -90,7 +87,7 @@
                     body: JSON.stringify({ host_plays: hostPlays })
                 });
             } catch {
-                // även om detta misslyckas går vi vidare
+                // tyst
             }
         }
 
