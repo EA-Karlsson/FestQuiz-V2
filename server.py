@@ -41,7 +41,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app.mount(
     "/static",
-    StaticFiles(directory=BASE_DIR, html=True),
+    StaticFiles(directory=BASE_DIR, html=False),
     name="static"
 )
 
