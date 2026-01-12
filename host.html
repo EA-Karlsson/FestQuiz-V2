@@ -21,69 +21,99 @@
             margin-bottom: 16px;
         }
 
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 400px;
+        }
+
+        li {
+            background: #111827;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
         .hint {
             opacity: 0.7;
             margin-top: 12px;
             font-size: 0.9rem;
         }
-
-        button {
-            padding: 12px 16px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: none;
-            background: #1e293b;
-            color: #e5e7eb;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            opacity: 0.5;
-        }
     </style>
 </head>
 
 <body>
+    <h1>Hostvy</h1>
+    <div class="room">Room: <strong id="roomCode">–</strong></div>
 
-    <h1>Spelledare</h1>
-
-    <div class="room">
-        Room: <strong id="roomCode">–</strong>
-    </div>
-
-    <!-- Host spelar själv (valfritt) -->
+    <!-- ✅ NYTT: Host spelar själv (visas bara om hostPlays=true) -->
     <div id="hostPlaysBox" style="display:none; margin: 12px 0; max-width: 420px;">
         <div style="opacity:0.8; margin-bottom:8px;">Du spelar också</div>
         <input id="hostName" type="text" placeholder="Ditt namn" autocomplete="off"
             style="width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:10px; font-size:1rem;" />
-        <button id="hostJoinBtn">Gå med som spelare</button>
+        <button id="hostJoinBtn" style="padding:12px 16px;">
+            Gå med som spelare
+        </button>
     </div>
 
-    <button id="startBtn" style="margin:24px 0;">
+    <div id="questionBox" style="margin:16px 0; padding:16px; background:#111827; border-radius:8px;">
+        <div style="opacity:0.7; margin-bottom:8px;">Aktuell fråga</div>
+        <div id="currentQuestion" style="font-size:1.2rem;">
+            Ingen fråga aktiv
+        </div>
+    </div>
+
+    <div id="answersSummary"
+        style="margin:16px 0; padding:16px; background:#020617; border:1px solid #1e293b; border-radius:8px;">
+        <div style="opacity:0.7; margin-bottom:8px;">Inkomna svar</div>
+        <ul id="answersList" style="list-style:none; padding:0; margin:0;">
+            <li>Inga svar ännu</li>
+        </ul>
+    </div>
+
+    <button id="startBtn" style="margin:16px 0; padding:12px 16px;">
         Starta quiz
     </button>
 
-    <div id="status" style="margin-top:12px; opacity:0.8;"></div>
+    <button id="nextQuestionBtn" style="margin:16px 0; padding:12px 16px;">
+        Nästa fråga
+    </button>
+
+    <div id="status" style="margin-bottom:12px; opacity:0.8;"></div>
+
+    <h2>Spelare</h2>
+    <ul id="players"></ul>
+
+    <div class="hint">Uppdateras automatiskt</div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const roomCode = params.get("room");
-        const hostPlays = params.get("hostPlays") === "true";
+        const hostPlays = params.get("hostPlays") === "true"; // ✅ NYTT
 
         const roomEl = document.getElementById("roomCode");
+        const playersEl = document.getElementById("players");
+        const startBtn = document.getElementById("startBtn");
         const statusEl = document.getElementById("status");
+        const currentQuestionEl = document.getElementById("currentQuestion");
+        const answersListEl = document.getElementById("answersList");
+        const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 
+        // ✅ NYTT: host spelar UI
         const hostPlaysBox = document.getElementById("hostPlaysBox");
         const hostNameEl = document.getElementById("hostName");
         const hostJoinBtn = document.getElementById("hostJoinBtn");
 
         if (!roomCode) {
             roomEl.textContent = "SAKNAS";
+            playersEl.innerHTML = "<li>Ingen room-kod i URL</li>";
             throw new Error("Missing room code");
         }
 
         roomEl.textContent = roomCode.toUpperCase();
 
+        // ✅ NYTT: Om hosten ska spela, visa namn + join-knapp
         if (hostPlays) {
             hostPlaysBox.style.display = "block";
 
@@ -103,6 +133,8 @@
                     if (!res.ok) throw new Error();
 
                     const data = await res.json();
+
+                    // ✅ NYTT: spara playerId för senare användning
                     localStorage.setItem("festquiz_playerId", data.playerId);
 
                     statusEl.textContent = "Du är med som spelare.";
@@ -113,10 +145,8 @@
                 }
             });
         }
-    </script>
 
-    <script>
-        // === STARTA QUIZ (V2 – STATE ONLY) ===
+        // === STARTA QUIZ ===
         startBtn.addEventListener("click", async () => {
             startBtn.disabled = true;
             statusEl.textContent = "Startar quiz…";
@@ -124,9 +154,11 @@
             try {
                 const res = await fetch(`/room/start?room=${roomCode}`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
-                        category: params.get("category") || null
+                        category: params.get("category")
                     })
                 });
 
@@ -134,12 +166,95 @@
 
                 statusEl.textContent = "Quiz startat.";
 
+                // ✅ NYTT: om hosten spelar → gå till join-vyn med playerId
+                if (hostPlays) {
+                    const pid = localStorage.getItem("festquiz_playerId");
+                }
+
             } catch {
                 statusEl.textContent = "Kunde inte starta quiz.";
                 startBtn.disabled = false;
             }
         });
+
+        async function loadRoom() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                playersEl.innerHTML = "";
+                const players = data.players || {};
+
+                if (Object.keys(players).length === 0) {
+                    playersEl.innerHTML = "<li>Inga spelare ännu…</li>";
+                    return;
+                }
+
+                Object.values(players).forEach(p => {
+                    const li = document.createElement("li");
+                    li.textContent = p.name;
+                    playersEl.appendChild(li);
+                });
+            } catch {
+                playersEl.innerHTML = "<li>Kunde inte hämta room</li>";
+            }
+        }
+
+        async function loadCurrentQuestion() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                if (!data.current_question) {
+                    currentQuestionEl.textContent = "Ingen fråga aktiv";
+                    return;
+                }
+
+                currentQuestionEl.textContent =
+                    data.current_question.question ||
+                    data.current_question.text ||
+                    "[Fråga mottagen]";
+            } catch {
+                currentQuestionEl.textContent = "Kunde inte hämta fråga";
+            }
+        }
+
+        async function loadAnswerCount() {
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                const data = await res.json();
+
+                const players = data.players || {};
+                const totalPlayers = Object.keys(players).length;
+                let answered = 0;
+
+                Object.values(players).forEach(player => {
+                    const last = player.answers?.at(-1);
+                    if (last && last.answer !== null) answered++;
+                });
+
+                answersListEl.innerHTML = "";
+                const li = document.createElement("li");
+                li.textContent = `Svar inkomna: ${answered} / ${totalPlayers}`;
+                answersListEl.appendChild(li);
+            } catch {
+                answersListEl.innerHTML = "<li>Kunde inte hämta svarstatus</li>";
+            }
+        }
+
+        // === POLLING ===
+        loadRoom();
+        loadCurrentQuestion();
+        loadAnswerCount();
+
+        setInterval(loadRoom, 2000);
+        setInterval(loadCurrentQuestion, 2000);
+        setInterval(loadAnswerCount, 2000);
+
+        // === NÄSTA FRÅGA ===
+        nextQuestionBtn.disabled = true; // med flit
     </script>
+
 </body>
 
 </html>
