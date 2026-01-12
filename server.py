@@ -555,6 +555,7 @@ def reset_room(room: str):
 # ================== TV START (V2 – SCENE-BASERAD) ==================
 
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import Request
 
 @app.get("/", response_class=HTMLResponse)
 def serve_tv(request: Request):
@@ -621,6 +622,17 @@ def serve_tv(request: Request):
         .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
         .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
     )
+
+    # ===== 🔧 FIX: NOLLA QUIZ-PLACEHOLDERS UTANFÖR GAME =====
+    if scene != "game":
+        html = (
+            html
+            .replace("{{QUESTION_TEXT}}", "")
+            .replace("{{CATEGORY_NAME}}", "")
+            .replace("{{QUESTION_PROGRESS}}", "")
+            .replace("{{STATUS_TEXT}}", "")
+            .replace("{{TIMER_TEXT}}", "")
+        )
 
     return HTMLResponse(html)
 
