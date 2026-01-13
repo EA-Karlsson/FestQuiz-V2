@@ -72,22 +72,25 @@
             });
 
             // EN fetch vid start (per reload)
-            let scene = "host";
+            let sceneToStart = "host";
             if (room) {
                 try {
                     const res = await fetch(`/room/${room}`);
                     if (res.ok) {
                         const d = await res.json();
-                        if (!d.host_ready) scene = "host";
-                        else if (!d.started) scene = "join";
-                        else if (d.phase === "scoreboard") scene = "scoreboard";
-                        else scene = "game";
+                        if (!d.host_ready) sceneToStart = "host";
+                        else if (!d.started) sceneToStart = "join";
+                        else if (d.phase === "scoreboard") sceneToStart = "scoreboard";
+                        else sceneToStart = "game";
                     }
                 } catch { }
             }
 
-            game.scene.start(scene);
-        })();
+            // 🔴 VIKTIGT: vänta tills Phaser är redo
+            game.events.once(Phaser.Core.Events.READY, () => {
+                game.scene.start(sceneToStart);
+            });
+
     </script>
 </body>
 
