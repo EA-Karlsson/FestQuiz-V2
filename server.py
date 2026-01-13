@@ -218,7 +218,7 @@ def create_room(host_plays: bool = False):
         "current_question": None,
         "difficulty": "medium",
         "timer": None,
-        "phase": "idle",
+        "phase": "menu",
         "answers_locked": False,
         "last_result": None,
         "final_results": []
@@ -535,7 +535,7 @@ def reset_room(room: str):
     room_data["started"] = False
     room_data["current_question"] = None
     room_data["timer"] = None
-    room_data["phase"] = "idle"
+    room_data["phase"] = "menu"
     room_data["answers_locked"] = False
     room_data["last_result"] = None
     room_data["final_results"] = []
@@ -574,7 +574,7 @@ def serve_tv(request: Request):
             "current_question": None,
             "difficulty": "medium",
             "timer": None,
-            "phase": "idle",
+            "phase": "menu",
             "answers_locked": False,
             "last_result": None,
             "final_results": [],
@@ -593,12 +593,42 @@ def serve_tv(request: Request):
             "current_question": None,
             "difficulty": "medium",
             "timer": None,
-            "phase": "idle",
+            "phase": "menu",
             "answers_locked": False,
             "last_result": None,
             "final_results": [],
             "host_ready": False
         }
+
+    room_data = ROOMS[code]
+
+    # ===== SCENE-LOGIK (TILLFÄLLIG LÅSNING – STEG A) =====
+    scene = "menu"
+
+    # ===== RENDER TV-INDEX =====
+    with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+
+    base = str(request.base_url).rstrip("/")
+
+    html = (
+        html
+        .replace("{{SCENE}}", scene)
+        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
+        .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
+    )
+
+    # Rensa ev. quiz-placeholders (säkerhet)
+    html = (
+        html
+        .replace("{{QUESTION_TEXT}}", "")
+        .replace("{{CATEGORY_NAME}}", "")
+        .replace("{{QUESTION_PROGRESS}}", "")
+        .replace("{{STATUS_TEXT}}", "")
+        .replace("{{TIMER_TEXT}}", "")
+    )
+
+    return HTMLResponse(html)
 
     room_data = ROOMS[code]
 
