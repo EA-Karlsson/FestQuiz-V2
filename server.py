@@ -556,7 +556,6 @@ def reset_room(room: str):
 
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi import Request
-import time
 import os
 
 @app.get("/", response_class=HTMLResponse)
@@ -568,71 +567,20 @@ def serve_tv(request: Request):
         code = generate_room_code()
         ROOMS[code] = {
             "code": code,
-            "host_plays": False,
-            "players": {},
+            "host_ready": False,
             "started": False,
-            "current_question": None,
-            "difficulty": "medium",
-            "timer": None,
             "phase": "menu",
-            "answers_locked": False,
-            "last_result": None,
-            "final_results": [],
-            "host_ready": False
+            "players": {},
+            "current_question": None,
         }
         return RedirectResponse(url=f"/?room={code}")
 
     code = room.upper()
+    room_data = ROOMS.get(code)
+    if not room_data:
+        return HTMLResponse("NO ROOM")
 
-    if code not in ROOMS:
-        ROOMS[code] = {
-            "code": code,
-            "host_plays": False,
-            "players": {},
-            "started": False,
-            "current_question": None,
-            "difficulty": "medium",
-            "timer": None,
-            "phase": "menu",
-            "answers_locked": False,
-            "last_result": None,
-            "final_results": [],
-            "host_ready": False
-        }
-
-    room_data = ROOMS[code]
-
-    # ===== SCENE-LOGIK (TILLFÄLLIG LÅSNING – STEG A) =====
-    scene = "menu"
-
-    # ===== RENDER TV-INDEX =====
-    with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
-        html = f.read()
-
-    base = str(request.base_url).rstrip("/")
-
-    html = (
-        html
-        .replace("{{SCENE}}", scene)
-        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
-        .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
-    )
-
-    # Rensa ev. quiz-placeholders (säkerhet)
-    html = (
-        html
-        .replace("{{QUESTION_TEXT}}", "")
-        .replace("{{CATEGORY_NAME}}", "")
-        .replace("{{QUESTION_PROGRESS}}", "")
-        .replace("{{STATUS_TEXT}}", "")
-        .replace("{{TIMER_TEXT}}", "")
-    )
-
-    return HTMLResponse(html)
-
-    room_data = ROOMS[code]
-
-    # ===== SCENE-LOGIK (LÅST MODELL) =====
+    # ===== ENDA SCENE-LOGIKEN =====
     if not room_data.get("host_ready"):
         scene = "host"
     elif not room_data.get("started"):
@@ -642,71 +590,17 @@ def serve_tv(request: Request):
     else:
         scene = "game"
 
-    # ===== LÄS INDEX =====
     with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
     base = str(request.base_url).rstrip("/")
 
-    # ===== ALLTID =====
     html = (
         html
         .replace("{{SCENE}}", scene)
-        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
         .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
+        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
     )
-
-    # ===== GAME: SERVER-RENDER QUIZ =====
-    if scene == "game":
-        q = room_data.get("current_question")
-
-        if q:
-            question_text = q.get("question", "")
-            category = q.get("category", "")
-        else:
-            question_text = "Väntar på fråga…"
-            category = ""
-
-        # Progress (ex: 3 / 10)
-        answered = 0
-        total = 0
-        if room_data.get("players"):
-            total = len(next(iter(room_data["players"].values()))["answers"])
-            answered = sum(
-                1 for p in room_data["players"].values()
-                if p["answers"] and p["answers"][-1]["answer"] is not None
-            )
-        progress = f"{answered} / {total}" if total else ""
-
-        # Status
-        status = "Svar låsta" if room_data.get("answers_locked") else ""
-
-        # Timer
-        timer_text = ""
-        timer = room_data.get("timer")
-        if timer and timer.get("ends_at"):
-            remaining = max(0, int(timer["ends_at"] - time.time()))
-            timer_text = str(remaining)
-
-        html = (
-            html
-            .replace("{{QUESTION_TEXT}}", question_text)
-            .replace("{{CATEGORY_NAME}}", category)
-            .replace("{{QUESTION_PROGRESS}}", progress)
-            .replace("{{STATUS_TEXT}}", status)
-            .replace("{{TIMER_TEXT}}", timer_text)
-        )
-
-    # ===== ALLA ANDRA SCENER: RENSNING =====
-    else:
-        html = (
-            html
-            .replace("{{QUESTION_TEXT}}", "")
-            .replace("{{CATEGORY_NAME}}", "")
-            .replace("{{QUESTION_PROGRESS}}", "")
-            .replace("{{STATUS_TEXT}}", "")
-            .replace("{{TIMER_TEXT}}", "")
-        )
 
     return HTMLResponse(html)
 

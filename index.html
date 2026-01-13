@@ -1,184 +1,66 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
     <meta charset="UTF-8" />
     <title>FestQuiz – TV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- TV-säker: ingen cache -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
-    <!-- 🔁 Automatisk reload (mindre blink) -->
-    <meta http-equiv="refresh" content="6">
-
-    <!-- ✅ GAMMAL CSS – exakt samma utseende -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- TV-specifik minimal CSS -->
     <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
-        }
-
-        .scene {
-            display: none;
-            height: 100vh;
-        }
-
-        .scene.on {
-            display: block;
-        }
-
-        .center {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* HOST / JOIN-kort */
+        .scene { display: none; height: 100vh; }
+        .scene.on { display: flex; align-items: center; justify-content: center; }
         .card {
-            background: #020617;
-            border: 1px solid #1e293b;
-            border-radius: 18px;
-            padding: 32px 32px 36px;
-            width: 100%;
-            max-width: 480px;
-            text-align: center;
-            box-sizing: border-box;
+            background:#020617;
+            border:1px solid #1e293b;
+            border-radius:18px;
+            padding:32px;
+            text-align:center;
         }
-
-        .card h1,
-        .card p {
-            color: #ffffff;
-        }
-
-        .card h1 {
-            font-size: 2.2rem;
-        }
-
-        .card p {
-            font-size: 1.1rem;
-        }
-
-        .qr-frame {
-            margin-top: 22px;
-            background: #020617;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            padding: 18px;
-        }
-
         .qr {
-            width: 100%;
-            max-width: 420px;
-            aspect-ratio: 1 / 1;
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 16px;
-        }
-
-        /* Scoreboard placeholder */
-        .big-text {
-            font-size: 3rem;
-            opacity: 0.85;
+            width:320px;
+            height:320px;
+            background:#fff;
+            padding:16px;
+            border-radius:14px;
         }
     </style>
 </head>
-
 <body>
 
-    <!-- ================= HOST SCENE ================= -->
-    <div id="scene-host" class="scene">
-        <div class="center">
-            <div class="card">
-                <h1>🎮 Spelledare</h1>
-                <p>Skanna för att starta spelet</p>
-
-                <div class="qr-frame">
-                    <img class="qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
-                </div>
-            </div>
-        </div>
+<div id="scene-host" class="scene">
+    <div class="card">
+        <h1>🎮 Spelledare</h1>
+        <p>Skanna för att starta</p>
+        <img class="qr" src="{{HOST_QR_SRC}}">
     </div>
+</div>
 
-    <!-- ================= JOIN SCENE ================= -->
-    <div id="scene-join" class="scene">
-        <div class="center">
-            <div class="card">
-                <h1>🎉 FestQuiz</h1>
-                <p>Skanna för att gå med</p>
-
-                <div class="qr-frame">
-                    <img class="qr" src="{{JOIN_QR_SRC}}" alt="QR för spelare" />
-                </div>
-            </div>
-        </div>
+<div id="scene-join" class="scene">
+    <div class="card">
+        <h1>🎉 FestQuiz</h1>
+        <p>Skanna för att gå med</p>
+        <img class="qr" src="{{JOIN_QR_SRC}}">
     </div>
+</div>
 
-    <!-- ================= GAME SCENE ================= -->
-    <div id="scene-game" class="scene">
-        <div class="center">
-            <div id="quizScreen">
-
-                <h1>🎉 FestQuiz</h1>
-
-                <p id="categoryLine">
-                    {{CATEGORY_NAME}}
-                </p>
-
-                <p id="progress">
-                    {{QUESTION_PROGRESS}}
-                </p>
-
-                <h2 id="questionText">
-                    {{QUESTION_TEXT}}
-                </h2>
-
-                <p id="statusText">
-                    {{STATUS_TEXT}}
-                </p>
-
-                <div id="answers">
-                    <div class="answer">A</div>
-                    <div class="answer">B</div>
-                    <div class="answer">C</div>
-                    <div class="answer">D</div>
-                </div>
-
-                <p id="timer">
-                    {{TIMER_TEXT}}
-                </p>
-
-            </div>
-        </div>
+<div id="scene-game" class="scene">
+    <div class="card">
+        <h1>🎉 FestQuiz</h1>
+        <p>Spelet startar…</p>
     </div>
+</div>
 
-    <!-- ================= SCOREBOARD SCENE ================= -->
-    <div id="scene-scoreboard" class="scene">
-        <div class="center">
-            <div class="big-text">Resultat</div>
-        </div>
+<div id="scene-scoreboard" class="scene">
+    <div class="card">
+        <h1>🏆 Resultat</h1>
     </div>
+</div>
 
-    <!-- ================= SCENE CONTROLLER ================= -->
-    <script>
-        const SCENE = "{{SCENE}}";
-
-        const el = document.getElementById("scene-" + SCENE);
-        if (el) {
-            el.classList.add("on");
-        } else {
-            document.getElementById("scene-host").classList.add("on");
-        }
-    </script>
+<script>
+    const scene = "{{SCENE}}";
+    const el = document.getElementById("scene-" + scene);
+    if (el) el.classList.add("on");
+</script>
 
 </body>
-
 </html>
