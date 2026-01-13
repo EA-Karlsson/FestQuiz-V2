@@ -6,67 +6,87 @@
     <title>FestQuiz TV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- TV klarar reload -->
+    <!-- TV:n reloadar samma HTML -->
     <meta http-equiv="refresh" content="5">
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #0d0d0d;
+        }
+    </style>
 </head>
 
 <body>
     <script>
-        const params = new URLSearchParams(location.search);
-        const room = params.get("room");
+        (async function () {
+            const params = new URLSearchParams(location.search);
+            const room = params.get("room");
+            const base = location.origin;
 
-        class HostScene extends Phaser.Scene {
-            constructor() { super("host"); }
-            create() {
-                this.add.text(960, 540, "HOST QR", { fontSize: "48px" }).setOrigin(0.5);
+            class HostScene extends Phaser.Scene {
+                constructor() { super("host"); }
+                preload() {
+                    this.load.image("hostqr", `${base}/qr/${room}/host.png`);
+                }
+                create() {
+                    this.add.image(960, 540, "hostqr").setScale(0.6);
+                }
             }
-        }
 
-        class JoinScene extends Phaser.Scene {
-            constructor() { super("join"); }
-            create() {
-                this.add.text(960, 540, "PLAYER QR", { fontSize: "48px" }).setOrigin(0.5);
+            class JoinScene extends Phaser.Scene {
+                constructor() { super("join"); }
+                preload() {
+                    this.load.image("playerqr", `${base}/qr/${room}/player.png`);
+                }
+                create() {
+                    this.add.image(960, 540, "playerqr").setScale(0.6);
+                }
             }
-        }
 
-        class GameScene extends Phaser.Scene {
-            constructor() { super("game"); }
-            create() {
-                this.add.text(960, 540, "QUIZET KÖR", { fontSize: "48px" }).setOrigin(0.5);
+            class GameScene extends Phaser.Scene {
+                constructor() { super("game"); }
+                create() {
+                    this.add.text(960, 540, "QUIZET KÖR", {
+                        fontSize: "48px", color: "#ffffff"
+                    }).setOrigin(0.5);
+                }
             }
-        }
 
-        class ScoreboardScene extends Phaser.Scene {
-            constructor() { super("scoreboard"); }
-            create() {
-                this.add.text(960, 540, "RESULTAT", { fontSize: "48px" }).setOrigin(0.5);
+            class ScoreboardScene extends Phaser.Scene {
+                constructor() { super("scoreboard"); }
+                create() {
+                    this.add.text(960, 540, "RESULTAT", {
+                        fontSize: "48px", color: "#ffffff"
+                    }).setOrigin(0.5);
+                }
             }
-        }
 
-        const game = new Phaser.Game({
-            type: Phaser.AUTO,
-            width: 1920,
-            height: 1080,
-            backgroundColor: "#0d0d0d",
-            scene: [HostScene, JoinScene, GameScene, ScoreboardScene]
-        });
+            const game = new Phaser.Game({
+                type: Phaser.AUTO,
+                width: 1920,
+                height: 1080,
+                backgroundColor: "#0d0d0d",
+                scene: [HostScene, JoinScene, GameScene, ScoreboardScene]
+            });
 
-        // 🔑 EN FETCH VID START
-        (async () => {
-            if (!room) return game.scene.start("host");
+            // EN fetch vid start (per reload)
+            let scene = "host";
+            if (room) {
+                try {
+                    const res = await fetch(`/room/${room}`);
+                    if (res.ok) {
+                        const d = await res.json();
+                        if (!d.host_ready) scene = "host";
+                        else if (!d.started) scene = "join";
+                        else if (d.phase === "scoreboard") scene = "scoreboard";
+                        else scene = "game";
+                    }
+                } catch { }
+            }
 
-            const res = await fetch(`/room/${room}`);
-            if (!res.ok) return game.scene.start("host");
-
-            const d = await res.json();
-
-            if (!d.host_ready) return game.scene.start("host");
-            if (!d.started) return game.scene.start("join");
-            if (d.phase === "scoreboard") return game.scene.start("scoreboard");
-
-            return game.scene.start("game");
+            game.scene.start(scene);
         })();
     </script>
 </body>
