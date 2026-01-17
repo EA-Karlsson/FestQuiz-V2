@@ -581,6 +581,21 @@ def serve_tv(request: Request):
         return HTMLResponse("NO ROOM")
 
     # ===== SCENE-LOGIK =====
+    if not room_data.get("host_ready"):
+        scene = "host"
+    elif not room_data.get("started"):
+        scene = "join"
+    elif room_data.get("phase") == "scoreboard":
+        scene = "scoreboard"
+    else:
+        scene = "game"
+
+    with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+
+    base = str(request.base_url).rstrip("/")
+
+    html = (
         html
         .replace("{{SCENE}}", scene)
         .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
