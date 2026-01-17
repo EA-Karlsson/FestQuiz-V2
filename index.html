@@ -28,7 +28,7 @@
             class HostScene extends Phaser.Scene {
                 constructor() { super("host"); }
                 preload() {
-                    this.load.image("hostqr", `${base}/qr/${room}/host.png`);
+                    this.load.image("hostqr", "{{HOST_QR_SRC}}");
                 }
                 create() {
                     this.add.image(960, 540, "hostqr").setScale(0.6);
@@ -38,7 +38,7 @@
             class JoinScene extends Phaser.Scene {
                 constructor() { super("join"); }
                 preload() {
-                    this.load.image("playerqr", `${base}/qr/${room}/player.png`);
+                    this.load.image("playerqr", "{{JOIN_QR_SRC}}");
                 }
                 create() {
                     this.add.image(960, 540, "playerqr").setScale(0.6);
@@ -71,20 +71,8 @@
                 scene: [HostScene, JoinScene, GameScene, ScoreboardScene]
             });
 
-            // EN fetch vid start (per reload)
-            let sceneToStart = "host";
-            if (room) {
-                try {
-                    const res = await fetch(`/room/${room}`);
-                    if (res.ok) {
-                        const d = await res.json();
-                        if (!d.host_ready) sceneToStart = "host";
-                        else if (!d.started) sceneToStart = "join";
-                        else if (d.phase === "scoreboard") sceneToStart = "scoreboard";
-                        else sceneToStart = "game";
-                    }
-                } catch { }
-            }
+            // Scene sätts av servern
+            let sceneToStart = "{{SCENE}}";
 
             // 🔴 VIKTIGT: vänta tills Phaser är redo
             game.events.once(Phaser.Core.Events.READY, () => {
