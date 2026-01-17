@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- TV:n reloadar samma HTML -->
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="2">
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
     <style>
@@ -31,7 +31,13 @@
                     this.load.image("hostqr", "{{HOST_QR_SRC}}");
                 }
                 create() {
-                    this.add.image(960, 540, "hostqr").setScale(0.6);
+                    this.add.image(960, 540, "hostqr").setScale(0.8);
+                    this.add.text(960, 200, "FestQuiz - Spelledare", {
+                        fontSize: "48px", color: "#ffffff", fontStyle: "bold"
+                    }).setOrigin(0.5);
+                    this.add.text(960, 880, "Skanna QR-koden för att bli spelledare", {
+                        fontSize: "32px", color: "#cccccc"
+                    }).setOrigin(0.5);
                 }
             }
 
@@ -41,7 +47,13 @@
                     this.load.image("playerqr", "{{JOIN_QR_SRC}}");
                 }
                 create() {
-                    this.add.image(960, 540, "playerqr").setScale(0.6);
+                    this.add.image(960, 540, "playerqr").setScale(0.8);
+                    this.add.text(960, 200, "FestQuiz - Gå med", {
+                        fontSize: "48px", color: "#ffffff", fontStyle: "bold"
+                    }).setOrigin(0.5);
+                    this.add.text(960, 880, "Skanna QR-koden för att gå med i spelet", {
+                        fontSize: "32px", color: "#cccccc"
+                    }).setOrigin(0.5);
                 }
             }
 
@@ -73,6 +85,7 @@
 
             // Scene sätts av servern
             let sceneToStart = "{{SCENE}}";
+            console.log("Starting scene:", sceneToStart);
 
             // 🔴 VIKTIGT: vänta tills Phaser är redo
             game.events.once(Phaser.Core.Events.READY, () => {
