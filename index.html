@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- TV:n reloadar samma HTML -->
-    <meta http-equiv="refresh" content="2">
+    <meta http-equiv="refresh" content="3">
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -20,10 +21,7 @@
 
 <body>
     <script>
-        (async function () {
-            const params = new URLSearchParams(location.search);
-            const room = params.get("room");
-            const base = location.origin;
+        (function () {
 
             class HostScene extends Phaser.Scene {
                 constructor() { super("host"); }
@@ -32,7 +30,7 @@
                 }
                 create() {
                     this.add.image(960, 540, "hostqr").setScale(0.8);
-                    this.add.text(960, 200, "FestQuiz - Spelledare", {
+                    this.add.text(960, 200, "FestQuiz – Spelledare", {
                         fontSize: "48px", color: "#ffffff", fontStyle: "bold"
                     }).setOrigin(0.5);
                     this.add.text(960, 880, "Skanna QR-koden för att bli spelledare", {
@@ -48,7 +46,7 @@
                 }
                 create() {
                     this.add.image(960, 540, "playerqr").setScale(0.8);
-                    this.add.text(960, 200, "FestQuiz - Gå med", {
+                    this.add.text(960, 200, "FestQuiz – Gå med", {
                         fontSize: "48px", color: "#ffffff", fontStyle: "bold"
                     }).setOrigin(0.5);
                     this.add.text(960, 880, "Skanna QR-koden för att gå med i spelet", {
@@ -83,14 +81,13 @@
                 scene: [HostScene, JoinScene, GameScene, ScoreboardScene]
             });
 
-            // Scene sätts av servern
-            let sceneToStart = "{{SCENE}}";
-            console.log("Starting scene:", sceneToStart);
+            // SCENE KOMMER FRÅN SERVERN
+            const sceneToStart = "{{SCENE}}";
 
-            // 🔴 VIKTIGT: vänta tills Phaser är redo
             game.events.once(Phaser.Core.Events.READY, () => {
                 game.scene.start(sceneToStart);
             });
+
         })();
     </script>
 </body>
