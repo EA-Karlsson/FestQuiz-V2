@@ -71,7 +71,7 @@
             const wsUrl =
                 (location.protocol === "https:" ? "wss://" : "ws://") +
                 location.host +
-                `/ws/tv?room=${encodeURIComponent(room)}`;
+                `/ws/tv/${encodeURIComponent(room)}`;
 
             let socket;
 

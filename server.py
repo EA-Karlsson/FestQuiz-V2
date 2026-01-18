@@ -777,7 +777,7 @@ def quiz(
 
 from fastapi import WebSocket, WebSocketDisconnect
 
-@app.websocket("/ws/tv")
+@app.websocket("/ws/tv/{room}")
 async def tv_websocket(websocket: WebSocket, room: str):
     await websocket.accept()
 
@@ -789,10 +789,9 @@ async def tv_websocket(websocket: WebSocket, room: str):
             "message": "TV ansluten"
         })
 
-        # Håll anslutningen öppen (TV skickar inget)
+        # Håll anslutningen öppen
         while True:
             await websocket.receive_text()
 
     except WebSocketDisconnect:
-        # TV:n stängde anslutningen – helt OK
         pass
