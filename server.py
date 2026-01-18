@@ -772,3 +772,27 @@ def quiz(
     )
 
     return questions
+
+# ================== TV WEBSOCKET (NYTT, ISOLERAT) ==================
+
+from fastapi import WebSocket, WebSocketDisconnect
+
+@app.websocket("/ws/tv")
+async def tv_websocket(websocket: WebSocket, room: str):
+    await websocket.accept()
+
+    try:
+        # Skicka livstecken direkt när TV:n ansluter
+        await websocket.send_json({
+            "type": "connected",
+            "room": room,
+            "message": "TV ansluten"
+        })
+
+        # Håll anslutningen öppen (TV skickar inget)
+        while True:
+            await websocket.receive_text()
+
+    except WebSocketDisconnect:
+        # TV:n stängde anslutningen – helt OK
+        pass

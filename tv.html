@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz – TV</title>
+
+    <!-- TV-säker: ingen cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0d0d0d;
+            color: #e5e7eb;
+            font-family: system-ui, Arial, sans-serif;
+        }
+
+        .wrapper {
+            padding: 24px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        pre {
+            margin-top: 16px;
+            padding: 16px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: auto;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .status {
+            opacity: 0.7;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>📺 FestQuiz – TV</h1>
+        <div class="status" id="status">Väntar på backend…</div>
+        <pre id="state">(ingen data ännu)</pre>
+    </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const room = params.get("room");
+
+            const statusEl = document.getElementById("status");
+            const stateEl = document.getElementById("state");
+
+            if (!room) {
+                statusEl.textContent = "❌ Ingen room i URL";
+                return;
+            }
+
+            // ⚠️ Placeholder: URL justeras när backend-delen är klar
+            const wsUrl =
+                (location.protocol === "https:" ? "wss://" : "ws://") +
+                location.host +
+                `/ws/tv?room=${encodeURIComponent(room)}`;
+
+            let socket;
+
+            function connect() {
+                statusEl.textContent = "🔌 Ansluter till backend…";
+                socket = new WebSocket(wsUrl);
+
+                socket.onopen = () => {
+                    statusEl.textContent = "✅ Ansluten – väntar på state";
+                };
+
+                socket.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        stateEl.textContent = JSON.stringify(data, null, 2);
+                    } catch {
+                        stateEl.textContent = event.data;
+                    }
+                };
+
+                socket.onclose = () => {
+                    statusEl.textContent = "⚠️ Anslutning stängd – försöker igen…";
+                    setTimeout(connect, 2000);
+                };
+
+                socket.onerror = () => {
+                    statusEl.textContent = "❌ WebSocket-fel";
+                };
+            }
+
+            connect();
+        })();
+    </script>
+</body>
+
+</html>
