@@ -41,7 +41,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app.mount(
     "/static",
-    StaticFiles(directory=BASE_DIR, html=False),
+    StaticFiles(directory=BASE_DIR, html=True),
     name="static"
 )
 
@@ -218,7 +218,7 @@ def create_room(host_plays: bool = False):
         "current_question": None,
         "difficulty": "medium",
         "timer": None,
-        "phase": "menu",
+        "phase": "idle",
         "answers_locked": False,
         "last_result": None,
         "final_results": []
@@ -535,7 +535,7 @@ def reset_room(room: str):
     room_data["started"] = False
     room_data["current_question"] = None
     room_data["timer"] = None
-    room_data["phase"] = "menu"
+    room_data["phase"] = "idle"
     room_data["answers_locked"] = False
     room_data["last_result"] = None
     room_data["final_results"] = []
@@ -552,57 +552,69 @@ def reset_room(room: str):
 
     return {"status": "reset", "roomCode": room_code}
 
-# ================== TV START (V2 – SCENE-BASERAD) ==================
+# ================== TV START (MINIMAL ÄNDRING) ==================
 
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi import Request
-import os
+from fastapi.responses import RedirectResponse
 
 @app.get("/", response_class=HTMLResponse)
-def serve_tv(request: Request):
+def serve_start(request: Request):
     room = request.query_params.get("room")
 
-    # Skapa room om den saknas
     if not room:
         code = generate_room_code()
         ROOMS[code] = {
             "code": code,
-            "host_ready": False,
-            "started": False,
-            "phase": "menu",
+            "host_plays": False,
             "players": {},
+            "started": False,
             "current_question": None,
+            "difficulty": "medium",
+            "timer": None,
+            "phase": "idle",
+            "answers_locked": False,
+            "last_result": None,
+            "final_results": [],
+            "host_ready": False
         }
+        # 🔒 LÅS TV:N TILL ROOM VIA URL
         return RedirectResponse(url=f"/?room={code}")
 
     code = room.upper()
-    room_data = ROOMS.get(code)
-    if not room_data:
-        return HTMLResponse("NO ROOM")
 
-    # ===== SCENE-LOGIK =====
-    if not room_data.get("host_ready"):
-        scene = "host"
-    elif not room_data.get("started"):
-        scene = "join"
-    elif room_data.get("phase") == "scoreboard":
-        scene = "scoreboard"
-    else:
-        scene = "game"
+    if code not in ROOMS:
+        ROOMS[code] = {
+            "code": code,
+            "host_plays": False,
+            "players": {},
+            "started": False,
+            "current_question": None,
+            "difficulty": "medium",
+            "timer": None,
+            "phase": "idle",
+            "answers_locked": False,
+            "last_result": None,
+            "final_results": [],
+            "host_ready": False
+        }
 
-    with open(os.path.join(BASE_DIR, "index.html"), "r", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "start.html"), "r", encoding="utf-8") as f:
         html = f.read()
 
     base = str(request.base_url).rstrip("/")
 
-    html = (
-        html
-        .replace("{{SCENE}}", scene)
-        .replace("{{HOST_QR_SRC}}", f"{base}/qr/{code}/host.png")
-        .replace("{{JOIN_QR_SRC}}", f"{base}/qr/{code}/player.png")
+    html = html.replace(
+        "{{JOIN_QR_SRC}}",
+        f"{base}/qr/{code}/player.png"
+    ).replace(
+        "{{HOST_QR_SRC}}",
+        f"{base}/qr/{code}/host.png"
     )
 
-    return HTMLResponse(html)
+    return html
+
+@app.get("/start.html")
+def serve_start_html():
+    return FileResponse(os.path.join(BASE_DIR, "start.html"))
 
 # ================== HOST ENTRY (ORÖRD) ==================
 

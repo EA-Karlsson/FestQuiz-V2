@@ -57,6 +57,13 @@
         </button>
     </div>
 
+    <div id="qrBlock" style="margin: 24px 0; text-align: center;">
+        <p style="margin-bottom: 12px; opacity: 0.8;">
+            Scanna för att gå med
+        </p>
+        <img id="qrImage" alt="QR-kod för att gå med" />
+    </div>
+
     <div id="questionBox" style="margin:16px 0; padding:16px; background:#111827; border-radius:8px;">
         <div style="opacity:0.7; margin-bottom:8px;">Aktuell fråga</div>
         <div id="currentQuestion" style="font-size:1.2rem;">
@@ -112,6 +119,10 @@
         }
 
         roomEl.textContent = roomCode.toUpperCase();
+
+        // === QR-KOD (BACKEND PNG) ===
+        document.getElementById("qrImage").src =
+            `/qr/${roomCode}/player.png`;
 
         // ✅ NYTT: Om hosten ska spela, visa namn + join-knapp
         if (hostPlays) {
@@ -169,6 +180,8 @@
                 // ✅ NYTT: om hosten spelar → gå till join-vyn med playerId
                 if (hostPlays) {
                     const pid = localStorage.getItem("festquiz_playerId");
+                    window.location.href =
+                        `/static/join.html?room=${roomCode}&playerId=${pid}`;
                 }
 
             } catch {

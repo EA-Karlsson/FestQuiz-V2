@@ -2,94 +2,130 @@
 <html lang="sv">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>FestQuiz TV</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- TV:n reloadar samma HTML -->
-    <meta http-equiv="refresh" content="3">
-
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
-
-    <style>
-        body {
-            margin: 0;
-            background: #0d0d0d;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>🎉 FestQuiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <!-- STARTSKÄRM -->
+    <div id="startScreen">
+        <h1>🎉 FestQuiz</h1>
+
+        <h2>Välj kategori</h2>
+        <div id="categories">
+            <button data-category="">Alla</button>
+            <button data-category="modern">🆕 2025 & Nutid</button>
+            <button data-category="9">Allmänbildning</button>
+            <button data-category="11">Film</button>
+            <button data-category="12">Musik</button>
+            <button data-category="21">Sport</button>
+            <button data-category="15">TV-Spel</button>
+            <button data-category="23">Historia</button>
+            <button data-category="17">Vetenskap</button>
+            <button data-category="22">Geografi</button>
+            <button id="randomCategory">🎲 Slumpa kategori</button>
+        </div>
+
+        <h2>Antal frågor</h2>
+        <select id="questionCount">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+
+        <h2>Svårighetsgrad</h2>
+        <select id="difficulty">
+            <option value="">Blandad</option>
+            <option value="easy">Lätt</option>
+            <option value="medium">Medel</option>
+            <option value="hard">Svår</option>
+        </select>
+
+        <button id="startBtn">Starta quiz</button>
+        <button id="musicBtn">▶️ Starta musik</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quizScreen" class="hidden">
+        <p id="categoryLine" style="
+        font-size: 1.1rem;
+        font-weight: 700;
+        opacity: 0.85;
+        margin: 10px 0 2px;
+    "></p>
+
+        <p id="progress"></p>
+        <h2 id="questionText"></h2>
+        <p id="statusText" style="opacity:.7; min-height:1.2em;"></p>
+        <div id="answers"></div>
+        <p id="timer"></p>
+    </div>
+
+    <script src="app.js"></script>
+
     <script>
         (function () {
+            const params = new URLSearchParams(window.location.search);
+            const roomCode = params.get("room");
+            if (!roomCode) return;
 
-            class HostScene extends Phaser.Scene {
-                constructor() { super("host"); }
-                preload() {
-                    this.load.image("hostqr", "{{HOST_QR_SRC}}");
-                }
-                create() {
-                    this.add.image(960, 540, "hostqr").setScale(0.8);
-                    this.add.text(960, 200, "FestQuiz – Spelledare", {
-                        fontSize: "48px", color: "#ffffff", fontStyle: "bold"
-                    }).setOrigin(0.5);
-                    this.add.text(960, 880, "Skanna QR-koden för att bli spelledare", {
-                        fontSize: "32px", color: "#cccccc"
-                    }).setOrigin(0.5);
-                }
-            }
-
-            class JoinScene extends Phaser.Scene {
-                constructor() { super("join"); }
-                preload() {
-                    this.load.image("playerqr", "{{JOIN_QR_SRC}}");
-                }
-                create() {
-                    this.add.image(960, 540, "playerqr").setScale(0.8);
-                    this.add.text(960, 200, "FestQuiz – Gå med", {
-                        fontSize: "48px", color: "#ffffff", fontStyle: "bold"
-                    }).setOrigin(0.5);
-                    this.add.text(960, 880, "Skanna QR-koden för att gå med i spelet", {
-                        fontSize: "32px", color: "#cccccc"
-                    }).setOrigin(0.5);
-                }
-            }
-
-            class GameScene extends Phaser.Scene {
-                constructor() { super("game"); }
-                create() {
-                    this.add.text(960, 540, "QUIZET KÖR", {
-                        fontSize: "48px", color: "#ffffff"
-                    }).setOrigin(0.5);
-                }
-            }
-
-            class ScoreboardScene extends Phaser.Scene {
-                constructor() { super("scoreboard"); }
-                create() {
-                    this.add.text(960, 540, "RESULTAT", {
-                        fontSize: "48px", color: "#ffffff"
-                    }).setOrigin(0.5);
-                }
-            }
-
-            const game = new Phaser.Game({
-                type: Phaser.AUTO,
-                width: 1920,
-                height: 1080,
-                backgroundColor: "#0d0d0d",
-                scene: [HostScene, JoinScene, GameScene, ScoreboardScene]
-            });
-
-            // SCENE KOMMER FRÅN SERVERN
-            const sceneToStart = "{{SCENE}}";
-
-            game.events.once(Phaser.Core.Events.READY, () => {
-                game.scene.start(sceneToStart);
-            });
-
+            window.sendQuestionToV2 = async function (questionObject) {
+                try {
+                    await fetch(`/room/question?room=${roomCode}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(questionObject)
+                    });
+                } catch { }
+            };
         })();
     </script>
+
+    <script>
+        let v2TimerInterval = null;
+
+        function startV2Countdown(roomCode) {
+            if (v2TimerInterval) clearInterval(v2TimerInterval);
+
+            v2TimerInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/room/${roomCode}`);
+                    if (!res.ok) return;
+
+                    const data = await res.json();
+
+                    // TIMER (orörd)
+                    if (data.timer && data.timer.ends_at) {
+                        const now = Date.now() / 1000;
+                        const remaining = Math.max(0, Math.round(data.timer.ends_at - now));
+                        const timerEl = document.getElementById("timer");
+                        if (timerEl) timerEl.textContent = remaining;
+                    }
+
+                    // KATEGORI (NY, EGET ELEMENT)
+                    const catEl = document.getElementById("categoryLine");
+                    if (catEl) {
+                        catEl.textContent =
+                            data?.current_question?.category || "Kategori okänd";
+                    }
+
+                } catch {
+                    // tyst
+                }
+            }, 500);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const roomCode = params.get("room");
+            if (roomCode) startV2Countdown(roomCode);
+        });
+    </script>
+
 </body>
 
 </html>
