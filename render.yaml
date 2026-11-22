@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: FestQuiz-V2
+    runtime: python
+    repo: https://github.com/EA-Karlsson/FestQuiz-V2
+    branch: main
+    plan: free
+    region: frankfurt
+    autoDeployTrigger: commit
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port 10000
+    envVars:
+      - key: DEEPL_API_KEY
+        fromService:
+          name: festquiz
+          type: web
+          envVarKey: DEEPL_API_KEY
