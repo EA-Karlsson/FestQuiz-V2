@@ -65,11 +65,21 @@ _UNDATED_OFFICE = re.compile(
     r"mayor|monarch|ceo|governor|head coach|world champion)(?:\s+(?:of|in|for)\b|\s*\?)",
     re.IGNORECASE,
 )
+_UNDATED_CHANGING_STATUS = re.compile(
+    r"\b(?:"
+    r"(?:has|have|holds?|commands?) (?:an? |the )?(?:parliamentary )?majority|"
+    r"(?:controls?|is in control of) (?:the )?(?:parliament|senate|national assembly|house of representatives)|"
+    r"(?:holds?|has|have) (?:the )?(?:(?:world|national|olympic) )?record|"
+    r"(?:most|least) populous|(?:largest|smallest) (?:city|country|state) by population|"
+    r"population of|(?:market capitali[sz]ation|exchange rate) of"
+    r")\b",
+    re.IGNORECASE,
+)
 _EXPLICIT_YEAR = re.compile(r"\b(?:1[5-9]\d{2}|20\d{2})\b")
 _OPINION = re.compile(r"\b(?:in (?:your|my|our) opinion|do you (?:think|prefer)|(?:your|my|our) favou?rite|arguably)\b", re.IGNORECASE)
 _SUBJECTIVE_RANK = re.compile(
-    r"\bthe (?:very )?(?:best(?![- ](?:selling|known))|greatest(?! (?:common|prime|integer|number|distance))|worst|funniest|"
-    r"prettiest|coolest|most beautiful|most iconic)\b",
+    r"\bthe (?:very )?(?:best(?![- ]selling)|greatest(?! (?:common|prime|integer|number|distance))|worst|funniest|"
+    r"prettiest|coolest|most beautiful|most famous|most iconic|most popular)\b",
     re.IGNORECASE,
 )
 _RANK_BASIS = re.compile(r"\b(?:awards?|oscars?|grammys?|emmys?|baftas?|golden globes?|voted|ranked|poll)\b", re.IGNORECASE)
@@ -99,7 +109,9 @@ def _candidate(question, correct, incorrect, *, source: str) -> _Candidate | Non
     question, correct, first, second, third = cleaned
     if _RELATIVE_TIME.search(question) or _OPINION.search(question):
         return None
-    if _UNDATED_OFFICE.search(question) and not _EXPLICIT_YEAR.search(question):
+    if not _EXPLICIT_YEAR.search(question) and (
+        _UNDATED_OFFICE.search(question) or _UNDATED_CHANGING_STATUS.search(question)
+    ):
         return None
     if _SUBJECTIVE_RANK.search(question) and not _RANK_BASIS.search(question):
         return None
