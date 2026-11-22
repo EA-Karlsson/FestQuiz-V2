@@ -37,6 +37,9 @@ class _Candidate:
 
 _OPENTDB_URL = "https://opentdb.com/api.php"
 _TRIVIA_API_URL = "https://the-trivia-api.com/v2/questions"
+_QUIZBASE_URL = "https://quizbase.runriva.com/api/v1/questions/random"
+_TRIVIAAPI_GAMES_URL = "https://triviaapi.games/v1/questions"
+_TRIVIAAPI_GAMES_SOURCE = "TriviaAPI.games"
 _TRIVIA_FILTERS = {
     "": {},
     "9": {"categories": "general_knowledge"},
@@ -48,6 +51,17 @@ _TRIVIA_FILTERS = {
     "17": {"categories": "science"},
     "22": {"categories": "geography"},
     "modern": {"tags": "era:21st-century"},
+}
+_QUIZBASE_CATEGORIES = {
+    "": "",
+    "9": "general-knowledge",
+    "11": "film",
+    "12": "music",
+    "21": "sports",
+    "15": "video-games",
+    "23": "history",
+    "17": "science-and-nature",
+    "22": "geography",
 }
 _DIFFICULTIES = {"", "easy", "medium", "hard"}
 _CACHE_LIMIT = 12000
@@ -183,6 +197,66 @@ def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
     return results
 
 
+def _quizbase(count: int, category: str, difficulty: str) -> list[_Candidate]:
+    api_key = os.getenv("QUIZBASE_API_KEY", "").strip()
+    slug = _QUIZBASE_CATEGORIES.get(category)
+    if not api_key or slug is None:
+        return []
+
+    params = {"amount": min(count, 50), "lang": "en", "type": "multiple", "source": "opentriviaqa"}
+    if slug:
+        params["category"] = slug
+    if difficulty:
+        params["difficulty"] = difficulty
+    payload = _fetch_json(_QUIZBASE_URL, params, {"X-API-Key": api_key})
+    if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+        return []
+
+    results = []
+    for row in payload["data"]:
+        if not isinstance(row, dict) or row.get("language") != "en" or row.get("type") != "multiple":
+            continue
+        attribution = row.get("attribution")
+        if (
+            not isinstance(attribution, dict)
+            or attribution.get("source") != "opentriviaqa"
+            or attribution.get("license") != "CC-BY-SA-4.0"
+            or attribution.get("modifications") not in ([], ["refined_text"])
+        ):
+            continue
+        topic = row.get("category")
+        if slug and (not isinstance(topic, dict) or topic.get("slug") != slug):
+            continue
+        if difficulty and row.get("difficulty") != difficulty:
+            continue
+        candidate = _candidate(
+            row.get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="QuizBase (OpenTriviaQA)"
+        )
+        if candidate:
+            results.append(candidate)
+    return results
+
+
+def _triviaapi_games(count: int, category: str, difficulty: str) -> list[_Candidate]:
+    api_key = os.getenv("TRIVIAAPI_GAMES_API_KEY", "").strip()
+    if not api_key or category or difficulty:
+        return []
+
+    payload = _fetch_json(_TRIVIAAPI_GAMES_URL, {"amount": min(count, 10)}, {"X-API-Key": api_key})
+    if not isinstance(payload, dict) or not isinstance(payload.get("questions"), list):
+        return []
+
+    results = []
+    for row in payload["questions"]:
+        if isinstance(row, dict):
+            candidate = _candidate(
+                row.get("question"), row.get("correct_answer"), row.get("incorrect_answers"), source=_TRIVIAAPI_GAMES_SOURCE
+            )
+            if candidate:
+                results.append(candidate)
+    return results
+
+
 def _keep_answer(text: str) -> bool:
     # Behåll uttryckliga citat och korta namn eller titlar, som i FestQuiz 2.0.
     if len(text) < 2 or (text[0], text[-1]) in {('"', '"'), ("'", "'"), ("“", "”"), ("«", "»")}:
@@ -198,11 +272,14 @@ def _keep_answer(text: str) -> bool:
 
 def _translate_batch(candidates: list[_Candidate], translations: dict[str, str], api_key: str) -> bool:
     needed = {}
+    cacheable = set()
     for candidate in candidates:
-        needed[candidate.question] = None
-        for answer in (candidate.correct, *candidate.incorrect):
-            if not _keep_answer(answer):
-                needed[answer] = None
+        answers = (candidate.correct, *candidate.incorrect)
+        texts = [candidate.question, *(answer for answer in answers if not _keep_answer(answer))]
+        needed.update(dict.fromkeys(texts))
+        # TriviaAPI.games tillåter visning i spelet men förbjuder att bygga en frågedatabas.
+        if candidate.source != _TRIVIAAPI_GAMES_SOURCE:
+            cacheable.update(texts)
 
     with _TRANSLATIONS_LOCK:
         for text in needed:
@@ -233,7 +310,7 @@ def _translate_batch(candidates: list[_Candidate], translations: dict[str, str],
         additions = dict(zip(batch, translated))
         translations.update(additions)
         with _TRANSLATIONS_LOCK:
-            _TRANSLATIONS.update(additions)
+            _TRANSLATIONS.update((text, result) for text, result in additions.items() if text in cacheable)
             while len(_TRANSLATIONS) > _CACHE_LIMIT:
                 _TRANSLATIONS.popitem(last=False)
     return True
@@ -267,10 +344,10 @@ def get_questions(
         raise QuestionUnavailable("Svensk översättning är inte aktiverad. DeepL behöver ställas in på servern.")
 
     count = 50 if category == "modern" else max(24, amount * 2)
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        first = executor.submit(_open_trivia, count, category, difficulty)
-        second = executor.submit(_trivia_api, count, category, difficulty)
-        pools = [first.result(), second.result()]
+    providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games)
+    with ThreadPoolExecutor(max_workers=len(providers)) as executor:
+        pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
+        pools = [result.result() for result in pending]
 
     for pool in pools:
         random.shuffle(pool)

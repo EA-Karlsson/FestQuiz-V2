@@ -209,3 +209,6 @@ button:active {
         font-size: 20px;
     }
 }
+
+.provider-credits { margin: 1.5rem 1rem; font-size: .9rem; }
+.provider-credits a { color: #ffcc00; }
