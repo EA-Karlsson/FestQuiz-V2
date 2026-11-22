@@ -70,8 +70,10 @@ _UNDATED_CHANGING_STATUS = re.compile(
     r"(?:has|have|holds?|commands?) (?:an? |the )?(?:parliamentary )?majority|"
     r"(?:controls?|is in control of) (?:the )?(?:parliament|senate|national assembly|house of representatives)|"
     r"(?:holds?|has|have) (?:the )?(?:(?:world|national|olympic) )?record|"
+    r"(?:has|have) (?:won|scored|earned|received|sold) (?:the )?most|"
     r"(?:most|least) populous|(?:largest|smallest) (?:city|country|state) by population|"
-    r"population of|(?:market capitali[sz]ation|exchange rate) of"
+    r"(?:largest|smallest|highest|lowest) (?:population|market cap(?:itali[sz]ation)?|gdp|exchange rate)|"
+    r"(?:population|market cap(?:itali[sz]ation)?|exchange rate) of"
     r")\b",
     re.IGNORECASE,
 )
