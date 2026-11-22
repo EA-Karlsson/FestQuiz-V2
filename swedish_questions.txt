@@ -1,0 +1,154 @@
+# Kategori|svårighetsgrad|fråga|rätt svar|fel svar|fel svar|fel svar
+
+# Allmänbildning
+9|easy|I vilket spel kan en spelare göra schackmatt?|Schack|Dam|Backgammon|Othello
+9|easy|Vilket av följande är huvudingrediensen i traditionell guacamole?|Avokado|Gurka|Aubergine|Mango
+9|easy|Vad kallas den person som leder en orkester?|Dirigent|Scenograf|Notarie|Koreograf
+9|easy|Hur många kort finns det i en vanlig kortlek utan jokrar?|52|48|50|54
+9|easy|Vilken svensk högtid brukar firas genom att man dansar runt en lövad stång?|Midsommar|Valborg|Lucia|Trettondagen
+9|medium|Vilket träslag ger korken i traditionella vinflaskor?|Korkek|Korkbjörk|Sockerlönn|Sibirisk lärk
+9|medium|Vilken målning av Edvard Munch visar en gestalt med händerna mot sidorna av huvudet?|Skriet|Kyssen|Stjärnenatt|Flicka med pärlörhänge
+9|medium|Vilken baljväxt används vanligen till hummus?|Kikärta|Sojaböna|Kidneyböna|Mungböna
+9|medium|Vilken svensk författare skapade detektiven Ture Sventon?|Åke Holmberg|Astrid Lindgren|Tove Jansson|Maria Gripe
+9|medium|Vilket är nästa primtal efter 29?|31|33|37|39
+9|hard|Vad heter måttenheten som motsvarar exakt tolv dussin?|Gross|Tjog|Skålpund|Kvartal
+9|hard|Vilket språk är estniska närmast besläktat med av de här språken?|Finska|Lettiska|Litauiska|Ryska
+9|hard|Vilken konstnär målade tavlan Guernica?|Pablo Picasso|Joan Miró|Salvador Dalí|Diego Rivera
+9|hard|Vad är den traditionella huvudingrediensen vid sidan av socker i marsipan?|Mandel|Valnöt|Pistagenöt|Cashewnöt
+9|hard|Vem skrev romanen Kejsarn av Portugallien?|Selma Lagerlöf|Agnes von Krusenstjerna|Hjalmar Söderberg|Verner von Heidenstam
+
+# Film
+11|easy|Vilken färg har Shreks hud i filmen Shrek?|Grön|Blå|Lila|Orange
+11|easy|Vad heter snögubben i Disneys Frost?|Olof|Kristoffer|Sven|Hans
+11|easy|I vilken film glömmer familjen McCallister kvar Kevin när de åker på julsemester?|Ensam hemma|The Holiday|Polarexpressen|Love Actually
+11|easy|Vad heter lejonungen som blir vuxen och återvänder till sitt kungarike i Lejonkungen?|Simba|Mufasa|Timon|Zazu
+11|easy|Vilken typ av djur är huvudpersonen i Pixars film Ratatouille?|Råtta|Katt|Fågel|Kanin
+11|medium|Vem spelade huvudrollen som Neo i The Matrix?|Keanu Reeves|Brad Pitt|Christian Bale|Tom Cruise
+11|medium|Vem spelade forskaren Ryan Stone i rymdfilmen Gravity från 2013?|Sandra Bullock|Jodie Foster|Jessica Chastain|Emily Blunt
+11|medium|Vem regisserade Spirited Away?|Hayao Miyazaki|Isao Takahata|Makoto Shinkai|Satoshi Kon
+11|medium|Vilken svensk film av Ingmar Bergman visar en riddare spela schack med Döden?|Det sjunde inseglet|Smultronstället|Persona|Såsom i en spegel
+11|medium|I vilken film spelar Frances McDormand polischefen Marge Gunderson?|Fargo|Blood Simple|No Country for Old Men|A Serious Man
+11|hard|Vem spelade den kvinnliga huvudrollen i Alfred Hitchcocks Fönstret åt gården?|Grace Kelly|Kim Novak|Tippi Hedren|Ingrid Bergman
+11|hard|Vilken film tilldelades Guldpalmen i Cannes 2019?|Parasit|Shoplifters|Roma|Smärta och ära
+11|hard|Vem regisserade den italienska filmen Cykeltjuven från 1948?|Vittorio De Sica|Federico Fellini|Roberto Rossellini|Luchino Visconti
+11|hard|Vilken film fick den första Oscarsutmärkelsen för bästa animerade långfilm?|Shrek|Toy Story|Spirit – Hästen från vildmarken|Ice Age
+11|hard|I vilken stad utspelar sig den stora slutjakten i filmen Den tredje mannen?|Wien|Berlin|Rom|Paris
+
+# Musik
+12|easy|Vilken svensk grupp vann Eurovision 1974 med Waterloo?|Abba|Ace of Base|Roxette|Gyllene Tider
+12|easy|Vilket instrument har normalt 88 tangenter i en modern flygel?|Piano|Orgel|Cembalo|Dragspel
+12|easy|Vilken artist sjunger låten Thriller?|Michael Jackson|Prince|Stevie Wonder|Elton John
+12|easy|Vilket av de här instrumenten tillhör stråkinstrumenten?|Cello|Oboe|Trumpet|Triangel
+12|easy|Vilket brittiskt band släppte låten Yellow Submarine?|The Beatles|The Rolling Stones|The Who|Pink Floyd
+12|medium|Vem komponerade De fyra årstiderna?|Antonio Vivaldi|Johann Sebastian Bach|George Frideric Handel|Joseph Haydn
+12|medium|Vilken artist gav ut låten Jag kommer på albumet Satan i gatan år 2011?|Veronica Maggio|Laleh|Miriam Bryant|Melissa Horn
+12|medium|Vilket band spelade in albumet Rumours från 1977?|Fleetwood Mac|The Eagles|Dire Straits|Supertramp
+12|medium|Vilka två personer utgjorde duon Roxette?|Marie Fredriksson och Per Gessle|Lena Philipsson och Orup|Carola Häggkvist och Tommy Nilsson|Nina Persson och Peter Svensson
+12|medium|Vilken musikstil förknippas Bob Marley främst med?|Reggae|Bluegrass|Disco|Glamrock
+12|hard|Vilken jazzmusiker spelade trumpet på albumet Kind of Blue?|Miles Davis|Chet Baker|Dizzy Gillespie|Louis Armstrong
+12|hard|Vilken tonsättare skrev orkesterstycket Boléro?|Maurice Ravel|Claude Debussy|Camille Saint-Saëns|Erik Satie
+12|hard|Hur många halvtonssteg är det mellan tonerna i en ren kvint?|7|5|6|8
+12|hard|Vilken artist släppte albumet Hounds of Love 1985?|Kate Bush|Annie Lennox|Tori Amos|Debbie Harry
+12|hard|Vem var trummis i Led Zeppelin under bandets ursprungliga period?|John Bonham|Roger Taylor|Keith Moon|Ian Paice
+
+# Sport
+21|easy|Hur många spelare per lag är normalt på planen vid avspark i elvamannafotboll?|11|9|10|12
+21|easy|I vilken sport försöker man slå en boll över ett nät med racket och kan spela singel på gräs?|Tennis|Basket|Golf|Handboll
+21|easy|Vad kallas ett resultat i golf på ett slag under hålets par?|Birdie|Bogey|Eagle|Albatross
+21|easy|Vilken idrott kombinerar längdskidåkning och skytte?|Skidskytte|Nordisk kombination|Backhoppning|Curling
+21|easy|Vad heter den runda skiva som används i ishockey?|Puck|Boll|Sten|Ring
+21|medium|Vilken svensk vann OS-guld i dubbeltrap i Sydney 2000?|Pia Hansen|Håkan Dahlby|Pernilla Wiberg|Therese Alshammar
+21|medium|Mellan vilka två orter går det ordinarie Vasaloppet?|Sälen och Mora|Idre och Mora|Sälen och Malung|Älvdalen och Rättvik
+21|medium|Hur lång är en maratonsträcka?|42 195 meter|40 000 meter|41 500 meter|43 250 meter
+21|medium|Vilket land vann herrarnas första VM i fotboll år 1930?|Uruguay|Argentina|Brasilien|Italien
+21|medium|Vilken färg har den tröja som bärs av totalledaren i Tour de France?|Gul|Grön|Vit|Röd
+21|hard|Vilken gren kommer sist i herrarnas traditionella tiokamp utomhus?|1 500 meter|Spjutkastning|Stavhopp|400 meter
+21|hard|Vilken av de här sporterna ingick i modern femkamp vid OS i Paris 2024?|Fäktning|Bågskytte|Rodd|Brottning
+21|hard|Vilken svensk bordtennisspelare vann OS-guld i herrsingel 1992?|Jan-Ove Waldner|Jörgen Persson|Mikael Appelgren|Peter Karlsson
+21|hard|Vilken fotbollsspelare gjorde det första målet i finalen i herr-VM 1958?|Nils Liedholm|Pelé|Vavá|Gunnar Gren
+21|hard|Vilket land vann den första damturneringen i fotboll vid OS 1996?|USA|Norge|Tyskland|Brasilien
+
+# TV-spel
+15|easy|Vad heter Marios bror i Nintendos spel?|Luigi|Wario|Yoshi|Toad
+15|easy|Vilken färg är den ursprungliga Pac-Man-figuren?|Gul|Blå|Grön|Röd
+15|easy|Vad heter den mest kända gröna mobben som exploderar i Minecraft?|Creeper|Enderman|Slime|Ghast
+15|easy|I vilken spelserie samlar man fickmonster som Pikachu och Bulbasaur?|Pokémon|Animal Crossing|Kirby|Sonic the Hedgehog
+15|easy|Vad kallas brickorna som består av fyra små rutor i Tetris?|Tetrominoer|Dodekaedrar|Hexagoner|Kvartetter
+15|medium|Vilken svensk spelstudio utvecklade It Takes Two?|Hazelight Studios|Mojang Studios|DICE|Coffee Stain Studios
+15|medium|Vad heter huvudpersonen i den första The Legend of Zelda från 1986?|Link|Zelda|Ganon|Impa
+15|medium|I vilken spelserie förekommer figuren GLaDOS?|Portal|Half-Life|BioShock|Mass Effect
+15|medium|I vilken fiktiv undervattensstad utspelar sig huvuddelen av det första BioShock?|Rapture|Columbia|Kyrat|Midgar
+15|medium|Vilken färg har den första Game Boys skärm i originalutförande?|Grönaktig|Rödaktig|Blåaktig|Lilaaktig
+15|hard|Vad heter studion som först utvecklade det ursprungliga spelet Doom från 1993?|id Software|Apogee Software|Looking Glass Studios|Interplay Productions
+15|hard|Vilken Final Fantasy-del utspelar sig delvis i staden Midgar?|Final Fantasy VII|Final Fantasy VI|Final Fantasy VIII|Final Fantasy IX
+15|hard|Vilket år kom den första PlayStation-konsolen ut i Japan?|1994|1991|1996|1998
+15|hard|Vad heter yngsta huvudpersonen som spelaren styr i The Last of Us Part II?|Ellie|Abby|Dina|Yara
+15|hard|Vilken designer ledde utvecklingen av det första Civilization-spelet från 1991?|Sid Meier|Will Wright|Peter Molyneux|Richard Garriott
+
+# Historia
+23|easy|Vilket år föll Berlinmuren?|1989|1979|1991|1969
+23|easy|Vem var den första människan att sätta sin fot på månen?|Neil Armstrong|Buzz Aldrin|Jurij Gagarin|John Glenn
+23|easy|Vad hette skeppet som sjönk på sin jungfruresa 1912 sedan det krockat med ett isberg?|Titanic|Lusitania|Britannic|Olympic
+23|easy|Vilket av följande länder styrdes av faraoner under forntiden?|Egypten|Rom|Persien|Karthago
+23|easy|Vem valdes till kung av Sverige den 6 juni 1523?|Gustav Vasa|Karl XII|Gustav III|Erik XIV
+23|medium|Vilken brittisk drottning regerade när den spanska armadan besegrades 1588?|Elisabet I|Victoria|Maria II|Anna
+23|medium|Vad hände med regalskeppet Vasa år 1628?|Det sjönk på sin jungfruresa|Det erövrades av Danmark|Det förliste vid Gotland|Det lades upp som museiskepp
+23|medium|I vilket land började den industriella revolutionen på 1700-talet?|Storbritannien|Frankrike|Tyskland|USA
+23|medium|Vilken fred avslutade det trettioåriga kriget 1648?|Westfaliska freden|Freden i Roskilde|Freden i Kiel|Utrechtfreden
+23|medium|Vilket år upphörde unionen mellan Sverige och Norge?|1905|1895|1914|1920
+23|hard|Vilken bysantinsk huvudstad intog sultanen Mehmet II år 1453?|Konstantinopel|Antiochia|Alexandria|Tessaloniki
+23|hard|Vem var Sveriges första kvinnliga statsråd?|Karin Kock|Ulla Lindström|Alva Myrdal|Anna-Greta Leijon
+23|hard|Vilken av de här romerska kejsarna låg bakom ediktet i Milano år 313 tillsammans med Licinius?|Konstantin den store|Trajanus|Vespasianus|Marcus Aurelius
+23|hard|Vilket rike styrde Mansa Musa på 1300-talet?|Maliriket|Songhairiket|Ghanariket|Beninriket
+23|hard|Vilken dansk kung var en av undertecknarna av freden i Roskilde 1658?|Fredrik III|Kristian IV|Kristian V|Fredrik IV
+
+# Vetenskap
+17|easy|Vilken planet i solsystemet brukar kallas den röda planeten?|Mars|Venus|Jupiter|Saturnus
+17|easy|Vilken gas behöver människor andas in för att kroppens celler ska fungera?|Syre|Helium|Väte|Neon
+17|easy|Hur många ben har en vuxen spindel normalt?|8|4|6|10
+17|easy|Vilken symbol har grundämnet guld i periodiska systemet?|Au|Ag|Ga|Gd
+17|easy|Vid ungefär vilken temperatur fryser rent vatten vid normalt lufttryck?|0 °C|−10 °C|5 °C|10 °C
+17|medium|Vad heter processen där växter med hjälp av ljus bygger socker av koldioxid och vatten?|Fotosyntes|Jäsning|Kondensation|Celldelning
+17|medium|Vilken partikel har negativ elektrisk laddning?|Elektron|Proton|Neutron|Foton
+17|medium|I vilken del av människokroppen finns stigbygeln?|Mellanörat|Näsan|Underkäken|Handleden
+17|medium|Vilken är den vanligaste gasen i jordens atmosfär?|Kväve|Syre|Argon|Koldioxid
+17|medium|Vilken planet har kortast omloppstid runt solen?|Merkurius|Venus|Jorden|Mars
+17|hard|Vad mäts med SI-enheten pascal?|Tryck|Energi|Spänning|Effekt
+17|hard|Vad kallas djur som saknar ryggrad?|Ryggradslösa djur|Växelvarma djur|Urdjur|Ryggradssträngsdjur
+17|hard|Vilken sorts kemisk bindning uppstår när atomer delar elektronpar?|Kovalent bindning|Jonbindning|Vätebindning|Metallbindning
+17|hard|Vilken är den mest förekommande isotopen av kol?|Kol-12|Kol-13|Kol-14|Kol-15
+17|hard|Vilken måne har en tät atmosfär där kväve är den vanligaste gasen?|Titan|Europa|Io|Triton
+
+# Geografi
+22|easy|Vad heter Norges huvudstad?|Oslo|Bergen|Trondheim|Stavanger
+22|easy|I vilket land ligger staden Barcelona?|Spanien|Portugal|Frankrike|Italien
+22|easy|Vilket världshav är störst till ytan?|Stilla havet|Atlanten|Indiska oceanen|Norra ishavet
+22|easy|Genom vilket land rinner Nilen för att nå Medelhavet?|Egypten|Etiopien|Uganda|Kenya
+22|easy|Vilket lands huvudstad heter Tokyo?|Japan|Sydkorea|Kina|Filippinerna
+22|medium|Vad heter kanalen mellan Medelhavet och Röda havet?|Suezkanalen|Panamakanalen|Kielkanalen|Göta kanal
+22|medium|Vilken stad är huvudstad i Kanada?|Ottawa|Toronto|Montréal|Vancouver
+22|medium|Vilket sund skiljer Själland från Skåne?|Öresund|Stora Bält|Lilla Bält|Kattegatt
+22|medium|Vilket berg är högst i Afrika?|Kilimanjaro|Mount Kenya|Mount Stanley|Toubkal
+22|medium|Vilket land har öarna Nordön och Sydön som sina två största öar?|Nya Zeeland|Island|Irland|Madagaskar
+22|hard|Vilket land omger Lesotho helt?|Sydafrika|Moçambique|Botswana|Eswatini
+22|hard|Vilket land har Valletta som huvudstad?|Malta|Cypern|San Marino|Monaco
+22|hard|Vilken europeisk flod rinner genom flest staters territorier eller längs deras gränser?|Donau|Rhen|Volga|Elbe
+22|hard|Vilken ö är störst till ytan i Medelhavet?|Sicilien|Sardinien|Cypern|Kreta
+22|hard|I vilket land ligger Salar de Uyuni, världens största saltslätt?|Bolivia|Chile|Peru|Argentina
+
+# 2020-talet
+modern|easy|Vilket land vann herrarnas fotbolls-VM i Qatar 2022?|Argentina|Frankrike|Kroatien|Brasilien
+modern|easy|Vilken stad stod värd för sommar-OS 2024?|Paris|Rom|Tokyo|Aten
+modern|easy|Vilken svensk vann Eurovision 2023 med låten Tattoo?|Loreen|Cornelia Jakobs|Måns Zelmerlöw|Sanna Nielsen
+modern|easy|Vem spelade titelrollen i Barbie från 2023?|Margot Robbie|Emma Stone|Saoirse Ronan|Anne Hathaway
+modern|easy|Vilket land blev medlem i Nato i mars 2024?|Sverige|Finland|Österrike|Schweiz
+modern|medium|Vilken regissör gjorde filmen Oppenheimer, som hade premiär 2023?|Christopher Nolan|Greta Gerwig|Martin Scorsese|Denis Villeneuve
+modern|medium|Vilket spel utvecklat av svenska Hazelight utsågs till Game of the Year på The Game Awards 2021?|It Takes Two|Unravel Two|A Way Out|Sackboy: A Big Adventure
+modern|medium|Vilket år genomfördes de sommar-OS i Tokyo som ursprungligen skulle hållas år 2020?|2021|2020|2022|2023
+modern|medium|Vilket namn fick NASA:s lilla helikopter som flög på Mars första gången 2021?|Ingenuity|Perseverance|Curiosity|Sojourner
+modern|medium|Vilken stad arrangerade Eurovision Song Contest i Sverige 2024?|Malmö|Stockholm|Göteborg|Uppsala
+modern|hard|Vad heter asteroiden som rymdsonden DART träffade när NASA testade att ändra dess bana 2022?|Dimorphos|Bennu|Ryugu|Eros
+modern|hard|Från vilket land kom laget som vann damernas fotbolls-VM 2023?|Spanien|England|Sverige|Australien
+modern|hard|Vilket sötningsmedel klassade IARC som möjligen cancerframkallande år 2023?|Aspartam|Sackarin|Sukralos|Xylitol
+modern|hard|Vilket land arrangerade herrarnas fotbolls-EM 2024?|Tyskland|Frankrike|England|Italien
+modern|hard|Vilken stad höll FN:s klimatmöte COP28 år 2023?|Dubai|Glasgow|Baku|Sharm el-Sheikh

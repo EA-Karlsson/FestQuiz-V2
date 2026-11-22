@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#101426">
+    <title>FestQuiz</title>
+    <link rel="stylesheet" href="/assets/play.css">
+    <script src="/assets/play.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="FestQuiz, startsida"><span aria-hidden="true">?</span>FestQuiz</a>
+        <div class="topbar-end">
+            <button class="utility" id="music-button" type="button" aria-pressed="false" hidden>Spela musik</button>
+            <a class="utility" id="solo-link" href="/solo" hidden>Spela själv</a>
+            <span class="role" id="role"></span>
+        </div>
+    </header>
+
+    <main class="page">
+        <p class="notice" id="boot-status" role="status">Startar FestQuiz…</p>
+        <noscript><p class="notice">Aktivera JavaScript i webbläsaren och ladda om sidan för att spela.</p></noscript>
+        <p class="notice" id="notice" role="status" hidden></p>
+
+        <section class="panel welcome" id="welcome" hidden>
+            <h1>FestQuiz</h1>
+            <p>Öppna spelplanen på TV:n. Använd mobilen för att leda spelet eller svara.</p>
+            <button class="primary" id="create" type="button">Skapa spelrum</button>
+            <a class="utility" href="/spela">Gå med i ett spel</a>
+        </section>
+
+        <section class="panel" id="join" hidden>
+            <h1>Gå med i spelet</h1>
+            <form id="join-form">
+                <label for="room-input">Rumskod</label>
+                <input id="room-input" name="room" maxlength="8" autocapitalize="characters" autocomplete="off" required>
+                <label for="player-name">Ditt namn</label>
+                <input id="player-name" name="name" maxlength="24" autocomplete="nickname" required>
+                <button class="primary" type="submit">Gå med</button>
+            </form>
+        </section>
+
+        <section class="lobby" id="lobby" hidden>
+            <div class="panel lobby-main">
+                <p class="room" id="room-lobby"></p>
+                <h1 id="lobby-title"></h1>
+                <p id="lobby-note"></p>
+
+                <form id="host-form" hidden>
+                    <label for="category">Kategori</label>
+                    <select id="category" name="category">
+                        <option value="">Alla kategorier</option>
+                        <option value="random">Slumpa kategori</option>
+                        <option value="9">Allmänbildning</option>
+                        <option value="11">Film</option>
+                        <option value="12">Musik</option>
+                        <option value="21">Sport</option>
+                        <option value="15">TV-spel</option>
+                        <option value="23">Historia</option>
+                        <option value="17">Vetenskap</option>
+                        <option value="22">Geografi</option>
+                        <option value="modern">2025 &amp; nutid</option>
+                    </select>
+                    <div class="settings-row">
+                        <div>
+                            <label for="amount">Antal frågor</label>
+                            <select id="amount" name="amount">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="difficulty">Svårighetsgrad</label>
+                            <select id="difficulty" name="difficulty">
+                                <option value="">Blandad</option>
+                                <option value="easy">Lätt</option>
+                                <option value="medium">Medel</option>
+                                <option value="hard">Svår</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="check" for="host-plays">
+                        <input type="checkbox" id="host-plays">
+                        Jag vill också spela
+                    </label>
+                    <div id="host-name-field" hidden>
+                        <label for="host-name">Ditt namn</label>
+                        <input id="host-name" name="hostName" maxlength="24" autocomplete="nickname">
+                    </div>
+                    <button class="primary" id="start-game" type="submit">Starta spelet</button>
+                </form>
+                <section id="waiting-players" aria-label="Anslutna spelare" hidden>
+                    <h2 id="player-count"></h2>
+                    <ul class="names" id="lobby-names"></ul>
+                </section>
+                <button class="utility" id="cancel-room" type="button" hidden>Nytt rum</button>
+            </div>
+
+            <div class="panel qr-card" id="qr-card" hidden>
+                <img id="qr-image" alt="Skanna QR-koden med mobilens kamera" width="320" height="320" hidden>
+                <p id="qr-status">Laddar QR-koden…</p>
+                <a id="join-link" class="join-link" hidden></a>
+            </div>
+        </section>
+
+        <section id="game" hidden>
+            <div class="game-meta">
+                <p class="room" id="round"></p>
+                <p class="timer" id="timer" hidden></p>
+                <p id="answer-count"></p>
+            </div>
+            <section class="panel question-panel">
+                <h1 id="question"></h1>
+                <div id="choices" class="choices"></div>
+                <p id="answer-note" role="status" hidden></p>
+                <div id="host-actions" hidden>
+                    <button class="primary" id="reveal" type="button" hidden>Visa rätt svar</button>
+                    <button class="primary" id="next" type="button" hidden>Nästa fråga</button>
+                </div>
+            </section>
+        </section>
+
+        <section class="panel scoreboard" id="scoreboard" hidden>
+            <h2 id="score-heading">Poängställning</h2>
+            <ol id="scores"></ol>
+            <button class="primary" id="new-game" type="button" hidden>Nytt spel</button>
+        </section>
+    </main>
+
+    <footer class="sources">
+        <details>
+            <summary>Frågekällor</summary>
+            <p>Frågor har översatts och anpassats till FestQuiz.</p>
+            <p><a href="https://opentdb.com/api_config.php">Open Trivia DB</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
+            <p><a href="https://the-trivia-api.com/docs">The Trivia API</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </details>
+    </footer>
+    <script>
+        window.addEventListener("load", function () {
+            var status = document.getElementById("boot-status");
+            if (!status.hidden) status.textContent = "FestQuiz kunde inte starta i webbläsaren. Ladda om sidan och försök igen.";
+        });
+    </script>
+</body>
+</html>

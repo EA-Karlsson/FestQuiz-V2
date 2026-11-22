@@ -12,7 +12,6 @@ let results = [];     // sparar facitdata
 let mode = "quiz";    // quiz | facit
 
 const CATEGORY_IDS = ["9", "11", "12", "21", "15", "23", "17", "22"];
-const MODERN_CATEGORIES = ["11", "12", "15", "9", "17"];
 
 // ================== DOM READY ==================
 document.addEventListener("DOMContentLoaded", () => {
@@ -60,13 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.style.opacity = "1";
             btn.classList.add("active");
 
-            // Hantera kategori
-            if (btn.dataset.category === "modern") {
-                selectedCategory =
-                    MODERN_CATEGORIES[Math.floor(Math.random() * MODERN_CATEGORIES.length)];
-            } else {
-                selectedCategory = btn.dataset.category;
-            }
+            selectedCategory = btn.dataset.category;
         });
     });
 
@@ -131,17 +124,21 @@ async function startQuiz(
     startBtn.disabled = true;
     startBtn.textContent = "Laddar frågor...";
 
-    const count = questionCount.value;
-    const difficulty = difficultySelect.value;
+    const errorMessage = document.getElementById("quizError");
+    errorMessage.textContent = "";
+    const params = new URLSearchParams({
+        amount: questionCount.value,
+        category: selectedCategory,
+        difficulty: difficultySelect.value
+    });
 
     try {
-        const res = await fetch(
-            `https://festquiz.onrender.com/quiz?amount=${count}&category=${selectedCategory}&difficulty=${difficulty}`
-        );
-
-        if (!res.ok) throw new Error("Fetch failed");
-
-        questions = await res.json();
+        const res = await fetch("/quiz?" + params);
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(typeof data.detail === "string" ? data.detail : "Frågorna kunde inte hämtas.");
+        }
+        questions = data;
         if (!Array.isArray(questions) || questions.length === 0) {
             throw new Error("Inga frågor");
         }
@@ -155,7 +152,7 @@ async function startQuiz(
 
         showQuestion(questionText, answersDiv);
     } catch (e) {
-        console.error("STARTQUIZ ERROR:", e);
+        errorMessage.textContent = e.message || "Frågorna kunde inte hämtas. Försök igen.";
         startBtn.disabled = false;
         startBtn.textContent = "Starta quiz";
     }
@@ -182,14 +179,13 @@ function showQuestion(questionText, answersDiv) {
     const answers = shuffle([q.correct_answer, ...q.incorrect_answers]);
     const labels = ["A", "B", "C", "D"];
 
-    let correctLetter = "";
-
-    answers.forEach((a, i) => {
-        if (a === q.correct_answer) correctLetter = labels[i];
-
+    answers.forEach((answer, index) => {
         const div = document.createElement("div");
         div.className = "answer";
-        div.innerHTML = `<strong>${labels[i]}.</strong> ${a}`;
+        div.dataset.choice = answer;
+        const label = document.createElement("strong");
+        label.textContent = labels[index] + ".";
+        div.append(label, " " + answer);
         answersDiv.appendChild(div);
     });
 
@@ -209,7 +205,7 @@ function nextQuestion(questionText, answersDiv) {
     const answerEls = document.querySelectorAll(".answer");
 
     answerEls.forEach(el => {
-        if (el.textContent.includes(q.correct_answer)) {
+        if (el.dataset.choice === q.correct_answer) {
             correctLetter =
                 el.querySelector("strong")?.textContent.replace(".", "") || "";
         }
@@ -266,20 +262,23 @@ function showFacit() {
     const questionText = document.getElementById("questionText");
     const answersDiv = document.getElementById("answers");
 
-    questionText.innerHTML = `<span class="facit-title">✅ Facit</span>`;
-
-    answersDiv.innerHTML = results
-        .map((item, index) => {
-            return `
-                <div class="facit-item">
-                    <strong>${index + 1}. ${item.question}</strong>
-                    <div class="facit-answer">
-                        Rätt svar: <span>${item.correct_letter}</span> – ${item.correct_answer}
-                    </div>
-                </div>
-            `;
-        })
-        .join("");
+    const title = document.createElement("span");
+    title.className = "facit-title";
+    title.textContent = "✅ Facit";
+    questionText.replaceChildren(title);
+    answersDiv.replaceChildren(...results.map((item, index) => {
+        const entry = document.createElement("div");
+        entry.className = "facit-item";
+        const question = document.createElement("strong");
+        question.textContent = (index + 1) + ". " + item.question;
+        const answer = document.createElement("div");
+        answer.className = "facit-answer";
+        const letter = document.createElement("span");
+        letter.textContent = item.correct_letter;
+        answer.append("Rätt svar: ", letter, " – " + item.correct_answer);
+        entry.append(question, answer);
+        return entry;
+    }));
 
     const btn = document.createElement("button");
     btn.textContent = "Till startsidan";

@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 requests
+qrcode==8.2
+pypng==0.20220715.0
