@@ -137,11 +137,24 @@
         </section>
 
         <section class="panel scoreboard" id="scoreboard" hidden>
+            <p class="room" id="score-round"></p>
             <h1>Slutresultat</h1>
             <p class="winner" id="winner"></p>
             <ol id="scores"></ol>
             <button class="primary" id="open-review" type="button" hidden>Visa facit</button>
+            <button class="utility" id="new-round" type="button" hidden>Ny omgång</button>
             <button class="primary" id="new-game" type="button" hidden>Nytt spel</button>
+
+            <section id="series" hidden>
+                <h2>Resultat för alla omgångar</h2>
+                <p id="series-rounds"></p>
+                <table class="series-table">
+                    <thead>
+                        <tr><th scope="col">Spelare</th><th scope="col">Vinster</th><th scope="col">Senaste plats</th><th scope="col">Plats och poäng per omgång</th></tr>
+                    </thead>
+                    <tbody id="series-players"></tbody>
+                </table>
+            </section>
         </section>
 
         <section id="review" hidden>
@@ -150,6 +163,7 @@
             <div class="review-actions" id="review-actions" hidden>
                 <button class="utility" id="review-prev" type="button">Föregående fråga</button>
                 <button class="primary" id="review-next" type="button">Nästa fråga</button>
+                <button class="utility" id="new-round-review" type="button" hidden>Ny omgång</button>
             </div>
             <div class="review-columns">
                 <div class="panel review-question-panel">

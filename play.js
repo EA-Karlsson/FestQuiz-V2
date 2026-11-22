@@ -22,12 +22,15 @@ let qrFailed = false;
 let qrObjectUrl = "";
 let choicesKey = "";
 let scoresKey = "";
+let seriesKey = "";
 let namesKey = "";
 let reviewKey = "";
 let visibleSection = "";
-let finishedRoom = "";
+let finishedRound = "";
 let scoreboardUntil = 0;
 let vibratedQuestion = "";
+let draftAnswer = null;
+let hostNameRestored = false;
 
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
@@ -122,6 +125,7 @@ function expireRoom() {
     clearTimeout(pollTimer);
     ++revision;
     state = null;
+    draftAnswer = null;
     render();
     notice("Spelrummet är inte längre aktivt. Öppna ett nytt rum på TV:n.");
 }
@@ -159,7 +163,7 @@ async function poll() {
         const claiming = role === "host" && (!state || !state.hostReady);
         const update = await request(roomPath(claiming ? "/claim" : ""), {
             method: claiming ? "POST" : "GET",
-            credential: token,
+            credential: role === "tv" ? "" : token,
         });
         if (before !== revision || pending) return;
         state = update;
@@ -183,7 +187,7 @@ async function openTvRoom(newRoom = false) {
     await act("setup", async () => {
         if (!newRoom && token) {
             try {
-                state = await request(roomPath(), { credential: token });
+                state = await request(roomPath());
                 beginPolling();
                 return;
             } catch (error) {
@@ -201,7 +205,7 @@ async function openTvRoom(newRoom = false) {
         clearTimeout(pollTimer);
         resetQr();
         render();
-        state = await request(roomPath(), { credential: token });
+        state = await request(roomPath());
         beginPolling();
     }, true);
 }
@@ -287,6 +291,11 @@ async function updateQr() {
     }
 }
 
+function showHostName(enabled) {
+    element("host-name-field").hidden = !enabled;
+    element("host-name").required = enabled;
+}
+
 function renderLobby() {
     showSection("lobby");
     element("room-lobby").textContent = `Rum ${room}`;
@@ -304,6 +313,12 @@ function renderLobby() {
     } else if (role === "host") {
         element("lobby-title").textContent = "Ställ in spelet";
         element("lobby-note").textContent = "Deltagarna går med via QR-koden på TV:n.";
+        if (!hostNameRestored && state.previousHostName) {
+            element("host-plays").checked = true;
+            element("host-name").value = state.previousHostName;
+            showHostName(true);
+        }
+        hostNameRestored = true;
         const start = element("start-game");
         const loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
@@ -340,10 +355,27 @@ function choiceCard(answer, index, tag) {
     return option;
 }
 
+function canChooseAnswer() {
+    return state && role !== "tv" && state.phase === "question" && state.canAnswer && state.deadline > Date.now() / 1000;
+}
+
+function chooseAnswer(questionId, choice) {
+    if (pending || !canChooseAnswer() || state.question.id !== questionId) return;
+    if (draftAnswer && draftAnswer.questionId === questionId && draftAnswer.choice === choice) {
+        roomAction("answer", { questionId, choice });
+    } else {
+        draftAnswer = { questionId, choice };
+        renderChoices(state.question);
+        renderAnswerNote();
+    }
+}
+
 function renderChoices(question) {
     const key = question.id + JSON.stringify(question.choices);
     const choices = element("choices");
     const tv = role === "tv";
+    const available = canChooseAnswer();
+    if (draftAnswer && (!available || draftAnswer.questionId !== question.id)) draftAnswer = null;
     choices.hidden = role === "host" && !state.canAnswer && state.yourChoice === null;
     if (key !== choicesKey) {
         if (tv) main.scrollTop = 0;
@@ -353,23 +385,40 @@ function renderChoices(question) {
             if (!tv) {
                 option.type = "button";
                 option.setAttribute("aria-label", `Svar ${letters[index]}`);
-                option.addEventListener("click", () => roomAction("answer", { questionId: question.id, choice: index }));
+                option.addEventListener("click", () => chooseAnswer(question.id, index));
             }
             return option;
         }));
     }
     [...choices.children].forEach((option, index) => {
-        const selected = state.yourChoice === index;
+        const selected = !tv && state.yourChoice === index;
+        const draft = !tv && draftAnswer && draftAnswer.choice === index;
         option.classList.toggle("selected", selected);
+        option.classList.toggle("draft", Boolean(draft));
         if (!tv) {
-            option.disabled = Boolean(pending) || !state.canAnswer || state.phase !== "question";
-            option.setAttribute("aria-pressed", String(selected));
+            option.disabled = Boolean(pending) || !available;
+            option.setAttribute("aria-pressed", String(Boolean(selected || draft)));
         }
     });
 }
 
+function renderAnswerNote() {
+    const answerNote = element("answer-note");
+    let note = "";
+    if (state.phase === "closed") {
+        note = "Frågan är stängd.";
+    } else if (role !== "tv") {
+        if (state.yourChoice !== null) note = "Svaret är sparat.";
+        else if (pending === "answer") note = "Sparar svaret…";
+        else if (draftAnswer) note = `Tryck igen på ${letters[draftAnswer.choice]} för att låsa svaret.`;
+        else if (state.canAnswer && !canChooseAnswer()) note = "Svarstiden är slut.";
+    }
+    answerNote.hidden = !note;
+    if (answerNote.textContent !== note) answerNote.textContent = note;
+}
+
 function renderGame() {
-    const { question, current, total, answered, players, yourChoice, phase } = state;
+    const { question, current, total, answered, players, phase } = state;
     const closed = phase === "closed";
     showSection("game");
     const round = element("round");
@@ -381,17 +430,6 @@ function renderGame() {
     const heading = element("question");
     heading.hidden = role !== "tv";
     heading.textContent = role === "tv" ? question.text : "";
-    const answerNote = element("answer-note");
-    let note = "";
-    if (closed) {
-        note = "Frågan är stängd.";
-    } else if (yourChoice !== null) {
-        note = "Svaret är sparat.";
-    } else if (pending === "answer") {
-        note = "Sparar svaret…";
-    }
-    answerNote.hidden = !note;
-    if (answerNote.textContent !== note) answerNote.textContent = note;
     element("host-actions").hidden = role !== "host";
     element("reveal").hidden = closed;
     element("next").hidden = !closed;
@@ -399,17 +437,23 @@ function renderGame() {
     element("next").disabled = Boolean(pending);
     element("next").textContent = current === total ? "Visa slutresultat" : "Nästa fråga";
     renderChoices(question);
+    renderAnswerNote();
     updateTimer();
 }
 
 function renderScores() {
     showSection("scoreboard");
+    element("score-round").textContent = `Omgång ${state.roundNumber || 1}`;
     const newGame = element("new-game");
     const openReview = element("open-review");
+    const newRound = element("new-round");
     newGame.hidden = role !== "tv";
     newGame.disabled = Boolean(pending);
     openReview.hidden = role !== "host";
     openReview.disabled = Boolean(pending);
+    newRound.hidden = role !== "host";
+    newRound.disabled = Boolean(pending);
+    renderSeries();
     const ranked = state.players;
     const key = JSON.stringify(ranked);
     if (key === scoresKey) return;
@@ -439,6 +483,30 @@ function renderScores() {
     }));
 }
 
+function renderSeries() {
+    const { series } = state;
+    element("series").hidden = !series || !series.rounds;
+    if (!series || !series.rounds) return;
+    const key = JSON.stringify(series);
+    if (key === seriesKey) return;
+    seriesKey = key;
+    element("series-rounds").textContent = series.rounds === 1 ? "1 spelad omgång" : `${series.rounds} spelade omgångar`;
+    replaceContents(element("series-players"), series.players.map(({ name, wins, lastPlace, places }) => {
+        const row = document.createElement("tr");
+        const player = document.createElement("th");
+        player.scope = "row";
+        player.textContent = name;
+        row.appendChild(player);
+        const history = places.map(({ round, place, score }) => `Omgång ${round} · plats ${place} (${score} p)`).join(", ");
+        [wins, lastPlace == null ? "–" : lastPlace, history].forEach((value) => {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        return row;
+    }));
+}
+
 function renderPersonalResult() {
     const card = element("personal-result");
     const visible = role !== "tv" && state && typeof state.yourPlace === "number";
@@ -461,6 +529,8 @@ function renderReview() {
     element("review-actions").hidden = role !== "host";
     element("review-prev").disabled = current <= 1 || Boolean(pending);
     element("review-next").disabled = current >= total || Boolean(pending);
+    element("new-round-review").hidden = role !== "host";
+    element("new-round-review").disabled = Boolean(pending);
     element("restart-review").hidden = role !== "tv";
     element("restart-review").disabled = Boolean(pending);
     if (reviewKey === question.id) return;
@@ -499,7 +569,13 @@ function updateTimer() {
     const remaining = Math.max(0, Math.ceil(state.deadline - Date.now() / 1000));
     timer.classList.toggle("ending", remaining <= 5);
     const label = `${remaining} s kvar`;
-    if (timer.textContent !== label) timer.textContent = label;
+    if (timer.textContent !== label) {
+        timer.textContent = label;
+        if (remaining === 0 && role !== "tv" && state.canAnswer) {
+            renderChoices(state.question);
+            renderAnswerNote();
+        }
+    }
     if (role !== "tv" && remaining > 0 && remaining <= 5 && state.canAnswer && pending !== "answer"
         && state.question.id !== vibratedQuestion && typeof navigator.vibrate === "function") {
         vibratedQuestion = state.question.id;
@@ -514,6 +590,7 @@ function updateTimer() {
 function render() {
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
+    if (!state || state.phase !== "question") draftAnswer = null;
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby")) resetQr();
     if (!state) {
         if (role === "tv") {
@@ -528,14 +605,18 @@ function render() {
         }
         return;
     }
+    const roundKey = `${room}-${state.roundNumber || 1}`;
     if (state.phase === "lobby") renderLobby();
     else if (state.phase === "finished") {
-        if (role === "tv") finishedRoom = room;
+        if (role === "tv") {
+            finishedRound = roundKey;
+            scoreboardUntil = 0;
+        }
         renderScores();
     } else if (state.phase === "review") {
-        if (role === "tv" && finishedRoom !== room) {
+        if (role === "tv" && finishedRound !== roundKey) {
             // A fast host can open the review between two TV polls.
-            finishedRoom = room;
+            finishedRound = roundKey;
             scoreboardUntil = Date.now() + 1800;
         }
         if (role === "tv" && Date.now() < scoreboardUntil) renderScores();
@@ -583,10 +664,7 @@ element("retry-qr").addEventListener("click", () => {
     element(id).addEventListener("click", () => openTvRoom(true));
 });
 element("join-form").addEventListener("submit", joinRoom);
-element("host-plays").addEventListener("change", (event) => {
-    element("host-name-field").hidden = !event.target.checked;
-    element("host-name").required = event.target.checked;
-});
+element("host-plays").addEventListener("change", (event) => showHostName(event.target.checked));
 element("host-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const selected = element("category").value;
@@ -608,6 +686,8 @@ element("host-form").addEventListener("submit", (event) => {
 element("reveal").addEventListener("click", () => roomAction("reveal"));
 element("next").addEventListener("click", () => roomAction("next"));
 element("open-review").addEventListener("click", () => roomAction("review", { questionNumber: 1 }));
+element("new-round").addEventListener("click", () => roomAction("new-round"));
+element("new-round-review").addEventListener("click", () => roomAction("new-round"));
 element("review-prev").addEventListener("click", () => roomAction("review", { questionNumber: state.review.current - 1 }));
 element("review-next").addEventListener("click", () => roomAction("review", { questionNumber: state.review.current + 1 }));
 
@@ -622,6 +702,7 @@ function configureFullscreen() {
         || document.webkitCurrentFullScreenElement || document.webkitIsFullScreen);
     const sync = () => {
         const fullscreen = active();
+        document.body.classList.toggle("fullscreen-active", fullscreen);
         button.hidden = fullscreen;
         button.setAttribute("aria-pressed", String(fullscreen));
     };

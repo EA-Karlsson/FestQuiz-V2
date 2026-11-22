@@ -67,12 +67,15 @@ var qrFailed = false;
 var qrObjectUrl = "";
 var choicesKey = "";
 var scoresKey = "";
+var seriesKey = "";
 var namesKey = "";
 var reviewKey = "";
 var visibleSection = "";
-var finishedRoom = "";
+var finishedRound = "";
 var scoreboardUntil = 0;
 var vibratedQuestion = "";
+var draftAnswer = null;
+var hostNameRestored = false;
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
@@ -175,6 +178,7 @@ function expireRoom() {
     clearTimeout(pollTimer);
     ++revision;
     state = null;
+    draftAnswer = null;
     render();
     notice("Spelrummet är inte längre aktivt. Öppna ett nytt rum på TV:n.");
 }
@@ -237,7 +241,7 @@ function poll() {
                     claiming = role === "host" && (!state || !state.hostReady);
                     return [4 /*yield*/, request(roomPath(claiming ? "/claim" : ""), {
                             method: claiming ? "POST" : "GET",
-                            credential: token,
+                            credential: role === "tv" ? "" : token,
                         })];
                 case 2:
                     update = _a.sent();
@@ -284,7 +288,7 @@ function openTvRoom() {
                                     _a.label = 1;
                                 case 1:
                                     _a.trys.push([1, 3, , 4]);
-                                    return [4 /*yield*/, request(roomPath(), { credential: token })];
+                                    return [4 /*yield*/, request(roomPath())];
                                 case 2:
                                     state = _a.sent();
                                     beginPolling();
@@ -307,7 +311,7 @@ function openTvRoom() {
                                     clearTimeout(pollTimer);
                                     resetQr();
                                     render();
-                                    return [4 /*yield*/, request(roomPath(), { credential: token })];
+                                    return [4 /*yield*/, request(roomPath())];
                                 case 6:
                                     state = _a.sent();
                                     beginPolling();
@@ -477,6 +481,10 @@ function updateQr() {
         });
     });
 }
+function showHostName(enabled) {
+    element("host-name-field").hidden = !enabled;
+    element("host-name").required = enabled;
+}
 function renderLobby() {
     showSection("lobby");
     element("room-lobby").textContent = "Rum ".concat(room);
@@ -495,6 +503,12 @@ function renderLobby() {
     else if (role === "host") {
         element("lobby-title").textContent = "Ställ in spelet";
         element("lobby-note").textContent = "Deltagarna går med via QR-koden på TV:n.";
+        if (!hostNameRestored && state.previousHostName) {
+            element("host-plays").checked = true;
+            element("host-name").value = state.previousHostName;
+            showHostName(true);
+        }
+        hostNameRestored = true;
         var start = element("start-game");
         var loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
@@ -530,10 +544,28 @@ function choiceCard(answer, index, tag) {
     }
     return option;
 }
+function canChooseAnswer() {
+    return state && role !== "tv" && state.phase === "question" && state.canAnswer && state.deadline > Date.now() / 1000;
+}
+function chooseAnswer(questionId, choice) {
+    if (pending || !canChooseAnswer() || state.question.id !== questionId)
+        return;
+    if (draftAnswer && draftAnswer.questionId === questionId && draftAnswer.choice === choice) {
+        roomAction("answer", { questionId: questionId, choice: choice });
+    }
+    else {
+        draftAnswer = { questionId: questionId, choice: choice };
+        renderChoices(state.question);
+        renderAnswerNote();
+    }
+}
 function renderChoices(question) {
     var key = question.id + JSON.stringify(question.choices);
     var choices = element("choices");
     var tv = role === "tv";
+    var available = canChooseAnswer();
+    if (draftAnswer && (!available || draftAnswer.questionId !== question.id))
+        draftAnswer = null;
     choices.hidden = role === "host" && !state.canAnswer && state.yourChoice === null;
     if (key !== choicesKey) {
         if (tv)
@@ -544,22 +576,44 @@ function renderChoices(question) {
             if (!tv) {
                 option.type = "button";
                 option.setAttribute("aria-label", "Svar ".concat(letters[index]));
-                option.addEventListener("click", function () { return roomAction("answer", { questionId: question.id, choice: index }); });
+                option.addEventListener("click", function () { return chooseAnswer(question.id, index); });
             }
             return option;
         }));
     }
     __spreadArray([], choices.children, true).forEach(function (option, index) {
-        var selected = state.yourChoice === index;
+        var selected = !tv && state.yourChoice === index;
+        var draft = !tv && draftAnswer && draftAnswer.choice === index;
         option.classList.toggle("selected", selected);
+        option.classList.toggle("draft", Boolean(draft));
         if (!tv) {
-            option.disabled = Boolean(pending) || !state.canAnswer || state.phase !== "question";
-            option.setAttribute("aria-pressed", String(selected));
+            option.disabled = Boolean(pending) || !available;
+            option.setAttribute("aria-pressed", String(Boolean(selected || draft)));
         }
     });
 }
+function renderAnswerNote() {
+    var answerNote = element("answer-note");
+    var note = "";
+    if (state.phase === "closed") {
+        note = "Frågan är stängd.";
+    }
+    else if (role !== "tv") {
+        if (state.yourChoice !== null)
+            note = "Svaret är sparat.";
+        else if (pending === "answer")
+            note = "Sparar svaret…";
+        else if (draftAnswer)
+            note = "Tryck igen p\u00E5 ".concat(letters[draftAnswer.choice], " f\u00F6r att l\u00E5sa svaret.");
+        else if (state.canAnswer && !canChooseAnswer())
+            note = "Svarstiden är slut.";
+    }
+    answerNote.hidden = !note;
+    if (answerNote.textContent !== note)
+        answerNote.textContent = note;
+}
 function renderGame() {
-    var question = state.question, current = state.current, total = state.total, answered = state.answered, players = state.players, yourChoice = state.yourChoice, phase = state.phase;
+    var question = state.question, current = state.current, total = state.total, answered = state.answered, players = state.players, phase = state.phase;
     var closed = phase === "closed";
     showSection("game");
     var round = element("round");
@@ -571,20 +625,6 @@ function renderGame() {
     var heading = element("question");
     heading.hidden = role !== "tv";
     heading.textContent = role === "tv" ? question.text : "";
-    var answerNote = element("answer-note");
-    var note = "";
-    if (closed) {
-        note = "Frågan är stängd.";
-    }
-    else if (yourChoice !== null) {
-        note = "Svaret är sparat.";
-    }
-    else if (pending === "answer") {
-        note = "Sparar svaret…";
-    }
-    answerNote.hidden = !note;
-    if (answerNote.textContent !== note)
-        answerNote.textContent = note;
     element("host-actions").hidden = role !== "host";
     element("reveal").hidden = closed;
     element("next").hidden = !closed;
@@ -592,16 +632,22 @@ function renderGame() {
     element("next").disabled = Boolean(pending);
     element("next").textContent = current === total ? "Visa slutresultat" : "Nästa fråga";
     renderChoices(question);
+    renderAnswerNote();
     updateTimer();
 }
 function renderScores() {
     showSection("scoreboard");
+    element("score-round").textContent = "Omg\u00E5ng ".concat(state.roundNumber || 1);
     var newGame = element("new-game");
     var openReview = element("open-review");
+    var newRound = element("new-round");
     newGame.hidden = role !== "tv";
     newGame.disabled = Boolean(pending);
     openReview.hidden = role !== "host";
     openReview.disabled = Boolean(pending);
+    newRound.hidden = role !== "host";
+    newRound.disabled = Boolean(pending);
+    renderSeries();
     var ranked = state.players;
     var key = JSON.stringify(ranked);
     if (key === scoresKey)
@@ -634,6 +680,35 @@ function renderScores() {
         return item;
     }));
 }
+function renderSeries() {
+    var series = state.series;
+    element("series").hidden = !series || !series.rounds;
+    if (!series || !series.rounds)
+        return;
+    var key = JSON.stringify(series);
+    if (key === seriesKey)
+        return;
+    seriesKey = key;
+    element("series-rounds").textContent = series.rounds === 1 ? "1 spelad omgång" : "".concat(series.rounds, " spelade omg\u00E5ngar");
+    replaceContents(element("series-players"), series.players.map(function (_a) {
+        var name = _a.name, wins = _a.wins, lastPlace = _a.lastPlace, places = _a.places;
+        var row = document.createElement("tr");
+        var player = document.createElement("th");
+        player.scope = "row";
+        player.textContent = name;
+        row.appendChild(player);
+        var history = places.map(function (_a) {
+            var round = _a.round, place = _a.place, score = _a.score;
+            return "Omg\u00E5ng ".concat(round, " \u00B7 plats ").concat(place, " (").concat(score, " p)");
+        }).join(", ");
+        [wins, lastPlace == null ? "–" : lastPlace, history].forEach(function (value) {
+            var cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        return row;
+    }));
+}
 function renderPersonalResult() {
     var card = element("personal-result");
     var visible = role !== "tv" && state && typeof state.yourPlace === "number";
@@ -656,6 +731,8 @@ function renderReview() {
     element("review-actions").hidden = role !== "host";
     element("review-prev").disabled = current <= 1 || Boolean(pending);
     element("review-next").disabled = current >= total || Boolean(pending);
+    element("new-round-review").hidden = role !== "host";
+    element("new-round-review").disabled = Boolean(pending);
     element("restart-review").hidden = role !== "tv";
     element("restart-review").disabled = Boolean(pending);
     if (reviewKey === question.id)
@@ -697,8 +774,13 @@ function updateTimer() {
     var remaining = Math.max(0, Math.ceil(state.deadline - Date.now() / 1000));
     timer.classList.toggle("ending", remaining <= 5);
     var label = "".concat(remaining, " s kvar");
-    if (timer.textContent !== label)
+    if (timer.textContent !== label) {
         timer.textContent = label;
+        if (remaining === 0 && role !== "tv" && state.canAnswer) {
+            renderChoices(state.question);
+            renderAnswerNote();
+        }
+    }
     if (role !== "tv" && remaining > 0 && remaining <= 5 && state.canAnswer && pending !== "answer"
         && state.question.id !== vibratedQuestion && typeof navigator.vibrate === "function") {
         vibratedQuestion = state.question.id;
@@ -713,6 +795,8 @@ function updateTimer() {
 function render() {
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
+    if (!state || state.phase !== "question")
+        draftAnswer = null;
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby"))
         resetQr();
     if (!state) {
@@ -730,17 +814,20 @@ function render() {
         }
         return;
     }
+    var roundKey = "".concat(room, "-").concat(state.roundNumber || 1);
     if (state.phase === "lobby")
         renderLobby();
     else if (state.phase === "finished") {
-        if (role === "tv")
-            finishedRoom = room;
+        if (role === "tv") {
+            finishedRound = roundKey;
+            scoreboardUntil = 0;
+        }
         renderScores();
     }
     else if (state.phase === "review") {
-        if (role === "tv" && finishedRoom !== room) {
+        if (role === "tv" && finishedRound !== roundKey) {
             // A fast host can open the review between two TV polls.
-            finishedRoom = room;
+            finishedRound = roundKey;
             scoreboardUntil = Date.now() + 1800;
         }
         if (role === "tv" && Date.now() < scoreboardUntil)
@@ -796,10 +883,7 @@ element("retry-qr").addEventListener("click", function () {
     element(id).addEventListener("click", function () { return openTvRoom(true); });
 });
 element("join-form").addEventListener("submit", joinRoom);
-element("host-plays").addEventListener("change", function (event) {
-    element("host-name-field").hidden = !event.target.checked;
-    element("host-name").required = event.target.checked;
-});
+element("host-plays").addEventListener("change", function (event) { return showHostName(event.target.checked); });
 element("host-form").addEventListener("submit", function (event) {
     event.preventDefault();
     var selected = element("category").value;
@@ -821,6 +905,8 @@ element("host-form").addEventListener("submit", function (event) {
 element("reveal").addEventListener("click", function () { return roomAction("reveal"); });
 element("next").addEventListener("click", function () { return roomAction("next"); });
 element("open-review").addEventListener("click", function () { return roomAction("review", { questionNumber: 1 }); });
+element("new-round").addEventListener("click", function () { return roomAction("new-round"); });
+element("new-round-review").addEventListener("click", function () { return roomAction("new-round"); });
 element("review-prev").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current - 1 }); });
 element("review-next").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current + 1 }); });
 function configureFullscreen() {
@@ -837,6 +923,7 @@ function configureFullscreen() {
         || document.webkitCurrentFullScreenElement || document.webkitIsFullScreen); };
     var sync = function () {
         var fullscreen = active();
+        document.body.classList.toggle("fullscreen-active", fullscreen);
         button.hidden = fullscreen;
         button.setAttribute("aria-pressed", String(fullscreen));
     };

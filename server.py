@@ -5,6 +5,7 @@ import secrets
 import threading
 import time
 from collections import deque
+from collections.abc import Collection
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Annotated, Literal
@@ -40,6 +41,12 @@ class Player:
 
 
 @dataclass
+class SeriesPlayer:
+    name: str
+    places: list[dict[str, int]] = field(default_factory=list)
+
+
+@dataclass
 class Question:
     id: str
     text: str
@@ -63,6 +70,9 @@ class Room:
     review_question: int = 0
     seconds: int = default_round_seconds
     deadline: float | None = None
+    completed_rounds: int = 0
+    series_players: dict[str, SeriesPlayer] = field(default_factory=dict)
+    previous_host_name: str | None = None
 
 
 rooms: dict[str, Room] = {}
@@ -123,8 +133,13 @@ def normalized_name(value: str) -> str:
     return name
 
 
-def require_available_name(room: Room, name: str) -> None:
-    if any(player.name.casefold() == name.casefold() for player in room.players.values()):
+def require_available_name(room: Room, name: str, except_token: str | None = None) -> None:
+    normalized = name.casefold()
+    if any(
+        token != except_token and player.name.casefold() == normalized
+        for roster in (room.players, room.series_players)
+        for token, player in roster.items()
+    ):
         raise HTTPException(409, "Namnet används redan. Välj ett annat.")
 
 
@@ -185,6 +200,39 @@ def question_view(question: Question, *, reveal: bool) -> dict:
     }
 
 
+def place_for(score: int, players: Collection[Player]) -> int:
+    return 1 + sum(player.score > score for player in players)
+
+
+def record_round(room: Room) -> None:
+    room.completed_rounds += 1
+    players = room.players.values()
+    for token, player in room.players.items():
+        entry = room.series_players.setdefault(token, SeriesPlayer(player.name))
+        entry.name = player.name
+        entry.places.append({
+            "round": room.completed_rounds,
+            "place": place_for(player.score, players),
+            "score": player.score,
+        })
+    host = room.players.get(room.host_token)
+    room.previous_host_name = host.name if host is not None else None
+
+
+def series_view(room: Room) -> dict:
+    standings = [
+        {
+            "name": player.name,
+            "wins": sum(placement["place"] == 1 for placement in player.places),
+            "lastPlace": player.places[-1]["place"],
+            "places": [placement.copy() for placement in player.places],
+        }
+        for player in room.series_players.values()
+    ]
+    standings.sort(key=lambda player: -player["wins"])
+    return {"rounds": room.completed_rounds, "players": standings}
+
+
 def view_state(room: Room, token: str | None) -> dict:
     check_deadline(room)
     current = room.questions[room.current_question] if room.phase in {"question", "closed"} else None
@@ -198,7 +246,7 @@ def view_state(room: Room, token: str | None) -> dict:
     your_place = None
     if finished and token in room.players:
         your_score = room.players[token].score
-        your_place = 1 + sum(player.score > your_score for player in players)
+        your_place = place_for(your_score, players)
 
     review = None
     if room.phase == "review":
@@ -229,6 +277,9 @@ def view_state(room: Room, token: str | None) -> dict:
         "yourPlace": your_place,
         "yourScore": your_score,
         "review": review,
+        "roundNumber": room.completed_rounds if finished else room.completed_rounds + 1,
+        "series": series_view(room) if room.completed_rounds and (finished or room.phase == "lobby") else None,
+        "previousHostName": room.previous_host_name if secrets.compare_digest(token or "", room.host_token) else None,
     }
 
 
@@ -357,7 +408,7 @@ def start_room(code: str, submission: StartInput, token: Token):
             if len(room.players) >= player_limit:
                 raise HTTPException(409, "Spelrummet är fullt.")
             host_name = normalized_name(submission.hostName)
-            require_available_name(room, host_name)
+            require_available_name(room, host_name, except_token=host_token)
         if host_name is None and not room.players:
             raise HTTPException(409, "Vänta tills minst en spelare har gått med.")
         room.starting = True
@@ -431,6 +482,7 @@ def next_question(code: str, token: Token):
             raise HTTPException(409, "Stäng frågan först.")
 
         if room.current_question + 1 == len(room.questions):
+            record_round(room)
             room.phase = "finished"
         else:
             room.current_question += 1
@@ -449,6 +501,26 @@ def review_room(code: str, submission: ReviewInput, token: Token):
             raise HTTPException(400, "Det frågenumret finns inte i spelet.")
         room.review_question = submission.questionNumber - 1
         room.phase = "review"
+        return view_state(room, token)
+
+
+@app.post("/api/rooms/{code}/new-round")
+def new_round(code: str, token: Token):
+    with room_lock:
+        room = active_room(code)
+        require_host(room, token)
+        if room.phase not in {"finished", "review"}:
+            raise HTTPException(409, "Spela klart omgången innan du startar en ny.")
+
+        room.players.pop(room.host_token, None)
+        for player in room.players.values():
+            player.score = 0
+        room.questions = []
+        room.current_question = 0
+        room.review_question = 0
+        room.seconds = default_round_seconds
+        room.deadline = None
+        room.phase = "lobby"
         return view_state(room, token)
 
 
