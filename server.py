@@ -44,6 +44,7 @@ class Question:
     text: str
     choices: list[str]
     correct_choice: int
+    source: str
 
 
 @dataclass
@@ -143,6 +144,7 @@ def shuffle_question(source: dict) -> Question:
         text=source["question"],
         choices=choices,
         correct_choice=choices.index(source["correct"]),
+        source=source["source"],
     )
 
 
@@ -176,6 +178,7 @@ def view_state(room: Room, token: str | None) -> dict:
             "text": current.text,
             "choices": current.choices,
             "correctChoice": current.correct_choice if room.phase == "result" else None,
+            "source": current.source if room.phase == "result" else None,
         }
     players = sorted(room.players.values(), key=lambda player: -player.score)
     return {
@@ -248,6 +251,7 @@ def solo_quiz(
             "question": question["question"],
             "correct_answer": question["correct"],
             "incorrect_answers": question["incorrect"],
+            "source": question["source"],
         }
         for question in deal_questions(amount, category, difficulty)
     ]

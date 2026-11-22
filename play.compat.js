@@ -546,6 +546,11 @@ function renderGame() {
     answerNote.hidden = !note;
     if (answerNote.textContent !== note)
         answerNote.textContent = note;
+    var sourceLabel = element("question-source");
+    var source = result && question.source ? "Fr\u00E5ga fr\u00E5n ".concat(question.source) : "";
+    sourceLabel.hidden = !source;
+    if (sourceLabel.textContent !== source)
+        sourceLabel.textContent = source;
     element("host-actions").hidden = role !== "host";
     element("reveal").hidden = result;
     element("next").hidden = !result;

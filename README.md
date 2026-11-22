@@ -22,11 +22,14 @@ npx --yes --package=typescript@5.9.3 tsc --allowJs --target ES5 --lib ES2017,DOM
 - Byggkommando `pip install -r requirements.txt`
 - Startkommando `uvicorn server:app --host 0.0.0.0 --port $PORT`
 - Hälsokontroll `GET /health`
-- Lägg `DEEPL_API_KEY` som en miljövariabel för att använda de engelskspråkiga källorna. FestQuiz har en svensk frågebank som reserv.
+- `DEEPL_API_KEY` behövs för att översätta frågor och svar till svenska. `render.yaml` refererar till samma miljövariabel på tjänsten `festquiz` i samma Render-arbetsyta.
+- `TRIVIA_API_KEY` är valfri och används bara om du har en API-nyckel från The Trivia API.
 
 Kör webbservern med en process. Spelrum och minnet över nyligen visade frågor sparas i processen och nollställs vid omstart.
 
 ## Frågekällor
+
+Varje omgång använder flervalsfrågor från källorna nedan. Dubbletter sorteras bort och svarsalternativen blandas. Om det finns för få frågor för vald kategori och svårighetsgrad får spelledaren ett meddelande om att ändra urvalet.
 
 - Open Trivia DB, CC BY-SA 4.0. Frågor och svar kan översättas till svenska. [Källa och licens](https://opentdb.com/api_config.php)
 - The Trivia API, CC BY-NC 4.0. Frågor och svar kan översättas till svenska. Sätt `TRIVIA_API_ENABLED=0` vid kommersiell användning. [Källa och licens](https://the-trivia-api.com/docs)

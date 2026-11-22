@@ -8,9 +8,7 @@ from collections import OrderedDict
 from collections.abc import Collection
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
-from functools import lru_cache
 from itertools import zip_longest
-from pathlib import Path
 from threading import Lock
 from typing import TypedDict
 
@@ -26,6 +24,7 @@ class Question(TypedDict):
     question: str
     correct: str
     incorrect: list[str]
+    source: str
 
 
 @dataclass(frozen=True)
@@ -33,7 +32,7 @@ class _Candidate:
     question: str
     correct: str
     incorrect: tuple[str, str, str]
-    swedish: bool = False
+    source: str
 
 
 _OPENTDB_URL = "https://opentdb.com/api.php"
@@ -48,12 +47,37 @@ _TRIVIA_FILTERS = {
     "23": {"categories": "history"},
     "17": {"categories": "science"},
     "22": {"categories": "geography"},
-    "modern": {"tags": "era:2020s"},
+    "modern": {"tags": "era:21st-century"},
 }
 _DIFFICULTIES = {"", "easy", "medium", "hard"}
 _CACHE_LIMIT = 12000
 _TRANSLATIONS: OrderedDict[str, str] = OrderedDict()
 _TRANSLATIONS_LOCK = Lock()
+_RELATIVE_TIME = re.compile(
+    r"\b(?:currently|nowadays|at present|as (?:of|at) (?:today|now)|"
+    r"(?:this|next|last) (?:year|month|week|season)|"
+    r"(?:the|its) (?:latest|most recent|newest|reigning)|"
+    r"(?:the|its) current (?:president|prime minister|leader|holder|name|population|champion))\b",
+    re.IGNORECASE,
+)
+_UNDATED_OFFICE = re.compile(
+    r"^who (?:is|serves as) (?:the )?(?:president|prime minister|chancellor|pope|"
+    r"mayor|monarch|ceo|governor|head coach|world champion)(?:\s+(?:of|in|for)\b|\s*\?)",
+    re.IGNORECASE,
+)
+_EXPLICIT_YEAR = re.compile(r"\b(?:1[5-9]\d{2}|20\d{2})\b")
+_OPINION = re.compile(r"\b(?:in (?:your|my|our) opinion|do you (?:think|prefer)|(?:your|my|our) favou?rite|arguably)\b", re.IGNORECASE)
+_SUBJECTIVE_RANK = re.compile(
+    r"\bthe (?:very )?(?:best(?![- ](?:selling|known))|greatest(?! (?:common|prime|integer|number|distance))|worst|funniest|"
+    r"prettiest|coolest|most beautiful|most iconic)\b",
+    re.IGNORECASE,
+)
+_RANK_BASIS = re.compile(r"\b(?:awards?|oscars?|grammys?|emmys?|baftas?|golden globes?|voted|ranked|poll)\b", re.IGNORECASE)
+_POSITIONAL_ANSWER = re.compile(
+    r"\b(?:all|none|both|neither|one|two|three) (?:of )?(?:the )?(?:above|below|these|of them)\b|"
+    r"\b(?:both|neither|either) (?:option |answer )?[a-d] (?:and|or|nor) (?:option |answer )?[a-d]\b",
+    re.IGNORECASE,
+)
 
 
 def _normalized(text: str) -> str:
@@ -61,7 +85,7 @@ def _normalized(text: str) -> str:
     return "".join(re.findall(r"(?<!\w)-(?=\d)|[\w+#]", normalized))
 
 
-def _candidate(question, correct, incorrect, *, swedish=False) -> _Candidate | None:
+def _candidate(question, correct, incorrect, *, source: str) -> _Candidate | None:
     if not isinstance(incorrect, (list, tuple)) or len(incorrect) != 3:
         return None
     values = (question, correct, *incorrect)
@@ -73,27 +97,20 @@ def _candidate(question, correct, incorrect, *, swedish=False) -> _Candidate | N
     if len({_normalized(value) for value in cleaned[1:]}) != 4:
         return None
     question, correct, first, second, third = cleaned
-    return _Candidate(question, correct, (first, second, third), swedish)
+    if _RELATIVE_TIME.search(question) or _OPINION.search(question):
+        return None
+    if _UNDATED_OFFICE.search(question) and not _EXPLICIT_YEAR.search(question):
+        return None
+    if _SUBJECTIVE_RANK.search(question) and not _RANK_BASIS.search(question):
+        return None
+    if any(_POSITIONAL_ANSWER.search(answer) for answer in (correct, first, second, third)):
+        return None
+    return _Candidate(question, correct, (first, second, third), source)
 
 
-@lru_cache(maxsize=1)
-def _swedish_bank() -> tuple[tuple[str, str, _Candidate], ...]:
-    path = Path(__file__).with_name("swedish_questions.txt")
-    bank = []
-    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        if not line.strip() or line.startswith("#"):
-            continue
-        category, difficulty, question, correct, *incorrect = line.split("|")
-        candidate = _candidate(question, correct, incorrect, swedish=True)
-        if category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES or not candidate:
-            raise ValueError(f"Ogiltig fråga i lokal frågebank på rad {number}.")
-        bank.append((category, difficulty, candidate))
-    return tuple(bank)
-
-
-def _fetch_json(url: str, params: dict) -> dict | list | None:
+def _fetch_json(url: str, params: dict, headers: dict[str, str] | None = None) -> dict | list | None:
     try:
-        response = requests.get(url, params=params, timeout=(2, 4))
+        response = requests.get(url, params=params, headers=headers, timeout=(2, 4), allow_redirects=False)
         response.raise_for_status()
         return response.json()
     except (requests.RequestException, ValueError):
@@ -117,7 +134,9 @@ def _open_trivia(count: int, category: str, difficulty: str) -> list[_Candidate]
     results = []
     for row in rows:
         if isinstance(row, dict):
-            candidate = _candidate(row.get("question"), row.get("correct_answer"), row.get("incorrect_answers"))
+            candidate = _candidate(
+                row.get("question"), row.get("correct_answer"), row.get("incorrect_answers"), source="Open Trivia DB"
+            )
             if candidate:
                 results.append(candidate)
     return results
@@ -126,17 +145,25 @@ def _open_trivia(count: int, category: str, difficulty: str) -> list[_Candidate]
 def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
     if os.getenv("TRIVIA_API_ENABLED", "1").strip().lower() in {"0", "false", "no"}:
         return []
-    params = {"limit": count, **_TRIVIA_FILTERS[category]}
+    params = {"limit": count, "types": "text_choice", **_TRIVIA_FILTERS[category]}
     if difficulty:
         params["difficulties"] = difficulty
-    payload = _fetch_json(_TRIVIA_API_URL, params)
+    api_key = os.getenv("TRIVIA_API_KEY", "").strip()
+    headers = {"X-API-Key": api_key} if api_key else None
+    payload = _fetch_json(_TRIVIA_API_URL, params, headers)
+    if payload is None and headers:
+        payload = _fetch_json(_TRIVIA_API_URL, params)
     if not isinstance(payload, list):
         return []
     results = []
     for row in payload:
         if not isinstance(row, dict) or not isinstance(row.get("question"), dict):
             continue
-        candidate = _candidate(row["question"].get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"))
+        if row.get("type", "text_choice") != "text_choice":
+            continue
+        candidate = _candidate(
+            row["question"].get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="The Trivia API"
+        )
         if candidate:
             results.append(candidate)
     return results
@@ -158,11 +185,10 @@ def _keep_answer(text: str) -> bool:
 def _translate_batch(candidates: list[_Candidate], translations: dict[str, str], api_key: str) -> bool:
     needed = {}
     for candidate in candidates:
-        if not candidate.swedish:
-            needed[candidate.question] = None
-            for answer in (candidate.correct, *candidate.incorrect):
-                if not _keep_answer(answer):
-                    needed[answer] = None
+        needed[candidate.question] = None
+        for answer in (candidate.correct, *candidate.incorrect):
+            if not _keep_answer(answer):
+                needed[answer] = None
 
     with _TRANSLATIONS_LOCK:
         for text in needed:
@@ -171,6 +197,8 @@ def _translate_batch(candidates: list[_Candidate], translations: dict[str, str],
                 _TRANSLATIONS.move_to_end(text)
 
     missing = [text for text in needed if text not in translations]
+    if not api_key:
+        return False
     domain = "api-free.deepl.com" if api_key.endswith(":fx") else "api.deepl.com"
     for start in range(0, len(missing), 50):
         batch = missing[start:start + 50]
@@ -198,23 +226,19 @@ def _translate_batch(candidates: list[_Candidate], translations: dict[str, str],
 
 
 def _resolved(candidate: _Candidate, translations: dict[str, str]) -> Question | None:
-    question = candidate.question
-    correct = candidate.correct
-    incorrect = list(candidate.incorrect)
-    if not candidate.swedish:
-        question = translations.get(question, "")
-        if not question or _normalized(question) == _normalized(candidate.question):
-            return None
-        answers = [
-            text if _keep_answer(text) else translations.get(text, "")
-            for text in (correct, *incorrect)
-        ]
-        if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:
-            return None
-        correct, *incorrect = answers
+    question = translations.get(candidate.question, "")
+    if not question or _normalized(question) == _normalized(candidate.question):
+        return None
+    answers = [
+        text if _keep_answer(text) else translations.get(text, "")
+        for text in (candidate.correct, *candidate.incorrect)
+    ]
+    if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:
+        return None
+    correct, *incorrect = answers
 
     key = hashlib.blake2b(_normalized(question).encode("utf-8"), digest_size=16).hexdigest()
-    return {"key": key, "question": question, "correct": correct, "incorrect": incorrect}
+    return {"key": key, "question": question, "correct": correct, "incorrect": incorrect, "source": candidate.source}
 
 
 def get_questions(
@@ -224,18 +248,15 @@ def get_questions(
     if not 1 <= amount <= 20 or category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES:
         raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 20 frågor.")
 
-    local = [
-        candidate for topic, level, candidate in _swedish_bank()
-        if (not category or topic == category) and (not difficulty or level == difficulty)
-    ]
-    pools = [local]
     api_key = os.getenv("DEEPL_API_KEY", "").strip()
-    if api_key:
-        count = min(50, max(22, amount * 2))
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            first = executor.submit(_open_trivia, count, category, difficulty)
-            second = executor.submit(_trivia_api, count, category, difficulty)
-            pools += [first.result(), second.result()]
+    if not api_key:
+        raise QuestionUnavailable("Svensk översättning är inte aktiverad. DeepL behöver ställas in på servern.")
+
+    count = 50 if category == "modern" else max(24, amount * 2)
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        first = executor.submit(_open_trivia, count, category, difficulty)
+        second = executor.submit(_trivia_api, count, category, difficulty)
+        pools = [first.result(), second.result()]
 
     for pool in pools:
         random.shuffle(pool)
@@ -253,11 +274,10 @@ def get_questions(
     fresh, older = [], []
     excluded, seen = set(exclude), set()
     translations: dict[str, str] = {}
-    translation_available = bool(api_key)
+    translation_available = True
     for offset in range(0, len(candidates), 12):
         batch = candidates[offset:offset + 12]
-        if translation_available:
-            translation_available = _translate_batch(batch, translations, api_key)
+        translation_available = _translate_batch(batch, translations, api_key if translation_available else "")
         for candidate in batch:
             question = _resolved(candidate, translations)
             if question is None or question["key"] in seen:
@@ -273,9 +293,13 @@ def get_questions(
 
     questions = fresh + older[:amount - len(fresh)]
     if len(questions) != amount:
+        if not translation_available:
+            raise QuestionUnavailable(
+                "Frågorna kunde inte översättas till svenska. Kontrollera DeepL-inställningen eller försök igen om en stund."
+            )
         raise QuestionUnavailable(
-            f"Det finns bara {len(questions)} svenska frågor tillgängliga för de valen just nu. "
-            "Välj färre frågor, blandad svårighetsgrad eller en annan kategori."
+            f"Frågetjänsterna levererade {len(questions)} användbara svenska frågor för de valen. "
+            "Försök igen, välj färre frågor eller byt kategori eller svårighetsgrad."
         )
     random.shuffle(questions)
     return questions

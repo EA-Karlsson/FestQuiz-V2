@@ -183,6 +183,7 @@ body[data-role="tv"] .choice { font-size: 1.25rem; font-size: clamp(1.05rem, 2.2
 button.choice:not(:disabled):hover, .choice.selected { border-color: #ffd26d; }
 .choice.correct { border-color: #a1e7b8; color: #a1e7b8; }
 .choice.incorrect { border-color: #ffa7aa; color: #ffa7aa; }
+.question-source { color: #c0c6da; font-size: .9rem; }
 .choice-letter {
     display: inline-block;
     flex: 0 0 auto;

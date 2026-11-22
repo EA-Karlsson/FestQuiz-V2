@@ -351,6 +351,10 @@ function renderGame() {
     }
     answerNote.hidden = !note;
     if (answerNote.textContent !== note) answerNote.textContent = note;
+    const sourceLabel = element("question-source");
+    const source = result && question.source ? `Fråga från ${question.source}` : "";
+    sourceLabel.hidden = !source;
+    if (sourceLabel.textContent !== source) sourceLabel.textContent = source;
     element("host-actions").hidden = role !== "host";
     element("reveal").hidden = result;
     element("next").hidden = !result;
