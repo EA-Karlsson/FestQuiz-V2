@@ -1,6 +1,10 @@
 # FestQuiz V2
 
-Öppna startsidan på TV:n och skanna den första QR-koden med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, antal frågor och svårighetsgrad och startar spelet när alla är med. Deltagarna svarar från sina mobiler och ser frågorna och poängen på TV:n. `/solo` öppnar quiz för en person.
+Öppna startsidan på TV:n. Skanna QR-koden som visas automatiskt med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, svårighetsgrad, upp till 30 frågor och 15, 20 eller 30 sekunders svarstid. Standard är 20 sekunder.
+
+TV:n visar frågan och alternativen med A, B, C och D. Deltagarna väljer motsvarande bokstav på mobilen. Spelare som ännu inte svarat får en kort vibration vid fem sekunder på mobiler med stöd för vibration i webbläsaren.
+
+Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Knappen **Spela i helskärm** döljer webbläsarens ram när webbläsaren stöder funktionen. Knappen försvinner när helskärmsläget öppnas. `/solo` öppnar quiz för en person.
 
 ## Köra lokalt
 

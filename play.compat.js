@@ -49,8 +49,9 @@ var role = location.pathname === "/leda" ? "host" : location.pathname === "/spel
 var roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 var letters = "ABCD";
 var categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern"];
-var sections = ["welcome", "join", "lobby", "game", "scoreboard"];
+var sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
 var roomPattern = /^[A-Z0-9]{4,8}$/;
+var main = document.querySelector("main");
 var room = readParameter(location.search, "room").trim().toUpperCase();
 if (!roomPattern.test(room))
     room = "";
@@ -62,11 +63,16 @@ var pollTimer;
 var pollFailure = false;
 var qrKey = "";
 var qrPending = "";
-var qrRetryAt = 0;
+var qrFailed = false;
 var qrObjectUrl = "";
 var choicesKey = "";
 var scoresKey = "";
 var namesKey = "";
+var reviewKey = "";
+var visibleSection = "";
+var finishedRoom = "";
+var scoreboardUntil = 0;
+var vibratedQuestion = "";
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
@@ -100,12 +106,12 @@ function readParameter(source, name) {
     }
     return "";
 }
-function showSections() {
-    var visible = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        visible[_i] = arguments[_i];
-    }
-    sections.forEach(function (id) { element(id).hidden = visible.indexOf(id) < 0; });
+function showSection(visible) {
+    if (visible === void 0) { visible = ""; }
+    sections.forEach(function (id) { element(id).hidden = id !== visible; });
+    if (visible !== visibleSection && role === "tv")
+        main.scrollTop = 0;
+    visibleSection = visible;
 }
 function replaceContents(node, children) {
     node.textContent = "";
@@ -169,12 +175,7 @@ function expireRoom() {
     clearTimeout(pollTimer);
     ++revision;
     state = null;
-    if (role === "tv")
-        showSections("welcome");
-    else if (role === "player")
-        showSections("join");
-    else
-        showSections();
+    render();
     notice("Spelrummet är inte längre aktivt. Öppna ett nytt rum på TV:n.");
 }
 function act(name_1, action_1) {
@@ -268,30 +269,52 @@ function poll() {
         });
     });
 }
-function createRoom() {
-    return __awaiter(this, void 0, void 0, function () {
+function openTvRoom() {
+    return __awaiter(this, arguments, void 0, function (newRoom) {
         var _this = this;
+        if (newRoom === void 0) { newRoom = false; }
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, act("create", function () { return __awaiter(_this, void 0, void 0, function () {
-                        var created;
+                case 0: return [4 /*yield*/, act("setup", function () { return __awaiter(_this, void 0, void 0, function () {
+                        var error_3, result;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, request("/api/rooms", { method: "POST" })];
+                                case 0:
+                                    if (!(!newRoom && token)) return [3 /*break*/, 4];
+                                    _a.label = 1;
                                 case 1:
-                                    created = _a.sent();
-                                    room = created.code;
-                                    token = created.hostToken;
-                                    storeRoom();
-                                    state = null;
-                                    beginPolling();
+                                    _a.trys.push([1, 3, , 4]);
                                     return [4 /*yield*/, request(roomPath(), { credential: token })];
                                 case 2:
                                     state = _a.sent();
+                                    beginPolling();
+                                    return [2 /*return*/];
+                                case 3:
+                                    error_3 = _a.sent();
+                                    if (error_3.status !== 404 && error_3.status !== 401)
+                                        throw error_3;
+                                    token = "";
+                                    storeRoom();
+                                    return [3 /*break*/, 4];
+                                case 4: return [4 /*yield*/, request("/api/rooms", { method: "POST" })];
+                                case 5:
+                                    result = _a.sent();
+                                    room = result.code;
+                                    token = result.hostToken;
+                                    scoreboardUntil = 0;
+                                    storeRoom();
+                                    state = null;
+                                    clearTimeout(pollTimer);
+                                    resetQr();
+                                    render();
+                                    return [4 /*yield*/, request(roomPath(), { credential: token })];
+                                case 6:
+                                    state = _a.sent();
+                                    beginPolling();
                                     return [2 /*return*/];
                             }
                         });
-                    }); })];
+                    }); }, true)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -387,9 +410,20 @@ function roomAction(action, body) {
         });
     });
 }
+function resetQr() {
+    qrKey = "";
+    qrPending = "";
+    qrFailed = false;
+    if (qrObjectUrl)
+        URL.revokeObjectURL(qrObjectUrl);
+    qrObjectUrl = "";
+    var image = element("qr-image");
+    image.removeAttribute("src");
+    image.hidden = true;
+}
 function updateQr() {
     return __awaiter(this, void 0, void 0, function () {
-        var kind, key, image, status, joinLink, options, blob, _a;
+        var kind, key, image, status, retry, joinLink, options, blob, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -397,25 +431,21 @@ function updateQr() {
                     key = "".concat(room, "-").concat(kind);
                     image = element("qr-image");
                     status = element("qr-status");
+                    retry = element("retry-qr");
                     joinLink = element("join-link");
                     if (key !== qrKey) {
+                        resetQr();
                         qrKey = key;
-                        qrRetryAt = 0;
-                        qrPending = "";
-                        if (qrObjectUrl)
-                            URL.revokeObjectURL(qrObjectUrl);
-                        qrObjectUrl = "";
-                        image.removeAttribute("src");
-                        image.hidden = true;
-                        status.hidden = false;
-                        status.textContent = "Laddar QR-koden…";
                         joinLink.href = "/spela?room=".concat(encodeURIComponent(room));
                         joinLink.textContent = "".concat(location.host, "/spela");
                         joinLink.hidden = kind === "host";
                     }
-                    if (qrObjectUrl || qrPending === key || Date.now() < qrRetryAt)
+                    if (qrObjectUrl || qrPending === key || qrFailed)
                         return [2 /*return*/];
                     qrPending = key;
+                    status.hidden = false;
+                    status.textContent = "Laddar QR-koden…";
+                    retry.hidden = true;
                     options = kind === "host" ? { method: "POST", credential: token, blob: true } : { blob: true };
                     _b.label = 1;
                 case 1:
@@ -434,8 +464,9 @@ function updateQr() {
                     _a = _b.sent();
                     if (qrKey !== key)
                         return [2 /*return*/];
-                    status.textContent = "QR-koden kunde inte laddas. Försöker igen…";
-                    qrRetryAt = Date.now() + 4000;
+                    status.textContent = "QR-koden kunde inte laddas.";
+                    qrFailed = true;
+                    retry.hidden = false;
                     return [3 /*break*/, 5];
                 case 4:
                     if (qrPending === key)
@@ -447,7 +478,7 @@ function updateQr() {
     });
 }
 function renderLobby() {
-    showSections("lobby");
+    showSection("lobby");
     element("room-lobby").textContent = "Rum ".concat(room);
     element("qr-card").hidden = role !== "tv";
     element("waiting-players").hidden = role === "tv" && !state.hostReady;
@@ -485,60 +516,68 @@ function renderLobby() {
         }));
     }
 }
+function choiceCard(answer, index, tag) {
+    var option = document.createElement(tag);
+    var letter = document.createElement("span");
+    letter.className = "choice-letter";
+    letter.textContent = letters[index];
+    option.className = "choice";
+    option.appendChild(letter);
+    if (answer !== null) {
+        var text = document.createElement("span");
+        text.textContent = answer;
+        option.appendChild(text);
+    }
+    return option;
+}
 function renderChoices(question) {
     var key = question.id + JSON.stringify(question.choices);
     var choices = element("choices");
+    var tv = role === "tv";
+    choices.hidden = role === "host" && !state.canAnswer && state.yourChoice === null;
     if (key !== choicesKey) {
+        if (tv)
+            main.scrollTop = 0;
         choicesKey = key;
         replaceContents(choices, question.choices.map(function (answer, index) {
-            var option = document.createElement(role === "tv" ? "div" : "button");
-            var letter = document.createElement("span");
-            letter.className = "choice-letter";
-            letter.textContent = letters[index];
-            var text = document.createElement("span");
-            text.textContent = answer;
-            option.className = "choice";
-            option.appendChild(letter);
-            option.appendChild(text);
-            if (role !== "tv") {
+            var option = choiceCard(tv ? answer : null, index, tv ? "div" : "button");
+            if (!tv) {
                 option.type = "button";
+                option.setAttribute("aria-label", "Svar ".concat(letters[index]));
                 option.addEventListener("click", function () { return roomAction("answer", { questionId: question.id, choice: index }); });
             }
             return option;
         }));
     }
-    var result = state.phase === "result";
     __spreadArray([], choices.children, true).forEach(function (option, index) {
         var selected = state.yourChoice === index;
         option.classList.toggle("selected", selected);
-        option.classList.toggle("correct", result && question.correctChoice === index);
-        option.classList.toggle("incorrect", result && selected && question.correctChoice !== index);
-        if (role !== "tv") {
-            option.disabled = Boolean(pending) || !state.canAnswer || result;
+        if (!tv) {
+            option.disabled = Boolean(pending) || !state.canAnswer || state.phase !== "question";
             option.setAttribute("aria-pressed", String(selected));
         }
     });
 }
 function renderGame() {
     var question = state.question, current = state.current, total = state.total, answered = state.answered, players = state.players, yourChoice = state.yourChoice, phase = state.phase;
-    var result = phase === "result";
-    showSections.apply(void 0, (result ? ["game", "scoreboard"] : ["game"]));
-    element("round").textContent = "Fr\u00E5ga ".concat(current, " av ").concat(total);
-    element("answer-count").textContent = "".concat(answered, " av ").concat(players.length, " har svarat");
-    element("question").textContent = question.text;
+    var closed = phase === "closed";
+    showSection("game");
+    var round = element("round");
+    round.hidden = role === "player";
+    round.textContent = "Fr\u00E5ga ".concat(current, " av ").concat(total);
+    var count = element("answer-count");
+    count.hidden = role === "player";
+    count.textContent = "".concat(answered, " av ").concat(players.length, " har svarat");
+    var heading = element("question");
+    heading.hidden = role !== "tv";
+    heading.textContent = role === "tv" ? question.text : "";
     var answerNote = element("answer-note");
     var note = "";
-    if (result && typeof question.correctChoice === "number") {
-        var correct = "".concat(letters[question.correctChoice], " \u00B7 ").concat(question.choices[question.correctChoice]);
-        if (yourChoice === question.correctChoice)
-            note = "Rätt svar!";
-        else if (yourChoice !== null)
-            note = "R\u00E4tt svar var ".concat(correct, ".");
-        else
-            note = "R\u00E4tt svar: ".concat(correct, ".");
+    if (closed) {
+        note = "Frågan är stängd.";
     }
     else if (yourChoice !== null) {
-        note = "Svaret är sparat. Vänta på facit.";
+        note = "Svaret är sparat.";
     }
     else if (pending === "answer") {
         note = "Sparar svaret…";
@@ -546,35 +585,44 @@ function renderGame() {
     answerNote.hidden = !note;
     if (answerNote.textContent !== note)
         answerNote.textContent = note;
-    var sourceLabel = element("question-source");
-    var source = result && question.source ? "Fr\u00E5ga fr\u00E5n ".concat(question.source) : "";
-    sourceLabel.hidden = !source;
-    if (sourceLabel.textContent !== source)
-        sourceLabel.textContent = source;
     element("host-actions").hidden = role !== "host";
-    element("reveal").hidden = result;
-    element("next").hidden = !result;
+    element("reveal").hidden = closed;
+    element("next").hidden = !closed;
     element("reveal").disabled = Boolean(pending);
     element("next").disabled = Boolean(pending);
     element("next").textContent = current === total ? "Visa slutresultat" : "Nästa fråga";
     renderChoices(question);
     updateTimer();
-    if (result)
-        renderScores();
 }
 function renderScores() {
-    var finished = state.phase === "finished";
-    element("score-heading").textContent = finished ? "Slutresultat" : "Poängställning";
-    element("new-game").hidden = !finished || role !== "tv";
-    element("new-game").disabled = Boolean(pending);
-    var ranked = __spreadArray([], state.players, true).sort(function (a, b) { return b.score - a.score || a.name.localeCompare(b.name, "sv"); });
+    showSection("scoreboard");
+    var newGame = element("new-game");
+    var openReview = element("open-review");
+    newGame.hidden = role !== "tv";
+    newGame.disabled = Boolean(pending);
+    openReview.hidden = role !== "host";
+    openReview.disabled = Boolean(pending);
+    var ranked = state.players;
     var key = JSON.stringify(ranked);
     if (key === scoresKey)
         return;
     scoresKey = key;
-    replaceContents(element("scores"), ranked.map(function (_a) {
+    var winners = ranked.filter(function (player) { return player.score === ranked[0].score; }).map(function (player) { return player.name; });
+    var winner = element("winner");
+    winner.hidden = !winners.length;
+    if (winners.length === 1)
+        winner.textContent = "".concat(winners[0], " vinner!");
+    else if (winners.length > 1) {
+        var names = "".concat(winners.slice(0, -1).join(", "), " och ").concat(winners[winners.length - 1]);
+        winner.textContent = "Delad f\u00F6rstaplats f\u00F6r ".concat(names);
+    }
+    var place = 1;
+    replaceContents(element("scores"), ranked.map(function (_a, index) {
         var name = _a.name, score = _a.score;
+        if (index > 0 && score !== ranked[index - 1].score)
+            place = index + 1;
         var item = document.createElement("li");
+        item.value = place;
         var row = document.createElement("div");
         var player = document.createElement("span");
         var points = document.createElement("strong");
@@ -586,6 +634,61 @@ function renderScores() {
         return item;
     }));
 }
+function renderPersonalResult() {
+    var card = element("personal-result");
+    var visible = role !== "tv" && state && typeof state.yourPlace === "number";
+    card.hidden = !visible;
+    if (!visible)
+        return;
+    var yourPlace = state.yourPlace, yourScore = state.yourScore, players = state.players;
+    var shared = players.filter(function (player) { return player.score === yourScore; }).length > 1;
+    var text = "".concat(shared ? "Delad plats" : "Plats", " ").concat(yourPlace, " \u00B7 ").concat(yourScore, " po\u00E4ng");
+    var value = element("personal-score");
+    if (value.textContent !== text)
+        value.textContent = text;
+}
+function namedChoice(question, choice) {
+    return "".concat(letters[choice], " \u00B7 ").concat(question.choices[choice]);
+}
+function renderReview() {
+    showSection("review");
+    var _a = state.review, current = _a.current, total = _a.total, question = _a.question, answers = _a.answers;
+    element("review-actions").hidden = role !== "host";
+    element("review-prev").disabled = current <= 1 || Boolean(pending);
+    element("review-next").disabled = current >= total || Boolean(pending);
+    element("restart-review").hidden = role !== "tv";
+    element("restart-review").disabled = Boolean(pending);
+    if (reviewKey === question.id)
+        return;
+    reviewKey = question.id;
+    element("review-round").textContent = "Fr\u00E5ga ".concat(current, " av ").concat(total);
+    element("review-question").textContent = question.text;
+    element("review-correct").textContent = "R\u00E4tt svar \u00E4r ".concat(namedChoice(question, question.correctChoice));
+    var source = element("review-source");
+    source.hidden = !question.source;
+    source.textContent = question.source ? "Fr\u00E5ga fr\u00E5n ".concat(question.source) : "";
+    replaceContents(element("review-choices"), question.choices.map(function (answer, index) {
+        var option = choiceCard(answer, index, "div");
+        option.classList.toggle("correct", index === question.correctChoice);
+        return option;
+    }));
+    replaceContents(element("review-answers"), answers.map(function (_a) {
+        var name = _a.name, choice = _a.choice;
+        var row = document.createElement("tr");
+        var player = document.createElement("th");
+        player.scope = "row";
+        player.textContent = name;
+        var answer = document.createElement("td");
+        answer.className = "review-picked";
+        answer.textContent = choice === null ? "Inget svar" : namedChoice(question, choice);
+        answer.classList.toggle("correct", choice === question.correctChoice);
+        row.appendChild(player);
+        row.appendChild(answer);
+        return row;
+    }));
+    if (role === "tv")
+        main.scrollTop = 0;
+}
 function updateTimer() {
     var timer = element("timer");
     timer.hidden = !state || state.phase !== "question" || !state.deadline;
@@ -596,27 +699,54 @@ function updateTimer() {
     var label = "".concat(remaining, " s kvar");
     if (timer.textContent !== label)
         timer.textContent = label;
+    if (role !== "tv" && remaining > 0 && remaining <= 5 && state.canAnswer && pending !== "answer"
+        && state.question.id !== vibratedQuestion && typeof navigator.vibrate === "function") {
+        vibratedQuestion = state.question.id;
+        try {
+            navigator.vibrate(200);
+        }
+        catch (_a) {
+            // The countdown still highlights the last five seconds on this device.
+        }
+    }
 }
 function render() {
+    element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
+    renderPersonalResult();
+    if (role === "tv" && qrKey && (!state || state.phase !== "lobby"))
+        resetQr();
     if (!state) {
         if (role === "tv") {
-            showSections("welcome");
-            element("create").disabled = Boolean(pending);
+            showSection("startup");
+            element("startup-status").hidden = !pending;
+            element("retry-room").hidden = Boolean(pending);
         }
         else if (role === "player" && !token) {
-            showSections("join");
+            showSection("join");
             element("join-form").querySelector("button").disabled = Boolean(pending);
         }
         else {
-            showSections();
+            showSection();
         }
         return;
     }
     if (state.phase === "lobby")
         renderLobby();
     else if (state.phase === "finished") {
-        showSections("scoreboard");
+        if (role === "tv")
+            finishedRoom = room;
         renderScores();
+    }
+    else if (state.phase === "review") {
+        if (role === "tv" && finishedRoom !== room) {
+            // A fast host can open the review between two TV polls.
+            finishedRoom = room;
+            scoreboardUntil = Date.now() + 1800;
+        }
+        if (role === "tv" && Date.now() < scoreboardUntil)
+            renderScores();
+        else
+            renderReview();
     }
     else if (state.question) {
         renderGame();
@@ -634,8 +764,7 @@ function init() {
         catch (_a) {
             storage("festquiz.tv", "");
         }
-        if (room && token)
-            poll();
+        openTvRoom();
     }
     else if (role === "host") {
         token = readParameter(location.hash, "token") || storage("festquiz.host.".concat(room));
@@ -658,9 +787,14 @@ function init() {
     }
     render();
 }
-element("create").addEventListener("click", createRoom);
-element("cancel-room").addEventListener("click", createRoom);
-element("new-game").addEventListener("click", createRoom);
+element("retry-room").addEventListener("click", function () { return openTvRoom(); });
+element("retry-qr").addEventListener("click", function () {
+    qrFailed = false;
+    updateQr();
+});
+["cancel-room", "new-game", "restart-review"].forEach(function (id) {
+    element(id).addEventListener("click", function () { return openTvRoom(true); });
+});
 element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", function (event) {
     element("host-name-field").hidden = !event.target.checked;
@@ -673,6 +807,7 @@ element("host-form").addEventListener("submit", function (event) {
         amount: Number(element("amount").value),
         category: selected === "random" ? categories[Math.floor(Math.random() * categories.length)] : selected,
         difficulty: element("difficulty").value,
+        seconds: Number(element("seconds").value),
     };
     if (element("host-plays").checked) {
         body.hostName = element("host-name").value.trim();
@@ -685,6 +820,58 @@ element("host-form").addEventListener("submit", function (event) {
 });
 element("reveal").addEventListener("click", function () { return roomAction("reveal"); });
 element("next").addEventListener("click", function () { return roomAction("next"); });
+element("open-review").addEventListener("click", function () { return roomAction("review", { questionNumber: 1 }); });
+element("review-prev").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current - 1 }); });
+element("review-next").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current + 1 }); });
+function configureFullscreen() {
+    var _this = this;
+    if (role !== "tv")
+        return;
+    var screen = document.documentElement;
+    var standard = screen.requestFullscreen && document.fullscreenEnabled !== false;
+    var enter = standard ? screen.requestFullscreen : screen.webkitRequestFullscreen || screen.webkitRequestFullScreen;
+    if (!enter)
+        return;
+    var button = element("fullscreen-button");
+    var active = function () { return Boolean(document.fullscreenElement || document.webkitFullscreenElement
+        || document.webkitCurrentFullScreenElement || document.webkitIsFullScreen); };
+    var sync = function () {
+        var fullscreen = active();
+        button.hidden = fullscreen;
+        button.setAttribute("aria-pressed", String(fullscreen));
+    };
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+    button.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 5, , 6]);
+                    if (!standard) return [3 /*break*/, 2];
+                    return [4 /*yield*/, enter.call(screen, { navigationUI: "hide" })];
+                case 1:
+                    _b.sent();
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, enter.call(screen)];
+                case 3:
+                    _b.sent();
+                    _b.label = 4;
+                case 4: return [3 /*break*/, 6];
+                case 5:
+                    _a = _b.sent();
+                    notice("Det gick inte att öppna helskärm.");
+                    return [3 /*break*/, 6];
+                case 6:
+                    sync();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    sync();
+    if (!button.hidden)
+        button.focus();
+}
 var music;
 element("music-button").addEventListener("click", function (event) { return __awaiter(void 0, void 0, void 0, function () {
     var button, _a;
@@ -719,6 +906,7 @@ element("music-button").addEventListener("click", function (event) { return __aw
         }
     });
 }); });
+configureFullscreen();
 init();
 element("boot-status").hidden = true;
 setInterval(updateTimer, 250);

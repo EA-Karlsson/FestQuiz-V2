@@ -23,7 +23,8 @@ from questions import QuestionUnavailable, get_questions
 app = FastAPI(title="FestQuiz")
 root = Path(__file__).resolve().parent
 bearer = HTTPBearer(auto_error=False)
-round_seconds = 30
+default_round_seconds = 20
+max_questions = 30
 room_lifetime = 6 * 60 * 60
 room_limit = 200
 player_limit = 50
@@ -45,6 +46,7 @@ class Question:
     choices: list[str]
     correct_choice: int
     source: str
+    answers: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -54,11 +56,12 @@ class Room:
     expires_at: float
     host_ready: bool = False
     starting: bool = False
-    phase: Literal["lobby", "question", "result", "finished"] = "lobby"
+    phase: Literal["lobby", "question", "closed", "finished", "review"] = "lobby"
     players: dict[str, Player] = field(default_factory=dict)
     questions: list[Question] = field(default_factory=list)
     current_question: int = 0
-    answers: dict[str, int] = field(default_factory=dict)
+    review_question: int = 0
+    seconds: int = default_round_seconds
     deadline: float | None = None
 
 
@@ -73,15 +76,20 @@ class JoinInput(BaseModel):
 
 
 class StartInput(BaseModel):
-    amount: int = Field(ge=5, le=20)
+    amount: int = Field(ge=5, le=max_questions)
     category: str = ""
     difficulty: str = ""
     hostName: str | None = Field(default=None, min_length=1, max_length=32)
+    seconds: Literal[15, 20, 30] = default_round_seconds
 
 
 class AnswerInput(BaseModel):
     questionId: str = Field(min_length=1, max_length=32)
     choice: int = Field(strict=True, ge=0, le=3)
+
+
+class ReviewInput(BaseModel):
+    questionNumber: int = Field(strict=True, ge=1, le=max_questions)
 
 
 def token_from(
@@ -150,52 +158,77 @@ def shuffle_question(source: dict) -> Question:
 
 def open_question(room: Room) -> None:
     room.phase = "question"
-    room.answers.clear()
-    room.deadline = time.time() + round_seconds
+    room.deadline = time.time() + room.seconds
 
 
-def reveal_question(room: Room) -> None:
-    correct_choice = room.questions[room.current_question].correct_choice
-    for token, answer in room.answers.items():
-        if answer == correct_choice:
+def close_question(room: Room) -> None:
+    question = room.questions[room.current_question]
+    for token, answer in question.answers.items():
+        if answer == question.correct_choice:
             room.players[token].score += 1
-    room.phase = "result"
+    room.phase = "closed"
     room.deadline = None
 
 
 def check_deadline(room: Room) -> None:
     if room.deadline is not None and time.time() >= room.deadline:
-        reveal_question(room)
+        close_question(room)
+
+
+def question_view(question: Question, *, reveal: bool) -> dict:
+    return {
+        "id": question.id,
+        "text": question.text,
+        "choices": question.choices,
+        "correctChoice": question.correct_choice if reveal else None,
+        "source": question.source if reveal else None,
+    }
 
 
 def view_state(room: Room, token: str | None) -> dict:
     check_deadline(room)
-    question = None
-    if room.phase in {"question", "result"}:
-        current = room.questions[room.current_question]
-        question = {
-            "id": current.id,
-            "text": current.text,
-            "choices": current.choices,
-            "correctChoice": current.correct_choice if room.phase == "result" else None,
-            "source": current.source if room.phase == "result" else None,
+    current = room.questions[room.current_question] if room.phase in {"question", "closed"} else None
+    answers = current.answers if current is not None else {}
+    finished = room.phase in {"finished", "review"}
+    players = list(room.players.values())
+    if finished:
+        players.sort(key=lambda player: -player.score)
+
+    your_score = None
+    your_place = None
+    if finished and token in room.players:
+        your_score = room.players[token].score
+        your_place = 1 + sum(player.score > your_score for player in players)
+
+    review = None
+    if room.phase == "review":
+        reviewed = room.questions[room.review_question]
+        review = {
+            "current": room.review_question + 1,
+            "total": len(room.questions),
+            "question": question_view(reviewed, reveal=True),
+            "answers": [
+                {"name": player.name, "choice": reviewed.answers.get(credential)}
+                for credential, player in room.players.items()
+            ],
         }
-    players = sorted(room.players.values(), key=lambda player: -player.score)
+
     return {
         "code": room.code,
         "phase": room.phase,
         "hostReady": room.host_ready,
         "starting": room.starting,
-        "players": [{"name": player.name, "score": player.score} for player in players],
-        "question": question,
+        "players": [{"name": player.name, "score": player.score if finished else 0} for player in players],
+        "question": question_view(current, reveal=False) if current is not None else None,
         "current": room.current_question + 1 if room.questions else 0,
         "total": len(room.questions),
-        "answered": len(room.answers),
+        "answered": len(answers),
         "deadline": room.deadline,
-        "yourChoice": room.answers.get(token),
-        "canAnswer": (
-            room.phase == "question" and token in room.players and token not in room.answers
-        ),
+        "yourChoice": answers.get(token),
+        "canAnswer": room.phase == "question" and token in room.players and token not in answers,
+        "yourPlace": your_place,
+        "yourScore": your_score,
+        "review": review,
     }
 
 
@@ -242,7 +275,7 @@ def health():
 
 @app.get("/quiz")
 def solo_quiz(
-    amount: Annotated[int, Query(ge=1, le=20)] = 10,
+    amount: Annotated[int, Query(ge=1, le=max_questions)] = 10,
     category: str = "",
     difficulty: str = "",
 ):
@@ -341,6 +374,7 @@ def start_room(code: str, submission: StartInput, token: Token):
             if host_name is not None:
                 room.players[host_token] = Player(host_name)
             room.questions = questions
+            room.seconds = submission.seconds
             open_question(room)
             room.starting = False
             return view_state(room, token)
@@ -356,34 +390,34 @@ def submit_answer(code: str, submission: AnswerInput, token: Token):
         if token is None or token not in room.players:
             raise HTTPException(403, "Gå med i spelet för att svara.")
         check_deadline(room)
-        if room.phase not in {"question", "result"}:
+        if room.phase not in {"question", "closed"}:
             raise HTTPException(409, "Frågan är inte längre aktuell.")
 
         question = room.questions[room.current_question]
         if question.id != submission.questionId:
             raise HTTPException(409, "Frågan är inte längre aktuell.")
-        if token in room.answers and room.answers[token] == submission.choice:
+        if question.answers.get(token) == submission.choice:
             return view_state(room, token)
         if room.phase != "question":
             raise HTTPException(409, "Svarstiden är slut.")
-        if token in room.answers:
+        if token in question.answers:
             raise HTTPException(409, "Du har redan svarat på frågan.")
 
-        room.answers[token] = submission.choice
-        if len(room.answers) == len(room.players):
-            reveal_question(room)
+        question.answers[token] = submission.choice
+        if len(question.answers) == len(room.players):
+            close_question(room)
         return view_state(room, token)
 
 
 @app.post("/api/rooms/{code}/reveal")
-def reveal_answer(code: str, token: Token):
+def close_room_question(code: str, token: Token):
     with room_lock:
         room = active_room(code)
         require_host(room, token)
         if room.phase == "question":
-            reveal_question(room)
-        if room.phase != "result":
-            raise HTTPException(409, "Det finns ingen fråga att rätta.")
+            close_question(room)
+        if room.phase != "closed":
+            raise HTTPException(409, "Det finns ingen fråga att stänga.")
         return view_state(room, token)
 
 
@@ -393,15 +427,28 @@ def next_question(code: str, token: Token):
         room = active_room(code)
         require_host(room, token)
         check_deadline(room)
-        if room.phase != "result":
-            raise HTTPException(409, "Visa rätt svar först.")
+        if room.phase != "closed":
+            raise HTTPException(409, "Stäng frågan först.")
 
         if room.current_question + 1 == len(room.questions):
             room.phase = "finished"
-            room.answers.clear()
         else:
             room.current_question += 1
             open_question(room)
+        return view_state(room, token)
+
+
+@app.post("/api/rooms/{code}/review")
+def review_room(code: str, submission: ReviewInput, token: Token):
+    with room_lock:
+        room = active_room(code)
+        require_host(room, token)
+        if room.phase not in {"finished", "review"}:
+            raise HTTPException(409, "Visa slutställningen innan du öppnar facit.")
+        if submission.questionNumber > len(room.questions):
+            raise HTTPException(400, "Det frågenumret finns inte i spelet.")
+        room.review_question = submission.questionNumber - 1
+        room.phase = "review"
         return view_state(room, token)
 
 

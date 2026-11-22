@@ -13,6 +13,7 @@
     <header class="topbar">
         <a class="brand" href="/" aria-label="FestQuiz, startsida"><span aria-hidden="true">?</span>FestQuiz</a>
         <div class="topbar-end">
+            <button class="utility" id="fullscreen-button" type="button" aria-pressed="false" hidden>Spela i helskärm</button>
             <button class="utility" id="music-button" type="button" aria-pressed="false" hidden>Spela musik</button>
             <a class="utility" id="solo-link" href="/solo" hidden>Spela själv</a>
             <span class="role" id="role"></span>
@@ -24,12 +25,15 @@
         <noscript><p class="notice">Aktivera JavaScript i webbläsaren och ladda om sidan för att spela.</p></noscript>
         <p class="notice" id="notice" role="status" hidden></p>
 
-        <section class="panel welcome" id="welcome" hidden>
-            <h1>FestQuiz</h1>
-            <p>Öppna spelplanen på TV:n. Använd mobilen för att leda spelet eller svara.</p>
-            <button class="primary" id="create" type="button">Skapa spelrum</button>
-            <a class="utility" href="/spela">Gå med i ett spel</a>
+        <section class="panel startup" id="startup" hidden>
+            <p id="startup-status" role="status">Förbereder spelrummet…</p>
+            <button class="primary" id="retry-room" type="button" hidden>Försök igen</button>
         </section>
+
+        <div class="personal-result" id="personal-result" hidden>
+            <p>Ditt resultat</p>
+            <strong id="personal-score"></strong>
+        </div>
 
         <section class="panel" id="join" hidden>
             <h1>Gå med i spelet</h1>
@@ -71,6 +75,7 @@
                                 <option value="10" selected>10</option>
                                 <option value="15">15</option>
                                 <option value="20">20</option>
+                                <option value="30">30</option>
                             </select>
                         </div>
                         <div>
@@ -83,6 +88,12 @@
                             </select>
                         </div>
                     </div>
+                    <label for="seconds">Svarstid</label>
+                    <select id="seconds" name="seconds">
+                        <option value="15">15 sekunder</option>
+                        <option value="20" selected>20 sekunder</option>
+                        <option value="30">30 sekunder</option>
+                    </select>
                     <label class="check" for="host-plays">
                         <input type="checkbox" id="host-plays">
                         Jag vill också spela
@@ -103,6 +114,7 @@
             <div class="panel qr-card" id="qr-card" hidden>
                 <img id="qr-image" alt="Skanna QR-koden med mobilens kamera" width="320" height="320" hidden>
                 <p id="qr-status">Laddar QR-koden…</p>
+                <button class="utility" id="retry-qr" type="button" hidden>Försök igen</button>
                 <a id="join-link" class="join-link" hidden></a>
             </div>
         </section>
@@ -117,18 +129,44 @@
                 <h1 id="question"></h1>
                 <div id="choices" class="choices"></div>
                 <p id="answer-note" role="status" hidden></p>
-                <p id="question-source" class="question-source" hidden></p>
                 <div id="host-actions" hidden>
-                    <button class="primary" id="reveal" type="button" hidden>Visa rätt svar</button>
+                    <button class="primary" id="reveal" type="button" hidden>Stäng frågan</button>
                     <button class="primary" id="next" type="button" hidden>Nästa fråga</button>
                 </div>
             </section>
         </section>
 
         <section class="panel scoreboard" id="scoreboard" hidden>
-            <h2 id="score-heading">Poängställning</h2>
+            <h1>Slutresultat</h1>
+            <p class="winner" id="winner"></p>
             <ol id="scores"></ol>
+            <button class="primary" id="open-review" type="button" hidden>Visa facit</button>
             <button class="primary" id="new-game" type="button" hidden>Nytt spel</button>
+        </section>
+
+        <section id="review" hidden>
+            <p class="room" id="review-round"></p>
+            <h1>Facit</h1>
+            <div class="review-actions" id="review-actions" hidden>
+                <button class="utility" id="review-prev" type="button">Föregående fråga</button>
+                <button class="primary" id="review-next" type="button">Nästa fråga</button>
+            </div>
+            <div class="review-columns">
+                <div class="panel review-question-panel">
+                    <h2 id="review-question"></h2>
+                    <div class="choices" id="review-choices"></div>
+                    <p class="review-correct" id="review-correct"></p>
+                    <p class="question-source" id="review-source" hidden></p>
+                </div>
+                <div class="panel">
+                    <h2>Spelarnas svar</h2>
+                    <table class="review-table">
+                        <thead><tr><th scope="col">Spelare</th><th scope="col">Valt svar</th></tr></thead>
+                        <tbody id="review-answers"></tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="primary" id="restart-review" type="button" hidden>Nytt spel</button>
         </section>
     </main>
 

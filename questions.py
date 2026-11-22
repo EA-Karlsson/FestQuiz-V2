@@ -336,14 +336,14 @@ def get_questions(
     amount: int, category: str = "", difficulty: str = "", exclude: Collection[str] = ()
 ) -> list[Question]:
     """Returnera exakt antal unika svenska frågor med bibehållna kategori- och nivåval."""
-    if not 1 <= amount <= 20 or category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES:
-        raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 20 frågor.")
+    if not 1 <= amount <= 30 or category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES:
+        raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 30 frågor.")
 
     api_key = os.getenv("DEEPL_API_KEY", "").strip()
     if not api_key:
         raise QuestionUnavailable("Svensk översättning är inte aktiverad. DeepL behöver ställas in på servern.")
 
-    count = 50 if category == "modern" else max(24, amount * 2)
+    count = 50 if category == "modern" else min(50, max(24, amount * 2))
     providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games)
     with ThreadPoolExecutor(max_workers=len(providers)) as executor:
         pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
