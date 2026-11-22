@@ -1,0 +1,211 @@
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: #0d0d0d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#quizScreen {
+    padding: 16px;
+}
+
+/* Rubriker */
+h1 {
+    font-size: 32px;
+    margin: 12px 0;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 16px 0 8px;
+    opacity: 0.9;
+}
+
+/* Knappar & select */
+button,
+select {
+    font-size: 16px;
+    padding: 12px 16px;
+    margin: 6px;
+    border-radius: 10px;
+    border: none;
+    background: #222;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover,
+select:hover {
+    background: #2e2e2e;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Start-knapp */
+#startBtn {
+    background: linear-gradient(135deg, #ffb347, #ffcc33);
+    color: #000;
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+/* Musikknapp */
+#musicBtn {
+    background: #333;
+}
+
+/* Kategorier */
+#categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#categories button {
+    opacity: 0.6;
+}
+
+/* 2025 & Nutid */
+#categories button[data-category="modern"] {
+    font-weight: bold;
+}
+
+/* Aktiv kategori */
+#categories button.active {
+    opacity: 1 !important;
+    background: #2a2a2a;
+    outline: 3px solid #ffcc00;
+    outline-offset: 3px;
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+}
+
+/* Fråga */
+#questionText {
+    font-size: 22px;
+    margin: 18px 0;
+}
+
+/* Frågenummer */
+#progress {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-top: 10px;
+}
+
+/* Svar */
+#answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.answer {
+    background: #1c1c1c;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/* A / B / C / D */
+.answer strong {
+    color: #ffcc00;
+    margin-right: 6px;
+}
+
+/* Timer */
+#timer {
+    margin-top: 14px;
+    font-size: 18px;
+    color: #ffcc00;
+}
+
+/* ================== FACIT ================== */
+
+.facit-title {
+    font-size: 26px;
+    margin: 16px 0 20px;
+}
+
+.facit-item {
+    background: #1c1c1c;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    text-align: left;
+}
+
+.facit-item strong {
+    color: #ffcc00;
+}
+
+.facit-answer {
+    margin-top: 6px;
+    font-size: 17px;
+}
+
+.facit-answer span {
+    font-weight: bold;
+    color: #a8ff60;
+}
+
+/* Facit-knapp */
+.restart-btn {
+    margin-top: 24px;
+    padding: 14px 22px;
+    font-size: 18px;
+    background: #444;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* Utility */
+.hidden {
+    display: none;
+}
+
+/* Nästa-fråga-knapp */
+#nextBtn {
+    margin-top: 14px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #333;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+#nextBtn:hover {
+    background: #444;
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+    #answers {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    #questionText {
+        font-size: 20px;
+    }
+}

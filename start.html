@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FestQuiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- TV-säker: ingen cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+            color: #fff;
+            font-family: system-ui, Arial, sans-serif;
+        }
+
+        .join-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .join-card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 32px 32px 36px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .join-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .join-header p {
+            margin: 6px 0 0;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .qr-frame {
+            margin-top: 22px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .join-qr {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .host-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .host-card {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 32px 32px 36px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .host-qr {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="host-wrapper" id="hostWrapper">
+        <div class="host-card">
+            <div class="join-header">
+                <h1>🎮 FestQuiz</h1>
+                <p>Skanna för att bli spelledare</p>
+            </div>
+
+            <div class="qr-frame">
+                <img id="hostQr" class="host-qr" src="{{HOST_QR_SRC}}" alt="QR för host" />
+            </div>
+        </div>
+    </div>
+
+    <div class="join-wrapper" id="joinWrapper" style="display: none;">
+        <div class="join-card">
+            <div class="join-header">
+                <h1>🎉 FestQuiz</h1>
+                <p>Skanna för att gå med i spelet</p>
+            </div>
+
+            <div class="qr-frame">
+                <img id="joinQr" class="join-qr" src="{{JOIN_QR_SRC}}" alt="QR för spelare" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roomCode = "{{ROOM_CODE}}";
+        const joinWrapper = document.getElementById("joinWrapper");
+        const hostWrapper = document.getElementById("hostWrapper");
+        const joinImg = document.getElementById("joinQr");
+        let pollTimer = null;
+
+        async function pollRoom() {
+            if (!roomCode) return;
+
+            try {
+                const res = await fetch(`/room/${roomCode}`);
+                if (!res.ok) return;
+
+                const data = await res.json();
+
+                if (data.host_ready && hostWrapper.style.display !== "none") {
+                    // Visa join QR när host är redo
+                    hostWrapper.style.display = "none";
+                    joinWrapper.style.display = "flex";
+                }
+
+                if (data.started === true) {
+                    window.location.href = `/static/index.html?room=${roomCode}`;
+                }
+            } catch { }
+        }
+
+        // Starta polling direkt
+        pollTimer = setInterval(pollRoom, 1000);
+    </script>
+
+</body>
+
+</html>

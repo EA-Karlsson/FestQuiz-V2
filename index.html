@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <title>🎉 FestQuiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- STARTSKÄRM -->
+    <div id="startScreen">
+        <h1>🎉 FestQuiz</h1>
+
+        <h2>Välj kategori</h2>
+        <div id="categories">
+            <button data-category="">Alla</button>
+            <button data-category="modern">🆕 2025 & Nutid</button>
+            <button data-category="9">Allmänbildning</button>
+            <button data-category="11">Film</button>
+            <button data-category="12">Musik</button>
+            <button data-category="21">Sport</button>
+            <button data-category="15">TV-Spel</button>
+            <button data-category="23">Historia</button>
+            <button data-category="17">Vetenskap</button>
+            <button data-category="22">Geografi</button>
+            <button id="randomCategory">🎲 Slumpa kategori</button>
+        </div>
+
+        <h2>Antal frågor</h2>
+        <select id="questionCount">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+
+        <h2>Svårighetsgrad</h2>
+        <select id="difficulty">
+            <option value="">Blandad</option>
+            <option value="easy">Lätt</option>
+            <option value="medium">Medel</option>
+            <option value="hard">Svår</option>
+        </select>
+
+        <button id="startBtn">Starta quiz</button>
+        <button id="musicBtn">▶️ Starta musik</button>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quizScreen" class="hidden">
+        <p id="progress"></p>
+        <h2 id="questionText"></h2>
+        <div id="answers"></div>
+        <button id="nextBtn" class="hidden">Nästa fråga ➡️</button>
+        <p id="timer">Tid kvar: 30</p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
