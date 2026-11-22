@@ -1,0 +1,1729 @@
+[
+  {
+    "question": "What nickname was given to Victoria Beckham among the Spice Girls ?",
+    "correct": "Posh",
+    "incorrect": [
+      "Pish",
+      "Push",
+      "Pesh"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which boy band was Justin Timberlake before progressing in a solo career ?",
+    "correct": "NSYNC",
+    "incorrect": [
+      "Take That",
+      "G-Squad",
+      "Backstreet Boys"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In the X-Men, what substance is the skeleton of Wolverine ?",
+    "correct": "Adamantium",
+    "incorrect": [
+      "Vibranium",
+      "Cavorite",
+      "Neutronium"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which country could you pick tulips in clogs near the windmills ?",
+    "correct": "Netherlands",
+    "incorrect": [
+      "Germany",
+      "Luxembourg",
+      "Switzerland"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In what year did the first version of the movie 'E.T.' come out ?",
+    "correct": "1982",
+    "incorrect": [
+      "1986",
+      "1984",
+      "1980"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the color of the triangle on a PlayStation 2 gamepad ?",
+    "correct": "Green",
+    "incorrect": [
+      "Blue",
+      "Mauve",
+      "Red"
+    ],
+    "category": "15",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which actor plays Spider-Man in the series of films made by Sam Raimi ?",
+    "correct": "Tobey Maguire",
+    "incorrect": [
+      "Val Kilmer",
+      "Jason Statham",
+      "Ben Foster"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Fruit of the lemon tree, lemon is a citrus rich in what vitamin ?",
+    "correct": "Vitamin C",
+    "incorrect": [
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin B"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which city were the sadly famous pacifists of the 1972 Bloody Sunday killed ?",
+    "correct": "Derry",
+    "incorrect": [
+      "Dublin",
+      "Limerick",
+      "Belfast"
+    ],
+    "category": "23",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What position do horses adopt for a light sleep ?",
+    "correct": "Standing",
+    "incorrect": [
+      "On the belly",
+      "On the right flank",
+      "On the left flank"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the name of the winged horse of Greek mythology ?",
+    "correct": "Pegasus",
+    "incorrect": [
+      "Argus",
+      "Fungus",
+      "Merengo"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What do we usually see to know the age of a horse ?",
+    "correct": "Teeth",
+    "incorrect": [
+      "The crines",
+      "Clogs",
+      "The legs"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How long does gestation last on average in the horse ?",
+    "correct": "11 months",
+    "incorrect": [
+      "9 months",
+      "5 months",
+      "7 months"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which city is the capital of Cuba, also famous for its cigars ?",
+    "correct": "Havana",
+    "incorrect": [
+      "Santiago de Cuba",
+      "Santa Clara",
+      "Guantanamo"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which capital is also the political and cultural center of China ?",
+    "correct": "Beijing",
+    "incorrect": [
+      "Tokyo",
+      "Hong Kong",
+      "Shanghai"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which of these four Spanish cities is not a port ?",
+    "correct": "Madrid",
+    "incorrect": [
+      "Valencia",
+      "Malaga",
+      "Barcelona"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the capital and the largest city in Egypt ?",
+    "correct": "Cairo",
+    "incorrect": [
+      "Luxor",
+      "Suez",
+      "Alexandria"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Famous for its cinematographic industry, in which country is the city of Bombay located ?",
+    "correct": "India",
+    "incorrect": [
+      "Nepal",
+      "Sri Lanka",
+      "Pakistan"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In which of these cities can one contemplate a famous \"sugar loaf\" ?",
+    "correct": "Rio de Janeiro",
+    "incorrect": [
+      "Brazzaville",
+      "Cairo",
+      "Havana"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which city is the administrative capital of the Netherlands ?",
+    "correct": "The Hague",
+    "incorrect": [
+      "Rotterdam",
+      "Utrecht",
+      "Amsterdam"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Tripoli is a city of Lebanon but also the capital of which country ?",
+    "correct": "Libya",
+    "incorrect": [
+      "Morocco",
+      "Sudan",
+      "Tunisia"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In which historical region of Spain is Barcelona located ?",
+    "correct": "Catalonia",
+    "incorrect": [
+      "Andalusia",
+      "Galicia",
+      "Castile"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which capital of Liberia is located at the edge of the Atlantic Ocean ?",
+    "correct": "Monrovia",
+    "incorrect": [
+      "Grand Bassa",
+      "Lofa",
+      "Nimba"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "In 1931, for which firm Haddon Sundblom did he draw Father Christmas in red ?",
+    "correct": "Coca-Cola",
+    "incorrect": [
+      "IBM",
+      "McDonald's",
+      "Walt Disney"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Traditionally, which Christian saint is Santa Claus associated with ?",
+    "correct": "Saint Nicolas",
+    "incorrect": [
+      "Saint Julien",
+      "Saint Augustine",
+      "Saint Vincent"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "The three wise men brought gold, incense and what else ?",
+    "correct": "Myrrh",
+    "incorrect": [
+      "Coriander",
+      "Amber",
+      "Musk"
+    ],
+    "category": "9",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What part of the body allows seahorses to swim ?",
+    "correct": "Dorsal fin",
+    "incorrect": [
+      "Tail",
+      "Ventral fin",
+      "Head"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Apart from the horse, which other animal is the tapir related to ?",
+    "correct": "Rhinoceros",
+    "incorrect": [
+      "Hamster",
+      "Pig",
+      "Elephant"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What substance is often used to quickly melt snow on roads ?",
+    "correct": "Salt",
+    "incorrect": [
+      "Pepper",
+      "Sugar",
+      "Flour"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which African general crossed the Alps with elephants ?",
+    "correct": "Hannibal",
+    "incorrect": [
+      "Didon",
+      "Hasdrubal",
+      "Hannon"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What equipment is required to take the start of a ski descent competition ?",
+    "correct": "Helmet",
+    "incorrect": [
+      "Glasses",
+      "Brassard",
+      "Knee pads"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Austrian city crossed by the Inn is the capital of Tyrol ?",
+    "correct": "Innsbruck",
+    "incorrect": [
+      "Graz",
+      "Vienna",
+      "Salzburg"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which of these professions can not be associated with the great Leonardo da Vinci ?",
+    "correct": "Dramatic author",
+    "incorrect": [
+      "Sculptor",
+      "Painter",
+      "Botanist"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Son of Laïos and Jocasta, who did Oedipus kill in Greek mythology ?",
+    "correct": "His father",
+    "incorrect": [
+      "His son",
+      "His mother",
+      "His daughter"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which year was the first Coca-Cola concocted by John Pemberton drunk ?",
+    "correct": "1886",
+    "incorrect": [
+      "1946",
+      "1906",
+      "1926"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which city did the 1900 Olympic Games take place ?",
+    "correct": "Paris",
+    "incorrect": [
+      "Los Angeles",
+      "Rome",
+      "Athens"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Nobel Prize Winston Leonard Spencer-Churchill did he receive in 1953 ?",
+    "correct": "Literature",
+    "incorrect": [
+      "Chemistry",
+      "Peace",
+      "Physics"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What prolific French composer died in Paris in 1918 ?",
+    "correct": "Claude Debussy",
+    "incorrect": [
+      "Hector Berlioz",
+      "Georges Bizet",
+      "Edouard Lalo"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "For which profession is the city of Cremona, located in the north of Italy, famous ?",
+    "correct": "Luthier",
+    "incorrect": [
+      "Potter",
+      "Sabotier",
+      "Painter"
+    ],
+    "category": "9",
+    "difficulty": "hard"
+  },
+  {
+    "question": "In the past, phthisis was one of the forms of what disease ?",
+    "correct": "Tuberculosis",
+    "incorrect": [
+      "Leprosy",
+      "Asthma",
+      "Syphilis"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "By which country has Macao been colonized and administered for more than 400 years ?",
+    "correct": "Portugal",
+    "incorrect": [
+      "England",
+      "Spain",
+      "Germany"
+    ],
+    "category": "23",
+    "difficulty": "hard"
+  },
+  {
+    "question": "In which buried city of the Roman Empire was there a gladiator barracks ?",
+    "correct": "Pompeii",
+    "incorrect": [
+      "Catania",
+      "Saint-Pierre",
+      "Goma"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How does a Gladiator signal that he can not continue the fight ?",
+    "correct": "He raises his finger",
+    "incorrect": [
+      "He screams",
+      "He takes off his helmet",
+      "He throws his sword"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the name of the third slave rebellion against the Roman Republic ?",
+    "correct": "Spartacus War",
+    "incorrect": [
+      "War of Auguste",
+      "War of Hercules",
+      "Thrace War"
+    ],
+    "category": "23",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In what ocean can you swim if you travel to Argentina ?",
+    "correct": "Atlantic",
+    "incorrect": [
+      "Arctic",
+      "Pacific",
+      "Indian"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How was mercury also called until the beginning of the nineteenth century ?",
+    "correct": "Quicksilver",
+    "incorrect": [
+      "Gallium",
+      "Radon",
+      "Earthenware"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which country lost about fifteen percent of its population between 1939 and 1945 ?",
+    "correct": "Poland",
+    "incorrect": [
+      "Luxembourg",
+      "Czechoslovakia",
+      "Norway"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "The saber-toothed tiger (or smilodon) is today a species...",
+    "correct": "Extinct",
+    "incorrect": [
+      "Protected",
+      "Threatened",
+      "Legendary"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "On a world map, which side is Mont Blanc in relation to Lake Geneva ?",
+    "correct": "South",
+    "incorrect": [
+      "West",
+      "East",
+      "North"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which element has the highest melting point of all metals ?",
+    "correct": "Tungsten",
+    "incorrect": [
+      "Nickel",
+      "Gold",
+      "Platinum"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which river is also the longest tributary of the Mississippi River ?",
+    "correct": "Missouri",
+    "incorrect": [
+      "Arkansas",
+      "Wisconsin",
+      "Minnesota"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which volcano belonging to the Aeolian Islands is located in the north of Sicily ?",
+    "correct": "Stromboli",
+    "incorrect": [
+      "Villarrica",
+      "Vésuve",
+      "Pinatubo"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which volcano well known to tourists is also the culmination of Japan ?",
+    "correct": "Mount Fuji",
+    "incorrect": [
+      "Mount Spurr",
+      "Mont Longonot",
+      "Ontake Mountain"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "The eruption of what volcano caused on Earth a general cooling of 0.6°C ?",
+    "correct": "Pinatubo",
+    "incorrect": [
+      "Rasshua",
+      "Kurub",
+      "Misti"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Italian volcano at an altitude of 1,281 meters borders the Bay of Naples ?",
+    "correct": "Vesuvius",
+    "incorrect": [
+      "Villarrica",
+      "Pinatubo",
+      "Stromboli"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "For the Hawaiians, which volcano is the home of Pélé ?",
+    "correct": "Kilauea",
+    "incorrect": [
+      "Popocatepetl",
+      "Yasur",
+      "Calbuco"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What gray volcano is on the Sino-Korean border ?",
+    "correct": "Mount Paektu",
+    "incorrect": [
+      "Mount Tongariro",
+      "Mount Taranaki",
+      "Wrangell Mountain"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "How many months are there 31 days in a year ?",
+    "correct": "Seven",
+    "incorrect": [
+      "Six",
+      "Five",
+      "Two"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What animal's skin should not be sold before killing it ?",
+    "correct": "Bear",
+    "incorrect": [
+      "Rabbit",
+      "Lion",
+      "Tiger"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Before living in Rome, in what other city did the Popes used to reside ?",
+    "correct": "Avignon",
+    "incorrect": [
+      "Amiens",
+      "Poitiers",
+      "Toulon"
+    ],
+    "category": "23",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What relatively ungainly animal is called the river horse ?",
+    "correct": "Hippopotamus",
+    "incorrect": [
+      "Giraffe",
+      "Crocodile",
+      "Elephant"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How does the number 54 in Roman numerals, written during Latin lessons, be written ?",
+    "correct": "LIV",
+    "incorrect": [
+      "XXXIV",
+      "CIV",
+      "VCC"
+    ],
+    "category": "9",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How many times has Björn Borg won the Winbledon tournament ?",
+    "correct": "Five times",
+    "incorrect": [
+      "Six times",
+      "Eight times",
+      "Seven times"
+    ],
+    "category": "21",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the current name of the former French Sudan located in West Africa ?",
+    "correct": "Mali",
+    "incorrect": [
+      "Benin",
+      "Liberia",
+      "Ghana"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What city did Giovanni Antonio Canal, called Canaletto, consecrate his life ?",
+    "correct": "Venice",
+    "incorrect": [
+      "Milan",
+      "Naples",
+      "Rome"
+    ],
+    "category": "9",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which sport do you associate with the name of the brilliant and talented Jo DiMaggio ?",
+    "correct": "Baseball",
+    "incorrect": [
+      "Golf",
+      "Boxing",
+      "Football"
+    ],
+    "category": "21",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which company has commercialized the PlayStation 2 game console ?",
+    "correct": "Sony",
+    "incorrect": [
+      "Sega",
+      "Nintendo",
+      "Microsoft"
+    ],
+    "category": "15",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What aesthetic variant of the PlayStation 2 came out in 2004 ?",
+    "correct": "PS2 Slim",
+    "incorrect": [
+      "PS2 Fat",
+      "PS2 Boy",
+      "PS2 Grid"
+    ],
+    "category": "15",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which saga was the most sold among the video games available on the PS2 ?",
+    "correct": "Gran Theft Auto",
+    "incorrect": [
+      "Final Fantasy",
+      "Dragon Quest",
+      "God of War"
+    ],
+    "category": "15",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which official gamepad took the appearance of the DualShock ?",
+    "correct": "DualShock 2",
+    "incorrect": [
+      "Wavebird",
+      "Kinect",
+      "Bongo DK"
+    ],
+    "category": "15",
+    "difficulty": "easy"
+  },
+  {
+    "question": "With which console of Sega the PlayStation 2 was in direct competition ?",
+    "correct": "Dreamcast",
+    "incorrect": [
+      "GameCube",
+      "Xbox",
+      "Saturn"
+    ],
+    "category": "15",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which operating system could be installed on the PS2 ?",
+    "correct": "Linux",
+    "incorrect": [
+      "Android",
+      "Mac OS",
+      "Windows"
+    ],
+    "category": "15",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What small adaptable camera for the PS2 was developed by Sony ?",
+    "correct": "EyeToy",
+    "incorrect": [
+      "Kinect",
+      "SmallCam",
+      "FunPlay"
+    ],
+    "category": "15",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the chemical symbol of magnesium, recognized in 1755 ?",
+    "correct": "Mg",
+    "incorrect": [
+      "Ms",
+      "Mm",
+      "Ma"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which of these fruits is by far the richest in magnesium ?",
+    "correct": "Banana",
+    "incorrect": [
+      "Pear",
+      "Grape",
+      "Apple"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the atomic number of magnesium in the array of elements ?",
+    "correct": "12",
+    "incorrect": [
+      "24",
+      "36",
+      "48"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Who in 1755 recognized magnesium as an element ?",
+    "correct": "Joseph Black",
+    "incorrect": [
+      "James Young",
+      "John Stenhouse",
+      "James Keir"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What effect does the ingestion of large amounts of magnesium cause ?",
+    "correct": "Laxative",
+    "incorrect": [
+      "Sleepy",
+      "Anabolic",
+      "Exciting"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "At what time of the day do cacti absorb carbon dioxide ?",
+    "correct": "The night",
+    "incorrect": [
+      "Never",
+      "Day and night",
+      "The day"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What does the ancient Greek word kaktos mean, where does the name cactus come from ?",
+    "correct": "Thistle",
+    "incorrect": [
+      "Sun",
+      "Spiked",
+      "Resin"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which technique easily allows the multiplication of cacti ?",
+    "correct": "Cutting",
+    "incorrect": [
+      "Staking",
+      "Marcottage",
+      "Cernage"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In 1753, which naturalist grouped the 22 known species of cactus ?",
+    "correct": "Carl von Linné",
+    "incorrect": [
+      "Daniel Rolander",
+      "Olof Celsius",
+      "Erik Acharius"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What object is in hand to play tennis, singles or doubles ?",
+    "correct": "A racket",
+    "incorrect": [
+      "A bat",
+      "Lacrosse",
+      "A pole"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the nationality of Roger Federer, one of the greatest tennis players of all time ?",
+    "correct": "Switzerland",
+    "incorrect": [
+      "German",
+      "Belgian",
+      "French"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In tennis, when a ball bounces off the field, it is said that it is ...",
+    "correct": "Out",
+    "incorrect": [
+      "Nothing",
+      "False",
+      "White"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the color of the ball used in tennis ?",
+    "correct": "Yellow",
+    "incorrect": [
+      "Red",
+      "Green",
+      "Blue"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Where is the main referee in a tennis match ?",
+    "correct": "On a chair",
+    "incorrect": [
+      "Behind the players",
+      "In a box",
+      "In front of the public"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the first action taken at the beginning of a tennis match ?",
+    "correct": "Service",
+    "incorrect": [
+      "Stolen",
+      "Lift",
+      "Smash"
+    ],
+    "category": "21",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which year did Rafael Nadal win his first Grand Slam ?",
+    "correct": "2005",
+    "incorrect": [
+      "2003",
+      "2004",
+      "2002"
+    ],
+    "category": "21",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In tennis, what is the score of the game when the server scores 3 points and the receiver 2 ?",
+    "correct": "40-30",
+    "incorrect": [
+      "3-2",
+      "30-40",
+      "2-3"
+    ],
+    "category": "21",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Who was the first number one worldwide when creating the ATP ranking ?",
+    "correct": "Ilie Nastase",
+    "incorrect": [
+      "Björn Borg",
+      "Jimmy Connors",
+      "Adriano Panatta"
+    ],
+    "category": "21",
+    "difficulty": "hard"
+  },
+  {
+    "question": "In which year was Wimbledon, the oldest tennis tournament in the world created ?",
+    "correct": "1877",
+    "incorrect": [
+      "1897",
+      "1887",
+      "1867"
+    ],
+    "category": "21",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which Village People hit is a reference to a youth movement ?",
+    "correct": "Y.M.C.A.",
+    "incorrect": [
+      "Go West",
+      "In the Navy",
+      "Macho Man"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which ABBA group disco tube was released in 1979 ?",
+    "correct": "Voulez-Vous",
+    "incorrect": [
+      "Waterloo",
+      "SOS",
+      "Mamma Mia"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Gloria Gaynor's disco hit is a symbol of women's emancipation ?",
+    "correct": "I Will Survive",
+    "incorrect": [
+      "Be Mine",
+      "Set Me Free",
+      "Love Affair"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "To which group do we owe the global tube « Last Night a D.J. Saved My Life » ?",
+    "correct": "Indeep",
+    "incorrect": [
+      "Hot Chocolate",
+      "Heatwave",
+      "Inner Life"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which disco-funk song from Lipps Inc. was released in 1980 ?",
+    "correct": "Funkytown",
+    "incorrect": [
+      "Designer Music",
+      "Power",
+      "Hold Me Down"
+    ],
+    "category": "12",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Diana Ross hit was written by the members of the Chic group ?",
+    "correct": "Upside Down",
+    "incorrect": [
+      "Remember Me",
+      "Surrender",
+      "Love Child"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which artist is known for his title « Rock Your Baby » released in 1974 ?",
+    "correct": "George McCrae",
+    "incorrect": [
+      "Edwin Starr",
+      "Marvin Gaye",
+      "Bobby Byrd"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which disco group owes its name to the capital of Canada ?",
+    "correct": "Ottawan",
+    "incorrect": [
+      "Toronto",
+      "Vancouver",
+      "Montreal"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Who wonders if he is sexy in a disco tube released in 1978 ?",
+    "correct": "Rod Stewart",
+    "incorrect": [
+      "Walter Murphy",
+      "Martin Stevens",
+      "Jimmy Somerville"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which singer is best known for the title « I Love to Love » ?",
+    "correct": "Tina Charles",
+    "incorrect": [
+      "Madleen Kane",
+      "Roberta Kelly",
+      "Sharon Redd"
+    ],
+    "category": "12",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Who won a Grammy thanks to « Don't Leave Me This Way » ?",
+    "correct": "Thelma Houston",
+    "incorrect": [
+      "Diana Ross",
+      "Shanice Wilson",
+      "Kiki Dee"
+    ],
+    "category": "12",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Who produced George Benson's « Give Me the Night » album ?",
+    "correct": "Quincy Jones",
+    "incorrect": [
+      "Buddy Greco",
+      "Don Costa",
+      "Edgar Sampson"
+    ],
+    "category": "12",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is a person who raises honey bees called ?",
+    "correct": "Beekeeper",
+    "incorrect": [
+      "Oyster farmer",
+      "Poultry farmer",
+      "Raniculteur"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What do bees do flying from flower to flower in search of food ?",
+    "correct": "They are foraging",
+    "incorrect": [
+      "They skate",
+      "They ruminate",
+      "They draw"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What important phenomenon does the bee provide by foraging ?",
+    "correct": "Pollination",
+    "incorrect": [
+      "Sporulation",
+      "Introgression",
+      "Germination"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What name is given to a group of bees living in society ?",
+    "correct": "Colony",
+    "incorrect": [
+      "Niche",
+      "Guild",
+      "Ecotype"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which bee species is probably the best known in Europe ?",
+    "correct": "Apis mellifera",
+    "incorrect": [
+      "Apis dorsata",
+      "Apis cerana",
+      "Apis florea"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the larva of a future queen bee exclusively fed on ?",
+    "correct": "Royal jelly",
+    "incorrect": [
+      "Sediments",
+      "Insects",
+      "Salt"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What do you call a large gathering of bees ?",
+    "correct": "Swarm",
+    "incorrect": [
+      "Bag",
+      "Coat",
+      "Cluster"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What do you call all of a beekeeper's hives ?",
+    "correct": "Apiary",
+    "incorrect": [
+      "Swarm",
+      "Colony",
+      "Cluster"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What animated film tells the life of a freshly graduated bee ?",
+    "correct": "Bee Movie",
+    "incorrect": [
+      "Rosa",
+      "Le Lorax",
+      "Happy Feet"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In which resin were the oldest bee fossils found ?",
+    "correct": "Amber",
+    "incorrect": [
+      "Jet",
+      "Opal",
+      "Turquoise"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "How many castes does a bee colony consist of ?",
+    "correct": "Three",
+    "incorrect": [
+      "Six",
+      "Four",
+      "Five"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the practice of treating with bee products ?",
+    "correct": "Apitherapy",
+    "incorrect": [
+      "Phytotherapy",
+      "Ayurveda",
+      "Oligotherapy"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What shock can a bee sting sometimes cause on humans ?",
+    "correct": "Anaphylactic",
+    "incorrect": [
+      "Antigen",
+      "Perforin",
+      "Macrophage"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Who directed the science fiction film « Alien, the eighth passenger » ?",
+    "correct": "Ridley Scott",
+    "incorrect": [
+      "Jean-Pierre Jeunet",
+      "David Fincher",
+      "James Cameron"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What pet do the members of the Nostromo have ?",
+    "correct": "Cat",
+    "incorrect": [
+      "Dog",
+      "Duck",
+      "Rat"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are the aliens called in the « Alien » saga ?",
+    "correct": "Xenomorphs",
+    "incorrect": [
+      "Intramorphic",
+      "Kookabiera",
+      "Kaeloo"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which actress performs with panache Ellen Ripley in the « Alien » saga ?",
+    "correct": "Sigourney Weaver",
+    "incorrect": [
+      "Michelle Pfeiffer",
+      "Cameron Diaz",
+      "Jodie Foster"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the very specific characteristic of the blood of the alien xenomorph ?",
+    "correct": "Acid",
+    "incorrect": [
+      "Blue",
+      "Green",
+      "Phosphorescent"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the name of the spaceship used in « Alien, the eighth passenger » ?",
+    "correct": "Nostromo",
+    "incorrect": [
+      "Nobuco",
+      "Nostrado",
+      "Nostradamus"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What year was the film « Prometheus », produced and directed by Ridley Scott ?",
+    "correct": "2012",
+    "incorrect": [
+      "2014",
+      "2008",
+      "2010"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "The famous BMI index allows, after calculation, to know if you are...",
+    "correct": "Overweight",
+    "incorrect": [
+      "Gifted",
+      "Taxable",
+      "In flood zone"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "With what cereal do you make the popcorn that you can buy at the cinema ?",
+    "correct": "Corn",
+    "incorrect": [
+      "Rice",
+      "Barley",
+      "Wheat"
+    ],
+    "category": "9",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which of the following words does not refer to a bone of the human skeleton ?",
+    "correct": "Bolt",
+    "incorrect": [
+      "Hammer",
+      "Axis",
+      "Anvil"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What part of an egg will bubble when sprayed with vinegar ?",
+    "correct": "Shell",
+    "incorrect": [
+      "Yellow",
+      "White",
+      "White and yellow"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "At Disney, what instrument does the pig who built a wooden hut play ?",
+    "correct": "Violin",
+    "incorrect": [
+      "Tambourine",
+      "Pipeau",
+      "Flute"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the best financial score for a company or a government ?",
+    "correct": "AAA",
+    "incorrect": [
+      "AAAA +",
+      "AAA +",
+      "AAAA"
+    ],
+    "category": "9",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Our planet Earth is located between which other planets ?",
+    "correct": "Mars and Venus",
+    "incorrect": [
+      "Jupiter and Saturn",
+      "Uranus and Jupiter",
+      "Pluto and Mercury"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which of the following denotes an almost inert, colorless gas ?",
+    "correct": "Neon",
+    "incorrect": [
+      "Radium",
+      "Manganese",
+      "Magnesium"
+    ],
+    "category": "17",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which of these states has its southernmost capital ?",
+    "correct": "New Zealand",
+    "incorrect": [
+      "Australia",
+      "South Africa",
+      "Argentina"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the nickname given to the American city of New York ?",
+    "correct": "Big Apple",
+    "incorrect": [
+      "Little Pear",
+      "Long Banana",
+      "Thick Orange"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Italian city has the city of the Doges as its nickname ?",
+    "correct": "Venice",
+    "incorrect": [
+      "Turin",
+      "Milan",
+      "Naples"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the nickname given to the city of Las Vegas, in Clark County ?",
+    "correct": "City of Sin",
+    "incorrect": [
+      "Ghost town",
+      "City of the Winds",
+      "Emerald City"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which capital is nicknamed the City of Seven Hills ?",
+    "correct": "Rome",
+    "incorrect": [
+      "Sofia",
+      "Warsaw",
+      "Budapest"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the nickname given to the city of Los Angeles, California ?",
+    "correct": "City of Angels",
+    "incorrect": [
+      "City of Sin",
+      "Capital of the Arts",
+      "Big Apple"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which of these cities is nicknamed the Holy City ?",
+    "correct": "Jerusalem",
+    "incorrect": [
+      "Beirut",
+      "Tehran",
+      "Abu Dhabi"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the nickname given to the city of Detroit, Michigan ?",
+    "correct": "Motor City",
+    "incorrect": [
+      "City of the Winds",
+      "Emerald City",
+      "City of Bears"
+    ],
+    "category": "22",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which Egyptian city is nicknamed the City of a Thousand Minarets ?",
+    "correct": "Cairo",
+    "incorrect": [
+      "Luxor",
+      "Suez",
+      "Alexandria"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the nickname given to the city of Chicago, Illinois ?",
+    "correct": "City of the Winds",
+    "incorrect": [
+      "Motor City",
+      "City of Dreams",
+      "City of Angels"
+    ],
+    "category": "22",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which city is nicknamed the Pearl of the Adriatic ?",
+    "correct": "Dubrovnik",
+    "incorrect": [
+      "Zadar",
+      "Zagreb",
+      "Split"
+    ],
+    "category": "22",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which vitamin provided by the potato is useful for the prevention of scurvy ?",
+    "correct": "Vitamin C",
+    "incorrect": [
+      "Vitamin B",
+      "Vitamin A",
+      "Vitamin D"
+    ],
+    "category": "17",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What can be produced after fermentation and distillation of potato starch ?",
+    "correct": "Ethanol",
+    "incorrect": [
+      "Raki",
+      "Absinthe",
+      "Ouzo"
+    ],
+    "category": "17",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What position does Harry Potter hold on his Quidditch team ?",
+    "correct": "Seeker",
+    "incorrect": [
+      "Drummer",
+      "Chaser",
+      "Launcher"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which witchcraft school did Harry Potter follow his teachings ?",
+    "correct": "Hogwarts",
+    "incorrect": [
+      "Oxford",
+      "Cambridge",
+      "West Point"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is Hermione's last name in the « Harry Potter » saga ?",
+    "correct": "Granger",
+    "incorrect": [
+      "Grindelwald",
+      "Gaunt",
+      "Greengrass"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Who is guarding Azkaban, the wizarding prison in the « Harry Potter » saga ?",
+    "correct": "The Dementors",
+    "incorrect": [
+      "Ghouls",
+      "The scarecrows",
+      "The Cerberus"
+    ],
+    "category": "11",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What are the names of the parents of young Harry Potter ?",
+    "correct": "James and Lily",
+    "incorrect": [
+      "Olivia and Tom",
+      "Hermione and Ron",
+      "Laurena and Victor"
+    ],
+    "category": "11",
+    "difficulty": "medium"
+  },
+  {
+    "question": "In the « Harry Potter » saga, who is the half-blood prince ?",
+    "correct": "Severus Snape",
+    "incorrect": [
+      "Draco Malfoy",
+      "Dumbledore",
+      "Voldemort"
+    ],
+    "category": "11",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What precious material evoked the Sun god for the Egyptians ?",
+    "correct": "Gold",
+    "incorrect": [
+      "Titanium",
+      "Platinum",
+      "Palladium"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "In which valley was the tomb of Pharaoh Tutankhamun discovered ?",
+    "correct": "Valley of the Kings",
+    "incorrect": [
+      "Valley of the Princes",
+      "Valley of the Gods",
+      "Valley of the Dukes"
+    ],
+    "category": "23",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which patron funded Howard Carter's excavation of Tutankhamun's tomb ?",
+    "correct": "Lord Carnarvon",
+    "incorrect": [
+      "Thomas Young",
+      "Geoffrey Martin",
+      "Harry Burton"
+    ],
+    "category": "23",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Who discovered Tutankhamun's tomb in 1922 ?",
+    "correct": "Howard Carter",
+    "incorrect": [
+      "Henry Salt",
+      "Somers Clarke",
+      "Alfred Lucas"
+    ],
+    "category": "23",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What name does the most emblematic headdress of the pharaohs bear ?",
+    "correct": "Nemes",
+    "incorrect": [
+      "Causia",
+      "Kippa",
+      "Pakol"
+    ],
+    "category": "23",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What mineral allowed the Egyptians to dehydrate human tissue ?",
+    "correct": "Natron",
+    "incorrect": [
+      "Lithium",
+      "Bismuth",
+      "Nickel"
+    ],
+    "category": "23",
+    "difficulty": "hard"
+  }
+]

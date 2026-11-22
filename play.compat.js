@@ -76,6 +76,7 @@ var scoreboardUntil = 0;
 var vibratedQuestion = "";
 var draftAnswer = null;
 var hostNameRestored = false;
+var repeatShortage = null;
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
@@ -152,9 +153,16 @@ function request(path, _a) {
                 resolve(blob ? xhr.response : data);
             }
             else {
-                var message = data && typeof data.detail === "string" ? data.detail : "Något gick fel. Försök igen.";
+                var detail = data && data.detail;
+                var message = "Något gick fel. Försök igen.";
+                if (typeof detail === "string")
+                    message = detail;
+                else if (detail && typeof detail.message === "string")
+                    message = detail.message;
                 var error = new Error(message);
                 error.status = xhr.status;
+                if (detail && typeof detail.code === "string")
+                    error.code = detail.code;
                 reject(error);
             }
         };
@@ -392,21 +400,50 @@ function joinRoom(event) {
         });
     });
 }
+function startSettingsKey() {
+    return JSON.stringify([
+        room, (state && state.roundNumber) || 1, element("category").value,
+        element("amount").value, element("difficulty").value,
+    ]);
+}
+function clearRepeatShortage() {
+    if (repeatShortage && element("notice").textContent === repeatShortage.message)
+        notice();
+    repeatShortage = null;
+    element("allow-repeats").checked = false;
+    element("allow-repeats-field").hidden = true;
+}
 function roomAction(action, body) {
     return __awaiter(this, void 0, void 0, function () {
+        var settingsKey;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, act(action, function () { return __awaiter(_this, void 0, void 0, function () {
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, request(roomPath("/".concat(action)), { method: "POST", body: body, credential: token })];
-                                case 1:
-                                    state = _a.sent();
-                                    return [2 /*return*/];
-                            }
-                        });
-                    }); }, true)];
+                case 0:
+                    settingsKey = action === "start" ? startSettingsKey() : "";
+                    return [4 /*yield*/, act(action, function () { return __awaiter(_this, void 0, void 0, function () {
+                            var error_4;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        _a.trys.push([0, 2, , 3]);
+                                        return [4 /*yield*/, request(roomPath("/".concat(action)), { method: "POST", body: body, credential: token })];
+                                    case 1:
+                                        state = _a.sent();
+                                        return [3 /*break*/, 3];
+                                    case 2:
+                                        error_4 = _a.sent();
+                                        if (settingsKey && error_4.status === 409 && error_4.code === "new_questions_shortage") {
+                                            if (settingsKey !== startSettingsKey())
+                                                return [2 /*return*/];
+                                            repeatShortage = { settingsKey: settingsKey, category: body.category, message: error_4.message };
+                                            element("allow-repeats").checked = false;
+                                        }
+                                        throw error_4;
+                                    case 3: return [2 /*return*/];
+                                }
+                            });
+                        }); }, true)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -513,6 +550,8 @@ function renderLobby() {
         var loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
         start.disabled = Boolean(pending) || Boolean(loading);
+        element("allow-repeats-field").hidden = !repeatShortage;
+        element("allow-repeats").disabled = start.disabled;
     }
     else {
         element("lobby-title").textContent = "Du är med!";
@@ -795,6 +834,9 @@ function updateTimer() {
 function render() {
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
+    if (repeatShortage && (!state || state.phase !== "lobby" || repeatShortage.settingsKey !== startSettingsKey())) {
+        clearRepeatShortage();
+    }
     if (!state || state.phase !== "question")
         draftAnswer = null;
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby"))
@@ -884,15 +926,25 @@ element("retry-qr").addEventListener("click", function () {
 });
 element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", function (event) { return showHostName(event.target.checked); });
+["category", "amount", "difficulty"].forEach(function (id) {
+    element(id).addEventListener("change", clearRepeatShortage);
+});
 element("host-form").addEventListener("submit", function (event) {
     event.preventDefault();
     var selected = element("category").value;
+    var allowRepeats = repeatShortage && repeatShortage.settingsKey === startSettingsKey() && element("allow-repeats").checked;
+    var category = selected;
+    if (selected === "random") {
+        category = allowRepeats ? repeatShortage.category : categories[Math.floor(Math.random() * categories.length)];
+    }
     var body = {
         amount: Number(element("amount").value),
-        category: selected === "random" ? categories[Math.floor(Math.random() * categories.length)] : selected,
+        category: category,
         difficulty: element("difficulty").value,
         seconds: Number(element("seconds").value),
     };
+    if (allowRepeats)
+        body.allowRepeats = true;
     if (element("host-plays").checked) {
         body.hostName = element("host-name").value.trim();
         if (!body.hostName) {

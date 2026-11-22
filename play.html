@@ -102,6 +102,10 @@
                         <label for="host-name">Ditt namn</label>
                         <input id="host-name" name="hostName" maxlength="24" autocomplete="nickname">
                     </div>
+                    <label class="check" id="allow-repeats-field" for="allow-repeats" hidden>
+                        <input type="checkbox" id="allow-repeats" autocomplete="off">
+                        Tillåt tidigare frågor
+                    </label>
                     <button class="primary" id="start-game" type="submit">Starta spelet</button>
                 </form>
                 <section id="waiting-players" aria-label="Anslutna spelare" hidden>
@@ -192,6 +196,9 @@
             <p><a href="https://the-trivia-api.com/docs">The Trivia API</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
             <p><a href="https://quizbase.runriva.com/">Powered by QuizBase</a> · <a href="https://github.com/uberspot/OpenTriviaQA">OpenTriviaQA contributors</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> (valfri, frågetext kan ha bearbetats av QuizBase)</p>
             <p><a href="https://triviaapi.games/">TriviaAPI.games</a> (valfri)</p>
+            <p><a href="https://quizzapi.jomoreschi.fr/">Quiz API v2 - Jonathan Moreschi</a></p>
+            <p><a href="https://huggingface.co/datasets/allenai/sciq">SciQ · Allen Institute for AI</a> · <a href="https://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC 3.0</a></p>
+            <p><a href="https://github.com/anya-bel/triviaroomqa">TriviaRoomQA · Mosolova och Seddah</a> · <a href="https://www.openquizzdb.org/">OpenQuizzDB</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
         </details>
     </footer>
     <script>

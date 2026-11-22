@@ -31,6 +31,7 @@ let scoreboardUntil = 0;
 let vibratedQuestion = "";
 let draftAnswer = null;
 let hostNameRestored = false;
+let repeatShortage = null;
 
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
@@ -99,9 +100,13 @@ function request(path, { method = "GET", body, credential = "", blob = false } =
             if (ok && (blob || data !== null)) {
                 resolve(blob ? xhr.response : data);
             } else {
-                const message = data && typeof data.detail === "string" ? data.detail : "Något gick fel. Försök igen.";
+                const detail = data && data.detail;
+                let message = "Något gick fel. Försök igen.";
+                if (typeof detail === "string") message = detail;
+                else if (detail && typeof detail.message === "string") message = detail.message;
                 const error = new Error(message);
                 error.status = xhr.status;
+                if (detail && typeof detail.code === "string") error.code = detail.code;
                 reject(error);
             }
         };
@@ -237,9 +242,33 @@ async function joinRoom(event) {
     });
 }
 
+function startSettingsKey() {
+    return JSON.stringify([
+        room, (state && state.roundNumber) || 1, element("category").value,
+        element("amount").value, element("difficulty").value,
+    ]);
+}
+
+function clearRepeatShortage() {
+    if (repeatShortage && element("notice").textContent === repeatShortage.message) notice();
+    repeatShortage = null;
+    element("allow-repeats").checked = false;
+    element("allow-repeats-field").hidden = true;
+}
+
 async function roomAction(action, body) {
+    const settingsKey = action === "start" ? startSettingsKey() : "";
     await act(action, async () => {
-        state = await request(roomPath(`/${action}`), { method: "POST", body, credential: token });
+        try {
+            state = await request(roomPath(`/${action}`), { method: "POST", body, credential: token });
+        } catch (error) {
+            if (settingsKey && error.status === 409 && error.code === "new_questions_shortage") {
+                if (settingsKey !== startSettingsKey()) return;
+                repeatShortage = { settingsKey, category: body.category, message: error.message };
+                element("allow-repeats").checked = false;
+            }
+            throw error;
+        }
     }, true);
 }
 
@@ -323,6 +352,8 @@ function renderLobby() {
         const loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
         start.disabled = Boolean(pending) || Boolean(loading);
+        element("allow-repeats-field").hidden = !repeatShortage;
+        element("allow-repeats").disabled = start.disabled;
     } else {
         element("lobby-title").textContent = "Du är med!";
         element("lobby-note").textContent = "Spelledaren startar när alla är redo.";
@@ -590,6 +621,9 @@ function updateTimer() {
 function render() {
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
+    if (repeatShortage && (!state || state.phase !== "lobby" || repeatShortage.settingsKey !== startSettingsKey())) {
+        clearRepeatShortage();
+    }
     if (!state || state.phase !== "question") draftAnswer = null;
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby")) resetQr();
     if (!state) {
@@ -665,15 +699,24 @@ element("retry-qr").addEventListener("click", () => {
 });
 element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", (event) => showHostName(event.target.checked));
+["category", "amount", "difficulty"].forEach((id) => {
+    element(id).addEventListener("change", clearRepeatShortage);
+});
 element("host-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const selected = element("category").value;
+    const allowRepeats = repeatShortage && repeatShortage.settingsKey === startSettingsKey() && element("allow-repeats").checked;
+    let category = selected;
+    if (selected === "random") {
+        category = allowRepeats ? repeatShortage.category : categories[Math.floor(Math.random() * categories.length)];
+    }
     const body = {
         amount: Number(element("amount").value),
-        category: selected === "random" ? categories[Math.floor(Math.random() * categories.length)] : selected,
+        category,
         difficulty: element("difficulty").value,
         seconds: Number(element("seconds").value),
     };
+    if (allowRepeats) body.allowRepeats = true;
     if (element("host-plays").checked) {
         body.hostName = element("host-name").value.trim();
         if (!body.hostName) {

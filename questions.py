@@ -1,22 +1,38 @@
 import hashlib
 import html
+import json
 import os
 import random
 import re
+import time
 import unicodedata
 from collections import OrderedDict
 from collections.abc import Collection
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from functools import lru_cache
 from itertools import zip_longest
+from pathlib import Path
 from threading import Lock
 from typing import TypedDict
 
 import requests
 
+from quizzapi import QUIZZAPI_URL, reviewed_payload
+
 
 class QuestionUnavailable(RuntimeError):
     pass
+
+
+class NewQuestionsUnavailable(QuestionUnavailable):
+    def __init__(self, available: int):
+        self.available = available
+        count = "1 ny fråga" if available == 1 else f"{available} nya frågor"
+        super().__init__(
+            f"Jag hittade bara {count} med de här valen. "
+            "Välj färre frågor, byt kategori eller svårighetsgrad, eller tillåt tidigare frågor."
+        )
 
 
 class Question(TypedDict):
@@ -33,6 +49,7 @@ class _Candidate:
     correct: str
     incorrect: tuple[str, str, str]
     source: str
+    language: str = "EN"
 
 
 _OPENTDB_URL = "https://opentdb.com/api.php"
@@ -63,9 +80,13 @@ _QUIZBASE_CATEGORIES = {
     "17": "science-and-nature",
     "22": "geography",
 }
+_QUIZZAPI_CATEGORIES = {"": "", "9": "culture_generale", "17": "science", "22": "geographie", "23": "histoire"}
+_QUIZZAPI_DIFFICULTIES = {"": "", "easy": "facile", "medium": "normal", "hard": "difficile"}
+_QUIZZAPI_CACHE: tuple[float, list[dict]] | None = None
+_QUIZZAPI_LOCK = Lock()
 _DIFFICULTIES = {"", "easy", "medium", "hard"}
 _CACHE_LIMIT = 12000
-_TRANSLATIONS: OrderedDict[str, str] = OrderedDict()
+_TRANSLATIONS: OrderedDict[tuple[str, str], str] = OrderedDict()
 _TRANSLATIONS_LOCK = Lock()
 _RELATIVE_TIME = re.compile(
     r"\b(?:currently|nowadays|at present|as (?:of|at) (?:today|now)|"
@@ -111,7 +132,7 @@ def _normalized(text: str) -> str:
     return "".join(re.findall(r"(?<!\w)-(?=\d)|[\w+#]", normalized))
 
 
-def _candidate(question, correct, incorrect, *, source: str) -> _Candidate | None:
+def _candidate(question, correct, incorrect, *, source: str, language: str = "EN") -> _Candidate | None:
     if not isinstance(incorrect, (list, tuple)) or len(incorrect) != 3:
         return None
     values = (question, correct, *incorrect)
@@ -133,7 +154,7 @@ def _candidate(question, correct, incorrect, *, source: str) -> _Candidate | Non
         return None
     if any(_POSITIONAL_ANSWER.search(answer) for answer in (correct, first, second, third)):
         return None
-    return _Candidate(question, correct, (first, second, third), source)
+    return _Candidate(question, correct, (first, second, third), source, language)
 
 
 def _fetch_json(url: str, params: dict, headers: dict[str, str] | None = None) -> dict | list | None:
@@ -257,7 +278,65 @@ def _triviaapi_games(count: int, category: str, difficulty: str) -> list[_Candid
     return results
 
 
-def _keep_answer(text: str) -> bool:
+def _quizzapi_rows() -> list[dict]:
+    global _QUIZZAPI_CACHE
+    with _QUIZZAPI_LOCK:
+        now = time.monotonic()
+        if _QUIZZAPI_CACHE is None or now >= _QUIZZAPI_CACHE[0]:
+            payload = _fetch_json(QUIZZAPI_URL, {})
+            rows = reviewed_payload(payload)
+            _QUIZZAPI_CACHE = (now + (3600 if rows else 60), rows)
+        return _QUIZZAPI_CACHE[1]
+
+
+def _quizzapi(_count: int, category: str, difficulty: str) -> list[_Candidate]:
+    slug = _QUIZZAPI_CATEGORIES.get(category)
+    if slug is None:
+        return []
+    level = _QUIZZAPI_DIFFICULTIES[difficulty]
+    results = []
+    for row in _quizzapi_rows():
+        if (slug and row["category"] != slug) or (level and row["difficulty"] != level):
+            continue
+        candidate = _candidate(row["question"], row["answer"], row["badAnswers"], source="QuizzAPI", language="FR")
+        if candidate:
+            results.append(candidate)
+    return results
+
+
+@lru_cache(maxsize=2)
+def _reviewed_questions(filename: str) -> tuple[dict, ...]:
+    try:
+        data = json.loads(Path(__file__).with_name(filename).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return ()
+    return tuple(row for row in data if isinstance(row, dict)) if isinstance(data, list) else ()
+
+
+def _reviewed_candidates(filename: str, source: str, category: str = "", difficulty: str = "") -> list[_Candidate]:
+    results = []
+    for row in _reviewed_questions(filename):
+        if (category and row.get("category") != category) or (difficulty and row.get("difficulty") != difficulty):
+            continue
+        candidate = _candidate(row.get("question"), row.get("correct"), row.get("incorrect"), source=source)
+        if candidate:
+            results.append(candidate)
+    return results
+
+
+def _sciq(_count: int, category: str, difficulty: str) -> list[_Candidate]:
+    if category not in {"", "17"} or difficulty:
+        return []
+    return _reviewed_candidates("sciq_reviewed.json", "SciQ")
+
+
+def _triviaroomqa(_count: int, category: str, difficulty: str) -> list[_Candidate]:
+    return _reviewed_candidates("triviaroomqa_reviewed.json", "TriviaRoomQA", category, difficulty)
+
+
+def _keep_answer(text: str, language: str = "EN") -> bool:
+    if language != "EN":
+        return False
     # Behåll uttryckliga citat och korta namn eller titlar, som i FestQuiz 2.0.
     if len(text) < 2 or (text[0], text[-1]) in {('"', '"'), ("'", "'"), ("“", "”"), ("«", "»")}:
         return True
@@ -270,58 +349,63 @@ def _keep_answer(text: str) -> bool:
     )
 
 
-def _translate_batch(candidates: list[_Candidate], translations: dict[str, str], api_key: str) -> bool:
-    needed = {}
-    cacheable = set()
+def _translate_batch(candidates: list[_Candidate], translations: dict[tuple[str, str], str], api_key: str) -> bool:
+    needed: dict[str, dict[str, None]] = {}
+    cacheable: set[tuple[str, str]] = set()
     for candidate in candidates:
+        language = candidate.language
         answers = (candidate.correct, *candidate.incorrect)
-        texts = [candidate.question, *(answer for answer in answers if not _keep_answer(answer))]
-        needed.update(dict.fromkeys(texts))
+        texts = [candidate.question, *(answer for answer in answers if not _keep_answer(answer, language))]
+        needed.setdefault(language, {}).update(dict.fromkeys(texts))
         # TriviaAPI.games tillåter visning i spelet men förbjuder att bygga en frågedatabas.
         if candidate.source != _TRIVIAAPI_GAMES_SOURCE:
-            cacheable.update(texts)
+            cacheable.update((language, text) for text in texts)
 
     with _TRANSLATIONS_LOCK:
-        for text in needed:
-            if text in _TRANSLATIONS:
-                translations[text] = _TRANSLATIONS[text]
-                _TRANSLATIONS.move_to_end(text)
+        for language, texts in needed.items():
+            for text in texts:
+                key = (language, text)
+                if key in _TRANSLATIONS:
+                    translations[key] = _TRANSLATIONS[key]
+                    _TRANSLATIONS.move_to_end(key)
 
-    missing = [text for text in needed if text not in translations]
     if not api_key:
         return False
     domain = "api-free.deepl.com" if api_key.endswith(":fx") else "api.deepl.com"
-    for start in range(0, len(missing), 50):
-        batch = missing[start:start + 50]
-        try:
-            response = requests.post(
-                f"https://{domain}/v2/translate",
-                headers={"Authorization": f"DeepL-Auth-Key {api_key}"},
-                json={"text": batch, "source_lang": "EN", "target_lang": "SV"},
-                timeout=(2, 6),
-            )
-            response.raise_for_status()
-            translated = [item["text"].strip() for item in response.json()["translations"]]
-            if len(translated) != len(batch) or not all(translated):
+    for language, texts in needed.items():
+        missing = [text for text in texts if (language, text) not in translations]
+        for start in range(0, len(missing), 50):
+            batch = missing[start:start + 50]
+            try:
+                response = requests.post(
+                    f"https://{domain}/v2/translate",
+                    headers={"Authorization": f"DeepL-Auth-Key {api_key}"},
+                    json={"text": batch, "source_lang": language, "target_lang": "SV"},
+                    timeout=(2, 6),
+                )
+                response.raise_for_status()
+                translated = [item["text"].strip() for item in response.json()["translations"]]
+                if len(translated) != len(batch) or not all(translated):
+                    return False
+            except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError):
                 return False
-        except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError):
-            return False
 
-        additions = dict(zip(batch, translated))
-        translations.update(additions)
-        with _TRANSLATIONS_LOCK:
-            _TRANSLATIONS.update((text, result) for text, result in additions.items() if text in cacheable)
-            while len(_TRANSLATIONS) > _CACHE_LIMIT:
-                _TRANSLATIONS.popitem(last=False)
+            additions = {(language, text): result for text, result in zip(batch, translated)}
+            translations.update(additions)
+            with _TRANSLATIONS_LOCK:
+                _TRANSLATIONS.update((key, result) for key, result in additions.items() if key in cacheable)
+                while len(_TRANSLATIONS) > _CACHE_LIMIT:
+                    _TRANSLATIONS.popitem(last=False)
     return True
 
 
-def _resolved(candidate: _Candidate, translations: dict[str, str]) -> Question | None:
-    question = translations.get(candidate.question, "")
+def _resolved(candidate: _Candidate, translations: dict[tuple[str, str], str]) -> Question | None:
+    language = candidate.language
+    question = translations.get((language, candidate.question), "")
     if not question or _normalized(question) == _normalized(candidate.question):
         return None
     answers = [
-        text if _keep_answer(text) else translations.get(text, "")
+        text if _keep_answer(text, language) else translations.get((language, text), "")
         for text in (candidate.correct, *candidate.incorrect)
     ]
     if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:
@@ -333,7 +417,13 @@ def _resolved(candidate: _Candidate, translations: dict[str, str]) -> Question |
 
 
 def get_questions(
-    amount: int, category: str = "", difficulty: str = "", exclude: Collection[str] = ()
+    amount: int,
+    category: str = "",
+    difficulty: str = "",
+    exclude: Collection[str] = (),
+    *,
+    avoid_recent: Collection[str] = (),
+    allow_repeats: bool = False,
 ) -> list[Question]:
     """Returnera exakt antal unika svenska frågor med bibehållna kategori- och nivåval."""
     if not 1 <= amount <= 30 or category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES:
@@ -344,7 +434,7 @@ def get_questions(
         raise QuestionUnavailable("Svensk översättning är inte aktiverad. DeepL behöver ställas in på servern.")
 
     count = 50 if category == "modern" else min(50, max(24, amount * 2))
-    providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games)
+    providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games, _quizzapi, _sciq, _triviaroomqa)
     with ThreadPoolExecutor(max_workers=len(providers)) as executor:
         pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
         pools = [result.result() for result in pending]
@@ -357,14 +447,14 @@ def get_questions(
     seen_originals = set()
     candidates = []
     for candidate in combined:
-        original = _normalized(candidate.question)
+        original = (candidate.language, _normalized(candidate.question))
         if original not in seen_originals:
             seen_originals.add(original)
             candidates.append(candidate)
 
-    fresh, older = [], []
-    excluded, seen = set(exclude), set()
-    translations: dict[str, str] = {}
+    fresh, recent, repeated = [], [], []
+    excluded, avoid, seen = set(exclude), set(avoid_recent), set()
+    translations: dict[tuple[str, str], str] = {}
     translation_available = True
     for offset in range(0, len(candidates), 12):
         batch = candidates[offset:offset + 12]
@@ -375,22 +465,35 @@ def get_questions(
                 continue
             seen.add(question["key"])
             if question["key"] in excluded:
-                older.append(question)
+                repeated.append(question)
+            elif question["key"] in avoid:
+                recent.append(question)
             else:
                 fresh.append(question)
             if len(fresh) == amount:
                 random.shuffle(fresh)
                 return fresh
 
-    questions = fresh + older[:amount - len(fresh)]
-    if len(questions) != amount:
+    unused = fresh + recent[:amount - len(fresh)]
+    repeats = repeated[:amount - len(unused)] if allow_repeats else []
+    available = len(unused) + len(repeats)
+    if available != amount:
         if not translation_available:
             raise QuestionUnavailable(
                 "Frågorna kunde inte översättas till svenska. Kontrollera DeepL-inställningen eller försök igen om en stund."
             )
+        if repeated and not allow_repeats:
+            total = len(unused) + len(repeated)
+            if total >= amount:
+                raise NewQuestionsUnavailable(len(unused))
+            raise QuestionUnavailable(
+                f"Jag hittade bara {total} frågor med de här valen, varav {len(unused)} nya. "
+                "Välj färre frågor eller byt kategori eller svårighetsgrad."
+            )
         raise QuestionUnavailable(
-            f"Frågetjänsterna levererade {len(questions)} användbara svenska frågor för de valen. "
+            f"Frågetjänsterna levererade {available} användbara svenska frågor för de valen. "
             "Försök igen, välj färre frågor eller byt kategori eller svårighetsgrad."
         )
-    random.shuffle(questions)
-    return questions
+    random.shuffle(unused)
+    random.shuffle(repeats)
+    return unused + repeats

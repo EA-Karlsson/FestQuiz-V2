@@ -18,7 +18,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 from qrcode.image.pure import PyPNGImage
 
-from questions import QuestionUnavailable, get_questions
+from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions
 
 
 app = FastAPI(title="FestQuiz")
@@ -70,6 +70,7 @@ class Room:
     review_question: int = 0
     seconds: int = default_round_seconds
     deadline: float | None = None
+    used_question_keys: set[str] = field(default_factory=set)
     completed_rounds: int = 0
     series_players: dict[str, SeriesPlayer] = field(default_factory=dict)
     previous_host_name: str | None = None
@@ -91,6 +92,7 @@ class StartInput(BaseModel):
     difficulty: str = ""
     hostName: str | None = Field(default=None, min_length=1, max_length=32)
     seconds: Literal[15, 20, 30] = default_round_seconds
+    allowRepeats: bool = Field(default=False, strict=True)
 
 
 class AnswerInput(BaseModel):
@@ -143,19 +145,37 @@ def require_available_name(room: Room, name: str, except_token: str | None = Non
         raise HTTPException(409, "Namnet används redan. Välj ett annat.")
 
 
-def deal_questions(amount: int, category: str, difficulty: str) -> list[dict]:
+def deal_questions(
+    amount: int,
+    category: str,
+    difficulty: str,
+    *,
+    exclude: Collection[str] = (),
+    allow_repeats: bool = False,
+) -> list[dict]:
     if category not in category_values or difficulty not in difficulty_values:
         raise HTTPException(400, "Välj en kategori och svårighetsgrad från listan.")
     with question_lock:
-        seen = tuple(recent_questions)
+        recent = tuple(recent_questions)
     try:
-        questions = get_questions(amount, category, difficulty, seen)
+        questions = get_questions(
+            amount, category, difficulty, exclude=exclude, avoid_recent=recent, allow_repeats=allow_repeats
+        )
+    except NewQuestionsUnavailable as error:
+        raise HTTPException(409, {
+            "code": "new_questions_shortage",
+            "message": str(error),
+            "available": error.available,
+        }) from error
     except QuestionUnavailable as error:
         raise HTTPException(503, str(error)) from error
-    if len(questions) != amount:
+    keys = [question["key"] for question in questions]
+    unique = set(keys)
+    blocked_repeats = not allow_repeats and not unique.isdisjoint(exclude)
+    if len(keys) != amount or len(unique) != amount or blocked_repeats:
         raise HTTPException(503, "Det gick inte att hämta tillräckligt många frågor.")
     with question_lock:
-        recent_questions.extend(question["key"] for question in questions)
+        recent_questions.extend(keys)
     return questions
 
 
@@ -412,21 +432,26 @@ def start_room(code: str, submission: StartInput, token: Token):
         if host_name is None and not room.players:
             raise HTTPException(409, "Vänta tills minst en spelare har gått med.")
         room.starting = True
+        used = frozenset(room.used_question_keys)
 
     try:
-        questions = [
-            shuffle_question(question)
-            for question in deal_questions(
-                submission.amount, submission.category, submission.difficulty
-            )
-        ]
+        dealt = deal_questions(
+            submission.amount,
+            submission.category,
+            submission.difficulty,
+            exclude=used,
+            allow_repeats=submission.allowRepeats,
+        )
+        questions = [shuffle_question(question) for question in dealt]
         with room_lock:
-            active_room(code)
+            if active_room(code) is not room:
+                raise HTTPException(404, "Spelrummet finns inte längre. Skapa ett nytt spel på TV:n.")
             if host_name is not None:
                 room.players[host_token] = Player(host_name)
             room.questions = questions
             room.seconds = submission.seconds
             open_question(room)
+            room.used_question_keys.update(question["key"] for question in dealt)
             room.starting = False
             return view_state(room, token)
     finally:

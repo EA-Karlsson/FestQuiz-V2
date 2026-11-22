@@ -1,0 +1,1550 @@
+[
+  {
+    "question": "What phenomenon makes global winds blow northeast to southwest or the reverse in the northern hemisphere and northwest to southeast or the reverse in the southern hemisphere?",
+    "correct": "coriolis effect",
+    "incorrect": [
+      "muon effect",
+      "centrifugal effect",
+      "tropical effect"
+    ]
+  },
+  {
+    "question": "When a meteoroid reaches earth, what is the remaining object called?",
+    "correct": "meteorite",
+    "incorrect": [
+      "comet",
+      "meteor",
+      "orbit"
+    ]
+  },
+  {
+    "question": "What kind of a reaction occurs when a substance reacts quickly with oxygen?",
+    "correct": "combustion reaction",
+    "incorrect": [
+      "invention reaction",
+      "Fluid Reaction",
+      "nitrogen reaction"
+    ]
+  },
+  {
+    "question": "What occurs when the immune system attacks a harmless substance that enters the body from the outside?",
+    "correct": "allergy",
+    "incorrect": [
+      "panic attack",
+      "nausea",
+      "plague"
+    ]
+  },
+  {
+    "question": "Fertilization is the union of a sperm and egg, resulting in the formation of what?",
+    "correct": "a zygote",
+    "incorrect": [
+      "a cytoplasm",
+      "a nuclei",
+      "a bacteriophage"
+    ]
+  },
+  {
+    "question": "Cutting down on the use of chemical fertilizers and preserving wetlands are ways to prevent what \"unlivable\" regions in bodies of water?",
+    "correct": "dead zones",
+    "incorrect": [
+      "inhabitable zones",
+      "hostile zones",
+      "fresh zones"
+    ]
+  },
+  {
+    "question": "What is defined as a change in the inherited traits of organisms over time?",
+    "correct": "evolution",
+    "incorrect": [
+      "variation",
+      "divergence",
+      "generation"
+    ]
+  },
+  {
+    "question": "Where do angiosperms produce seeds in flowers?",
+    "correct": "ovaries",
+    "incorrect": [
+      "germs",
+      "cones",
+      "testes"
+    ]
+  },
+  {
+    "question": "What type of plate boundaries produce huge mountain ranges in the ocean basin?",
+    "correct": "divergent",
+    "incorrect": [
+      "coherent",
+      "parallel",
+      "tractional"
+    ]
+  },
+  {
+    "question": "What are the sites of protein synthesis or assembly?",
+    "correct": "ribosomes",
+    "incorrect": [
+      "chloroplasts",
+      "chromosomes",
+      "plasma"
+    ]
+  },
+  {
+    "question": "Gases are most ideal at high temperature and what pressure?",
+    "correct": "low",
+    "incorrect": [
+      "absolute",
+      "high",
+      "stable"
+    ]
+  },
+  {
+    "question": "What is the name of the small bumps that contain taste buds and covers the tongue?",
+    "correct": "papillae",
+    "incorrect": [
+      "lingual tonsils",
+      "palatine tonsils",
+      "cuticle"
+    ]
+  },
+  {
+    "question": "The ability for a plasma membrane to only allow certain molecules in or out of the cell is referred to as what?",
+    "correct": "selective permeability",
+    "incorrect": [
+      "periodic permeability",
+      "total permeability",
+      "moderate permeability"
+    ]
+  },
+  {
+    "question": "In the presence of oxygen, hydrogen can interact to make what?",
+    "correct": "water",
+    "incorrect": [
+      "carbon",
+      "helium",
+      "acid"
+    ]
+  },
+  {
+    "question": "What galaxy is our solar system a part of?",
+    "correct": "milky way",
+    "incorrect": [
+      "Centaurus",
+      "Andromeda",
+      "Bode's Galaxy"
+    ]
+  },
+  {
+    "question": "What is the suns innermost layer called?",
+    "correct": "core",
+    "incorrect": [
+      "surface",
+      "solar",
+      "flare"
+    ]
+  },
+  {
+    "question": "Which cycle tracks the flow of nitrogen through an ecosystem?",
+    "correct": "nitrogen cycle",
+    "incorrect": [
+      "nitrogen reaction",
+      "water cycle",
+      "life cycle"
+    ]
+  },
+  {
+    "question": "What consequence of a tornado is responsible for most injuries and deaths?",
+    "correct": "flying debris",
+    "incorrect": [
+      "catching debris",
+      "touring debris",
+      "falling debris"
+    ]
+  },
+  {
+    "question": "What is the common word for potential difference in a circuit?",
+    "correct": "voltage",
+    "incorrect": [
+      "watt",
+      "velocity",
+      "frequency"
+    ]
+  },
+  {
+    "question": "How many chambers does the stomach of a crocodile have?",
+    "correct": "two",
+    "incorrect": [
+      "six",
+      "ten",
+      "three"
+    ]
+  },
+  {
+    "question": "When populations get close to the carrying capacity, what happens to growth?",
+    "correct": "slows",
+    "incorrect": [
+      "halts",
+      "dies",
+      "spikes"
+    ]
+  },
+  {
+    "question": "Although air can transfer heat rapidly by convection, it is a poor conductor and thus a good what?",
+    "correct": "insulator",
+    "incorrect": [
+      "magnet",
+      "absorber",
+      "transporter"
+    ]
+  },
+  {
+    "question": "An endocrine disease usually involves the secretion of too much or not enough of what?",
+    "correct": "hormone",
+    "incorrect": [
+      "enzyme",
+      "metabolite",
+      "sweat"
+    ]
+  },
+  {
+    "question": "In experiments with garden peas, austrian monk gregor mendel described the basic patterns of what?",
+    "correct": "inheritance",
+    "incorrect": [
+      "behavior",
+      "preference",
+      "color"
+    ]
+  },
+  {
+    "question": "What is the opposite of melting?",
+    "correct": "freezing",
+    "incorrect": [
+      "evaporation",
+      "liquidation",
+      "compression"
+    ]
+  },
+  {
+    "question": "When water goes above and below its freezing point, what rock-breaking phenomenon is common?",
+    "correct": "ice wedging",
+    "incorrect": [
+      "ice locking",
+      "ice inverting",
+      "ice crushing"
+    ]
+  },
+  {
+    "question": "What is the term for the process in which living things with beneficial traits produce more offspring than others do?",
+    "correct": "natural selection",
+    "incorrect": [
+      "natural process",
+      "natural survival",
+      "natural variety"
+    ]
+  },
+  {
+    "question": "In a chemical reaction, the amounts of reactants and products will be constant when what state is attained?",
+    "correct": "equilibrium",
+    "incorrect": [
+      "saturation",
+      "peak",
+      "homogeneity"
+    ]
+  },
+  {
+    "question": "What protects a developing flower while it is still a bud?",
+    "correct": "sepals",
+    "incorrect": [
+      "shell",
+      "petals",
+      "lobes"
+    ]
+  },
+  {
+    "question": "What species do humans belong to?",
+    "correct": "homo sapiens",
+    "incorrect": [
+      "homo erectus",
+      "hominids",
+      "monkeys"
+    ]
+  },
+  {
+    "question": "In some species, what has led to the evolution of alternative male mating behavior and morphology?",
+    "correct": "sexual selection",
+    "incorrect": [
+      "distributive selection",
+      "similar selection",
+      "sexual process"
+    ]
+  },
+  {
+    "question": "What structure is made from dna and protein molecules coiled together?",
+    "correct": "chromosome",
+    "incorrect": [
+      "bacterium",
+      "enzymes",
+      "atoms"
+    ]
+  },
+  {
+    "question": "What renewable energy source converts energy from the sunlight into electricity?",
+    "correct": "solar energy",
+    "incorrect": [
+      "geophysical energy",
+      "geothermal energy",
+      "hydrostatic energy"
+    ]
+  },
+  {
+    "question": "What is the lowest layer of the atmosphere?",
+    "correct": "troposphere",
+    "incorrect": [
+      "ionosphere",
+      "chromosphere",
+      "lithosphere"
+    ]
+  },
+  {
+    "question": "In a glass of sweet tea the sugar is known as the solute and the water is known as what?",
+    "correct": "solvent",
+    "incorrect": [
+      "pigment",
+      "solid",
+      "calcium"
+    ]
+  },
+  {
+    "question": "A few earthquakes take place away from plate boundaries, these are called what?",
+    "correct": "intraplate earthquakes",
+    "incorrect": [
+      "outer earthquakes",
+      "deformation earthquakes",
+      "distant earthquakes"
+    ]
+  },
+  {
+    "question": "Red litmus paper turns what color when placed in a basic solution?",
+    "correct": "blue",
+    "incorrect": [
+      "white",
+      "orange",
+      "pink"
+    ]
+  },
+  {
+    "question": "Collagen fibers, elastic fibers, and reticular fibers comprise what type of tissue?",
+    "correct": "connective tissue",
+    "incorrect": [
+      "nucleus tissue",
+      "intestine tissue",
+      "skin tissue"
+    ]
+  },
+  {
+    "question": "When a series of measurements is precise but not what, the error is usually systematic?",
+    "correct": "accurate",
+    "incorrect": [
+      "velocity",
+      "length",
+      "color"
+    ]
+  },
+  {
+    "question": "Inserting copies of normal genes into a patient with defective genes is known as?",
+    "correct": "gene therapy",
+    "incorrect": [
+      "pattern therapy",
+      "cloning",
+      "chromosome treatment"
+    ]
+  },
+  {
+    "question": "What science includes many fields of science related to our home planet?",
+    "correct": "earth science",
+    "incorrect": [
+      "meteorology",
+      "zoology",
+      "biology"
+    ]
+  },
+  {
+    "question": "What are made from highly reflective metal that is applied to a curved or flat piece of glass?",
+    "correct": "mirrors",
+    "incorrect": [
+      "lenses",
+      "kaleidoscopes",
+      "prisms"
+    ]
+  },
+  {
+    "question": "What is the rigid layer that is found outside the cell membrane and surrounds the cell?",
+    "correct": "cell wall",
+    "incorrect": [
+      "cell barrier",
+      "cell shield",
+      "cell root"
+    ]
+  },
+  {
+    "question": "What celestial body is the earth’s main source of energy?",
+    "correct": "sun",
+    "incorrect": [
+      "rivers",
+      "ocean",
+      "moon"
+    ]
+  },
+  {
+    "question": "What do you call the horizontal stems of a strawberry plant that run over the ground surface?",
+    "correct": "stolons",
+    "incorrect": [
+      "root volunteers",
+      "climbing vines",
+      "sprouts"
+    ]
+  },
+  {
+    "question": "Glaciers are incredibly powerful agents of what?",
+    "correct": "erosion",
+    "incorrect": [
+      "climate change",
+      "insulation",
+      "extinction"
+    ]
+  },
+  {
+    "question": "What type of reproduction only involves one parent?",
+    "correct": "asexual",
+    "incorrect": [
+      "primitive",
+      "organic",
+      "binary"
+    ]
+  },
+  {
+    "question": "What is defined as a repeating series of events that include growth, dna synthesis, and cell division?",
+    "correct": "cell cycle",
+    "incorrect": [
+      "photosynthesis",
+      "meiosis",
+      "puberty"
+    ]
+  },
+  {
+    "question": "How metalloids behave in chemical interactions with other elements depends mainly on the number of what, in the outer energy level of their atoms?",
+    "correct": "electrons",
+    "incorrect": [
+      "protons",
+      "positrons",
+      "neutrons"
+    ]
+  },
+  {
+    "question": "What makes and stores pigments that give petals and fruit their orange and yellow colors?",
+    "correct": "chromoplasts",
+    "incorrect": [
+      "sporozoans",
+      "protozoa",
+      "pores"
+    ]
+  },
+  {
+    "question": "What term is used to describe when a liquid is the temperature at which its equilibrium vapor pressure is equal to the pressure exerted on the liquid by its gaseous surroundings?",
+    "correct": "boiling point",
+    "incorrect": [
+      "freezing point",
+      "burning point",
+      "evaporating point"
+    ]
+  },
+  {
+    "question": "What is another term for nearsightedness?",
+    "correct": "myopia",
+    "incorrect": [
+      "hypoxia",
+      "glaucoma",
+      "anemia"
+    ]
+  },
+  {
+    "question": "In which state of matter do particles take the shape of their container, but cannot expand to fill it?",
+    "correct": "liquid",
+    "incorrect": [
+      "gas",
+      "mixture",
+      "chemical"
+    ]
+  },
+  {
+    "question": "Cations have what type of charge?",
+    "correct": "positive",
+    "incorrect": [
+      "negative",
+      "neutral",
+      "constant"
+    ]
+  },
+  {
+    "question": "What organ is subdivided into ascending, descending, transverse and sigmoid parts?",
+    "correct": "colon",
+    "incorrect": [
+      "heart",
+      "uterus",
+      "lungs"
+    ]
+  },
+  {
+    "question": "Ammonia, urea, and uric acid are examples of what kind of waste?",
+    "correct": "nitrogenous",
+    "incorrect": [
+      "carbonous",
+      "sulphurous",
+      "oxygenous"
+    ]
+  },
+  {
+    "question": "What are variants of genes called?",
+    "correct": "alleles",
+    "incorrect": [
+      "antigens",
+      "mutations",
+      "allergens"
+    ]
+  },
+  {
+    "question": "Mushrooms are an example of what type of organism, which includes beneficial and toxic specimens?",
+    "correct": "fungi",
+    "incorrect": [
+      "spores",
+      "bacteria",
+      "seeds"
+    ]
+  },
+  {
+    "question": "Inside the nasal area of the skull, the nasal cavity is divided into halves by the what?",
+    "correct": "nasal septum",
+    "incorrect": [
+      "cerebral cortex",
+      "cytoplasm",
+      "cell wall"
+    ]
+  },
+  {
+    "question": "Habitat loss, introduced species, overharvesting, and global change are major threats to what?",
+    "correct": "biodiversity",
+    "incorrect": [
+      "the earth's gravity",
+      "the sun",
+      "transportation"
+    ]
+  },
+  {
+    "question": "What \"plumbing\" structures inside the veins maintain a unidirectional flow of blood despite the low blood pressure?",
+    "correct": "valves",
+    "incorrect": [
+      "funnels",
+      "tubes",
+      "pumps"
+    ]
+  },
+  {
+    "question": "What is the process of the transfer of pollen from an anther to a stigma in angiosperms called?",
+    "correct": "pollination",
+    "incorrect": [
+      "grabation",
+      "evolution",
+      "wind"
+    ]
+  },
+  {
+    "question": "What is a suggested explanation for a phenomenon or a suggested explanation for a relationship between many phenomena called?",
+    "correct": "hypothesis",
+    "incorrect": [
+      "query",
+      "system",
+      "process"
+    ]
+  },
+  {
+    "question": "Land plants are classified into two major groups according to the absence or presence of what tissue?",
+    "correct": "vascular",
+    "incorrect": [
+      "disease",
+      "root",
+      "bacterial"
+    ]
+  },
+  {
+    "question": "Global warming will raise ocean levels due to melt water from glaciers and the greater volume of what?",
+    "correct": "warmer water",
+    "incorrect": [
+      "greenhouse gases",
+      "rainforests",
+      "rain"
+    ]
+  },
+  {
+    "question": "What is a device that changes kinetic energy to electrical energy through electromagnetic induction?",
+    "correct": "an electric generator",
+    "incorrect": [
+      "a battery",
+      "a windmill",
+      "a diesel engine"
+    ]
+  },
+  {
+    "question": "What is the method of setting or correcting a measuring device by matching it to known measurement standards called?",
+    "correct": "calibration",
+    "incorrect": [
+      "parallax",
+      "distortion",
+      "precision"
+    ]
+  },
+  {
+    "question": "Which branch of biology studies animal behavior?",
+    "correct": "ethology",
+    "incorrect": [
+      "microbiology",
+      "anthropology",
+      "embryology"
+    ]
+  },
+  {
+    "question": "The two stages of photosynthesis are the light reactions and what?",
+    "correct": "calvin cycle",
+    "incorrect": [
+      "digestive cycle",
+      "respiratory cycle",
+      "reproductive cycle"
+    ]
+  },
+  {
+    "question": "The rings of what planet can be easily seen from earth?",
+    "correct": "saturn",
+    "incorrect": [
+      "Venus",
+      "jupiter",
+      "Neptune"
+    ]
+  },
+  {
+    "question": "What planet is a blue green color?",
+    "correct": "uranus",
+    "incorrect": [
+      "Mars",
+      "sirius",
+      "Mercury"
+    ]
+  },
+  {
+    "question": "Many adults and some children suffer from a deficiency of lactase. these individuals are said to be lactose intolerant because they cannot digest the lactose found in what?",
+    "correct": "milk",
+    "incorrect": [
+      "fruit",
+      "peanuts",
+      "meat"
+    ]
+  },
+  {
+    "question": "What keeps the moon orbiting earth?",
+    "correct": "gravity",
+    "incorrect": [
+      "Coriolis effect",
+      "the Sun",
+      "axial tilt"
+    ]
+  },
+  {
+    "question": "What is the second most abundant element in the earth's crust?",
+    "correct": "silicon",
+    "incorrect": [
+      "nitrogen",
+      "helium",
+      "carbon"
+    ]
+  },
+  {
+    "question": "What is the resistance of a liquid to flow called?",
+    "correct": "viscosity",
+    "incorrect": [
+      "turbulence",
+      "permeability",
+      "elasticity"
+    ]
+  },
+  {
+    "question": "What is the study of how and why plants and animals live where they do?",
+    "correct": "biogeography",
+    "incorrect": [
+      "geomorphology",
+      "heredity",
+      "lithography"
+    ]
+  },
+  {
+    "question": "What are the two major types of seed plants called?",
+    "correct": "gymnosperms and angiosperms",
+    "incorrect": [
+      "perennials and annuals",
+      "flowers and fruits",
+      "deciduous and evergreen"
+    ]
+  },
+  {
+    "question": "Ringworm and athlete's foot are human diseases caused by what simple organisms?",
+    "correct": "fungi",
+    "incorrect": [
+      "bacteria",
+      "insects",
+      "viruses"
+    ]
+  },
+  {
+    "question": "What evolved, adapted response to resource availability is the long-range seasonal movement of animals?",
+    "correct": "migration",
+    "incorrect": [
+      "changing",
+      "Stagnation",
+      "regulating"
+    ]
+  },
+  {
+    "question": "What is another name for composite volcanos?",
+    "correct": "stratovolcanoes",
+    "incorrect": [
+      "fjords",
+      "fault lines",
+      "seismic giants"
+    ]
+  },
+  {
+    "question": "A nerve cell that carries messages is called a?",
+    "correct": "neuron",
+    "incorrect": [
+      "mitochondria",
+      "stem cell",
+      "platelet"
+    ]
+  },
+  {
+    "question": "The process of breaking down food into nutrients is known as __________",
+    "correct": "digestion",
+    "incorrect": [
+      "energy",
+      "absorption",
+      "filtration"
+    ]
+  },
+  {
+    "question": "What is the largest human organ?",
+    "correct": "skin",
+    "incorrect": [
+      "stomach",
+      "brain",
+      "lungs"
+    ]
+  },
+  {
+    "question": "Many objects have color because they contain what?",
+    "correct": "pigments",
+    "incorrect": [
+      "solvents",
+      "vitamins",
+      "salts"
+    ]
+  },
+  {
+    "question": "What is the long, narrow tube that carries food from the pharynx to the stomach by the mechanism of peristalsis?",
+    "correct": "esophagus",
+    "incorrect": [
+      "gallbladder",
+      "liver",
+      "spinal cord"
+    ]
+  },
+  {
+    "question": "What is the temperature at which condensation of water vapor occurs called?",
+    "correct": "the dew point",
+    "incorrect": [
+      "the tipping point",
+      "the boiling point",
+      "the cooling point"
+    ]
+  },
+  {
+    "question": "Alkenes have double bonds while alkynes have what?",
+    "correct": "triple bonds",
+    "incorrect": [
+      "single bonds",
+      "equal bonds",
+      "quadruple bonds"
+    ]
+  },
+  {
+    "question": "What is our main source of aluminum ore?",
+    "correct": "bauxite",
+    "incorrect": [
+      "coal",
+      "cobalt",
+      "tin"
+    ]
+  },
+  {
+    "question": "What is the term for a mixture of two or more substances that has the same composition throughout?",
+    "correct": "solution",
+    "incorrect": [
+      "fluid",
+      "simple liquid",
+      "structure"
+    ]
+  },
+  {
+    "question": "Rna and dna are types of what biochemical compounds containing the elements carbon, hydrogen, oxygen, nitrogen, and phosphorus?",
+    "correct": "nucleic acids",
+    "incorrect": [
+      "hormones",
+      "nitrous acids",
+      "amino acids"
+    ]
+  },
+  {
+    "question": "What is a group of connected cells that have a similar function within an organism called?",
+    "correct": "tissue",
+    "incorrect": [
+      "organ",
+      "nucleus",
+      "colony"
+    ]
+  },
+  {
+    "question": "The process in which organ systems work to maintain a stable internal environment is called what?",
+    "correct": "homeostasis",
+    "incorrect": [
+      "consciousness",
+      "thrombosis",
+      "ketosis"
+    ]
+  },
+  {
+    "question": "The function of which organ is to filter blood and form urine?",
+    "correct": "kidneys",
+    "incorrect": [
+      "liver",
+      "lungs",
+      "gallbladder"
+    ]
+  },
+  {
+    "question": "Friction causes the molecules on rubbing surfaces to move faster, which produces what?",
+    "correct": "heat",
+    "incorrect": [
+      "life",
+      "precipitation",
+      "cold"
+    ]
+  },
+  {
+    "question": "What is a symbiotic relationship in which both species benefit?",
+    "correct": "mutualism",
+    "incorrect": [
+      "detrimental",
+      "parasitism",
+      "inorganic"
+    ]
+  },
+  {
+    "question": "What process is at work when warm air or water rises, and cool air or water sinks?",
+    "correct": "convection",
+    "incorrect": [
+      "evaporation",
+      "radiation",
+      "moisture"
+    ]
+  },
+  {
+    "question": "What do hydrophilic substances have an affinity for?",
+    "correct": "water",
+    "incorrect": [
+      "air",
+      "soil",
+      "heat"
+    ]
+  },
+  {
+    "question": "What is a structure that consists of two or more types of tissues that work together to do the same job?",
+    "correct": "organ",
+    "incorrect": [
+      "cell",
+      "organ system",
+      "organism"
+    ]
+  },
+  {
+    "question": "The heart and a network of blood vessels that run throughout the body make up what organ system?",
+    "correct": "cardiovascular system",
+    "incorrect": [
+      "lymphatic system",
+      "respiratory system",
+      "immune system"
+    ]
+  },
+  {
+    "question": "Different forms, or allotropes, of carbon are diamond, graphite, and what?",
+    "correct": "fullerenes",
+    "incorrect": [
+      "ligands",
+      "vesicles",
+      "carbonite"
+    ]
+  },
+  {
+    "question": "Mitosis and meiosis are two types of what process, with dramatically different products?",
+    "correct": "cell division",
+    "incorrect": [
+      "cell transition",
+      "cell solution",
+      "cell diffusion"
+    ]
+  },
+  {
+    "question": "Water gains and loses what more slowly than does land, affecting seasonal conditions inland and on the coast?",
+    "correct": "heat",
+    "incorrect": [
+      "volume",
+      "humidity",
+      "minerals"
+    ]
+  },
+  {
+    "question": "Atoms of the same element that have different masses are called what?",
+    "correct": "isotopes",
+    "incorrect": [
+      "variations",
+      "radioactive",
+      "mutations"
+    ]
+  },
+  {
+    "question": "What process refers to a separation of charge within an atom or molecule?",
+    "correct": "polarization",
+    "incorrect": [
+      "diffusion",
+      "convection",
+      "rotation"
+    ]
+  },
+  {
+    "question": "What is the largest cartilaginous fish?",
+    "correct": "whale shark",
+    "incorrect": [
+      "dolphin",
+      "blue whale",
+      "sturgeon"
+    ]
+  },
+  {
+    "question": "What is the term for a random change in allele frequencies that occurs in a small population?",
+    "correct": "genetic drift",
+    "incorrect": [
+      "evolution",
+      "speciation",
+      "mutation"
+    ]
+  },
+  {
+    "question": "What are the two main divisions of the human nervous system?",
+    "correct": "central and peripheral",
+    "incorrect": [
+      "somatic and autonomic",
+      "central and identical",
+      "left and right"
+    ]
+  },
+  {
+    "question": "The body is made up of how many types of tissue?",
+    "correct": "four",
+    "incorrect": [
+      "five",
+      "seven",
+      "six"
+    ]
+  },
+  {
+    "question": "The great astronomer edwin hubble discovered that all distant galaxies are receding from our milky way galaxy with velocities proportional to their what?",
+    "correct": "distances",
+    "incorrect": [
+      "masses",
+      "paths",
+      "dimensions"
+    ]
+  },
+  {
+    "question": "What is friction that acts on objects while it is rolling over a surface called?",
+    "correct": "rolling friction",
+    "incorrect": [
+      "blowing friction",
+      "opposing friction",
+      "surface friction"
+    ]
+  },
+  {
+    "question": "Where are sensors for thermoregulation concentrated in the brain?",
+    "correct": "the hypothalamus",
+    "incorrect": [
+      "thyroid",
+      "pituitary gland",
+      "medulla"
+    ]
+  },
+  {
+    "question": "What is the first step in the breakdown of glucose to extract energy for cellular metabolism?",
+    "correct": "glycolysis",
+    "incorrect": [
+      "mutation",
+      "mitosis",
+      "photosynthesis"
+    ]
+  },
+  {
+    "question": "Organisms that obtain food from outside themselves (i.e. they don't make their own food) are known as what?",
+    "correct": "heterotrophs",
+    "incorrect": [
+      "autotrophs",
+      "zygotes",
+      "fungi"
+    ]
+  },
+  {
+    "question": "The process of the cytoplasm splitting apart and the cell pinching in two is known as what?",
+    "correct": "cytokinesis",
+    "incorrect": [
+      "mitosis",
+      "electrolysis",
+      "budding"
+    ]
+  },
+  {
+    "question": "Because it can be controlled intentionally, skeletal muscle is also called what type of muscle?",
+    "correct": "voluntary",
+    "incorrect": [
+      "automatic",
+      "necessary",
+      "involuntary"
+    ]
+  },
+  {
+    "question": "Felsic, intermediate, mafic, and ultramafic are types of composition of what rock group?",
+    "correct": "igneous",
+    "incorrect": [
+      "Sedimentary",
+      "asteroids",
+      "metamorphic"
+    ]
+  },
+  {
+    "question": "The skull is a part of a vertebrate endoskeleton that encloses and protects what organ?",
+    "correct": "brain",
+    "incorrect": [
+      "nervous system",
+      "lung",
+      "heart"
+    ]
+  },
+  {
+    "question": "What is the name of the region of a magnet that has the most pull?",
+    "correct": "pole",
+    "incorrect": [
+      "center",
+      "grid",
+      "tail"
+    ]
+  },
+  {
+    "question": "Where in the atom is a neutron found?",
+    "correct": "the nucleus",
+    "incorrect": [
+      "electron",
+      "proton",
+      "orbit"
+    ]
+  },
+  {
+    "question": "In physics, what is defined as the average kinetic energy of the particles of matter?",
+    "correct": "temperature",
+    "incorrect": [
+      "density",
+      "friction",
+      "magnetism"
+    ]
+  },
+  {
+    "question": "What organelles are known as the \"power plants\" of the cell?",
+    "correct": "mitochondria",
+    "incorrect": [
+      "plastid",
+      "flagella",
+      "golgi body"
+    ]
+  },
+  {
+    "question": "What vesicles store neurotransmitters?",
+    "correct": "synaptic",
+    "incorrect": [
+      "hydrophobic",
+      "dendritic",
+      "Golgi apparatus"
+    ]
+  },
+  {
+    "question": "What is the name of the second most electronegative element?",
+    "correct": "oxygen",
+    "incorrect": [
+      "nitrogen",
+      "Hydrogen",
+      "carbon"
+    ]
+  },
+  {
+    "question": "What is the term for species evolving together?",
+    "correct": "coevolution",
+    "incorrect": [
+      "conjuration",
+      "interconnection",
+      "specmutation"
+    ]
+  },
+  {
+    "question": "What's the other term for your wind pipe?",
+    "correct": "trachea",
+    "incorrect": [
+      "cornea",
+      "cochlea",
+      "esophagus"
+    ]
+  },
+  {
+    "question": "What is the term for the tube that carries sound waves into the ear?",
+    "correct": "ear canal",
+    "incorrect": [
+      "sound canal",
+      "flap canal",
+      "tone canal"
+    ]
+  },
+  {
+    "question": "In the cardiovascular system, what blood vessels carry blood away from the heart?",
+    "correct": "arteries",
+    "incorrect": [
+      "veins",
+      "capillaries",
+      "cilia"
+    ]
+  },
+  {
+    "question": "Molecules in the gas phase can collide with the liquid surface and reenter the liquid via what?",
+    "correct": "condensation",
+    "incorrect": [
+      "fermentation",
+      "combustion",
+      "liquidation"
+    ]
+  },
+  {
+    "question": "What are the primary producers in terrestrial biomes?",
+    "correct": "plants",
+    "incorrect": [
+      "soil",
+      "gases",
+      "animals"
+    ]
+  },
+  {
+    "question": "What is the si unit for pressure?",
+    "correct": "pascal",
+    "incorrect": [
+      "watt",
+      "laurent",
+      "le"
+    ]
+  },
+  {
+    "question": "The simplest and smallest particle of matter that still has chemical properties of the element is called?",
+    "correct": "an atom",
+    "incorrect": [
+      "a molecule",
+      "a nucleus",
+      "an isotope"
+    ]
+  },
+  {
+    "question": "While most mammals give birth to live young, monotremes can do what?",
+    "correct": "lay eggs",
+    "incorrect": [
+      "reproduce asexually",
+      "adopt offspring",
+      "steal eggs"
+    ]
+  },
+  {
+    "question": "By shocking ocean water, earthquakes can cause what deadly ocean waves?",
+    "correct": "tsunamis",
+    "incorrect": [
+      "deep currents",
+      "ebb tides",
+      "typhoons"
+    ]
+  },
+  {
+    "question": "Bones are the main organs of what system, which also includes cartilage and ligaments?",
+    "correct": "skeletal system",
+    "incorrect": [
+      "lymphatic system",
+      "digestive system",
+      "endocrine system"
+    ]
+  },
+  {
+    "question": "Sexually reproducing organisms alternate between which stages?",
+    "correct": "haploid and diploid",
+    "incorrect": [
+      "binary and diploid",
+      "binary and haploid",
+      "diploid and traploid"
+    ]
+  },
+  {
+    "question": "Which hormone helps cells absorb sugar from the blood?",
+    "correct": "insulin",
+    "incorrect": [
+      "estrogen",
+      "cortisol",
+      "adrenaline"
+    ]
+  },
+  {
+    "question": "What is the number of electrons equal to in every electrically neutral atom?",
+    "correct": "protons",
+    "incorrect": [
+      "Electrons",
+      "molecules",
+      "nucleus"
+    ]
+  },
+  {
+    "question": "What bodily system is primarily responsible for fighting pathogens in the body?",
+    "correct": "immune",
+    "incorrect": [
+      "digestion",
+      "Cardiovascular",
+      "Muscular"
+    ]
+  },
+  {
+    "question": "Displacement, velocity, acceleration, and force are examples of what type of quantity that has magnitude and direction?",
+    "correct": "vector",
+    "incorrect": [
+      "cycles",
+      "wave",
+      "frequency"
+    ]
+  },
+  {
+    "question": "Gases such as co2 and methane can trap what energy in earth's atmosphere, before radiating it into space?",
+    "correct": "thermal energy",
+    "incorrect": [
+      "mechanical energy",
+      "sunlight energy",
+      "potential energy"
+    ]
+  },
+  {
+    "question": "What term is used to describe a chemical released by an animal that affects the behavior or physiology of animals of the same species?",
+    "correct": "pheromone",
+    "incorrect": [
+      "enzyme",
+      "isolate",
+      "amino"
+    ]
+  },
+  {
+    "question": "What must happen for two ions to form an ionic bond?",
+    "correct": "two ions need to have opposite charges",
+    "incorrect": [
+      "two ions need to have the same charge",
+      "Two ions need to be the same size",
+      "two ions need to have neutral charges"
+    ]
+  },
+  {
+    "question": "What is the study of the similarities and differences in the embryos of different species?",
+    "correct": "comparative embryology",
+    "incorrect": [
+      "example embryology",
+      "prenatal biology",
+      "diversified embryology"
+    ]
+  },
+  {
+    "question": "What are the main organs of the respiratory system?",
+    "correct": "lungs",
+    "incorrect": [
+      "ovaries",
+      "intestines",
+      "kidneys"
+    ]
+  },
+  {
+    "question": "What do you call the traits that allow a plant, animal, or other organism to survive and reproduce in its environment?",
+    "correct": "adaptations",
+    "incorrect": [
+      "additions",
+      "advantages",
+      "settings"
+    ]
+  },
+  {
+    "question": "The products of photosynthesis are glucose and what else?",
+    "correct": "oxygen",
+    "incorrect": [
+      "carbon",
+      "hydrogen",
+      "nitrogen"
+    ]
+  },
+  {
+    "question": "Gymnosperms have seeds but do not have what?",
+    "correct": "flowers",
+    "incorrect": [
+      "leaves",
+      "stems",
+      "roots"
+    ]
+  },
+  {
+    "question": "The right ventricle pumps what type of blood toward the lungs?",
+    "correct": "oxygen-poor",
+    "incorrect": [
+      "plasma",
+      "oxygenated",
+      "oxygen-rich"
+    ]
+  },
+  {
+    "question": "What waves are the broad range of electromagnetic waves with the longest wavelengths and lowest frequencies?",
+    "correct": "radio",
+    "incorrect": [
+      "sound",
+      "microwaves",
+      "light"
+    ]
+  },
+  {
+    "question": "Light waves which interfere with themselves after interaction with a small aperture or target are said to what?",
+    "correct": "diffract",
+    "incorrect": [
+      "refract",
+      "adduce",
+      "reflect"
+    ]
+  },
+  {
+    "question": "Beryllium, magnesium, calcium, strontium, and barium are classified as what type of metals?",
+    "correct": "alkaline earth metals",
+    "incorrect": [
+      "alkaline aligned metals",
+      "acid earth metals",
+      "alkaline support metals"
+    ]
+  },
+  {
+    "question": "What type of device do scientist use to determine wind speed?",
+    "correct": "anemometer",
+    "incorrect": [
+      "barometer",
+      "photometer",
+      "dynamometer"
+    ]
+  },
+  {
+    "question": "What mammal is often a pollinator of nocturnal flowers?",
+    "correct": "bat",
+    "incorrect": [
+      "sunbirds",
+      "hummingbirds",
+      "rabbits"
+    ]
+  },
+  {
+    "question": "What is solid water that forms when water vapor undergoes deposition?",
+    "correct": "frost",
+    "incorrect": [
+      "distillate",
+      "glacier",
+      "dew"
+    ]
+  },
+  {
+    "question": "What gets released into the atmosphere when fossil fuels are burned?",
+    "correct": "carbon dioxide",
+    "incorrect": [
+      "oxygen",
+      "hydrogen",
+      "chemical dioxide"
+    ]
+  },
+  {
+    "question": "Matter can be described with what two encompassing types of properties?",
+    "correct": "physical and chemical",
+    "incorrect": [
+      "velocity and energy",
+      "thermal and magnetic",
+      "color and distance"
+    ]
+  },
+  {
+    "question": "Types of neurons include sensory neurons, motor neurons, and?",
+    "correct": "interneurons",
+    "incorrect": [
+      "histones",
+      "anions",
+      "synapses"
+    ]
+  },
+  {
+    "question": "What is the energy of motion called?",
+    "correct": "kinetic energy",
+    "incorrect": [
+      "binary energy",
+      "potential energy",
+      "mixed energy"
+    ]
+  },
+  {
+    "question": "What is the term for an infection caused by a fungal parasite?",
+    "correct": "mycosis",
+    "incorrect": [
+      "mydriasis",
+      "mitosis",
+      "acrobasis"
+    ]
+  },
+  {
+    "question": "Potential energy is not only associated with the location of matter, but also with the structure of matter. even a spring on the ground has potential energy if it is what?",
+    "correct": "compressed",
+    "incorrect": [
+      "ignored",
+      "watched",
+      "coupled"
+    ]
+  },
+  {
+    "question": "Certain medications can suppress the immune system. this is an intended effect of drugs given to people with what?",
+    "correct": "transplanted organs",
+    "incorrect": [
+      "benign tumors",
+      "infections",
+      "genetic disorders"
+    ]
+  },
+  {
+    "question": "What is the name for a biologist who studies fungi?",
+    "correct": "mycologists",
+    "incorrect": [
+      "egyptologists",
+      "musicologists",
+      "oncologists"
+    ]
+  },
+  {
+    "question": "How many different kinds of ions are produced when sodium chloride dissociates ?",
+    "correct": "two",
+    "incorrect": [
+      "five",
+      "one",
+      "three"
+    ]
+  },
+  {
+    "question": "Gas particles can move randomly in what directions?",
+    "correct": "all directions",
+    "incorrect": [
+      "one direction",
+      "few directions",
+      "some directions"
+    ]
+  },
+  {
+    "question": "Positive charges move in the direction of the electric field and the same direction as what current?",
+    "correct": "conventional current",
+    "incorrect": [
+      "alternating current",
+      "direct current",
+      "relativity current"
+    ]
+  },
+  {
+    "question": "What is the base unit that frequency is typically measured in?",
+    "correct": "hertz",
+    "incorrect": [
+      "watt",
+      "volume",
+      "degrees"
+    ]
+  },
+  {
+    "question": "Controlling muscles and maintaining balance are just two of the roles of what system?",
+    "correct": "nervous system",
+    "incorrect": [
+      "electrical system",
+      "digestive system",
+      "bacterial system"
+    ]
+  },
+  {
+    "question": "Displacement divided by time is equal to the average what?",
+    "correct": "velocity",
+    "incorrect": [
+      "force",
+      "speed",
+      "acceleration"
+    ]
+  },
+  {
+    "question": "The complete hydrolysis of starch yields what?",
+    "correct": "glucose",
+    "incorrect": [
+      "glutamate",
+      "insulin",
+      "sucrose"
+    ]
+  },
+  {
+    "question": "What term describes an imbalance of attractive forces between liquid molecules at the surface of a liquid?",
+    "correct": "surface tension",
+    "incorrect": [
+      "currents tension",
+      "molecular tension",
+      "obsolute tension"
+    ]
+  },
+  {
+    "question": "When cats mark their territory by rubbing their face against an object, they deposit chemicals released by what structures?",
+    "correct": "scent glands",
+    "incorrect": [
+      "whiskers",
+      "pituitary glands",
+      "taste buds"
+    ]
+  },
+  {
+    "question": "Like other bryophytes, moss plants spend most of their life cycle as?",
+    "correct": "gametophytes",
+    "incorrect": [
+      "spores",
+      "copepods",
+      "bacteriophages"
+    ]
+  }
+]

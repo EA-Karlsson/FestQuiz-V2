@@ -6,6 +6,8 @@ TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en
 
 Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Spelledaren kan välja **Ny omgång** för att spela vidare med samma deltagare. Poängtavlan visar vinster och placeringar för spelrummets omgångar. En delad förstaplats räknas som en vinst för var och en som delar den.
 
+FestQuiz hoppar över frågor som redan använts i samma spelrum. Om det finns för få nya frågor kan spelledaren ändra inställningarna eller välja **Tillåt tidigare frågor**. Det valet gäller en omgång och de nya frågorna visas först.
+
 Knappen **Spela i helskärm** döljer webbläsarens ram när webbläsaren stöder funktionen. Knappen och pekaren på spelplanen försvinner när helskärmsläget öppnas. `/solo` öppnar quiz för en person.
 
 ## Köra lokalt
@@ -45,3 +47,6 @@ Varje omgång använder flervalsfrågor från källorna nedan. Dubbletter sorter
 - The Trivia API, CC BY-NC 4.0. Frågor och svar kan översättas till svenska. Sätt `TRIVIA_API_ENABLED=0` vid kommersiell användning. [Källa och licens](https://the-trivia-api.com/docs)
 - QuizBase är en valfri källa för frågor och färdiga svarsalternativ från OpenTriviaQA. [QuizBase](https://quizbase.runriva.com/) · [OpenTriviaQA](https://github.com/uberspot/OpenTriviaQA) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 - TriviaAPI.games är en valfri källa för omgångar med alla kategorier och blandad svårighetsgrad. Gratisnivån gäller privata, icke-kommersiella projekt. [Användningsvillkor](https://triviaapi.games/terms)
+- Quiz API v2 av Jonathan Moreschi används med ett granskat urval av internationella och nordiska frågor. QuizzAPI-frågorna översätts från franska. [Quiz API v2 - Jonathan Moreschi](https://quizzapi.jomoreschi.fr/) · [Användningsvillkor](https://github.com/Eromnoj/quizzAPIv2/blob/main/TERMS.md)
+- SciQ från Allen Institute for AI ger ett urval av naturvetenskapliga flervalsfrågor i blandad svårighetsgrad. [SciQ](https://huggingface.co/datasets/allenai/sciq) · [CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/)
+- TriviaRoomQA av Mosolova och Seddah bygger på frågor från OpenQuizzDB. FestQuiz använder ett granskat urval ur den engelska frågebanken. [TriviaRoomQA](https://github.com/anya-bel/triviaroomqa) · [OpenQuizzDB](https://www.openquizzdb.org/) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
