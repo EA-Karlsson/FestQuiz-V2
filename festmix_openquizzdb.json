@@ -1116,5 +1116,1279 @@
     "theme": "Uppfinningar och prylar",
     "source_url": "https://www.openquizzdb.org/download.php?id=600",
     "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que mangent surtout les coccinelles ?",
+    "correct": "Pucerons",
+    "incorrect": [
+      "Chenilles",
+      "Fourmis",
+      "Moustiques"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=536",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans « Star Wars », quelle arme est utilisée par la plupart des Jedi ?",
+    "correct": "Sabre laser",
+    "incorrect": [
+      "Blaster",
+      "X-wing",
+      "Speeder"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=37",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel dessin est tatoué sur le bras du Schtroumpf costaud ?",
+    "correct": "Coeur",
+    "incorrect": [
+      "Ancre",
+      "Haltères",
+      "Tête de Schtroumpf"
+    ],
+    "difficulty": "hard",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=105",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quelles aventures retrouve-t-on les personnages de Loïs et Clark ?",
+    "correct": "Superman",
+    "incorrect": [
+      "Spider-Man",
+      "Batman",
+      "Hulk"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=183",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel acteur danse avec Jennifer Grey dans  « Dirty Dancing » ?",
+    "correct": "Patrick Swayze",
+    "incorrect": [
+      "John Travolta",
+      "Kevin Costner",
+      "Michael Keaton"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=223",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui est le « Bodyguard » de Whitney Houston dans un film du même nom ?",
+    "correct": "Kevin Costner",
+    "incorrect": [
+      "Richard Gere",
+      "Mel Gibson",
+      "Bruce Willis"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=223",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "De quelle actrice du film « E.T. », Steven Spielberg est-il le parrain ?",
+    "correct": "Drew Barrymore",
+    "incorrect": [
+      "Dee Wallace",
+      "Téa Leoni",
+      "Dakota Fanning"
+    ],
+    "difficulty": "hard",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=225",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel hacker Keanu Reeves incarne-t-il dans la trilogie « Matrix » ?",
+    "correct": "Neo",
+    "incorrect": [
+      "Morpheus",
+      "Trinity",
+      "Smith"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=233",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quel film Eminem interprète-t-il un jeune rappeur blanc ?",
+    "correct": "8 Mile",
+    "incorrect": [
+      "Wonder Boys",
+      "Crazy Heart",
+      "Once"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=239",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Comment s'appelle le petit dragon dans « Mulan » ?",
+    "correct": "Mushu",
+    "incorrect": [
+      "Fitou",
+      "Golu",
+      "Krokmou"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=291",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "De quel instrument joue Lisa Simpson, créée par Matt Groening ?",
+    "correct": "Saxophone",
+    "incorrect": [
+      "Flûte",
+      "Trompette",
+      "Piano"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=309",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la senteur de Lotso dans « Toy Story 3 » ?",
+    "correct": "Fraise",
+    "incorrect": [
+      "Framboise",
+      "Pomme",
+      "Banane"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=410",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quel film de Pixar un rat se révèle-t-il excellent cuisinier ?",
+    "correct": "Ratatouille",
+    "incorrect": [
+      "Cars",
+      "Toy Story",
+      "Monstres et Cie"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=446",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel phénomène sauve Tintin et ses amis dans « Le temple du soleil » ?",
+    "correct": "Éclipse de soleil",
+    "incorrect": [
+      "Ouragan",
+      "Séisme",
+      "Avalanche"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=464",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel ami du capitaine Kirk a les oreilles pointues ?",
+    "correct": "Spock",
+    "incorrect": [
+      "Sulu",
+      "Sanders",
+      "Scotty"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=487",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle marque de voiture est conduite par Thomas Magnum ?",
+    "correct": "Ferrari",
+    "incorrect": [
+      "Porsche",
+      "Audi",
+      "BMW"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=487",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui est la princesse Diana, issue d'une tribu d'Amazones ?",
+    "correct": "Wonder Woman",
+    "incorrect": [
+      "Mega Mindy",
+      "Gwen Tennyson",
+      "Cipher"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=567",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui est incarné par Orlando Bloom dans « Le Seigneur des Anneaux » ?",
+    "correct": "Legolas",
+    "incorrect": [
+      "Faramir",
+      "Boromir",
+      "Aragorn"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=586",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel prénom se partagent les acteurs canadiens Gosling et Reynolds ?",
+    "correct": "Ryan",
+    "incorrect": [
+      "Evan",
+      "Alan",
+      "Brian"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=596",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la particularité de Benjamin Button pour David Fincher ?",
+    "correct": "Né vieux",
+    "incorrect": [
+      "Né aveugle",
+      "Né sourd",
+      "Né muet"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=628",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quelle ville peut-on admirer le très touristique pont des Soupirs ?",
+    "correct": "Venise",
+    "incorrect": [
+      "Valence",
+      "Vérone",
+      "Versailles"
+    ],
+    "difficulty": "medium",
+    "theme": "Jorden runt",
+    "source_url": "https://www.openquizzdb.org/download.php?id=256",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la plus grande des îles du Japon, abritant Tokyo ?",
+    "correct": "Honshu",
+    "incorrect": [
+      "Shikoku",
+      "Hokkaido",
+      "Kyushu"
+    ],
+    "difficulty": "hard",
+    "theme": "Jorden runt",
+    "source_url": "https://www.openquizzdb.org/download.php?id=421",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel État enclavé est contenu dans le territoire de la ville de Rome ?",
+    "correct": "Vatican",
+    "incorrect": [
+      "Lichtenstein",
+      "Monaco",
+      "Saint-Marin"
+    ],
+    "difficulty": "easy",
+    "theme": "Jorden runt",
+    "source_url": "https://www.openquizzdb.org/download.php?id=473",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle marque automobile a pour slogan « Le plaisir de conduire » ?",
+    "correct": "BMW",
+    "incorrect": [
+      "Renault",
+      "Mercedes-Benz",
+      "Kia"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=79",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle marque de jeans mondialement connue fabrique le célèbre 501 ?",
+    "correct": "Levis",
+    "incorrect": [
+      "Lee Cooper",
+      "Lacoste",
+      "Lindex"
+    ],
+    "difficulty": "easy",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=175",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle marque de montres a pour logo une couronne à cinq branches ?",
+    "correct": "Rolex",
+    "incorrect": [
+      "Rolls-Royce",
+      "Rozana",
+      "Revlon"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=208",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel site de micro blogging fut symbolisé par un oiseau bleu ?",
+    "correct": "Twitter",
+    "incorrect": [
+      "Tinder",
+      "Tumblr",
+      "Telegram"
+    ],
+    "difficulty": "easy",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=232",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Pour quelle marque de boisson Nicole Kidman fut-elle égérie ?",
+    "correct": "Schweppes",
+    "incorrect": [
+      "Pepsi",
+      "Aquarius",
+      "Gini"
+    ],
+    "difficulty": "hard",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=498",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle célèbre marque britannique de thé propose le « Yellow Label » ?",
+    "correct": "Lipton",
+    "incorrect": [
+      "Twinnings",
+      "Nestea",
+      "Éléphant"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=504",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel était l'ancien nom du Sri Lanka ?",
+    "correct": "Ceylan",
+    "incorrect": [
+      "Formose",
+      "Batavia",
+      "Cipango"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända namn",
+    "source_url": "https://www.openquizzdb.org/download.php?id=424",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel était le métier de Meghan Markle avant de devenir duchesse ?",
+    "correct": "Actrice",
+    "incorrect": [
+      "Juriste",
+      "Joueuse de tennis",
+      "Présentatrice télé"
+    ],
+    "difficulty": "easy",
+    "theme": "Kända namn",
+    "source_url": "https://www.openquizzdb.org/download.php?id=593",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui a dit : « L'imagination est plus importante que le savoir » ?",
+    "correct": "Albert Einstein",
+    "incorrect": [
+      "Guy de Maupassant",
+      "Oscar Wilde",
+      "Confucius"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända namn",
+    "source_url": "https://www.openquizzdb.org/download.php?id=610",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Comment Robin Williams a-t-il prénommé sa fille ?",
+    "correct": "Zelda",
+    "incorrect": [
+      "Harmonie",
+      "Kirby",
+      "Daisy"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända namn",
+    "source_url": "https://www.openquizzdb.org/download.php?id=638",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui est Christine dans l'univers de Stephen King ?",
+    "correct": "Une voiture",
+    "incorrect": [
+      "Une tombe",
+      "Une demeure",
+      "Une poupée"
+    ],
+    "difficulty": "medium",
+    "theme": "Litteratur",
+    "source_url": "https://www.openquizzdb.org/download.php?id=312",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel mets québécois est constitué de frites et de cheddar frais ?",
+    "correct": "Poutine",
+    "incorrect": [
+      "Gibelotte",
+      "Cipaille",
+      "Tourtière"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=31",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quelle enveloppe se cachent les graines de petits-pois ?",
+    "correct": "Gousse",
+    "incorrect": [
+      "Drupe",
+      "Capsule",
+      "Follicule"
+    ],
+    "difficulty": "easy",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=43",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Comment appelle-t-on un fruit charnu à noyau tel que la cerise ?",
+    "correct": "Drupe",
+    "incorrect": [
+      "Baie",
+      "Nucule",
+      "Faîne"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=43",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel parfum complète la vanille et le chocolat dans un banana split ?",
+    "correct": "Fraise",
+    "incorrect": [
+      "Fruit de la passion",
+      "Figue",
+      "Framboise"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=64",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Comment qualifie-t-on des légumes coupés en fines lanières ?",
+    "correct": "Julienne",
+    "incorrect": [
+      "Jeton",
+      "Jambon",
+      "Juliette"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=112",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle ville portugaise est célèbre pour ses caves à vin ?",
+    "correct": "Porto",
+    "incorrect": [
+      "Lisbonne",
+      "Faro",
+      "Braga"
+    ],
+    "difficulty": "easy",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=365",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quelle tarte les pommes renversée sont-elles caramélisées ?",
+    "correct": "Tarte Tatin",
+    "incorrect": [
+      "Tarte au riz",
+      "Tarte normande",
+      "Tarte au maton"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=372",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle fleur de la Toussaint est consommée en infusion en Chine ?",
+    "correct": "Chrysanthème",
+    "incorrect": [
+      "Myosotis",
+      "Jasmin",
+      "Gerbera"
+    ],
+    "difficulty": "hard",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=477",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle couleur d'émaillage obtient-on avec l'oxyde de cobalt ?",
+    "correct": "Bleu",
+    "incorrect": [
+      "Rouge",
+      "Vert",
+      "Jaune"
+    ],
+    "difficulty": "medium",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=145",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel symbole est traditionnellement associé à l'Irlande ?",
+    "correct": "Trèfle",
+    "incorrect": [
+      "Lion",
+      "Étoile",
+      "Aigle"
+    ],
+    "difficulty": "easy",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=275",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel personnage porte un costume à losanges multicolores ?",
+    "correct": "Arlequin",
+    "incorrect": [
+      "Beltrame",
+      "Pierrot",
+      "Colombine"
+    ],
+    "difficulty": "medium",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=455",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelles lettres apparaissent à l'arrière des voitures en Suisse ?",
+    "correct": "CH",
+    "incorrect": [
+      "DK",
+      "SU",
+      "SE"
+    ],
+    "difficulty": "medium",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=472",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle icône de la mode portait un catogan et des lunettes noires ?",
+    "correct": "Karl Lagerfeld",
+    "incorrect": [
+      "Thierry Mugler",
+      "Paco Rabanne",
+      "Pierre Cardin"
+    ],
+    "difficulty": "medium",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=532",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel prénom monsieur Takada a-t-il su faire rayonner dans la mode ?",
+    "correct": "Kenzo",
+    "incorrect": [
+      "Kyrio",
+      "Kalvin",
+      "Karl"
+    ],
+    "difficulty": "hard",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=532",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle fleur est devenue un symbole de la maison Coco Chanel ?",
+    "correct": "Camélia",
+    "incorrect": [
+      "Coquelicot",
+      "Rose",
+      "Marguerite"
+    ],
+    "difficulty": "hard",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=532",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle couleur signe les semelles des chaussures Louboutin ?",
+    "correct": "Rouge",
+    "incorrect": [
+      "Doré",
+      "Mauve",
+      "Bleu"
+    ],
+    "difficulty": "medium",
+    "theme": "Mode och symboler",
+    "source_url": "https://www.openquizzdb.org/download.php?id=532",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel instrument de musique est surnommé la « guitare hawaïenne » ?",
+    "correct": "Ukulélé",
+    "incorrect": [
+      "Udu",
+      "Upa",
+      "Ugal"
+    ],
+    "difficulty": "easy",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=244",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Pour quel groupe musical Bruce Willis est-il apparu dans le clip « Stylo » ?",
+    "correct": "Gorillaz",
+    "incorrect": [
+      "Terranova",
+      "Morcheeba",
+      "Dubphonic"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=306",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "De quoi est faite la mèche d'un archet de violon ?",
+    "correct": "Crin de cheval",
+    "incorrect": [
+      "Coton",
+      "Angora",
+      "Mohair"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=309",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel instrument à cordes pincées est utilisé en Inde ?",
+    "correct": "Sitar",
+    "incorrect": [
+      "Théorbe",
+      "Banjo",
+      "Gling"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=315",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la forme de la balalaïka, qui nous vient de Russie ?",
+    "correct": "Triangulaire",
+    "incorrect": [
+      "Rectangulaire",
+      "Carrée",
+      "Ronde"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=315",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À qui doit-on le célèbre titre « Reggae Night », sorti en 1983 ?",
+    "correct": "Jimmy Cliff",
+    "incorrect": [
+      "Maxi Priest",
+      "Alpha Blondy",
+      "Bob Marley"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=349",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel album de Depeche Mode propose une rose rouge sur sa pochette ?",
+    "correct": "Violator",
+    "incorrect": [
+      "A Broken Frame",
+      "Ultra",
+      "Exciter"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=429",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel nom porte le premier album du groupe Linkin Park, sorti en 2000 ?",
+    "correct": "Hybrid Theory",
+    "incorrect": [
+      "One More Light",
+      "Meteora",
+      "All Hope is Gone"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=641",
+    "source_author": "Corentin Declercq"
+  },
+  {
+    "question": "Quels muscles peuvent être qualifiés de tablettes de chocolat ?",
+    "correct": "Abdominaux",
+    "incorrect": [
+      "Adducteurs",
+      "Angulaires",
+      "Anconés"
+    ],
+    "difficulty": "easy",
+    "theme": "Människokroppen",
+    "source_url": "https://www.openquizzdb.org/download.php?id=4",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel lac représente la plus grande réserve en eau douce au monde ?",
+    "correct": "Lac Baïkal",
+    "incorrect": [
+      "Lac Titicaca",
+      "Lac Érié",
+      "Lac Michigan"
+    ],
+    "difficulty": "medium",
+    "theme": "Naturens överraskningar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=91",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec quelle plante peut-on confondre l'ail des ours ?",
+    "correct": "Muguet",
+    "incorrect": [
+      "Origan",
+      "Primevère",
+      "Basilic"
+    ],
+    "difficulty": "medium",
+    "theme": "Naturens överraskningar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=370",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel métal brûle avec une flamme blanche aveuglante ?",
+    "correct": "Magnésium",
+    "incorrect": [
+      "Radium",
+      "Baryum",
+      "Calcium"
+    ],
+    "difficulty": "medium",
+    "theme": "Naturens överraskningar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=380",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À quel mot anglais correspond la lettre I du sigle CIA ?",
+    "correct": "Intelligence",
+    "incorrect": [
+      "International",
+      "Institutional",
+      "Instrumental"
+    ],
+    "difficulty": "medium",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=100",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À la pêche, quel terme désigne un appât artificiel léger ?",
+    "correct": "Mouche",
+    "incorrect": [
+      "Moustique",
+      "Monarque",
+      "Morio"
+    ],
+    "difficulty": "medium",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=148",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que signifie le deuxième w du www des adresses de sites internet ?",
+    "correct": "Wide",
+    "incorrect": [
+      "Web",
+      "Worse",
+      "World"
+    ],
+    "difficulty": "medium",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=237",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel noeud marin forme une boule et sert de lest ?",
+    "correct": "Poing de singe",
+    "incorrect": [
+      "Noeud de palan",
+      "Noeud de sang",
+      "Noeud plat"
+    ],
+    "difficulty": "hard",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=386",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Comment les non-initiés au geocaching sont-ils appelés ?",
+    "correct": "Moldus",
+    "incorrect": [
+      "Rapetous",
+      "Gobelins",
+      "Cracmous"
+    ],
+    "difficulty": "hard",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=436",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel autre nom est donné au détecteur de mensonges ?",
+    "correct": "Polygraphe",
+    "incorrect": [
+      "Détectographe",
+      "Tachigraphe",
+      "Mésographe"
+    ],
+    "difficulty": "medium",
+    "theme": "Ord och uttryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=465",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel physicien anglais a été attentif à la chute des pommes ?",
+    "correct": "Isaac Newton",
+    "incorrect": [
+      "Tycho Brahe",
+      "Peter Higgs",
+      "Nicolas Copernic"
+    ],
+    "difficulty": "easy",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=69",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que sont devenues Byzance et Constantinople ?",
+    "correct": "Istanbul",
+    "incorrect": [
+      "Islamabad",
+      "Isparta",
+      "Izmir"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=100",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année Charlemagne a-t-il été couronné empereur à Rome ?",
+    "correct": "800",
+    "incorrect": [
+      "700",
+      "900",
+      "600"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=135",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle machine Alan Turing a-t-il décryptée pendant la guerre ?",
+    "correct": "Enigma",
+    "incorrect": [
+      "Deep Blue",
+      "Delilah",
+      "ENIAC"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=139",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Sur quelle île se sont réfugiés les mutins du Bounty, de la Royal Navy ?",
+    "correct": "Pitcairn",
+    "incorrect": [
+      "Nauru",
+      "Cook",
+      "Moorea"
+    ],
+    "difficulty": "hard",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=428",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Le Machu Picchu a été abandonné après la chute de quel empire ?",
+    "correct": "Inca",
+    "incorrect": [
+      "Corsaire",
+      "Iroquois",
+      "Aztèque"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=513",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année l'Empire State Building fut-il inauguré à New York ?",
+    "correct": "1931",
+    "incorrect": [
+      "1951",
+      "1961",
+      "1921"
+    ],
+    "difficulty": "hard",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=632",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de cases compte un plateau de Scrabble ?",
+    "correct": "225 cases",
+    "incorrect": [
+      "256 cases",
+      "188 cases",
+      "176 cases"
+    ],
+    "difficulty": "hard",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=15",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel jeu de dessin et de devinettes a été créé en 1985 par Rob Angel ?",
+    "correct": "Pictionary",
+    "incorrect": [
+      "Mastermind",
+      "Uno",
+      "Blokus"
+    ],
+    "difficulty": "easy",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=316",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel jeu de société consiste à deviner une combinaison de couleurs ?",
+    "correct": "Mastermind",
+    "incorrect": [
+      "Monopoly",
+      "Memory",
+      "Brain"
+    ],
+    "difficulty": "medium",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=316",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel jeu de cartes, créé en 1971 par Merle Robbins, est édité par Mattel ?",
+    "correct": "Uno",
+    "incorrect": [
+      "Korsar",
+      "Dobble",
+      "1000 bornes"
+    ],
+    "difficulty": "medium",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=319",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est le total des points d'un dé à six faces ?",
+    "correct": "21",
+    "incorrect": [
+      "15",
+      "30",
+      "18"
+    ],
+    "difficulty": "medium",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=619",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel monstre de « Mario World » passe son temps à kidnapper Peach ?",
+    "correct": "Bowser",
+    "incorrect": [
+      "Boo",
+      "Birdo",
+      "Wario"
+    ],
+    "difficulty": "easy",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=638",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle était la marque du ballon de la Coupe du monde de football 2002 ?",
+    "correct": "Adidas",
+    "incorrect": [
+      "Reebok",
+      "Nike",
+      "Puma"
+    ],
+    "difficulty": "medium",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=87",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quel jeu un chistera est-il fixé à la main du joueur via un gant ?",
+    "correct": "Pelote basque",
+    "incorrect": [
+      "Tennis",
+      "Padel",
+      "Jokari"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=133",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel sport de raquette se joue sur un terrain de jeu entouré de murs ?",
+    "correct": "Squash",
+    "incorrect": [
+      "Tennis",
+      "Crosse",
+      "Badminton"
+    ],
+    "difficulty": "easy",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=133",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année a été créé Wimbledon, le plus vieux tournoi de tennis ?",
+    "correct": "1877",
+    "incorrect": [
+      "1887",
+      "1897",
+      "1867"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=247",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En haltérophilie, quel est le poids d'un grand disque rouge ?",
+    "correct": "25 kg",
+    "incorrect": [
+      "45 kg",
+      "35 kg",
+      "15 kg"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=478",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui fut la première femme enregistrée à courir le marathon de Boston ?",
+    "correct": "Kathrine Switzer",
+    "incorrect": [
+      "Mary Decke",
+      "Shalane Flanagan",
+      "Molly Huddle"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=527",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qu'allez-vous chausser pour faire une randonnée sur de la neige molle ?",
+    "correct": "Raquettes à neige",
+    "incorrect": [
+      "Patins à glace",
+      "Bottes",
+      "Palmes"
+    ],
+    "difficulty": "easy",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=547",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la nationalité du légendaire monstre du Loch Ness ?",
+    "correct": "Écossaise",
+    "incorrect": [
+      "Érythréenne",
+      "Espagnole",
+      "Éthiopienne"
+    ],
+    "difficulty": "easy",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=52",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de travaux Hercule dut-il exécuter pour Eurysthée ?",
+    "correct": "Douze",
+    "incorrect": [
+      "Dix",
+      "Cent",
+      "Quarante"
+    ],
+    "difficulty": "easy",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=135",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel animal aurait nourri Romulus et Remus selon la légende de Rome ?",
+    "correct": "Louve",
+    "incorrect": [
+      "Lionne",
+      "Lynx",
+      "Lama"
+    ],
+    "difficulty": "medium",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=136",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel homme imagina de construire le Cheval de Troie ?",
+    "correct": "Ulysse",
+    "incorrect": [
+      "Urbanus",
+      "Uranus",
+      "Uther"
+    ],
+    "difficulty": "medium",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=244",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel objet est souvent considéré comme porte-bonheur ?",
+    "correct": "Fer à cheval",
+    "incorrect": [
+      "Fer à repasser",
+      "Fer à friser",
+      "Fer à dorer"
+    ],
+    "difficulty": "easy",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=455",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel format de codage est couramment utilisé dans les pages internet ?",
+    "correct": "HTML",
+    "incorrect": [
+      "HDMI",
+      "HERTZ",
+      "HTTP"
+    ],
+    "difficulty": "easy",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=88",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle application permet d'identifier une chanson en l'écoutant ?",
+    "correct": "Shazam",
+    "incorrect": [
+      "Skype",
+      "Spotify",
+      "Snapchat"
+    ],
+    "difficulty": "easy",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=220",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui a développé l'échelle de magnitude des séismes en 1935 ?",
+    "correct": "Richter",
+    "incorrect": [
+      "Pauling",
+      "Rankine",
+      "Monoyer"
+    ],
+    "difficulty": "medium",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=419",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel arbre fruitier propose une floraison spectaculaire au Japon ?",
+    "correct": "Cerisier",
+    "incorrect": [
+      "Grenadier",
+      "Pêcher",
+      "Châtaignier"
+    ],
+    "difficulty": "easy",
+    "theme": "Världens vanor",
+    "source_url": "https://www.openquizzdb.org/download.php?id=213",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que portent aux mains de nombreux conducteurs de taxi au Japon ?",
+    "correct": "Gants blancs",
+    "incorrect": [
+      "Bagues",
+      "Baguettes",
+      "Coups"
+    ],
+    "difficulty": "medium",
+    "theme": "Världens vanor",
+    "source_url": "https://www.openquizzdb.org/download.php?id=472",
+    "source_author": "Philippe Bresoux"
   }
 ]

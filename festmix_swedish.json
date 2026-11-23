@@ -694,5 +694,2273 @@
       "Legoklossar"
     ],
     "source_url": "https://newtowntextilemuseum.co.uk/ws/media-library/f2bff8f9598f401da6dd31454b3d8a8c/knocker-upper.pdf"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilken sport provade Alan Shepard på månen under Apollo 14?",
+    "correct": "Golf",
+    "incorrect": [
+      "Tennis",
+      "Baseboll",
+      "Badminton"
+    ],
+    "source_url": "https://www.nasa.gov/learning-resources/for-kids-and-students/who-was-alan-shepard/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad hette månlandaren på Apollo 10, uppkallad efter en seriefigur?",
+    "correct": "Snoopy",
+    "incorrect": [
+      "Garfield",
+      "Snurre Sprätt",
+      "Kalle Anka"
+    ],
+    "source_url": "https://www.nasa.gov/history/apollo-10-clears-the-way-for-the-first-moon-landing/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilket fysiskt ljudmedium skickade NASA med Voyager-sonderna 1977?",
+    "correct": "En grammofonskiva",
+    "incorrect": [
+      "Ett kassettband",
+      "En cd-skiva",
+      "En ljudfilm"
+    ],
+    "source_url": "https://science.nasa.gov/mission/voyager/voyager-golden-record-overview/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken färg kan himlen närmast solen få vid solnedgång på Mars?",
+    "correct": "Blå",
+    "incorrect": [
+      "Grön",
+      "Lila",
+      "Vit"
+    ],
+    "source_url": "https://science.nasa.gov/solar-system/planets/mars/what-does-a-sunrise-sunset-look-like-on-mars/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilka mikroskopiska djur visade sig kunna överleva direkt exponering för rymdens vakuum under ESA:s Foton-färd 2007?",
+    "correct": "Björndjur",
+    "incorrect": [
+      "Hjuldjur",
+      "Hoppkräftor",
+      "Vattenloppor"
+    ],
+    "source_url": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Research/Tiny_animals_survive_exposure_to_space"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken oväntad matsäck smugglade astronauten John Young med sig på Gemini 3 år 1965?",
+    "correct": "En smörgås med corned beef",
+    "incorrect": [
+      "En burk sardiner",
+      "En skiva pizza",
+      "En påse popcorn"
+    ],
+    "source_url": "https://airandspace.si.edu/stories/editorial/how-astronaut-smuggled-sandwich-space"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad använder havsuttern ofta för att knacka upp musslor?",
+    "correct": "En sten",
+    "incorrect": [
+      "Ett sjögrässtrå",
+      "En hajtand",
+      "En klo från en hummer"
+    ],
+    "source_url": "https://pubs.usgs.gov/publication/70225622"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad är narvalens långa spiralformade horn egentligen?",
+    "correct": "En tand",
+    "incorrect": [
+      "En förlängd näsrygg",
+      "En hornklädd tagg",
+      "En hårt ihoprullad fena"
+    ],
+    "source_url": "https://www.fisheries.noaa.gov/species/narwhal"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilka fåglar kan flyga baklänges under aktiv flykt?",
+    "correct": "Kolibrier",
+    "incorrect": [
+      "Pingviner",
+      "Svanar",
+      "Kalkoner"
+    ],
+    "source_url": "https://nationalzoo.si.edu/migratory-birds/hummingbirds"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Var sitter näbbdjurshannens giftsporrar?",
+    "correct": "På bakbenen",
+    "incorrect": [
+      "På näbben",
+      "På frambenen",
+      "På svansen"
+    ],
+    "source_url": "https://australian.museum/learn/animals/mammals/platypus/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken färg brukar hanen av satänglövsalsfågel samla saker i för att dekorera sin uppvaktningsplats?",
+    "correct": "Blå",
+    "incorrect": [
+      "Röd",
+      "Orange",
+      "Rosa"
+    ],
+    "source_url": "https://australian.museum/learn/animals/birds/satin-bowerbird/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad skjuter sprutfisken upp ur munnen för att få ned insekter i vattnet?",
+    "correct": "En vattenstråle",
+    "incorrect": [
+      "Ett moln av bläck",
+      "En liten sten",
+      "En droppe klibbigt slem"
+    ],
+    "source_url": "https://www.si.edu/object/how-fish-sharp-shoots-its-prey-spit%3Ayt_A_yscU47ES0"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilken fiskgrupp tillhör darrålen enligt Smithsonian National Zoo?",
+    "correct": "Knivfiskar",
+    "incorrect": [
+      "Äkta ålar",
+      "Rockor",
+      "Havskatter"
+    ],
+    "source_url": "https://nationalzoo.si.edu/animals/electric-eel"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kan hända med en del av den nordamerikanska skogsgrodans kroppsvatten när den övervintrar?",
+    "correct": "Det fryser till is",
+    "incorrect": [
+      "Det avdunstar helt",
+      "Det förvandlas till olja",
+      "Det kokar"
+    ],
+    "source_url": "https://www.nps.gov/kova/learn/nature/wood-frog.htm"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad mätte forskarna som vann Ig Nobel-priset i fysik 2014 för ett försök med ett bananskal på golvet?",
+    "correct": "Hur halt skalet är under en sko",
+    "incorrect": [
+      "Hur mycket strålning skalet avger",
+      "Hur högt skalet låter när det spricker",
+      "Hur snabbt skalet blir brunt"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2014"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad fick kycklingar bära i studien som vann ett Ig Nobel-pris 2015 för att ge ledtrådar om dinosauriers gång?",
+    "correct": "Konstgjorda svansar",
+    "incorrect": [
+      "Viktade hjälmar",
+      "Träskor",
+      "Vingar av papper"
+    ],
+    "source_url": "https://doi.org/10.1371/journal.pone.0088458"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken himmelsstruktur kan dyngbaggar använda för att hålla kursen när de rullar sin boll i mörkret?",
+    "correct": "Vintergatan",
+    "incorrect": [
+      "Saturnus ringar",
+      "Orionnebulosan",
+      "Andromedagalaxen"
+    ],
+    "source_url": "https://www.lu.se/artikel/lundabiolog-far-ig-nobel-prize"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad liknade mönstret som en slemsvamp växte till i en studie som fick Ig Nobel-pris 2010?",
+    "correct": "Tokyos järnvägsnät",
+    "incorrect": [
+      "En karta över Alperna",
+      "Vingmönstret på en fjäril",
+      "Östersjöns kustlinje"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2010"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad händer ofta när man böjer torr spaghetti, enligt studien som fick Ig Nobel i fysik 2006?",
+    "correct": "Den går av i fler än två bitar",
+    "incorrect": [
+      "Den delar sig på längden",
+      "Den behåller en böjd form",
+      "Den går aldrig av"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2006"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken förändring fick försökspersonerna i en Ig Nobel-belönad studie att uppleva samma sorts chips som krispigare?",
+    "correct": "Att förstärka ljudet från deras tuggande",
+    "incorrect": [
+      "Att servera chipsen på ett fyrkantigt fat",
+      "Att presentera chipsen i röd belysning",
+      "Att visa en bild på en rå potatis"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2008"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad blandade forskare i luften när de ville undersöka hur en kinesisk alligators läten förändrades, i en studie som fick Ig Nobel 2020?",
+    "correct": "Helium",
+    "incorrect": [
+      "Neon",
+      "Argon",
+      "Krypton"
+    ],
+    "source_url": "https://www.lunduniversity.lu.se/article/lu-researcher-receives-ig-nobel-prize-alligator-helium-study"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad lyckades forskarna delvis göra ogjort i det äggexperiment som fick Ig Nobel-priset i kemi 2015?",
+    "correct": "Kokningen av äggvitan",
+    "incorrect": [
+      "Bildningen av skalets färg",
+      "Tillväxten av en kyckling",
+      "Befruktningen av ett ägg"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2015"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kunde vinprovare upptäcka med näsan i en studie som vann ett Ig Nobel-pris 2018?",
+    "correct": "Att en fruktfluga hade varit i vinglaset",
+    "incorrect": [
+      "Att vinglaset hade stått på is",
+      "Att vinet hade rörts om medurs",
+      "Att korken hade kommit från en annan flaska"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2018"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Med hjälp av strömvirvlar visade James C. Liao en oväntad sorts rörelse som fick Ig Nobel i fysik 2024. Vad rörde sig?",
+    "correct": "En död öring",
+    "incorrect": [
+      "En sten formad som ett ägg",
+      "En uppblåst badboll",
+      "En tom glasflaska"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2024"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "I forskningen som fick Ig Nobel-priset i sannolikhet 2024 kastades mynt över 350 000 gånger. Vilket utfall var lite vanligare än hälften, när mynten fångades?",
+    "correct": "Att samma sida var uppåt före och efter kastet",
+    "incorrect": [
+      "Att motsatta sidan hamnade uppåt",
+      "Att krona alltid vann oavsett startsida",
+      "Att klave alltid vann oavsett startsida"
+    ],
+    "source_url": "https://arxiv.org/abs/2310.04153"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad använde forskare i ett Ig Nobel-belönat försök för att studera hur njurstenar kan röra sig i en njurmodell?",
+    "correct": "En berg- och dalbana",
+    "incorrect": [
+      "En trampolin",
+      "En bastu",
+      "En magnetkamera"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2018"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "Vad äter många i Spanien när de tolv klockslagen markerar tolvslaget på nyårsafton?",
+    "correct": "Tolv vindruvor",
+    "incorrect": [
+      "Tolv mandlar",
+      "Tolv russin",
+      "Tolv oliver"
+    ],
+    "source_url": "https://www.spain.info/en/discover-spain/new-years-eve-spain/"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vad hoppar danskar traditionellt ned från när de hoppar in i det nya året vid tolvslaget?",
+    "correct": "En stol",
+    "incorrect": [
+      "En trappa",
+      "En brygga",
+      "En studsmatta"
+    ],
+    "source_url": "https://www.visitdenmark.com/denmark/things-do/traditions-lifestyle/danish-traditions"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vad består ett katalanskt castell av när det byggs under en festival?",
+    "correct": "Människor staplade i ett torn",
+    "incorrect": [
+      "Sand formad som ett slott",
+      "Stolar varvade med bord",
+      "Brinnande vedträn på en vagn"
+    ],
+    "source_url": "https://ich.unesco.org/en/RL/human-towers-00364"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "Vilket material täcker Gävlebocken varje år när den sätts upp till advent?",
+    "correct": "Halm",
+    "incorrect": [
+      "Björknäver",
+      "Kork",
+      "Jute"
+    ],
+    "source_url": "https://www.gavle.se/bo-och-uppleva/gavlebocken/"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "Vilket datum infaller valborgsmässoafton i Sverige?",
+    "correct": "30 april",
+    "incorrect": [
+      "1 april",
+      "1 maj",
+      "30 maj"
+    ],
+    "source_url": "https://www.nordiskamuseet.se/utforska/hogtider/valborgsmassoafton/"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vilket motiv brukar lysa på en traditionell papperslykta på kräftskivan?",
+    "correct": "Ett mångubbeansikte",
+    "incorrect": [
+      "En stor snöflinga",
+      "En midsommarstång",
+      "Ett timglas"
+    ],
+    "source_url": "https://www.axess.se/wp-content/uploads/2023/09/Axess-nr-6_2023.pdf"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vilken månad brukar Oktoberfest i München börja, trots festens namn?",
+    "correct": "September",
+    "incorrect": [
+      "Augusti",
+      "Oktober",
+      "November"
+    ],
+    "source_url": "https://www.oktoberfest.de/en/information/service-for-visitors/faqs-for-wiesn-visitors"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vilken maträtt är huvudnumret vid den traditionella skotska Burns-middagen?",
+    "correct": "Haggis",
+    "incorrect": [
+      "Paella",
+      "Potatisgratäng",
+      "Köttfondue"
+    ],
+    "source_url": "https://www.visitscotland.com/things-to-do/events/burns-night"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vilket fabeldjur är Skottlands nationaldjur?",
+    "correct": "Enhörningen",
+    "incorrect": [
+      "Gripen",
+      "Draken",
+      "Fenix"
+    ],
+    "source_url": "https://www.nts.org.uk/stories/the-unicorn-scotlands-national-animal"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Hur många spetsar har det stiliserade lönnlövet på Kanadas flagga?",
+    "correct": "Elva",
+    "incorrect": [
+      "Fem",
+      "Sju",
+      "Tretton"
+    ],
+    "source_url": "https://www.canada.ca/en/canadian-heritage/services/flag-canada-description.html"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vilket lands flaggas färger vändes om för att bilda Röda korsets emblem?",
+    "correct": "Schweiz",
+    "incorrect": [
+      "Danmark",
+      "Norge",
+      "Finland"
+    ],
+    "source_url": "https://www.icrc.org/en/article/history-emblems"
+  },
+  {
+    "theme": "retro",
+    "difficulty": "medium",
+    "question": "Var spelades YouTubes första publicerade video, ”Me at the zoo”, in?",
+    "correct": "San Diegos zoo",
+    "incorrect": [
+      "Londons zoo",
+      "Berliner Zoo",
+      "Bronx Zoo"
+    ],
+    "source_url": "https://blog.youtube/news-and-events/va-museum-youtube-first-video/"
+  },
+  {
+    "theme": "retro",
+    "difficulty": "medium",
+    "question": "Vilka engelska ord ligger bakom beteckningen QR-kod enligt uppfinnaren Denso Wave?",
+    "correct": "Quick Response",
+    "incorrect": [
+      "Quality Reading",
+      "Quick Record",
+      "Queue Register"
+    ],
+    "source_url": "https://www.qrcode.com/en/faq.html"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Hos sjöhästar, vem bär ungarna i en ficka tills de föds?",
+    "correct": "Hanen",
+    "incorrect": [
+      "Honan",
+      "Båda föräldrarna turas om",
+      "Ingen förälder bär dem"
+    ],
+    "source_url": "https://ocean.si.edu/ocean-life/fish/devoted-dads-seahorses-sea-spiders"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken färg får dolksvansens blod när det innehåller mycket syre?",
+    "correct": "Blått",
+    "incorrect": [
+      "Gult",
+      "Rött",
+      "Grönt"
+    ],
+    "source_url": "https://www.smithsonianmag.com/blogs/national-zoo-conservation-biology-institute/2022/06/07/10-incredible-horseshoe-crab-facts/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Hur stor del av hjärnan kan en delfin sova med medan den andra delen hålls vaken?",
+    "correct": "Ungefär hälften",
+    "incorrect": [
+      "Ungefär en tiondel",
+      "Ungefär tre fjärdedelar",
+      "Hela hjärnan"
+    ],
+    "source_url": "https://www.fisheries.noaa.gov/feature-story/11-cool-facts-about-whales-dolphins-and-porpoises"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kunde vilda kråkor känna igen från tidigare möten i försöken vid University of Washington?",
+    "correct": "Ansikten på masker som forskarna hade burit",
+    "incorrect": [
+      "Ett mönster på marken som försvann efter regn",
+      "Färgen på fjädrarna de hade fällt som ungar",
+      "Dofter från en annan världsdel"
+    ],
+    "source_url": "https://www.washington.edu/news/2012/09/10/crows-react-to-threats-in-human-like-way/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilken effekt kan uppstå när bubblan från en knäppräkas klo kollapsar, enligt en studie i Nature?",
+    "correct": "En ljusblixt",
+    "incorrect": [
+      "Ett regnbågsmönster som varar en minut",
+      "En flytande hinna av vax",
+      "En liten isbit"
+    ],
+    "source_url": "https://www.nature.com/articles/35097152"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Varför brukar astronauter använda tortillas till smörgåsar på rymdstationen, enligt NASA?",
+    "correct": "De smular mindre än vanligt bröd",
+    "incorrect": [
+      "De håller ihop tack vare tyngdkraften",
+      "De är genomskinliga i tyngdlöshet",
+      "De är lättare än luft när de är färska"
+    ],
+    "source_url": "https://www.nasa.gov/history/space-station-20th-food-on-iss/"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilket oväntat rengöringsmedel undersökte portugisiska konservatorer i studien som fick Ig Nobel-priset i kemi 2018?",
+    "correct": "Människosaliv",
+    "incorrect": [
+      "Utspädd Coca-Cola",
+      "Smält choklad",
+      "Bananpuré"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2018"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilket djur satt på ryggen av en ko i försöket om mjölkning som belönades med Ig Nobel 2024?",
+    "correct": "En katt",
+    "incorrect": [
+      "En höna",
+      "En hund",
+      "En kanin"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2024"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilka djur jämförde forskarna med och utan alkoholexponering när de utvecklade en metod för att skilja dem åt i en Ig Nobel-belönad studie?",
+    "correct": "Maskar",
+    "incorrect": [
+      "Grodor",
+      "Hummer",
+      "Sköldpaddor"
+    ],
+    "source_url": "https://doi.org/10.1126/sciadv.abj7918"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken bild försökte forskare få försökspersoner att tycka sig se i rostbrödsmönster, i studien som fick Ig Nobel 2014?",
+    "correct": "Jesu ansikte",
+    "incorrect": [
+      "Ett trafikljus",
+      "Ritningen av en bro",
+      "En fullmåne"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2014"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "Vilken tradition från Finland skrevs in på Unescos lista över immateriella kulturarv 2020?",
+    "correct": "Bastubad",
+    "incorrect": [
+      "Luftgitarrspel",
+      "Isfiske",
+      "Motionsdans med gåstavar"
+    ],
+    "source_url": "https://ich.unesco.org/en/RL/sauna-culture-in-finland-01596"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vilken fermenterad maträtt görs tillsammans i den sydkoreanska traditionen kimjang?",
+    "correct": "Kimchi",
+    "incorrect": [
+      "Tofu",
+      "Miso",
+      "Kombucha"
+    ],
+    "source_url": "https://ich.unesco.org/en/RL/kimjang-00881"
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "hard",
+    "question": "Vad används ofta för att förutsäga framtiden enligt en turkisk kaffetradition som dokumenterats av Unesco?",
+    "correct": "Kaffesumpen i den tömda koppen",
+    "incorrect": [
+      "Antalet bubblor i kokkärlet",
+      "Doften av orostade kaffebönor",
+      "Ljudet när vattnet hälls upp"
+    ],
+    "source_url": "https://ich.unesco.org/en/RL/turkish-coffee-culture-and-tradition-00645"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken maträtt undersökte forskare om regnbågsagamer åt i studien som fick Ig Nobel-priset i biologi 2025?",
+    "correct": "Pizza",
+    "incorrect": [
+      "Lasagne",
+      "Hamburgare",
+      "Sushi"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2025"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad satte deltagarna i det Ig Nobel-belönade försöket från Otago utanpå sina skor för att få bättre grepp på is?",
+    "correct": "Strumpor",
+    "incorrect": [
+      "Disktrasor",
+      "Gummiband",
+      "Plastfolie"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2010"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilket djurs kropp använde forskarna som gripverktyg i ett experiment som fick Ig Nobel-priset i maskinteknik 2023?",
+    "correct": "Spindelns",
+    "incorrect": [
+      "Snigelns",
+      "Myggans",
+      "Gråsuggans"
+    ],
+    "source_url": "https://doi.org/10.1002/advs.202201174"
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken oväntad metod för att undersöka stenar beskrev geologen Jan Zalasiewicz i texten som belönades med Ig Nobel 2023?",
+    "correct": "Att slicka på dem",
+    "incorrect": [
+      "Att gnida dem med smör",
+      "Att blåsa såpbubblor på dem",
+      "Att ställa dem i mjölk"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2023"
+  },
+  {
+    "question": "Vilken låt kom tvåa bakom ABBAs ”Waterloo” i Melodifestivalen 1974?",
+    "correct": "Min kärlekssång till dig",
+    "incorrect": [
+      "En enda jord",
+      "Fröken Ur sång",
+      "En grön dröm om mig"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1974"
+  },
+  {
+    "question": "Vad hette Carolas genombrottslåt som vann Melodifestivalen 1983?",
+    "correct": "Främling",
+    "incorrect": [
+      "Fångad av en stormvind",
+      "Evighet",
+      "När löven faller"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1983"
+  },
+  {
+    "question": "Med vilken låt vann Kikki Danielsson Melodifestivalen 1985?",
+    "correct": "Bra vibrationer",
+    "incorrect": [
+      "Papaya Coconut",
+      "Dag efter dag",
+      "Varför är kärleken röd?"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1985"
+  },
+  {
+    "question": "Enligt SVT var ”Stad i ljus” först tänkt för en annan artist än Tommy Körberg. Vem?",
+    "correct": "Jan Malmsjö",
+    "incorrect": [
+      "Loa Falkman",
+      "Björn Skifs",
+      "Lasse Berghagen"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1988"
+  },
+  {
+    "question": "Vilken låt från Melodifestivalen 1995 blev det första Mellobidraget som utsågs till Årets låt på Grammisgalan?",
+    "correct": "Det vackraste",
+    "incorrect": [
+      "Se på mej",
+      "Jag ger dig allt",
+      "Om du inte tror mig"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1995"
+  },
+  {
+    "question": "Under vilket efternamn tävlade Charlotte Perrelli med ”Tusen och en natt” 1999?",
+    "correct": "Nilsson",
+    "incorrect": [
+      "Andersson",
+      "Karlsson",
+      "Svensson"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_1999"
+  },
+  {
+    "question": "Vilken grupp vann Melodifestivalen 2001 med ”Lyssna till ditt hjärta”?",
+    "correct": "Friends",
+    "incorrect": [
+      "Barbados",
+      "Afro-Dite",
+      "Timoteij"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2001"
+  },
+  {
+    "question": "Vilken låt framförde Brandsta City Släckers i Melodifestivalen 2002?",
+    "correct": "Kom och ta mig",
+    "incorrect": [
+      "Kom hem",
+      "Adrenaline",
+      "Världen utanför"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2002"
+  },
+  {
+    "question": "Vilket artistnamn använde Jessica Andersson och Magnus Bäcklund tillsammans när de vann Melodifestivalen 2003?",
+    "correct": "Fame",
+    "incorrect": [
+      "Friends",
+      "Date",
+      "Alcazar"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2003"
+  },
+  {
+    "question": "Med vilken låt kom Shirley Clamp tvåa i Melodifestivalen 2004?",
+    "correct": "Min kärlek",
+    "incorrect": [
+      "Att älska dig",
+      "Med hjärtat fyllt av ljus",
+      "Jag fick låna en ängel"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2004"
+  },
+  {
+    "question": "Vad hette Carolas Mellovinnare från 2006 på svenska, innan den framfördes som ”Invincible” i Eurovision?",
+    "correct": "Evighet",
+    "incorrect": [
+      "Fångad av en stormvind",
+      "Mitt i ett äventyr",
+      "Det gör ont"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2006"
+  },
+  {
+    "question": "Vem kom trea med ”Cara Mia” i Melodifestivalen samma år som The Ark vann?",
+    "correct": "Måns Zelmerlöw",
+    "incorrect": [
+      "Andreas Johnson",
+      "Martin Stenmarck",
+      "Eric Saade"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2007"
+  },
+  {
+    "question": "Vilken låt fick flest tittarröster men kom tvåa efter ”Hero” i Melodifestivalen 2008?",
+    "correct": "Empty Room",
+    "incorrect": [
+      "I lågornas sken",
+      "Lay Your Love on Me",
+      "Hur svårt kan det va?"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2008"
+  },
+  {
+    "question": "Vilken Mellotvåa från 2009 har samma vädjan två gånger i titeln?",
+    "correct": "Snälla, snälla",
+    "incorrect": [
+      "Baby Goodbye",
+      "Hope & Glory",
+      "Moving On"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2009"
+  },
+  {
+    "question": "Vilken svensk actionstjärna var en av programledarna för Melodifestivalen 2010?",
+    "correct": "Dolph Lundgren",
+    "incorrect": [
+      "Peter Stormare",
+      "Alexander Skarsgård",
+      "Stellan Skarsgård"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2010"
+  },
+  {
+    "question": "Vilken låt framförde Ace Wilder när hon kom tvåa i Melodifestivalen 2014?",
+    "correct": "Busy Doin' Nothin'",
+    "incorrect": [
+      "Undo",
+      "Survivor",
+      "Blame It on the Disco"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2014"
+  },
+  {
+    "question": "Vem sjöng ”Guld och gröna skogar” i Melodifestivalen 2015?",
+    "correct": "Hasse Andersson",
+    "incorrect": [
+      "Kalle Moraeus",
+      "Roger Pontare",
+      "Tommy Körberg"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2015"
+  },
+  {
+    "question": "Vilken duo tävlade med ”Shuffla” i Melodifestivalen 2018?",
+    "correct": "Samir & Viktor",
+    "incorrect": [
+      "Marcus & Martinus",
+      "Norlie & KKV",
+      "Medina"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2018"
+  },
+  {
+    "question": "Vilket bidrag fick tolv poäng av varenda internationell jury i Mellofinalen 2019?",
+    "correct": "Too Late for Love",
+    "incorrect": [
+      "On My Own",
+      "Hold You",
+      "Hello"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2019"
+  },
+  {
+    "question": "Med hur många poäng slog The Mamas tvåan Dotter i Mellofinalen 2020?",
+    "correct": "En poäng",
+    "incorrect": [
+      "Tre poäng",
+      "Fem poäng",
+      "Tio poäng"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2020"
+  },
+  {
+    "question": "Vem tävlade med ”Behöver inte dig idag” i Melodifestivalen 2021?",
+    "correct": "Clara Klingenström",
+    "incorrect": [
+      "Tove Styrke",
+      "Dotter",
+      "Klara Hammarström"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2021"
+  },
+  {
+    "question": "Vad hette bidraget som Medina kom tvåa med i Melodifestivalen 2024?",
+    "correct": "Que sera",
+    "incorrect": [
+      "In i dimman",
+      "Heroes Are Calling",
+      "Unforgettable"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2024"
+  },
+  {
+    "question": "Vilken låt vann KAJ med i Melodifestivalen 2025?",
+    "correct": "Bara bada bastu",
+    "incorrect": [
+      "Revolution",
+      "Believe Me",
+      "YIHAA"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2025"
+  },
+  {
+    "question": "Vilket land representerade Céline Dion när hon vann Eurovision 1988?",
+    "correct": "Schweiz",
+    "incorrect": [
+      "Frankrike",
+      "Belgien",
+      "Luxemburg"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/dublin-1988/"
+  },
+  {
+    "question": "Vilken låt gav Dana International segern för Israel i Eurovision 1998?",
+    "correct": "Diva",
+    "incorrect": [
+      "Nocturne",
+      "Love Shine a Light",
+      "Take Me to Your Heaven"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/birmingham-1998/"
+  },
+  {
+    "question": "Vilken låt vann finska Lordi Eurovision med 2006?",
+    "correct": "Hard Rock Hallelujah",
+    "incorrect": [
+      "Would You Love a Monsterman?",
+      "Devil Is a Loser",
+      "Blood Red Sandman"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/athens-2006/"
+  },
+  {
+    "question": "Vilket instrument hade Alexander Rybak med i sitt Eurovisionvinnande nummer ”Fairytale”?",
+    "correct": "Fiol",
+    "incorrect": [
+      "Dragspel",
+      "Mandolin",
+      "Piano"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/moscow-2009/"
+  },
+  {
+    "question": "Vad hette Conchita Wursts Eurovisionvinnare från 2014?",
+    "correct": "Rise Like a Phoenix",
+    "incorrect": [
+      "Calm After the Storm",
+      "Undo",
+      "Running"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/copenhagen-2014/"
+  },
+  {
+    "question": "Vilka två ledde Eurovision Song Contest i Stockholm 2016?",
+    "correct": "Petra Mede och Måns Zelmerlöw",
+    "incorrect": [
+      "Petra Mede och Eric Saade",
+      "Gina Dirawi och Måns Zelmerlöw",
+      "Sanna Nielsen och Edward af Sillén"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/stockholm-2016/"
+  },
+  {
+    "question": "Vilket land vann Eurovision 2019 med Duncan Laurences ”Arcade”?",
+    "correct": "Nederländerna",
+    "incorrect": [
+      "Belgien",
+      "Storbritannien",
+      "Danmark"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/tel-aviv-2019/"
+  },
+  {
+    "question": "Vilken låt vann det italienska bandet Måneskin Eurovision med 2021?",
+    "correct": "Zitti e buoni",
+    "incorrect": [
+      "Coraline",
+      "I Wanna Be Your Slave",
+      "Mammamia"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/rotterdam-2021/"
+  },
+  {
+    "question": "Vad hette låten som Nemo vann Eurovision med i Malmö 2024?",
+    "correct": "The Code",
+    "incorrect": [
+      "Rim Tim Tagi Dim",
+      "Mon amour",
+      "Doomsday Blue"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/malmo-2024/"
+  },
+  {
+    "question": "Vilken grupp gav ut den svenska sommarhiten ”Sommartider”?",
+    "correct": "Gyllene Tider",
+    "incorrect": [
+      "Noice",
+      "Ratata",
+      "Snowstorm"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/sommartider/1638392720?i=1638392743"
+  },
+  {
+    "question": "Vem sjunger ”Sol, vind och vatten” på den klassiska inspelningen?",
+    "correct": "Ted Gärdestad",
+    "incorrect": [
+      "Björn Skifs",
+      "Tomas Ledin",
+      "Kenneth Gärdestad"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/sol-vind-och-vatten/1503676196?i=1503676201"
+  },
+  {
+    "question": "Vilket artistnamn står på danshiten ”Freed from Desire”?",
+    "correct": "Gala",
+    "incorrect": [
+      "Corona",
+      "Haddaway",
+      "Whigfield"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/freed-from-desire-xtm-remix-edit/1557219410?i=1557219420"
+  },
+  {
+    "question": "Vilken grupp fick en hit med ”Blue (Da Ba Dee)”?",
+    "correct": "Eiffel 65",
+    "incorrect": [
+      "Vengaboys",
+      "Aqua",
+      "Alice Deejay"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/blue-da-ba-dee-gabry-ponte-video-edit/257424513?i=257425447"
+  },
+  {
+    "question": "Vilken av de här danslåtarna gavs ut av Darude?",
+    "correct": "Sandstorm",
+    "incorrect": [
+      "Children",
+      "Better Off Alone",
+      "Satisfaction"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/sandstorm-radio-edit/290340777?i=290340779"
+  },
+  {
+    "question": "Vilket band gav ut ”Mr. Brightside”?",
+    "correct": "The Killers",
+    "incorrect": [
+      "The Strokes",
+      "Arctic Monkeys",
+      "Kings of Leon"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/mr-brightside/1440717563?i=1440717826"
+  },
+  {
+    "question": "Vilket band spelade in ”Seven Nation Army”?",
+    "correct": "The White Stripes",
+    "incorrect": [
+      "The Black Keys",
+      "The Hives",
+      "Queens of the Stone Age"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/seven-nation-army/1533513536?i=1533513537"
+  },
+  {
+    "question": "Vilken av de här åttiotalshittarna gavs ut av norska a-ha?",
+    "correct": "Take On Me",
+    "incorrect": [
+      "Don't You (Forget About Me)",
+      "Everybody Wants to Rule the World",
+      "You Spin Me Round (Like a Record)"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/take-on-me/380907762?i=380907765"
+  },
+  {
+    "question": "Vilken av låtarna gavs ut av Roxette?",
+    "correct": "The Look",
+    "incorrect": [
+      "Lovefool",
+      "Beautiful Life",
+      "Say It Right"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/the-look/710660667?i=710660682"
+  },
+  {
+    "question": "Vilket svenskt band gav ut ”Lovefool”?",
+    "correct": "The Cardigans",
+    "incorrect": [
+      "The Wannadies",
+      "Kent",
+      "The Hives"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/lovefool/1450141530?i=1450141548"
+  },
+  {
+    "question": "Vilken duo gav ut danshiten ”One More Time”?",
+    "correct": "Daft Punk",
+    "incorrect": [
+      "Air",
+      "Justice",
+      "Cassius"
+    ],
+    "difficulty": "easy",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/one-more-time/697194953?i=697195462"
+  },
+  {
+    "question": "Vilken svensk artist släppte ”Dancing on My Own” före Calum Scotts cover?",
+    "correct": "Robyn",
+    "incorrect": [
+      "Lykke Li",
+      "Tove Lo",
+      "Zara Larsson"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/dancing-on-my-own/1510343655?i=1510343666"
+  },
+  {
+    "question": "Vem gav först ut ”I Will Always Love You”, som Whitney Houston senare sjöng i The Bodyguard?",
+    "correct": "Dolly Parton",
+    "incorrect": [
+      "Linda Ronstadt",
+      "Kenny Rogers",
+      "Patsy Cline"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/i-will-always-love-you/1062400323?i=1062400635"
+  },
+  {
+    "question": "Vilket band gav först ut ”Hurt”, som Johnny Cash spelade in mot slutet av sin karriär?",
+    "correct": "Nine Inch Nails",
+    "incorrect": [
+      "Depeche Mode",
+      "R.E.M.",
+      "Pearl Jam"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/hurt/1440837096?i=1440838114"
+  },
+  {
+    "question": "Vem gav först ut ”The Man Who Sold the World”, som Nirvana spelade på MTV Unplugged?",
+    "correct": "David Bowie",
+    "incorrect": [
+      "Lou Reed",
+      "Iggy Pop",
+      "Marc Bolan"
+    ],
+    "difficulty": "medium",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/the-man-who-sold-the-world-2015-remaster/1039798902?i=1039798921"
+  },
+  {
+    "question": "Vilken grupp gav först ut ”I Love Rock ’n’ Roll”, före Joan Jett & the Blackhearts version?",
+    "correct": "The Arrows",
+    "incorrect": [
+      "The Runaways",
+      "Slade",
+      "Sweet"
+    ],
+    "difficulty": "hard",
+    "theme": "festhits",
+    "source_url": "https://music.apple.com/se/album/i-love-rock-n-roll/130051869?i=130051882"
+  },
+  {
+    "question": "Vilket artistnamn använde Tim Bergling?",
+    "correct": "Avicii",
+    "incorrect": [
+      "Alesso",
+      "Eric Prydz",
+      "Basshunter"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.timberglingfoundation.org/stiftelsen"
+  },
+  {
+    "question": "Vilken popstjärna föddes som Stefani Germanotta?",
+    "correct": "Lady Gaga",
+    "incorrect": [
+      "Ariana Grande",
+      "Katy Perry",
+      "Dua Lipa"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Lady-Gaga"
+  },
+  {
+    "question": "Under vilket artistnamn blev Farrokh Bulsara känd?",
+    "correct": "Freddie Mercury",
+    "incorrect": [
+      "David Bowie",
+      "Robert Plant",
+      "George Michael"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Freddie-Mercury"
+  },
+  {
+    "question": "Vilken brittisk artist föddes som Reginald Dwight?",
+    "correct": "Elton John",
+    "incorrect": [
+      "Rod Stewart",
+      "Phil Collins",
+      "Paul McCartney"
+    ],
+    "difficulty": "hard",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Elton-John"
+  },
+  {
+    "question": "Vilken av de här artisterna använde under en period en symbol i stället för ett artistnamn?",
+    "correct": "Prince",
+    "incorrect": [
+      "David Bowie",
+      "Boy George",
+      "George Michael"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Prince-singer-and-songwriter"
+  },
+  {
+    "question": "Vilket efternamn hade Katy Perry när hon föddes?",
+    "correct": "Hudson",
+    "incorrect": [
+      "Harris",
+      "Wilson",
+      "Parker"
+    ],
+    "difficulty": "hard",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Katy-Perry"
+  },
+  {
+    "question": "Vilken artist heter egentligen Peter Gene Hernandez?",
+    "correct": "Bruno Mars",
+    "incorrect": [
+      "Jason Derulo",
+      "Justin Timberlake",
+      "Usher"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Bruno-Mars"
+  },
+  {
+    "question": "Vilken popstjärna föddes som Alecia Beth Moore?",
+    "correct": "P!nk",
+    "incorrect": [
+      "Gwen Stefani",
+      "Avril Lavigne",
+      "Kelly Clarkson"
+    ],
+    "difficulty": "hard",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Pink-American-singer-and-songwriter"
+  },
+  {
+    "question": "Vilken sångerska föddes som Anna Mae Bullock?",
+    "correct": "Tina Turner",
+    "incorrect": [
+      "Diana Ross",
+      "Aretha Franklin",
+      "Donna Summer"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Tina-Turner"
+  },
+  {
+    "question": "Vilket efternamn föddes Bob Dylan med?",
+    "correct": "Zimmerman",
+    "incorrect": [
+      "Miller",
+      "Williams",
+      "Nelson"
+    ],
+    "difficulty": "hard",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Bob-Dylan-American-musician"
+  },
+  {
+    "question": "Vilket förnamn kommer före Rihanna i popstjärnans fullständiga namn?",
+    "correct": "Robyn",
+    "incorrect": [
+      "Raina",
+      "Rachel",
+      "Ruby"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Rihanna"
+  },
+  {
+    "question": "Under vilket namn blev Cherilyn Sarkisian känd som artist?",
+    "correct": "Cher",
+    "incorrect": [
+      "Madonna",
+      "Cyndi Lauper",
+      "Barbra Streisand"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Cher"
+  },
+  {
+    "question": "Från vilket land kommer popartisten Lorde?",
+    "correct": "Nya Zeeland",
+    "incorrect": [
+      "Australien",
+      "Kanada",
+      "USA"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Lorde"
+  },
+  {
+    "question": "Vilket artistnamn använder rapparen Shawn Carter?",
+    "correct": "Jay-Z",
+    "incorrect": [
+      "Nas",
+      "Dr. Dre",
+      "Ice Cube"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/JAY-Z"
+  },
+  {
+    "question": "Vilket artistnamn använder Elizabeth Woolridge Grant?",
+    "correct": "Lana Del Rey",
+    "incorrect": [
+      "Florence Welch",
+      "Marina",
+      "Halsey"
+    ],
+    "difficulty": "hard",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Lana-Del-Rey"
+  },
+  {
+    "question": "Vilket band slog Sting igenom med som sångare?",
+    "correct": "The Police",
+    "incorrect": [
+      "The Clash",
+      "Genesis",
+      "Simple Minds"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Sting-British-musician"
+  },
+  {
+    "question": "Vilket av de här artistnamnen har Snoop Dogg också använt?",
+    "correct": "Snoop Lion",
+    "incorrect": [
+      "Snoop Panther",
+      "Snoop Leopard",
+      "Snoop Tiger"
+    ],
+    "difficulty": "medium",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/biography/Snoop-Dogg"
+  },
+  {
+    "question": "Vem i Spice Girls kallades Posh Spice?",
+    "correct": "Victoria Beckham",
+    "incorrect": [
+      "Melanie Brown",
+      "Emma Bunton",
+      "Geri Halliwell"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/topic/Spice-Girls"
+  },
+  {
+    "question": "I vilket land bildades rockbandet U2?",
+    "correct": "Irland",
+    "incorrect": [
+      "Storbritannien",
+      "USA",
+      "Kanada"
+    ],
+    "difficulty": "easy",
+    "theme": "artistnamn",
+    "source_url": "https://www.britannica.com/topic/U2"
+  },
+  {
+    "question": "Vilken färg har Dorothys magiska skor i boken som filmen Trollkarlen från Oz bygger på?",
+    "correct": "Silver",
+    "incorrect": [
+      "Rött",
+      "Guld",
+      "Blått"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://americanhistory.si.edu/press/fact-sheets/dorothys-ruby-slippers"
+  },
+  {
+    "question": "Varför har paret av Dorothys rubinskor på Smithsonianmuseet filt under sulorna?",
+    "correct": "För att dämpa fotstegen under inspelningen",
+    "incorrect": [
+      "För att skorna skulle glida lättare",
+      "För att dölja en färgskarv",
+      "För att öka skornas vikt"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://americanhistory.si.edu/press/fact-sheets/dorothys-ruby-slippers"
+  },
+  {
+    "question": "Vart reser Wallace och Gromit för att leta efter ost i kortfilmen A Grand Day Out?",
+    "correct": "Till månen",
+    "incorrect": [
+      "Till Schweiz",
+      "Till Mars",
+      "Till en ö i Skottland"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.aardman.com/film-tv-games/wallace-gromit/"
+  },
+  {
+    "question": "Vilken animationsteknik använder Aardman i Wallace och Gromits första kortfilm?",
+    "correct": "Stop motion med fysiska figurer",
+    "incorrect": [
+      "Handritad animation på genomskinliga ark",
+      "Datoranimation med 3D-modeller",
+      "Animerade skuggfigurer av papper"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.aardman.com/film-tv-games/wallace-gromit/"
+  },
+  {
+    "question": "Vad spelade ljuddesignern Ben Burtt in när han skapade Darth Vaders andning?",
+    "correct": "En dykregulator",
+    "incorrect": [
+      "En cykelpump",
+      "En hårtork",
+      "Ett dragspel"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.starwars.com/news/5-iconic-star-wars-sound-effects-and-how-they-were-made-starwars-com"
+  },
+  {
+    "question": "Vilken maskin bidrog med ett av grundljuden till ljussabelns brummande i Star Wars?",
+    "correct": "En filmprojektor",
+    "incorrect": [
+      "En skivspelare",
+      "En symaskin",
+      "En dammsugare"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.starwars.com/news/5-iconic-star-wars-sound-effects-and-how-they-were-made-starwars-com"
+  },
+  {
+    "question": "Vilket djurs läten användes mest när Chewbaccas röst skapades för Star Wars?",
+    "correct": "Björnar",
+    "incorrect": [
+      "Vargar",
+      "Elefanter",
+      "Leoparder"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.starwars.com/news/5-ways-star-wars-a-new-hope-changed-everything"
+  },
+  {
+    "question": "I vilket land spelades flera av ökenscenerna på Tatooine in i den första Star Wars-filmen från 1977?",
+    "correct": "Tunisien",
+    "incorrect": [
+      "Egypten",
+      "Spanien",
+      "Marocko"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.starwars.com/a-new-hope-behind-the-scenes"
+  },
+  {
+    "question": "Vad lade filmteamet på golvet i Stora salen till den första Harry Potter-filmen?",
+    "correct": "Natursten av typen York stone",
+    "incorrect": [
+      "Trä som målades som sten",
+      "Betong som göts på plats",
+      "Gipsplattor"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.wbstudiotour.co.uk/the-experience/explore-the-tour/sets/the-great-hall/"
+  },
+  {
+    "question": "Hur skapades de svävande ljusen i den färdiga första Harry Potter-filmen?",
+    "correct": "Med datorgrafik",
+    "incorrect": [
+      "Med magnetupphängning",
+      "Med speglar under borden",
+      "Med små heliumballonger"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.wbstudiotour.co.uk/the-experience/explore-the-tour/sets/the-great-hall/"
+  },
+  {
+    "question": "Vilken Harry Potter-miljö fick låna ombyggda kulisser från Diagongränden?",
+    "correct": "Hogsmeade",
+    "incorrect": [
+      "Trollkarlsministeriet",
+      "Godric’s Hollow",
+      "Hemligheternas kammare"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.wbstudiotour.co.uk/the-experience/explore-the-tour/sets/"
+  },
+  {
+    "question": "Vad satte rekvisitörerna i några av burkarna i trolldryckssalen i Harry Potter-filmerna?",
+    "correct": "Ben från en lokal slaktare",
+    "incorrect": [
+      "Förgyllda mynt",
+      "Målade glaskulor",
+      "Skal från kaffeplantor"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.wbstudiotour.co.uk/the-experience/explore-the-tour/props/"
+  },
+  {
+    "question": "Vilken Pixarfilm var världens första helt datoranimerade långfilm?",
+    "correct": "Toy Story",
+    "incorrect": [
+      "Ett småkryps liv",
+      "Hitta Nemo",
+      "Monsters, Inc."
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/our-story"
+  },
+  {
+    "question": "Vilken aktivitet skulle pizzerian som blev Pizza Planet ha som tema i en tidig version av Toy Story?",
+    "correct": "Minigolf",
+    "incorrect": [
+      "Bowling",
+      "Rollerskate",
+      "Bordtennis"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/toy-story"
+  },
+  {
+    "question": "Till vilket land reste Pixarteamet för att studera landskapet som inspirerade Paradisfallen i filmen Upp?",
+    "correct": "Venezuela",
+    "incorrect": [
+      "Brasilien",
+      "Chile",
+      "Argentina"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/upfilm"
+  },
+  {
+    "question": "Vad hade Carl i Pixarfilmen Upp arbetat med innan han gick i pension?",
+    "correct": "Han sålde ballonger",
+    "incorrect": [
+      "Han sålde fiskespön",
+      "Han körde buss",
+      "Han bakade bröd"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/upfilm"
+  },
+  {
+    "question": "I vilken sorts lokal hamnar Nemo i ett akvarium när han skiljs från sin pappa i Hitta Nemo?",
+    "correct": "En tandläkarmottagning",
+    "incorrect": [
+      "En skola",
+      "En restaurang",
+      "En zoologisk butik"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/finding-nemo"
+  },
+  {
+    "question": "Vilket drag hos Sulley utvecklade Pixar särskild teknik för i Monsters, Inc.?",
+    "correct": "Den rörliga pälsen",
+    "incorrect": [
+      "De genomskinliga vingarna",
+      "Den glödande svansen",
+      "Den flytande hatten"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/may"
+  },
+  {
+    "question": "Vad samlar monstren in som energikälla i början av den första filmen Monsters, Inc.?",
+    "correct": "Barns skrik",
+    "incorrect": [
+      "Barns skratt",
+      "Hundars skall",
+      "Musik från leksaker"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/monsters-inc"
+  },
+  {
+    "question": "Vilket djur är Kristoffs följeslagare Sven i den första Frost-filmen?",
+    "correct": "En ren",
+    "incorrect": [
+      "En älg",
+      "En get",
+      "En åsna"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://movies.disney.com/frozen"
+  },
+  {
+    "question": "Vad använde Jim Henson till ögonen på sin första Kermitdocka?",
+    "correct": "En delad pingisboll",
+    "incorrect": [
+      "Glaskulor",
+      "Pärlemorknappar",
+      "Duschdraperiringar"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://americanhistory.si.edu/explore/stories/old-coat-and-ping-pong-ball-kermit"
+  },
+  {
+    "question": "Vilken färg hade Oscar i soptunnan när Sesame Street började sändas 1969?",
+    "correct": "Orange",
+    "incorrect": [
+      "Grön",
+      "Blå",
+      "Lila"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://sesameworkshop.org/about-us/news/five-things-you-may-not-know-about-sesame-street/"
+  },
+  {
+    "question": "Hur många ministatyetter hörde till den heders-Oscar som Walt Disney fick 1939 för sin första animerade långfilm?",
+    "correct": "Sju",
+    "incorrect": [
+      "Två",
+      "Fem",
+      "Tio"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.oscars.org/oscars/ceremonies/1939"
+  },
+  {
+    "question": "Vilken Disneyfilm blev den första animerade långfilmen som nominerades till en Oscar för bästa film?",
+    "correct": "Skönheten och odjuret",
+    "incorrect": [
+      "Lejonkungen",
+      "Den lilla sjöjungfrun",
+      "Aladdin"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.oscars.org/news/be-our-guest-academys-25th-anniversary-celebration-beauty-and-beast"
+  },
+  {
+    "question": "Vilken film vann när Oscarn för bästa animerade långfilm delades ut första gången 2002?",
+    "correct": "Shrek",
+    "incorrect": [
+      "Monsters, Inc.",
+      "Jimmy Neutron",
+      "Spirit – hästen från vildmarken"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.oscars.org/fr/oscars/ceremonies/2002/memorable-moments"
+  },
+  {
+    "question": "Vad kan James Bonds vita Lotus Esprit förvandlas till i Älskade spion?",
+    "correct": "En ubåt",
+    "incorrect": [
+      "En helikopter",
+      "En svävare",
+      "En snöskoter"
+    ],
+    "difficulty": "easy",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.007.com/the-spy-who-loved-me-2/"
+  },
+  {
+    "question": "Vilken bilmodell kör Bond med roterande registreringsskyltar i Goldfinger från 1964?",
+    "correct": "Aston Martin DB5",
+    "incorrect": [
+      "BMW Z3",
+      "Lotus Esprit",
+      "Jaguar E-Type"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.007.com/aston-martin-db5-production-resumes/"
+  },
+  {
+    "question": "Vad stod det på Hollywoodskylten när den restes som reklam för ett bostadsområde 1923?",
+    "correct": "Hollywoodland",
+    "incorrect": [
+      "Hollywood Hills",
+      "Welcome to Hollywood",
+      "Hollywood City"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.hollywoodsign.org/history/a-sign-is-born"
+  },
+  {
+    "question": "Vilken schweizisk konstnär ritade varelsen i Ridley Scotts Alien från 1979?",
+    "correct": "H.R. Giger",
+    "incorrect": [
+      "Salvador Dalí",
+      "M.C. Escher",
+      "Andy Warhol"
+    ],
+    "difficulty": "hard",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.academymuseum.org/collection/alien-headpiece"
+  },
+  {
+    "question": "Hur fort ska tidsmaskinen köra för att resa i tiden i Tillbaka till framtiden från 1985?",
+    "correct": "88 mph",
+    "incorrect": [
+      "60 mph",
+      "76 mph",
+      "105 mph"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://amblin.com/movie/back-to-the-future/"
+  },
+  {
+    "question": "Hur många känslor följer den första filmen Insidan ut i Rileys huvud?",
+    "correct": "Fem",
+    "incorrect": [
+      "Tre",
+      "Fyra",
+      "Sju"
+    ],
+    "difficulty": "medium",
+    "theme": "bakom_kameran",
+    "source_url": "https://www.pixar.com/inside-out"
+  },
+  {
+    "question": "Namnet Tetris kombinerar det grekiska ordet för fyra med namnet på vilken sport?",
+    "correct": "Tennis",
+    "incorrect": [
+      "Pingis",
+      "Squash",
+      "Handboll"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://tetris.com/about"
+  },
+  {
+    "question": "Vilken pryl på ett japanskt expresståg sägs ha gett Gunpei Yokoi idén till Nintendos Game & Watch?",
+    "correct": "En miniräknare",
+    "incorrect": [
+      "En digitalkamera",
+      "En personsökare",
+      "En bandspelare"
+    ],
+    "difficulty": "hard",
+    "theme": "retro",
+    "source_url": "https://www.nintendo.com/en-za/Iwata-Asks/Iwata-Asks-Game-Watch/2-Using-a-Calculator-Chip/2-Using-a-Calculator-Chip-223003.html"
+  },
+  {
+    "question": "Vad hette spelet Pac-Man när det först gavs ut i Japan?",
+    "correct": "Puck Man",
+    "incorrect": [
+      "Maze Man",
+      "Ghost Man",
+      "Dot Man"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/games/pac-man/"
+  },
+  {
+    "question": "Det gick att titta på film i en PlayStation 2 redan från starten. Vilken sorts filmskivor spelade den?",
+    "correct": "DVD",
+    "incorrect": [
+      "Blu-ray",
+      "Laserdisc",
+      "Video8"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://blog.playstation.com/2010/10/26/celebrating-ten-years-of-playstation-2/"
+  },
+  {
+    "question": "Vad skulle fjädrarna som gav idén till leksaken Slinky hjälpa till med från början?",
+    "correct": "Stabilisera utrustning på fartyg",
+    "incorrect": [
+      "Hålla fast lyktor på cyklar",
+      "Väga frukt i en butik",
+      "Dämpa slag i skrivmaskiner"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/slinky/"
+  },
+  {
+    "question": "Vad undervisade den ungerske uppfinnaren av Rubiks kub i när han skapade sitt pussel?",
+    "correct": "Arkitektur",
+    "incorrect": [
+      "Musikteori",
+      "Kemi",
+      "Litteratur"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/blog/evolution-of-the-rubiks-cube/"
+  },
+  {
+    "question": "Vad var massan som senare såldes som Play-Doh tänkt att användas till?",
+    "correct": "Rengöra tapeter",
+    "incorrect": [
+      "Täta fönster",
+      "Putsa skor",
+      "Limma böcker"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/play-doh/"
+  },
+  {
+    "question": "Vad arbetade uppfinnaren Lonnie Johnson med när vattenstrålen som gav idén till Super Soaker uppstod?",
+    "correct": "En värmepump",
+    "incorrect": [
+      "Ett kylskåpslås",
+      "En segelbåt",
+      "En tvättmaskinstrumma"
+    ],
+    "difficulty": "hard",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/super-soaker/"
+  },
+  {
+    "question": "Vad fick man själv ordna till de lösa ansiktsdelarna i originalpaketet från Mr. Potato Head?",
+    "correct": "En riktig potatis",
+    "incorrect": [
+      "Ett par ögon",
+      "En mun",
+      "En näsa"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/mr-potato-head/"
+  },
+  {
+    "question": "Vilket fordon gjorde Jack Odell till leksak i miniformat för att få plats med det i en tändsticksask?",
+    "correct": "En vägvält",
+    "incorrect": [
+      "En brandbil",
+      "En traktor",
+      "En grävmaskin"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/matchbox-cars/"
+  },
+  {
+    "question": "Vilket material försökte man ersätta när den studsande lekmassan Silly Putty togs fram?",
+    "correct": "Gummi",
+    "incorrect": [
+      "Läder",
+      "Glas",
+      "Kork"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/silly-putty/"
+  },
+  {
+    "question": "Vilket yrke fick Barbie prova i en silverfärgad dräkt som lanserades 1965, fyra år före månlandningen?",
+    "correct": "Astronaut",
+    "incorrect": [
+      "Dykare",
+      "Tävlingsförare",
+      "Brandman"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://airandspace.si.edu/collection-objects/doll-barbie-miss-astronaut/nasm_A20070121000"
+  },
+  {
+    "question": "Hur många par hörlurar kunde kopplas in samtidigt i Sonys första Walkman-modell TPS-L2?",
+    "correct": "Två",
+    "incorrect": [
+      "Ett",
+      "Tre",
+      "Fyra"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://music.si.edu/object-day/sony-tps-l2-walkman-cassette-player"
+  },
+  {
+    "question": "Vilket medium spelade den bärbara Sony D-50 när den lanserades 1984?",
+    "correct": "Cd-skivor",
+    "incorrect": [
+      "Kassettband",
+      "Minidisc-skivor",
+      "Dat-band"
+    ],
+    "difficulty": "hard",
+    "theme": "retro",
+    "source_url": "https://www.sony.com/en/SonyInfo/CorporateInfo/History/company/"
+  },
+  {
+    "question": "Vilket material användes till den första prototypen av Doug Engelbarts datormus 1964?",
+    "correct": "Trä",
+    "incorrect": [
+      "Aluminium",
+      "Bakelit",
+      "Plexiglas"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://computerhistory.org/sri-mouse-mn052024/"
+  },
+  {
+    "question": "Vilken funktion var utmärkande för Polaroids kamera Model 95 från 1948?",
+    "correct": "Den gav en pappersbild direkt",
+    "incorrect": [
+      "Den spelade in ljud till bilden",
+      "Den tog bilder i tre dimensioner",
+      "Den sparade foton på magnetband"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://americanhistory.si.edu/collections/object/nmah_1154069"
+  },
+  {
+    "question": "Vad skulle man mata och ta hand om när man spelade det ursprungliga Tamagotchi?",
+    "correct": "Ett digitalt husdjur",
+    "incorrect": [
+      "En växt i en kruka",
+      "Ett fotbollslag",
+      "En robotträdgårdsmästare"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://www.bandai.com/brands/tamagotchi/original-tamagotchi/original-tamagotchi-90s"
+  },
+  {
+    "question": "Vilket nordiskt land fick testa Lego Duplo 1968 innan klossarna lanserades i hela världen?",
+    "correct": "Sverige",
+    "incorrect": [
+      "Norge",
+      "Finland",
+      "Island"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.lego.com/en-us/history/articles/e-lego-duplo"
+  },
+  {
+    "question": "Vilken detalj byggdes in på undersidan i den Lego-kloss som patenterades 1958 för att den skulle sitta stadigt?",
+    "correct": "Små rör",
+    "incorrect": [
+      "Sugproppar",
+      "Magneter",
+      "Kardborreband"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.lego.com/en-us/history/articles/d-the-stud-and-tube-principle"
+  },
+  {
+    "question": "Vilken effekt fick man genom att titta på bildskivor i en klassisk View-Master?",
+    "correct": "Bilderna fick djup",
+    "incorrect": [
+      "Bilderna rörde sig som på film",
+      "Bilderna lyste i mörker",
+      "Bilderna gick att förstora med en ratt"
+    ],
+    "difficulty": "easy",
+    "theme": "retro",
+    "source_url": "https://www.museumofplay.org/toys/view-master/"
+  },
+  {
+    "question": "Vilket namn fick spelkonsolen Super Nintendo i Japan?",
+    "correct": "Super Famicom",
+    "incorrect": [
+      "Mega Drive",
+      "Family Disk",
+      "Power System"
+    ],
+    "difficulty": "medium",
+    "theme": "retro",
+    "source_url": "https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Nintendo-History-625945.html"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vilken form gömmer sig i det vita mellanrummet mellan E och x i FedEx-loggan?",
+    "correct": "En pil",
+    "incorrect": [
+      "En stjärna",
+      "En blixt",
+      "Ett flygplan"
+    ],
+    "source_url": "https://newsroom.fedex.com/newsroom/middle-east-indian-subcontinent-and-africa/fedex-express-celebrates-uae-superbrand-award-for-fifth-consecutive-year"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vilken färg hade däcken som inspirerade Michelinmannens form på 1890-talet?",
+    "correct": "Vita",
+    "incorrect": [
+      "Svarta",
+      "Bruna",
+      "Röda"
+    ],
+    "source_url": "https://guide.michelin.com/en/article/features/six-things-you-might-not-know-about-michelin-house"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "hard",
+    "question": "Vilken fransk symbolfigur syns tillsammans med en medalj och en låga i emblemet för OS i Paris 2024?",
+    "correct": "Marianne",
+    "incorrect": [
+      "Jeanne d’Arc",
+      "Marie Curie",
+      "Marie Antoinette"
+    ],
+    "source_url": "https://www.olympics.com/ioc/news/paris-2024-unveils-new-olympic-and-paralympic-games-emblem"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "easy",
+    "question": "Djuret Chi-Chi på London Zoo inspirerade WWF:s logga. Vilken sorts djur var Chi-Chi?",
+    "correct": "En jättepanda",
+    "incorrect": [
+      "En isbjörn",
+      "En koala",
+      "En lemur"
+    ],
+    "source_url": "https://www.worldwildlife.org/about/history-of-wwfs-panda-logo/"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vad kallas den mustaschprydda figuren på Pringlesrören?",
+    "correct": "Mr. P",
+    "incorrect": [
+      "Mr. Crunch",
+      "Mr. Chip",
+      "Mr. Crisp"
+    ],
+    "source_url": "https://newsroom.kellanova.com/2021-10-14-Pringles-R-Partners-With-Movember-To-Encourage-Open-Conversations-Around-Mental-Health"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "easy",
+    "question": "Vilken sorts fågel är Duo, den gröna maskoten för Duolingo?",
+    "correct": "En uggla",
+    "incorrect": [
+      "En papegoja",
+      "En duva",
+      "En pingvin"
+    ],
+    "source_url": "https://blog.duolingo.com/reshaping-duo/"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "medium",
+    "question": "Vilket djur ligger bakom både René Lacostes smeknamn och figuren på hans pikétröjor?",
+    "correct": "En krokodil",
+    "incorrect": [
+      "En panter",
+      "En kobra",
+      "En haj"
+    ],
+    "source_url": "https://corporate.lacoste.com/our-history/"
+  },
+  {
+    "theme": "symboler",
+    "difficulty": "hard",
+    "question": "Vilket djur har gett GitHubs maskot Octocat sina tentakler?",
+    "correct": "En bläckfisk",
+    "incorrect": [
+      "En manet",
+      "En sjöstjärna",
+      "En sjöanemon"
+    ],
+    "source_url": "https://github.blog/news-insights/company-news/from-sticker-to-sculpture-the-making-of-the-octocat-figurine/"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "medium",
+    "question": "Vilket djur försökte utvecklaren skapa när Minecrafts gröna Creeper kom till av misstag?",
+    "correct": "En gris",
+    "incorrect": [
+      "En ko",
+      "En kyckling",
+      "Ett får"
+    ],
+    "source_url": "https://www.minecraft.net/en-us/article/meet-creeper"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "easy",
+    "question": "Vilken maträtt med en bit borttagen inspirerade formen på Pac-Man?",
+    "correct": "Pizza",
+    "incorrect": [
+      "Omelett",
+      "Ugnspannkaka",
+      "Chokladtårta"
+    ],
+    "source_url": "https://pacman.com/en/news/?p=1627"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "hard",
+    "question": "Vilken science fiction-skräckfilm var med och inspirerade spelet Among Us?",
+    "correct": "The Thing",
+    "incorrect": [
+      "Alien",
+      "Predator",
+      "Event Horizon"
+    ],
+    "source_url": "https://www.innersloth.com/press-kit-among-us/"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "easy",
+    "question": "I vilket spel kan man tacka busschauffören innan man hoppar från den flygande bussen?",
+    "correct": "Fortnite",
+    "incorrect": [
+      "Roblox",
+      "Overwatch",
+      "Fall Guys"
+    ],
+    "source_url": "https://www.fortnite.com/%40epic/battle-royale"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "medium",
+    "question": "I vilket spel får man sällskap av en kub som kallas Companion Cube?",
+    "correct": "Portal",
+    "incorrect": [
+      "Rocket League",
+      "Half-Life 2",
+      "Splatoon"
+    ],
+    "source_url": "https://store.necaonline.com/blogs/news/cake-is-not-a-lie"
+  },
+  {
+    "theme": "spel",
+    "difficulty": "easy",
+    "question": "Vilken symbol kompletterar cirkeln, krysset och fyrkanten på den första PlayStation-handkontrollens fyra symbolknappar?",
+    "correct": "En triangel",
+    "incorrect": [
+      "En stjärna",
+      "Ett hjärta",
+      "En romb"
+    ],
+    "source_url": "https://blog.playstation.com/archive/2010/09/16/the-evolution-of-the-playstation-controller"
   }
 ]

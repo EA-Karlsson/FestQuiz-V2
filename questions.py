@@ -383,7 +383,7 @@ def _quizzapi(_count: int, category: str, difficulty: str) -> list[_Candidate]:
     return results
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=5)
 def _reviewed_questions(filename: str) -> tuple[dict, ...]:
     try:
         data = json.loads(Path(__file__).with_name(filename).read_text(encoding="utf-8"))
@@ -573,8 +573,11 @@ def get_questions(
             _party_candidates("festmix_swedish.json", _PARTY_SWEDISH_SOURCE, "SV", difficulty),
             _party_candidates("festmix_openquizzdb.json", _PARTY_FRENCH_SOURCE, "FR", difficulty),
         ]
-        if api_key:
-            pools.append(_trivia_api(count, category, difficulty))
+        if _trivia_api_enabled():
+            trivia = _party_candidates("festmix_the_trivia_api.json", "The Trivia API", "EN", difficulty)
+            if api_key:
+                trivia.extend(_trivia_api(count, category, difficulty))
+            pools.append(trivia)
     elif api_key:
         providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games, _quizzapi, _sciq, _triviaroomqa)
         with ThreadPoolExecutor(max_workers=len(providers)) as executor:
