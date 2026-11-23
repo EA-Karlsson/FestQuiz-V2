@@ -37,7 +37,16 @@ npx --yes --package=typescript@5.9.3 tsc --allowJs --target ES5 --lib ES2017,DOM
 
 Lägg de extra nycklar du vill använda som miljövariabler i **Environment** på tjänsten **FestQuiz-V2** och välj **Save and deploy**.
 
-Kör webbservern med en process. Spelrum och minnet över nyligen visade frågor sparas i processen och nollställs vid omstart.
+Kör webbservern med en process. Rummens poäng och frågehistorik ligger i minnet under spelkvällen.
+
+## Egen frågebank
+
+FestQuiz sparar användbara frågor som har översatts från Open Trivia DB, The Trivia API, QuizBase (OpenTriviaQA), SciQ och TriviaRoomQA. Den sparar originalet och den svenska versionen tillsammans med källan. QuizzAPI och TriviaAPI.games hämtas fortfarande för spelet enligt sina villkor. Frågor från dessa två källor arkiveras inte permanent.
+
+Öppna `/fragabank` och ange lösenordet i `QUESTION_BANK_ADMIN_KEY` för att söka och rätta sparade frågor. Du kan till exempel behålla ett filmcitat ordagrant och ha resten av frågan på svenska. FestQuiz använder rättelsen när den väljer frågan igen. En pågående omgång behåller frågan som den såg ut när omgången startades.
+
+- Lokalt sparas banken i `data/question-bank.sqlite3`. Ange `QUESTION_BANK_PATH` för att spara på en annan plats. Sätt `QUESTION_BANK_ADMIN_KEY` till ett lösenord med minst 24 ASCII-tecken för att öppna redigeraren.
+- På Render, lägg till `QUESTION_BANK_DATABASE_URL` och `QUESTION_BANK_ADMIN_KEY` under **Environment**. Använd en PostgreSQL-adress från en beständig databas, till exempel den poolade adressen från ett [Neon-projekt](https://neon.com/docs/connect/connect-from-any-app). Den vanliga filytan på Render återställs vid omstart, så FestQuiz väntar med att aktivera frågebanken tills lagring har konfigurerats där.
 
 ## Frågekällor
 

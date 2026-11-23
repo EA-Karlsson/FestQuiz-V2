@@ -3,3 +3,5 @@ uvicorn
 requests
 qrcode==8.2
 pypng==0.20220715.0
+SQLAlchemy>=2.0,<3
+psycopg[binary]>=3.2,<4

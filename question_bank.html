@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#151124">
+    <title>Frågebank · FestQuiz</title>
+    <link rel="stylesheet" href="/assets/play.css">
+    <script src="/assets/question-bank.js" defer></script>
+    <style>
+        .bank-page { max-width: 90rem; }
+        .bank-page > h1 { margin-bottom: 1rem; }
+        .bank-status { margin: .8rem 0; color: #b5e8c5; }
+        .bank-status[data-error="true"] { color: #ffd3d6; }
+        .bank-muted { color: #d8cee8; }
+        #bank-access { max-width: 34rem; }
+        .bank-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: .8rem;
+            margin-bottom: .9rem;
+        }
+        .bank-toolbar form { flex: 1 1 18rem; max-width: 36rem; margin: 0; }
+        .bank-search-controls { display: flex; align-items: stretch; gap: .5rem; }
+        .bank-search-controls input { min-width: 0; margin: 0; }
+        .bank-columns { display: grid; gap: .9rem; align-items: start; }
+        .bank-results { min-width: 0; }
+        .bank-results ul { max-height: 38vh; overflow: auto; margin: 0; padding: .2rem; list-style: none; }
+        .bank-results li + li { margin-top: .5rem; }
+        .bank-result {
+            width: 100%;
+            display: block;
+            padding: .65rem .7rem;
+            background: #241b37;
+            color: #fff8fe;
+            border: 1px solid #493957;
+            border-radius: .65rem;
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+        .bank-result:hover, .bank-result[aria-current="true"] {
+            border-color: #ffda8f;
+            background: #362946;
+        }
+        .bank-result small { display: block; margin-top: .25rem; color: #d8cee8; }
+        .bank-editor h2:focus { outline: none; }
+        .bank-editor form { margin: 0; }
+        .bank-editor fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+        .bank-edit-grid { display: grid; align-items: start; gap: 1rem; margin-top: .9rem; }
+        .bank-original {
+            padding: .9rem;
+            border-radius: .75rem;
+            border: 1px solid #493957;
+            background: #201831;
+            overflow-wrap: anywhere;
+        }
+        .bank-original h3, .bank-fields legend { margin: 0 0 .65rem; font-size: 1.1rem; font-weight: 750; }
+        .bank-original dl { margin: 0; }
+        .bank-original dt { margin-top: .65rem; color: #ffda8f; font-weight: 650; }
+        .bank-original dd { margin: .15rem 0; white-space: pre-wrap; }
+        .bank-original dd ol { margin: .2rem 0 .65rem; padding-left: 1.35rem; white-space: normal; }
+        .bank-fields textarea {
+            display: block;
+            width: 100%;
+            min-height: 5.5rem;
+            margin-bottom: .55rem;
+            padding: .65rem .75rem;
+            border: 1px solid #493957;
+            border-radius: .6rem;
+            background: #181224;
+            color: #fff8fe;
+            font: inherit;
+            resize: vertical;
+        }
+        .bank-fields label { margin: .35rem 0 .15rem; }
+        .bank-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .7rem; }
+        .bank-actions .primary { width: auto; margin-top: 0; }
+        .bank-actions .utility { margin-top: 0; }
+        @media (min-width: 52rem) {
+            .bank-columns { grid-template-columns: minmax(15rem, .62fr) minmax(0, 1.38fr); }
+            .bank-results ul { max-height: 70vh; }
+        }
+        @media (min-width: 74rem) {
+            .bank-edit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="FestQuiz, startsida"><span aria-hidden="true">?</span>FestQuiz</a>
+    </header>
+    <main class="page bank-page">
+        <h1>Frågebank</h1>
+        <noscript><p>Aktivera JavaScript för att redigera frågebanken.</p></noscript>
+        <p class="bank-status" id="bank-status" role="status" hidden></p>
+        <section class="panel" id="bank-access" aria-labelledby="bank-access-title">
+            <h2 id="bank-access-title">Öppna frågebanken</h2>
+            <form id="bank-auth-form" autocomplete="off">
+                <label for="bank-key">Administratörsnyckel</label>
+                <input id="bank-key" type="password" autocomplete="off" spellcheck="false" required>
+                <button class="primary" id="bank-login" type="submit">Öppna</button>
+            </form>
+        </section>
+
+        <div id="bank-workspace" hidden>
+            <div class="bank-toolbar">
+                <form id="bank-search-form" role="search">
+                    <label for="bank-query">Sök bland frågor</label>
+                    <div class="bank-search-controls">
+                        <input id="bank-query" type="search" maxlength="120" placeholder="Fråga, svar eller källa">
+                        <button class="utility" id="bank-search" type="submit">Sök</button>
+                    </div>
+                </form>
+                <button class="utility" id="bank-lock" type="button">Lås frågebanken</button>
+            </div>
+            <div class="bank-columns">
+                <section class="panel bank-results" aria-labelledby="bank-results-title">
+                    <h2 id="bank-results-title">Senaste frågor</h2>
+                    <p class="bank-muted" id="bank-results-summary"></p>
+                    <ul id="bank-results"></ul>
+                </section>
+                <section class="panel bank-editor" id="bank-editor" aria-labelledby="bank-editor-title" hidden>
+                    <h2 id="bank-editor-title" tabindex="-1">Redigera frågan</h2>
+                    <p class="bank-muted" id="bank-editor-meta"></p>
+                    <div class="bank-edit-grid">
+                        <section class="bank-original" aria-labelledby="bank-original-title">
+                            <h3 id="bank-original-title">Original</h3>
+                            <dl>
+                                <dt>Fråga</dt>
+                                <dd id="bank-original-question"></dd>
+                                <dt>Rätt svar</dt>
+                                <dd id="bank-original-correct"></dd>
+                                <dt>Fel svar</dt>
+                                <dd><ol id="bank-original-incorrect"></ol></dd>
+                            </dl>
+                            <button class="utility" id="bank-copy" type="button" hidden>Kopiera originalfrågan</button>
+                        </section>
+                        <form id="bank-edit-form">
+                            <fieldset class="bank-fields" id="bank-fields">
+                                <legend>Text i spelet</legend>
+                                <label for="bank-question">Fråga på svenska</label>
+                                <textarea id="bank-question" rows="3" maxlength="1200" required></textarea>
+                                <label for="bank-correct">Rätt svar</label>
+                                <input id="bank-correct" maxlength="1200" required>
+                                <label for="bank-incorrect-1">Fel svar 1</label>
+                                <input id="bank-incorrect-1" maxlength="1200" required>
+                                <label for="bank-incorrect-2">Fel svar 2</label>
+                                <input id="bank-incorrect-2" maxlength="1200" required>
+                                <label for="bank-incorrect-3">Fel svar 3</label>
+                                <input id="bank-incorrect-3" maxlength="1200" required>
+                            </fieldset>
+                            <div class="bank-actions">
+                                <button class="primary" id="bank-save" type="submit">Spara</button>
+                                <button class="utility" id="bank-reload" type="button" hidden>Hämta senaste versionen</button>
+                            </div>
+                            <p class="bank-status" id="bank-edit-status" role="status" hidden></p>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

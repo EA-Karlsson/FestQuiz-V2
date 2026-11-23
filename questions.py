@@ -1,6 +1,7 @@
 import hashlib
 import html
 import json
+import logging
 import os
 import random
 import re
@@ -18,7 +19,11 @@ from typing import TypedDict
 
 import requests
 
+import question_bank
 from quizzapi import QUIZZAPI_URL, reviewed_payload
+
+
+logger = logging.getLogger(__name__)
 
 
 class QuestionUnavailable(RuntimeError):
@@ -50,6 +55,8 @@ class _Candidate:
     incorrect: tuple[str, str, str]
     source: str
     language: str = "EN"
+    category: str | None = None
+    difficulty: str | None = None
 
 
 _OPENTDB_URL = "https://opentdb.com/api.php"
@@ -57,6 +64,7 @@ _TRIVIA_API_URL = "https://the-trivia-api.com/v2/questions"
 _QUIZBASE_URL = "https://quizbase.runriva.com/api/v1/questions/random"
 _TRIVIAAPI_GAMES_URL = "https://triviaapi.games/v1/questions"
 _TRIVIAAPI_GAMES_SOURCE = "TriviaAPI.games"
+_BANK_SOURCES = {"Open Trivia DB", "The Trivia API", "QuizBase (OpenTriviaQA)", "SciQ", "TriviaRoomQA"}
 _TRIVIA_FILTERS = {
     "": {},
     "9": {"categories": "general_knowledge"},
@@ -80,6 +88,18 @@ _QUIZBASE_CATEGORIES = {
     "17": "science-and-nature",
     "22": "geography",
 }
+_OPENTDB_CATEGORY_NAMES = {
+    "General Knowledge": "9",
+    "Entertainment: Film": "11",
+    "Entertainment: Music": "12",
+    "Entertainment: Video Games": "15",
+    "Science & Nature": "17",
+    "Sports": "21",
+    "Geography": "22",
+    "History": "23",
+}
+_TRIVIA_CATEGORIES = {entry["categories"]: code for code, entry in _TRIVIA_FILTERS.items() if "categories" in entry}
+_QUIZBASE_CATEGORY_CODES = {slug: code for code, slug in _QUIZBASE_CATEGORIES.items() if slug}
 _QUIZZAPI_CATEGORIES = {"": "", "9": "culture_generale", "17": "science", "22": "geographie", "23": "histoire"}
 _QUIZZAPI_DIFFICULTIES = {"": "", "easy": "facile", "medium": "normal", "hard": "difficile"}
 _QUIZZAPI_CACHE: tuple[float, list[dict]] | None = None
@@ -132,7 +152,14 @@ def _normalized(text: str) -> str:
     return "".join(re.findall(r"(?<!\w)-(?=\d)|[\w+#]", normalized))
 
 
-def _candidate(question, correct, incorrect, *, source: str, language: str = "EN") -> _Candidate | None:
+def valid_question_edit(question: str, correct: str, incorrect: list[str]) -> bool:
+    answers = {_normalized(value) for value in (correct, *incorrect)}
+    return bool(_normalized(question)) and len(answers) == 4 and "" not in answers
+
+
+def _candidate(
+    question, correct, incorrect, *, source: str, language: str = "EN", category=None, difficulty=None
+) -> _Candidate | None:
     if not isinstance(incorrect, (list, tuple)) or len(incorrect) != 3:
         return None
     values = (question, correct, *incorrect)
@@ -154,7 +181,9 @@ def _candidate(question, correct, incorrect, *, source: str, language: str = "EN
         return None
     if any(_POSITIONAL_ANSWER.search(answer) for answer in (correct, first, second, third)):
         return None
-    return _Candidate(question, correct, (first, second, third), source, language)
+    category = category if isinstance(category, str) and category and category in _TRIVIA_FILTERS else None
+    difficulty = difficulty if isinstance(difficulty, str) and difficulty and difficulty in _DIFFICULTIES else None
+    return _Candidate(question, correct, (first, second, third), source, language, category, difficulty)
 
 
 def _fetch_json(url: str, params: dict, headers: dict[str, str] | None = None) -> dict | list | None:
@@ -184,15 +213,21 @@ def _open_trivia(count: int, category: str, difficulty: str) -> list[_Candidate]
     for row in rows:
         if isinstance(row, dict):
             candidate = _candidate(
-                row.get("question"), row.get("correct_answer"), row.get("incorrect_answers"), source="Open Trivia DB"
+                row.get("question"), row.get("correct_answer"), row.get("incorrect_answers"), source="Open Trivia DB",
+                category=category or _OPENTDB_CATEGORY_NAMES.get(str(row.get("category"))),
+                difficulty=difficulty or row.get("difficulty"),
             )
             if candidate:
                 results.append(candidate)
     return results
 
 
+def _trivia_api_enabled() -> bool:
+    return os.getenv("TRIVIA_API_ENABLED", "1").strip().lower() not in {"0", "false", "no"}
+
+
 def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
-    if os.getenv("TRIVIA_API_ENABLED", "1").strip().lower() in {"0", "false", "no"}:
+    if not _trivia_api_enabled():
         return []
     params = {"limit": count, "types": "text_choice", **_TRIVIA_FILTERS[category]}
     if difficulty:
@@ -210,8 +245,13 @@ def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
             continue
         if row.get("type", "text_choice") != "text_choice":
             continue
+        tags = row.get("tags")
+        topic = _TRIVIA_CATEGORIES.get(str(row.get("category")))
+        if isinstance(tags, list) and ("topic:video-games" in tags or "video_games" in tags):
+            topic = "15"
         candidate = _candidate(
-            row["question"].get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="The Trivia API"
+            row["question"].get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="The Trivia API",
+            category=category or topic, difficulty=difficulty or row.get("difficulty"),
         )
         if candidate:
             results.append(candidate)
@@ -251,7 +291,9 @@ def _quizbase(count: int, category: str, difficulty: str) -> list[_Candidate]:
         if difficulty and row.get("difficulty") != difficulty:
             continue
         candidate = _candidate(
-            row.get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="QuizBase (OpenTriviaQA)"
+            row.get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="QuizBase (OpenTriviaQA)",
+            category=_QUIZBASE_CATEGORY_CODES.get(str(topic.get("slug"))) if isinstance(topic, dict) else None,
+            difficulty=row.get("difficulty"),
         )
         if candidate:
             results.append(candidate)
@@ -313,12 +355,17 @@ def _reviewed_questions(filename: str) -> tuple[dict, ...]:
     return tuple(row for row in data if isinstance(row, dict)) if isinstance(data, list) else ()
 
 
-def _reviewed_candidates(filename: str, source: str, category: str = "", difficulty: str = "") -> list[_Candidate]:
+def _reviewed_candidates(
+    filename: str, source: str, category: str = "", difficulty: str = "", *, default_category: str = ""
+) -> list[_Candidate]:
     results = []
     for row in _reviewed_questions(filename):
         if (category and row.get("category") != category) or (difficulty and row.get("difficulty") != difficulty):
             continue
-        candidate = _candidate(row.get("question"), row.get("correct"), row.get("incorrect"), source=source)
+        candidate = _candidate(
+            row.get("question"), row.get("correct"), row.get("incorrect"), source=source,
+            category=row.get("category") or default_category, difficulty=row.get("difficulty"),
+        )
         if candidate:
             results.append(candidate)
     return results
@@ -327,7 +374,7 @@ def _reviewed_candidates(filename: str, source: str, category: str = "", difficu
 def _sciq(_count: int, category: str, difficulty: str) -> list[_Candidate]:
     if category not in {"", "17"} or difficulty:
         return []
-    return _reviewed_candidates("sciq_reviewed.json", "SciQ")
+    return _reviewed_candidates("sciq_reviewed.json", "SciQ", default_category="17")
 
 
 def _triviaroomqa(_count: int, category: str, difficulty: str) -> list[_Candidate]:
@@ -416,6 +463,35 @@ def _resolved(candidate: _Candidate, translations: dict[tuple[str, str], str]) -
     return {"key": key, "question": question, "correct": correct, "incorrect": incorrect, "source": candidate.source}
 
 
+def _bank_id(candidate: _Candidate) -> str:
+    original = f"{candidate.source}\0{candidate.language}\0{_normalized(candidate.question)}"
+    return hashlib.blake2b(original.encode("utf-8"), digest_size=16).hexdigest()
+
+
+def _bank_record(candidate: _Candidate, record_id: str, question: Question) -> question_bank.BankQuestion:
+    return question_bank.BankQuestion(
+        id=record_id, key=question["key"], source=candidate.source, language=candidate.language,
+        category=candidate.category, difficulty=candidate.difficulty,
+        original_question=candidate.question, original_correct=candidate.correct, original_incorrect=candidate.incorrect,
+        question=question["question"], correct=question["correct"], incorrect=tuple(question["incorrect"]),
+    )
+
+
+def _bank_value(record: question_bank.BankQuestion) -> Question:
+    return {"key": record.key, "source": record.source, "question": record.question,
+            "correct": record.correct, "incorrect": list(record.incorrect)}
+
+
+def _read_bank(
+    category: str, difficulty: str, sources: set[str], exclude: Collection[str] = ()
+) -> list[question_bank.BankQuestion] | None:
+    try:
+        return question_bank.fallback_questions(category, difficulty, sources=sources, exclude=exclude)
+    except question_bank.QuestionBankUnavailable:
+        logger.warning("Frågebanken kunde inte läsas. Använder frågekällorna för den här omgången.")
+        return None
+
+
 def get_questions(
     amount: int,
     category: str = "",
@@ -430,58 +506,109 @@ def get_questions(
         raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 30 frågor.")
 
     api_key = os.getenv("DEEPL_API_KEY", "").strip()
-    if not api_key:
-        raise QuestionUnavailable("Svensk översättning är inte aktiverad. DeepL behöver ställas in på servern.")
-
-    count = 50 if category == "modern" else min(50, max(24, amount * 2))
-    providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games, _quizzapi, _sciq, _triviaroomqa)
-    with ThreadPoolExecutor(max_workers=len(providers)) as executor:
-        pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
-        pools = [result.result() for result in pending]
-
-    for pool in pools:
-        random.shuffle(pool)
-    random.shuffle(pools)
-    combined = [candidate for group in zip_longest(*pools) for candidate in group if candidate]
-
-    seen_originals = set()
     candidates = []
-    for candidate in combined:
-        original = (candidate.language, _normalized(candidate.question))
-        if original not in seen_originals:
-            seen_originals.add(original)
-            candidates.append(candidate)
+    if api_key:
+        count = 50 if category == "modern" else min(50, max(24, amount * 2))
+        providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games, _quizzapi, _sciq, _triviaroomqa)
+        with ThreadPoolExecutor(max_workers=len(providers)) as executor:
+            pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
+            pools = [result.result() for result in pending]
+
+        for pool in pools:
+            random.shuffle(pool)
+        random.shuffle(pools)
+        seen_originals = set()
+        for group in zip_longest(*pools):
+            for candidate in group:
+                if candidate is None:
+                    continue
+                original = (candidate.language, _normalized(candidate.question))
+                if original not in seen_originals:
+                    seen_originals.add(original)
+                    candidates.append(candidate)
 
     fresh, recent, repeated = [], [], []
-    excluded, avoid, seen = set(exclude), set(avoid_recent), set()
+    excluded, avoid = set(exclude), set(avoid_recent)
+    seen_keys, seen_prompts = set(), set()
+
+    def add(question: Question) -> None:
+        key = question["key"]
+        prompt = _normalized(question["question"])
+        if key in seen_keys or prompt in seen_prompts:
+            return
+        seen_keys.add(key)
+        seen_prompts.add(prompt)
+        if key in excluded:
+            repeated.append(question)
+        elif key in avoid:
+            recent.append(question)
+        else:
+            fresh.append(question)
+
+    bank_sources = set(_BANK_SOURCES)
+    if not _trivia_api_enabled():
+        bank_sources.discard("The Trivia API")
+    bank_enabled = question_bank.bank_enabled()
+    stored = _read_bank(category, difficulty, bank_sources, excluded) if bank_enabled else None
+    bank_enabled = stored is not None
+    stored = stored or []
+    if candidates:
+        bank_share = amount // 4
+        for record in stored:
+            if len(fresh) >= bank_share:
+                break
+            if record.key not in avoid:
+                add(_bank_value(record))
+
+    bank_ids = {
+        candidate: _bank_id(candidate) for candidate in candidates if candidate.source in bank_sources
+    } if bank_enabled else {}
+    try:
+        saved = question_bank.lookup_questions(bank_ids.values()) if bank_ids else {}
+    except question_bank.QuestionBankUnavailable:
+        logger.warning("Frågebanken kunde inte kontrollera tidigare översättningar.")
+        saved = {}
+        bank_ids = {}
+
     translations: dict[tuple[str, str], str] = {}
     translation_available = True
+    save_to_bank = bool(bank_ids)
     for offset in range(0, len(candidates), 12):
         batch = candidates[offset:offset + 12]
-        translation_available = _translate_batch(batch, translations, api_key if translation_available else "")
+        to_translate = [candidate for candidate in batch if bank_ids.get(candidate) not in saved]
+        if to_translate:
+            translation_available = _translate_batch(to_translate, translations, api_key if translation_available else "")
+        new_records = []
         for candidate in batch:
-            question = _resolved(candidate, translations)
-            if question is None or question["key"] in seen:
+            record_id = bank_ids.get(candidate)
+            previous = saved.get(record_id) if record_id else None
+            question = _bank_value(previous) if previous else _resolved(candidate, translations)
+            if question is None:
                 continue
-            seen.add(question["key"])
-            if question["key"] in excluded:
-                repeated.append(question)
-            elif question["key"] in avoid:
-                recent.append(question)
-            else:
-                fresh.append(question)
-            if len(fresh) == amount:
-                random.shuffle(fresh)
-                return fresh
+            if save_to_bank and record_id and previous is None:
+                new_records.append(_bank_record(candidate, record_id, question))
+            add(question)
+        if new_records:
+            try:
+                question_bank.store_questions(new_records)
+            except question_bank.QuestionBankUnavailable:
+                logger.warning("De hämtade frågorna kunde inte sparas i frågebanken.")
+                save_to_bank = False
+        if len(fresh) >= amount:
+            fresh = fresh[:amount]
+            random.shuffle(fresh)
+            return fresh
 
-    unused = fresh + recent[:amount - len(fresh)]
+    for record in stored:
+        add(_bank_value(record))
+    if bank_enabled and excluded and len(fresh) + len(recent) < amount:
+        for record in _read_bank(category, difficulty, bank_sources) or ():
+            add(_bank_value(record))
+
+    unused = fresh[:amount] + recent[:max(0, amount - len(fresh))]
     repeats = repeated[:amount - len(unused)] if allow_repeats else []
     available = len(unused) + len(repeats)
     if available != amount:
-        if not translation_available:
-            raise QuestionUnavailable(
-                "Frågorna kunde inte översättas till svenska. Kontrollera DeepL-inställningen eller försök igen om en stund."
-            )
         if repeated and not allow_repeats:
             total = len(unused) + len(repeated)
             if total >= amount:
@@ -489,6 +616,12 @@ def get_questions(
             raise QuestionUnavailable(
                 f"Jag hittade bara {total} frågor med de här valen, varav {len(unused)} nya. "
                 "Välj färre frågor eller byt kategori eller svårighetsgrad."
+            )
+        if not api_key:
+            raise QuestionUnavailable("Frågebanken räcker inte för de här valen. DeepL behövs för att hämta fler frågor på svenska.")
+        if not translation_available:
+            raise QuestionUnavailable(
+                "Frågorna kunde inte översättas till svenska. Kontrollera DeepL-inställningen eller försök igen om en stund."
             )
         raise QuestionUnavailable(
             f"Frågetjänsterna levererade {available} användbara svenska frågor för de valen. "

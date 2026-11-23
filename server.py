@@ -12,13 +12,14 @@ from typing import Annotated, Literal
 from urllib.parse import urlencode
 
 import qrcode
-from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Path as PathParam, Query, Request, Response
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 from qrcode.image.pure import PyPNGImage
 
-from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions
+import question_bank
+from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions, valid_question_edit
 
 
 app = FastAPI(title="FestQuiz")
@@ -104,6 +105,16 @@ class ReviewInput(BaseModel):
     questionNumber: int = Field(strict=True, ge=1, le=max_questions)
 
 
+BankText = Annotated[str, Field(min_length=1, max_length=1200)]
+
+
+class QuestionBankEdit(BaseModel):
+    question: BankText
+    correct: BankText
+    incorrect: Annotated[list[BankText], Field(min_length=3, max_length=3)]
+    revision: int = Field(ge=1, strict=True)
+
+
 def token_from(
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
 ) -> str | None:
@@ -113,6 +124,39 @@ def token_from(
 
 
 Token = Annotated[str | None, Depends(token_from)]
+
+
+def bank_admin_key() -> str:
+    key = os.getenv("QUESTION_BANK_ADMIN_KEY", "").strip()
+    if question_bank.bank_enabled() and len(key) >= 24 and key.isascii() and key.isprintable():
+        return key
+    raise HTTPException(404, "Frågebanken är inte aktiverad.")
+
+
+def require_bank_admin(token: Token, response: Response) -> None:
+    key = bank_admin_key()
+    if token is None or not secrets.compare_digest(token, key):
+        raise HTTPException(401, "Skriv rätt redigeringslösenord för frågebanken.", headers={"Cache-Control": "no-store"})
+    response.headers["Cache-Control"] = "no-store"
+
+
+def bank_question_view(record: question_bank.BankQuestion) -> dict:
+    return {
+        "id": record.id,
+        "source": record.source,
+        "language": record.language,
+        "category": record.category,
+        "difficulty": record.difficulty,
+        "original": {
+            "question": record.original_question,
+            "correct": record.original_correct,
+            "incorrect": record.original_incorrect,
+        },
+        "question": record.question,
+        "correct": record.correct,
+        "incorrect": record.incorrect,
+        "revision": record.revision,
+    }
 
 
 def active_room(code: str) -> Room:
@@ -322,6 +366,45 @@ def play_script():
 @app.get("/assets/play.css")
 def play_style():
     return FileResponse(root / "play.css", media_type="text/css", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/fragabank", include_in_schema=False)
+def question_bank_page(_key: Annotated[str, Depends(bank_admin_key)]):
+    return FileResponse(root / "question_bank.html", headers={"Cache-Control": "no-store", "X-Robots-Tag": "noindex"})
+
+
+@app.get("/assets/question-bank.js", include_in_schema=False)
+def question_bank_script():
+    return FileResponse(root / "question_bank.js", media_type="text/javascript", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/api/question-bank", dependencies=[Depends(require_bank_admin)], include_in_schema=False)
+def read_question_bank(q: Annotated[str, Query(max_length=120)] = ""):
+    try:
+        records = question_bank.list_questions(q.strip())
+    except question_bank.QuestionBankUnavailable as error:
+        raise HTTPException(503, "Frågebanken är tillfälligt otillgänglig.") from error
+    return {"questions": [bank_question_view(record) for record in records]}
+
+
+@app.put("/api/question-bank/{question_id}", dependencies=[Depends(require_bank_admin)], include_in_schema=False)
+def edit_bank_question(question_id: Annotated[str, PathParam(pattern=r"^[0-9a-f]{32}$")], submission: QuestionBankEdit):
+    question = submission.question.strip()
+    correct = submission.correct.strip()
+    incorrect = [text.strip() for text in submission.incorrect]
+    if not valid_question_edit(question, correct, incorrect):
+        raise HTTPException(422, "Skriv en fråga och fyra olika svarsalternativ.")
+    try:
+        record = question_bank.update_question(
+            question_id, question=question, correct=correct, incorrect=tuple(incorrect), revision=submission.revision,
+        )
+    except question_bank.QuestionBankConflict as error:
+        raise HTTPException(409, "Frågan har ändrats sedan du öppnade den. Ladda om den innan du sparar.") from error
+    except question_bank.QuestionBankUnavailable as error:
+        raise HTTPException(503, "Frågebanken är tillfälligt otillgänglig.") from error
+    if record is None:
+        raise HTTPException(404, "Frågan finns inte längre.")
+    return {"question": bank_question_view(record)}
 
 
 @app.get("/solo")
