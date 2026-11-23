@@ -30,6 +30,7 @@ let finishedRound = "";
 let scoreboardUntil = 0;
 let vibratedQuestion = "";
 let draftAnswer = null;
+let draftRevision = 0;
 let hostNameRestored = false;
 let repeatShortage = null;
 
@@ -79,11 +80,11 @@ function notice(message = "") {
     element("notice").hidden = !message;
 }
 
-function request(path, { method = "GET", body, credential = "", blob = false } = {}) {
+function request(path, { method = "GET", body, credential = "", blob = false, timeout = 60000 } = {}) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open(method, path);
-        xhr.timeout = 60000;
+        xhr.timeout = timeout;
         if (credential) xhr.setRequestHeader("Authorization", `Bearer ${credential}`);
         if (body) xhr.setRequestHeader("Content-Type", "application/json");
         if (blob) xhr.responseType = "blob";
@@ -130,7 +131,7 @@ function expireRoom() {
     clearTimeout(pollTimer);
     ++revision;
     state = null;
-    draftAnswer = null;
+    clearDraft();
     render();
     notice("Spelrummet är inte längre aktivt. Öppna ett nytt rum på TV:n.");
 }
@@ -390,12 +391,53 @@ function canChooseAnswer() {
     return state && role !== "tv" && state.phase === "question" && state.canAnswer && state.deadline > Date.now() / 1000;
 }
 
+function clearDraft() {
+    draftAnswer = null;
+    draftRevision = 0;
+}
+
+function acceptDraft(questionId, saved) {
+    if (!saved || (draftAnswer && saved.revision < draftAnswer.revision)) return;
+    draftRevision = Math.max(draftRevision, saved.revision);
+    draftAnswer = { questionId, choice: saved.choice, revision: saved.revision, saving: "saved" };
+}
+
+async function saveDraft(draft) {
+    const { questionId, choice, revision } = draft;
+    let update;
+    try {
+        update = await request(roomPath("/draft"), {
+            method: "POST",
+            body: { questionId, choice, revision },
+            credential: token,
+            timeout: 7000,
+        });
+    } catch {
+        // A later poll can still recover a draft after a lost response.
+    }
+    if (draftAnswer !== draft || !canChooseAnswer() || state.question.id !== questionId) return;
+    const sameQuestion = update && update.question && update.question.id === questionId;
+    // Give the poll responsibility for revealing the closure or an already locked answer.
+    if (sameQuestion && (update.phase === "closed" || update.yourChoice !== null)) return;
+    const saved = sameQuestion && update.yourDraft;
+    if (saved && saved.revision >= revision) acceptDraft(questionId, saved);
+    else draft.saving = "failed";
+    renderChoices(state.question);
+    renderAnswerNote();
+}
+
 function chooseAnswer(questionId, choice) {
     if (pending || !canChooseAnswer() || state.question.id !== questionId) return;
     if (draftAnswer && draftAnswer.questionId === questionId && draftAnswer.choice === choice) {
         roomAction("answer", { questionId, choice });
     } else {
-        draftAnswer = { questionId, choice };
+        const revision = Math.max(1, Date.now(), draftRevision + 1);
+        const canSave = Number.isSafeInteger(revision);
+        draftAnswer = { questionId, choice, revision, saving: canSave ? "pending" : "failed" };
+        if (canSave) {
+            draftRevision = revision;
+            saveDraft(draftAnswer);
+        }
         renderChoices(state.question);
         renderAnswerNote();
     }
@@ -406,7 +448,9 @@ function renderChoices(question) {
     const choices = element("choices");
     const tv = role === "tv";
     const available = canChooseAnswer();
-    if (draftAnswer && (!available || draftAnswer.questionId !== question.id)) draftAnswer = null;
+    if (draftAnswer && draftAnswer.questionId !== question.id) clearDraft();
+    if (!available) draftAnswer = null;
+    if (available) acceptDraft(question.id, state.yourDraft);
     choices.hidden = role === "host" && !state.canAnswer && state.yourChoice === null;
     if (key !== choicesKey) {
         if (tv) main.scrollTop = 0;
@@ -437,12 +481,22 @@ function renderAnswerNote() {
     const answerNote = element("answer-note");
     let note = "";
     if (state.phase === "closed") {
-        note = "Frågan är stängd.";
+        note = role !== "tv" && state.yourChoice !== null
+            ? `Frågan är stängd. Ditt svar är ${letters[state.yourChoice]}.`
+            : "Frågan är stängd.";
     } else if (role !== "tv") {
-        if (state.yourChoice !== null) note = "Svaret är sparat.";
-        else if (pending === "answer") note = "Sparar svaret…";
-        else if (draftAnswer) note = `Tryck igen på ${letters[draftAnswer.choice]} för att låsa svaret.`;
-        else if (state.canAnswer && !canChooseAnswer()) note = "Svarstiden är slut.";
+        if (state.yourChoice !== null) note = "Svaret är låst.";
+        else if (pending === "answer") note = "Låser svaret…";
+        else if (draftAnswer) {
+            const letter = letters[draftAnswer.choice];
+            if (draftAnswer.saving === "pending") note = `Sparar valet ${letter}…`;
+            else if (draftAnswer.saving === "failed") note = `Val ${letter} kunde inte sparas. Tryck igen på ${letter} för att låsa nu.`;
+            else note = `Val ${letter} räknas när tiden går ut. Tryck igen på ${letter} för att låsa nu.`;
+        } else if (state.canAnswer) {
+            note = canChooseAnswer()
+                ? "Markerat svar räknas när tiden går ut. Tryck två gånger på samma bokstav för att låsa direkt."
+                : "Svarstiden är slut.";
+        }
     }
     answerNote.hidden = !note;
     if (answerNote.textContent !== note) answerNote.textContent = note;
@@ -624,7 +678,7 @@ function render() {
     if (repeatShortage && (!state || state.phase !== "lobby" || repeatShortage.settingsKey !== startSettingsKey())) {
         clearRepeatShortage();
     }
-    if (!state || state.phase !== "question") draftAnswer = null;
+    if (!state || state.phase !== "question") clearDraft();
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby")) resetQr();
     if (!state) {
         if (role === "tv") {

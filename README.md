@@ -2,7 +2,7 @@
 
 Öppna startsidan på TV:n. Skanna QR-koden som visas automatiskt med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, svårighetsgrad, upp till 30 frågor och 15, 20 eller 30 sekunders svarstid. Standard är 20 sekunder.
 
-TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att välja den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. Frågan stängs när alla svarat eller när tiden går ut. Spelare som ännu inte svarat får en kort vibration vid fem sekunder på mobiler med stöd för vibration i webbläsaren.
+TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att markera den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. När frågan stängs räknas det senast markerade alternativet automatiskt för den som inte har låst sitt svar. Frågan stängs när alla har låst, när tiden går ut eller när spelledaren stänger den. Mobiler med stöd för vibration vibrerar kort vid fem sekunder för spelare som ännu inte låst sitt svar.
 
 Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Spelledaren kan välja **Ny omgång** för att spela vidare med samma deltagare. Poängtavlan visar vinster och placeringar för spelrummets omgångar. En delad förstaplats räknas som en vinst för var och en som delar den.
 

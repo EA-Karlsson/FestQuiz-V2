@@ -47,6 +47,12 @@ class SeriesPlayer:
     places: list[dict[str, int]] = field(default_factory=list)
 
 
+@dataclass(frozen=True)
+class AnswerDraft:
+    choice: int
+    revision: int
+
+
 @dataclass
 class Question:
     id: str
@@ -55,6 +61,7 @@ class Question:
     correct_choice: int
     source: str
     answers: dict[str, int] = field(default_factory=dict)
+    drafts: dict[str, AnswerDraft] = field(default_factory=dict)
 
 
 @dataclass
@@ -99,6 +106,10 @@ class StartInput(BaseModel):
 class AnswerInput(BaseModel):
     questionId: str = Field(min_length=1, max_length=32)
     choice: int = Field(strict=True, ge=0, le=3)
+
+
+class DraftInput(AnswerInput):
+    revision: int = Field(strict=True, ge=1, le=2**53 - 1)
 
 
 class ReviewInput(BaseModel):
@@ -241,7 +252,12 @@ def open_question(room: Room) -> None:
 
 
 def close_question(room: Room) -> None:
+    if room.phase != "question":
+        return
     question = room.questions[room.current_question]
+    for token, draft in question.drafts.items():
+        question.answers.setdefault(token, draft.choice)
+    question.drafts.clear()
     for token, answer in question.answers.items():
         if answer == question.correct_choice:
             room.players[token].score += 1
@@ -301,6 +317,7 @@ def view_state(room: Room, token: str | None) -> dict:
     check_deadline(room)
     current = room.questions[room.current_question] if room.phase in {"question", "closed"} else None
     answers = current.answers if current is not None else {}
+    your_draft = current.drafts.get(token) if current is not None and token is not None else None
     finished = room.phase in {"finished", "review"}
     players = list(room.players.values())
     if finished:
@@ -337,6 +354,7 @@ def view_state(room: Room, token: str | None) -> dict:
         "answered": len(answers),
         "deadline": room.deadline,
         "yourChoice": answers.get(token),
+        "yourDraft": {"choice": your_draft.choice, "revision": your_draft.revision} if your_draft else None,
         "canAnswer": room.phase == "question" and token in room.players and token not in answers,
         "yourPlace": your_place,
         "yourScore": your_score,
@@ -542,19 +560,36 @@ def start_room(code: str, submission: StartInput, token: Token):
             room.starting = False
 
 
+def question_to_answer(room: Room, question_id: str, token: str | None) -> tuple[Question, str]:
+    if token is None or token not in room.players:
+        raise HTTPException(403, "Gå med i spelet för att svara.")
+    check_deadline(room)
+    if room.phase not in {"question", "closed"}:
+        raise HTTPException(409, "Frågan är inte längre aktuell.")
+    question = room.questions[room.current_question]
+    if question.id != question_id:
+        raise HTTPException(409, "Frågan är inte längre aktuell.")
+    return question, token
+
+
+@app.post("/api/rooms/{code}/draft")
+def save_draft(code: str, submission: DraftInput, token: Token):
+    with room_lock:
+        room = active_room(code)
+        question, player_token = question_to_answer(room, submission.questionId, token)
+        if room.phase != "question":
+            raise HTTPException(409, "Svarstiden är slut.")
+        draft = question.drafts.get(player_token)
+        if player_token not in question.answers and (draft is None or submission.revision > draft.revision):
+            question.drafts[player_token] = AnswerDraft(submission.choice, submission.revision)
+        return view_state(room, player_token)
+
+
 @app.post("/api/rooms/{code}/answer")
 def submit_answer(code: str, submission: AnswerInput, token: Token):
     with room_lock:
         room = active_room(code)
-        if token is None or token not in room.players:
-            raise HTTPException(403, "Gå med i spelet för att svara.")
-        check_deadline(room)
-        if room.phase not in {"question", "closed"}:
-            raise HTTPException(409, "Frågan är inte längre aktuell.")
-
-        question = room.questions[room.current_question]
-        if question.id != submission.questionId:
-            raise HTTPException(409, "Frågan är inte längre aktuell.")
+        question, token = question_to_answer(room, submission.questionId, token)
         if question.answers.get(token) == submission.choice:
             return view_state(room, token)
         if room.phase != "question":
@@ -563,6 +598,7 @@ def submit_answer(code: str, submission: AnswerInput, token: Token):
             raise HTTPException(409, "Du har redan svarat på frågan.")
 
         question.answers[token] = submission.choice
+        question.drafts.pop(token, None)
         if len(question.answers) == len(room.players):
             close_question(room)
         return view_state(room, token)

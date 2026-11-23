@@ -75,6 +75,7 @@ var finishedRound = "";
 var scoreboardUntil = 0;
 var vibratedQuestion = "";
 var draftAnswer = null;
+var draftRevision = 0;
 var hostNameRestored = false;
 var repeatShortage = null;
 document.body.dataset.role = role;
@@ -127,11 +128,11 @@ function notice(message) {
     element("notice").hidden = !message;
 }
 function request(path, _a) {
-    var _b = _a === void 0 ? {} : _a, _c = _b.method, method = _c === void 0 ? "GET" : _c, body = _b.body, _d = _b.credential, credential = _d === void 0 ? "" : _d, _e = _b.blob, blob = _e === void 0 ? false : _e;
+    var _b = _a === void 0 ? {} : _a, _c = _b.method, method = _c === void 0 ? "GET" : _c, body = _b.body, _d = _b.credential, credential = _d === void 0 ? "" : _d, _e = _b.blob, blob = _e === void 0 ? false : _e, _f = _b.timeout, timeout = _f === void 0 ? 60000 : _f;
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(method, path);
-        xhr.timeout = 60000;
+        xhr.timeout = timeout;
         if (credential)
             xhr.setRequestHeader("Authorization", "Bearer ".concat(credential));
         if (body)
@@ -186,7 +187,7 @@ function expireRoom() {
     clearTimeout(pollTimer);
     ++revision;
     state = null;
-    draftAnswer = null;
+    clearDraft();
     render();
     notice("Spelrummet är inte längre aktivt. Öppna ett nytt rum på TV:n.");
 }
@@ -586,6 +587,57 @@ function choiceCard(answer, index, tag) {
 function canChooseAnswer() {
     return state && role !== "tv" && state.phase === "question" && state.canAnswer && state.deadline > Date.now() / 1000;
 }
+function clearDraft() {
+    draftAnswer = null;
+    draftRevision = 0;
+}
+function acceptDraft(questionId, saved) {
+    if (!saved || (draftAnswer && saved.revision < draftAnswer.revision))
+        return;
+    draftRevision = Math.max(draftRevision, saved.revision);
+    draftAnswer = { questionId: questionId, choice: saved.choice, revision: saved.revision, saving: "saved" };
+}
+function saveDraft(draft) {
+    return __awaiter(this, void 0, void 0, function () {
+        var questionId, choice, revision, update, _a, sameQuestion, saved;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    questionId = draft.questionId, choice = draft.choice, revision = draft.revision;
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, request(roomPath("/draft"), {
+                            method: "POST",
+                            body: { questionId: questionId, choice: choice, revision: revision },
+                            credential: token,
+                            timeout: 7000,
+                        })];
+                case 2:
+                    update = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    _a = _b.sent();
+                    return [3 /*break*/, 4];
+                case 4:
+                    if (draftAnswer !== draft || !canChooseAnswer() || state.question.id !== questionId)
+                        return [2 /*return*/];
+                    sameQuestion = update && update.question && update.question.id === questionId;
+                    // Give the poll responsibility for revealing the closure or an already locked answer.
+                    if (sameQuestion && (update.phase === "closed" || update.yourChoice !== null))
+                        return [2 /*return*/];
+                    saved = sameQuestion && update.yourDraft;
+                    if (saved && saved.revision >= revision)
+                        acceptDraft(questionId, saved);
+                    else
+                        draft.saving = "failed";
+                    renderChoices(state.question);
+                    renderAnswerNote();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 function chooseAnswer(questionId, choice) {
     if (pending || !canChooseAnswer() || state.question.id !== questionId)
         return;
@@ -593,7 +645,13 @@ function chooseAnswer(questionId, choice) {
         roomAction("answer", { questionId: questionId, choice: choice });
     }
     else {
-        draftAnswer = { questionId: questionId, choice: choice };
+        var revision_1 = Math.max(1, Date.now(), draftRevision + 1);
+        var canSave = Number.isSafeInteger(revision_1);
+        draftAnswer = { questionId: questionId, choice: choice, revision: revision_1, saving: canSave ? "pending" : "failed" };
+        if (canSave) {
+            draftRevision = revision_1;
+            saveDraft(draftAnswer);
+        }
         renderChoices(state.question);
         renderAnswerNote();
     }
@@ -603,8 +661,12 @@ function renderChoices(question) {
     var choices = element("choices");
     var tv = role === "tv";
     var available = canChooseAnswer();
-    if (draftAnswer && (!available || draftAnswer.questionId !== question.id))
+    if (draftAnswer && draftAnswer.questionId !== question.id)
+        clearDraft();
+    if (!available)
         draftAnswer = null;
+    if (available)
+        acceptDraft(question.id, state.yourDraft);
     choices.hidden = role === "host" && !state.canAnswer && state.yourChoice === null;
     if (key !== choicesKey) {
         if (tv)
@@ -635,17 +697,29 @@ function renderAnswerNote() {
     var answerNote = element("answer-note");
     var note = "";
     if (state.phase === "closed") {
-        note = "Frågan är stängd.";
+        note = role !== "tv" && state.yourChoice !== null
+            ? "Fr\u00E5gan \u00E4r st\u00E4ngd. Ditt svar \u00E4r ".concat(letters[state.yourChoice], ".")
+            : "Frågan är stängd.";
     }
     else if (role !== "tv") {
         if (state.yourChoice !== null)
-            note = "Svaret är sparat.";
+            note = "Svaret är låst.";
         else if (pending === "answer")
-            note = "Sparar svaret…";
-        else if (draftAnswer)
-            note = "Tryck igen p\u00E5 ".concat(letters[draftAnswer.choice], " f\u00F6r att l\u00E5sa svaret.");
-        else if (state.canAnswer && !canChooseAnswer())
-            note = "Svarstiden är slut.";
+            note = "Låser svaret…";
+        else if (draftAnswer) {
+            var letter = letters[draftAnswer.choice];
+            if (draftAnswer.saving === "pending")
+                note = "Sparar valet ".concat(letter, "\u2026");
+            else if (draftAnswer.saving === "failed")
+                note = "Val ".concat(letter, " kunde inte sparas. Tryck igen p\u00E5 ").concat(letter, " f\u00F6r att l\u00E5sa nu.");
+            else
+                note = "Val ".concat(letter, " r\u00E4knas n\u00E4r tiden g\u00E5r ut. Tryck igen p\u00E5 ").concat(letter, " f\u00F6r att l\u00E5sa nu.");
+        }
+        else if (state.canAnswer) {
+            note = canChooseAnswer()
+                ? "Markerat svar räknas när tiden går ut. Tryck två gånger på samma bokstav för att låsa direkt."
+                : "Svarstiden är slut.";
+        }
     }
     answerNote.hidden = !note;
     if (answerNote.textContent !== note)
@@ -838,7 +912,7 @@ function render() {
         clearRepeatShortage();
     }
     if (!state || state.phase !== "question")
-        draftAnswer = null;
+        clearDraft();
     if (role === "tv" && qrKey && (!state || state.phase !== "lobby"))
         resetQr();
     if (!state) {
