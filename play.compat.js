@@ -48,7 +48,7 @@ var element = function (id) { return document.getElementById(id); };
 var role = location.pathname === "/leda" ? "host" : location.pathname === "/spela" ? "player" : "tv";
 var roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 var letters = "ABCD";
-var categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern"];
+var categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern", "party"];
 var sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
 var roomPattern = /^[A-Z0-9]{4,8}$/;
 var main = document.querySelector("main");
@@ -1000,6 +1000,9 @@ element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", function (event) { return showHostName(event.target.checked); });
 ["category", "amount", "difficulty"].forEach(function (id) {
     element(id).addEventListener("change", clearRepeatShortage);
+});
+element("category").addEventListener("change", function (event) {
+    element("festmix-hint").hidden = event.target.value !== "party";
 });
 element("host-form").addEventListener("submit", function (event) {
     event.preventDefault();

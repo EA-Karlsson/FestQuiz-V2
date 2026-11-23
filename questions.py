@@ -65,6 +65,19 @@ _QUIZBASE_URL = "https://quizbase.runriva.com/api/v1/questions/random"
 _TRIVIAAPI_GAMES_URL = "https://triviaapi.games/v1/questions"
 _TRIVIAAPI_GAMES_SOURCE = "TriviaAPI.games"
 _BANK_SOURCES = {"Open Trivia DB", "The Trivia API", "QuizBase (OpenTriviaQA)", "SciQ", "TriviaRoomQA"}
+_PARTY_CATEGORY = "party"
+_PARTY_SWEDISH_SOURCE = "FestQuiz · Källgranskat"
+_PARTY_FRENCH_SOURCE = "OpenQuizzDB"
+_PARTY_TAG_FILTERS = {
+    "animal:animal-records": r"\b(?:gestation period|heaviest primates|largest eggs|largest species of penguin)\b",
+    "science:inventions": (
+        r"^(?:which|what)\b.*\b(?:device|appliance)\b.*\b(?:18|19|20)\d{2}\b|"
+        r"\b(?:co-patented a pair of shoes|nursery rhyme did Thomas Edison|"
+        r"William Morgan invent|Rubik.s Cube originally called)\b"
+    ),
+    "food:cocktails": r"\b(?:shares? (?:its )?name with a tool|main alcoholic ingredient)\b",
+    "topic:world-records": r"\bvideo game character\b.*\b(?:19|20)\d{2}\b",
+}
 _TRIVIA_FILTERS = {
     "": {},
     "9": {"categories": "general_knowledge"},
@@ -76,6 +89,7 @@ _TRIVIA_FILTERS = {
     "17": {"categories": "science"},
     "22": {"categories": "geography"},
     "modern": {"tags": "era:21st-century"},
+    _PARTY_CATEGORY: {"tags": ",".join(_PARTY_TAG_FILTERS)},
 }
 _QUIZBASE_CATEGORIES = {
     "": "",
@@ -196,7 +210,7 @@ def _fetch_json(url: str, params: dict, headers: dict[str, str] | None = None) -
 
 
 def _open_trivia(count: int, category: str, difficulty: str) -> list[_Candidate]:
-    if category == "modern":
+    if category in {"modern", _PARTY_CATEGORY}:
         return []
     params = {"amount": count, "type": "multiple"}
     if category:
@@ -226,6 +240,26 @@ def _trivia_api_enabled() -> bool:
     return os.getenv("TRIVIA_API_ENABLED", "1").strip().lower() not in {"0", "false", "no"}
 
 
+def _party_trivia_row(row: dict, difficulty: str) -> bool:
+    question = row["question"].get("text")
+    wrong = row.get("incorrectAnswers")
+    tags = row.get("tags")
+    level = row.get("difficulty")
+    if (
+        row.get("isNiche") is not False
+        or row.get("type") != "text_choice"
+        or level not in ("easy", "medium", "hard")
+        or (difficulty and level != difficulty)
+        or not isinstance(question, str)
+        or len(question) > 145
+        or not isinstance(tags, list)
+        or not isinstance(wrong, list)
+        or any(not isinstance(answer, str) or len(answer) > 55 for answer in (row.get("correctAnswer"), *wrong))
+    ):
+        return False
+    return any(tag in tags and re.search(pattern, question, re.IGNORECASE) for tag, pattern in _PARTY_TAG_FILTERS.items())
+
+
 def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
     if not _trivia_api_enabled():
         return []
@@ -245,13 +279,16 @@ def _trivia_api(count: int, category: str, difficulty: str) -> list[_Candidate]:
             continue
         if row.get("type", "text_choice") != "text_choice":
             continue
+        if category == _PARTY_CATEGORY and not _party_trivia_row(row, difficulty):
+            continue
         tags = row.get("tags")
         topic = _TRIVIA_CATEGORIES.get(str(row.get("category")))
         if isinstance(tags, list) and ("topic:video-games" in tags or "video_games" in tags):
             topic = "15"
         candidate = _candidate(
             row["question"].get("text"), row.get("correctAnswer"), row.get("incorrectAnswers"), source="The Trivia API",
-            category=category or topic, difficulty=difficulty or row.get("difficulty"),
+            category=topic if category == _PARTY_CATEGORY else category or topic,
+            difficulty=difficulty or row.get("difficulty"),
         )
         if candidate:
             results.append(candidate)
@@ -346,7 +383,7 @@ def _quizzapi(_count: int, category: str, difficulty: str) -> list[_Candidate]:
     return results
 
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=4)
 def _reviewed_questions(filename: str) -> tuple[dict, ...]:
     try:
         data = json.loads(Path(__file__).with_name(filename).read_text(encoding="utf-8"))
@@ -379,6 +416,25 @@ def _sciq(_count: int, category: str, difficulty: str) -> list[_Candidate]:
 
 def _triviaroomqa(_count: int, category: str, difficulty: str) -> list[_Candidate]:
     return _reviewed_candidates("triviaroomqa_reviewed.json", "TriviaRoomQA", category, difficulty)
+
+
+def _party_candidates(filename: str, source: str, language: str, difficulty: str) -> list[_Candidate]:
+    results = []
+    french_levels = {"facile": "easy", "normal": "medium", "difficile": "hard"}
+    for row in _reviewed_questions(filename):
+        level = row.get("difficulty")
+        if not isinstance(level, str) or not row.get("source_url"):
+            continue
+        level = french_levels.get(level, level)
+        if level not in ("easy", "medium", "hard") or (difficulty and difficulty != level):
+            continue
+        candidate = _candidate(
+            row.get("question"), row.get("correct"), row.get("incorrect"), source=source,
+            category=_PARTY_CATEGORY, difficulty=level, language=language,
+        )
+        if candidate:
+            results.append(candidate)
+    return results
 
 
 def _keep_answer(text: str, language: str = "EN") -> bool:
@@ -448,15 +504,19 @@ def _translate_batch(candidates: list[_Candidate], translations: dict[tuple[str,
 
 def _resolved(candidate: _Candidate, translations: dict[tuple[str, str], str]) -> Question | None:
     language = candidate.language
-    question = translations.get((language, candidate.question), "")
-    if not question or _normalized(question) == _normalized(candidate.question):
-        return None
-    answers = [
-        text if _keep_answer(text, language) else translations.get((language, text), "")
-        for text in (candidate.correct, *candidate.incorrect)
-    ]
-    if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:
-        return None
+    if language == "SV":
+        question = candidate.question
+        answers = [candidate.correct, *candidate.incorrect]
+    else:
+        question = translations.get((language, candidate.question), "")
+        if not question or _normalized(question) == _normalized(candidate.question):
+            return None
+        answers = [
+            text if _keep_answer(text, language) else translations.get((language, text), "")
+            for text in (candidate.correct, *candidate.incorrect)
+        ]
+        if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:
+            return None
     correct, *incorrect = answers
 
     key = hashlib.blake2b(_normalized(question).encode("utf-8"), digest_size=16).hexdigest()
@@ -506,26 +566,34 @@ def get_questions(
         raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 30 frågor.")
 
     api_key = os.getenv("DEEPL_API_KEY", "").strip()
-    candidates = []
-    if api_key:
-        count = 50 if category == "modern" else min(50, max(24, amount * 2))
+    count = 50 if category == "modern" else min(50, max(24, amount * 2))
+    pools = []
+    if category == _PARTY_CATEGORY:
+        pools = [
+            _party_candidates("festmix_swedish.json", _PARTY_SWEDISH_SOURCE, "SV", difficulty),
+            _party_candidates("festmix_openquizzdb.json", _PARTY_FRENCH_SOURCE, "FR", difficulty),
+        ]
+        if api_key:
+            pools.append(_trivia_api(count, category, difficulty))
+    elif api_key:
         providers = (_open_trivia, _trivia_api, _quizbase, _triviaapi_games, _quizzapi, _sciq, _triviaroomqa)
         with ThreadPoolExecutor(max_workers=len(providers)) as executor:
             pending = [executor.submit(provider, count, category, difficulty) for provider in providers]
             pools = [result.result() for result in pending]
 
-        for pool in pools:
-            random.shuffle(pool)
-        random.shuffle(pools)
-        seen_originals = set()
-        for group in zip_longest(*pools):
-            for candidate in group:
-                if candidate is None:
-                    continue
-                original = (candidate.language, _normalized(candidate.question))
-                if original not in seen_originals:
-                    seen_originals.add(original)
-                    candidates.append(candidate)
+    for pool in pools:
+        random.shuffle(pool)
+    random.shuffle(pools)
+    candidates = []
+    seen_originals = set()
+    for group in zip_longest(*pools):
+        for candidate in group:
+            if candidate is None:
+                continue
+            original = (candidate.language, _normalized(candidate.question))
+            if original not in seen_originals:
+                seen_originals.add(original)
+                candidates.append(candidate)
 
     fresh, recent, repeated = [], [], []
     excluded, avoid = set(exclude), set(avoid_recent)
@@ -545,14 +613,17 @@ def get_questions(
         else:
             fresh.append(question)
 
-    bank_sources = set(_BANK_SOURCES)
+    bank_sources = (
+        {_PARTY_SWEDISH_SOURCE, _PARTY_FRENCH_SOURCE, "The Trivia API"}
+        if category == _PARTY_CATEGORY else set(_BANK_SOURCES)
+    )
     if not _trivia_api_enabled():
         bank_sources.discard("The Trivia API")
     bank_enabled = question_bank.bank_enabled()
     stored = _read_bank(category, difficulty, bank_sources, excluded) if bank_enabled else None
     bank_enabled = stored is not None
     stored = stored or []
-    if candidates:
+    if candidates and category != _PARTY_CATEGORY:
         bank_share = amount // 4
         for record in stored:
             if len(fresh) >= bank_share:
@@ -575,7 +646,9 @@ def get_questions(
     save_to_bank = bool(bank_ids)
     for offset in range(0, len(candidates), 12):
         batch = candidates[offset:offset + 12]
-        to_translate = [candidate for candidate in batch if bank_ids.get(candidate) not in saved]
+        to_translate = [
+            candidate for candidate in batch if candidate.language != "SV" and bank_ids.get(candidate) not in saved
+        ]
         if to_translate:
             translation_available = _translate_batch(to_translate, translations, api_key if translation_available else "")
         new_records = []

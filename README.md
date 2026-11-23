@@ -2,6 +2,8 @@
 
 Öppna startsidan på TV:n. Skanna QR-koden som visas automatiskt med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, svårighetsgrad, upp till 30 frågor och 15, 20 eller 30 sekunders svarstid. Standard är 20 sekunder.
 
+**Festmix** blandar udda djurfakta, vardagsprylar med oväntad historia, överraskande siffror, mat, nostalgi och nordisk kuriosa. Välj kategorin i spelrummet eller i solospelet.
+
 TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att markera den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. När tiden går ut räknas det senast markerade alternativet automatiskt för den som inte har låst sitt svar. Spelledaren kan gå vidare när tiden har gått ut eller när alla har låst sina svar. Mobiler med stöd för vibration vibrerar kort vid fem sekunder för spelare som ännu inte låst sitt svar.
 
 Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Spelledaren kan välja **Ny omgång** för att spela vidare med samma deltagare. Poängtavlan visar vinster och placeringar för spelrummets omgångar. Endast en ensam förstaplats ger en vinst i statistiken. Vid lika högsta poäng visas en delad förstaplats.
@@ -41,7 +43,7 @@ Kör webbservern med en process. Rummens poäng och frågehistorik ligger i minn
 
 ## Egen frågebank
 
-FestQuiz sparar användbara frågor som har översatts från Open Trivia DB, The Trivia API, QuizBase (OpenTriviaQA), SciQ och TriviaRoomQA. Den sparar originalet och den svenska versionen tillsammans med källan. QuizzAPI och TriviaAPI.games hämtas fortfarande för spelet enligt sina villkor. Frågor från dessa två källor arkiveras inte permanent.
+FestQuiz sparar användbara frågor som har översatts från Open Trivia DB, The Trivia API, QuizBase (OpenTriviaQA), SciQ, TriviaRoomQA och Festmix-urvalet från OpenQuizzDB. Den sparar originalet och den svenska versionen tillsammans med källan. Festmix-frågorna som är skrivna på svenska kan också redigeras i banken. QuizzAPI och TriviaAPI.games hämtas fortfarande för spelet enligt sina villkor. Frågor från dessa två källor arkiveras inte permanent.
 
 Öppna `/fragabank` och ange lösenordet i `QUESTION_BANK_ADMIN_KEY` för att söka och rätta sparade frågor. Du kan till exempel behålla ett filmcitat ordagrant och ha resten av frågan på svenska. FestQuiz använder rättelsen när den väljer frågan igen. En pågående omgång behåller frågan som den såg ut när omgången startades.
 
@@ -59,3 +61,4 @@ Varje omgång använder flervalsfrågor från källorna nedan. Dubbletter sorter
 - Quiz API v2 av Jonathan Moreschi används med ett granskat urval av internationella och nordiska frågor. QuizzAPI-frågorna översätts från franska. [Quiz API v2 - Jonathan Moreschi](https://quizzapi.jomoreschi.fr/) · [Användningsvillkor](https://github.com/Eromnoj/quizzAPIv2/blob/main/TERMS.md)
 - SciQ från Allen Institute for AI ger ett urval av naturvetenskapliga flervalsfrågor i blandad svårighetsgrad. [SciQ](https://huggingface.co/datasets/allenai/sciq) · [CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/)
 - TriviaRoomQA av Mosolova och Seddah bygger på frågor från OpenQuizzDB. FestQuiz använder ett granskat urval ur den engelska frågebanken. [TriviaRoomQA](https://github.com/anya-bel/triviaroomqa) · [OpenQuizzDB](https://www.openquizzdb.org/) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+- Festmix innehåller granskade frågor av Philippe Bresoux och Catherine De Smeytere från OpenQuizzDB. De franska originalen och översättningarna har licensen CC BY-SA 4.0. Festmix kompletteras med ett temaurval från The Trivia API och svenska frågor med en faktakälla per fråga. [OpenQuizzDB:s quizpaket](https://www.openquizzdb.org/listing/) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) · [Franska original och källor](festmix_openquizzdb.json) · [Svenska frågor och källor](festmix_swedish.json)

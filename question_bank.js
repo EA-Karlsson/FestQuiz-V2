@@ -17,6 +17,7 @@ const categoryLabels = {
     22: "Geografi",
     23: "Historia",
     modern: "2000-talet",
+    party: "Festmix",
 };
 const difficultyLabels = { easy: "Lätt", normal: "Medel", medium: "Medel", hard: "Svår" };
 const languageLabels = { en: "engelska", fr: "franska", sv: "svenska" };

@@ -1,0 +1,1120 @@
+[
+  {
+    "question": "De quoi se nourrit surtout le requin-baleine, tout en se déplaçant ?",
+    "correct": "Du plancton",
+    "incorrect": [
+      "De mousses",
+      "De crabes",
+      "De phoques"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=207",
+    "source_author": "Catherine De Smeytere"
+  },
+  {
+    "question": "Où se trouvent les « lunettes » du serpent à lunettes ?",
+    "correct": "Sur le cou",
+    "incorrect": [
+      "Sur le ventre",
+      "Sur la queue",
+      "Sur la langue"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=310",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est le plus grand serpent venimeux du monde de par sa longueur ?",
+    "correct": "Cobra royal",
+    "incorrect": [
+      "Python réticulé",
+      "Grand anaconda",
+      "Mamba noir"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=310",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est en moyenne le nombre de lapées par seconde pour le chat ?",
+    "correct": "Quatre",
+    "incorrect": [
+      "Deux",
+      "Cinq",
+      "Trois"
+    ],
+    "difficulty": "hard",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=342",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel facteur peut influencer la couleur du miel ?",
+    "correct": "Type de fleurs",
+    "incorrect": [
+      "Lune",
+      "Température",
+      "Taille des abeilles"
+    ],
+    "difficulty": "easy",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=368",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de temps dure environ la gestation d'une éléphante ?",
+    "correct": "22 mois",
+    "incorrect": [
+      "3 mois",
+      "12 mois",
+      "6 mois"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=383",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel oiseau fournit le duvet servant à la fabrication des édredons ?",
+    "correct": "Eider",
+    "incorrect": [
+      "Sarcelle",
+      "Perruche",
+      "Colvert"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=491",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel oiseau pond ses oeufs dans le nid des autres espèces ?",
+    "correct": "Coucou",
+    "incorrect": [
+      "Mésange",
+      "Merle",
+      "Faisan"
+    ],
+    "difficulty": "easy",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=491",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien pèse environ la plus petite espèce de musaraigne connue ?",
+    "correct": "2 grammes",
+    "incorrect": [
+      "130 grammes",
+      "70 grammes",
+      "20 grammes"
+    ],
+    "difficulty": "hard",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=536",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qu'observe-t-on pour estimer l'âge approximatif d'un cheval ?",
+    "correct": "Dents",
+    "incorrect": [
+      "Queue",
+      "Sabots",
+      "Crinière"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=537",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la race de Frank, personnages des films « Men in Black » 1 et 2 ?",
+    "correct": "Carlin",
+    "incorrect": [
+      "Mastiff",
+      "Yorkshire",
+      "Épagneul breton"
+    ],
+    "difficulty": "medium",
+    "theme": "Djurens oväntade knep",
+    "source_url": "https://www.openquizzdb.org/download.php?id=654",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Passé minuit, en quoi le carrosse de Cendrillon se transforme-t-il ?",
+    "correct": "En citrouille",
+    "incorrect": [
+      "En gâteau",
+      "En souris",
+      "En pomme"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=177",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel film met en scène Arnold Schwarzenegger dans le rôle d'un cyborg ?",
+    "correct": "Terminator",
+    "incorrect": [
+      "Real Steel",
+      "Sucker Punch",
+      "Robots"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=217",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qui est la mère des dragons dans « Game of Thrones » ?",
+    "correct": "Daenerys",
+    "incorrect": [
+      "Lisa",
+      "Jon",
+      "Donan"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=325",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel rôle joue Bruce Willis dans la saga à succès « Die Hard » ?",
+    "correct": "John McClane",
+    "incorrect": [
+      "Peter Fallow",
+      "Tom Mix",
+      "Walter Davis"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=334",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel personnage de « Star Wars » ressemble à une limace géante ?",
+    "correct": "Jabba le Hutt",
+    "incorrect": [
+      "Lando Calrissian",
+      "Dark Maul",
+      "Mace Windu"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=408",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle race de chiens intéresse fortement Cruella d'Enfer ?",
+    "correct": "Dalmatien",
+    "incorrect": [
+      "Fox-terrier",
+      "Husky",
+      "Jack Russel"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=452",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la hauteur des lettres du célèbre panneau « Hollywood » ?",
+    "correct": "14 m",
+    "incorrect": [
+      "6 m",
+      "10 m",
+      "18 m"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=486",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans « L'Âge de glace », qu'est-ce qui échappe à l'écureuil Scrat ?",
+    "correct": "Un gland",
+    "incorrect": [
+      "Une bille",
+      "Un os",
+      "Une pierre"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=555",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans les deux films « Babe », quel animal campe le personnage principal ?",
+    "correct": "Cochon",
+    "incorrect": [
+      "Chien",
+      "Mouton",
+      "Chèvre"
+    ],
+    "difficulty": "easy",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=555",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans « Le Seigneur des Anneaux », quelle est la demeure de Saroumane ?",
+    "correct": "Orthanc",
+    "incorrect": [
+      "Cirith Ungol",
+      "Barad-dûr",
+      "Minas Tirith"
+    ],
+    "difficulty": "hard",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=637",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est le constructeur de la voiture du film « Retour vers le futur » ?",
+    "correct": "DeLorean",
+    "incorrect": [
+      "McLaren",
+      "Pagani",
+      "Gumpert"
+    ],
+    "difficulty": "medium",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=649",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle race de chien accompagne Tintin tout au long de ses aventures ?",
+    "correct": "Fox-terrier",
+    "incorrect": [
+      "Shih tzu",
+      "Bouvier",
+      "Yorkshire"
+    ],
+    "difficulty": "hard",
+    "theme": "Film och tv",
+    "source_url": "https://www.openquizzdb.org/download.php?id=654",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel phénomène naturel vient du japonais signifiant « vague de port » ?",
+    "correct": "Tsunami",
+    "incorrect": [
+      "Séisme",
+      "Kendo",
+      "Sakura"
+    ],
+    "difficulty": "medium",
+    "theme": "Jorden runt",
+    "source_url": "https://www.openquizzdb.org/download.php?id=411",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À quel endroit du sud-est de l'océan Pacifique se trouvent les Moaï ?",
+    "correct": "Île de Pâques",
+    "incorrect": [
+      "Îles Cook",
+      "Hawaï",
+      "Samoa"
+    ],
+    "difficulty": "easy",
+    "theme": "Jorden runt",
+    "source_url": "https://www.openquizzdb.org/download.php?id=634",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel symbole commun relie la ville de New York et Steve Jobs ?",
+    "correct": "Pomme",
+    "incorrect": [
+      "Taxi",
+      "Gratte-ciel",
+      "Ordinateur"
+    ],
+    "difficulty": "easy",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=191",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle boisson énergisante possède un logo à trois griffes vertes ?",
+    "correct": "Monster Energy",
+    "incorrect": [
+      "Rockstar",
+      "Red Bull",
+      "Dark Dog"
+    ],
+    "difficulty": "easy",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=423",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel constructeur a produit les modèles Diablo et Countach ?",
+    "correct": "Lamborghini",
+    "incorrect": [
+      "Ferrari",
+      "Porsche",
+      "Maserati"
+    ],
+    "difficulty": "hard",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=512",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dacia est un constructeur automobile originaire de quel pays ?",
+    "correct": "Roumanie",
+    "incorrect": [
+      "Bulgarie",
+      "Grèce",
+      "Pologne"
+    ],
+    "difficulty": "hard",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=512",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de couleurs distinctes composent le logo de Google ?",
+    "correct": "Quatre",
+    "incorrect": [
+      "Cinq",
+      "Trois",
+      "Six"
+    ],
+    "difficulty": "medium",
+    "theme": "Kända märken",
+    "source_url": "https://www.openquizzdb.org/download.php?id=594",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien d'années Robinson Crusoé est-il resté sur son île ?",
+    "correct": "28 ans",
+    "incorrect": [
+      "18 ans",
+      "20 ans",
+      "35 ans"
+    ],
+    "difficulty": "hard",
+    "theme": "Litteratur",
+    "source_url": "https://www.openquizzdb.org/download.php?id=480",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que vous fournira-t-on avec le sel pour vos frites en Angleterre ?",
+    "correct": "Vinaigre",
+    "incorrect": [
+      "Lait",
+      "Sirop",
+      "Sucre"
+    ],
+    "difficulty": "easy",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=31",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel fromage italien rentre dans la composition du tiramisu ?",
+    "correct": "Mascarpone",
+    "incorrect": [
+      "Ricotta",
+      "Gorgonzola",
+      "Grana padano"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=211",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Le safran est une épice tirée de quelle variété de fleur ?",
+    "correct": "Crocus",
+    "incorrect": [
+      "Acacia",
+      "Pavot",
+      "Tulipe"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=277",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle herbe est essentielle dans la sauce béarnaise ?",
+    "correct": "Estragon",
+    "incorrect": [
+      "Cerfeuil",
+      "Sauge",
+      "Romarin"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=277",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel gâteau traditionnel autrichien est cuisiné à base de pommes ?",
+    "correct": "Apfelstrudel",
+    "incorrect": [
+      "Tarte Tatin",
+      "Croustade",
+      "Crumble"
+    ],
+    "difficulty": "easy",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=372",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la forme traditionnelle des samoussas ?",
+    "correct": "Triangulaire",
+    "incorrect": [
+      "Carrée",
+      "Ovale",
+      "Ronde"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=390",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle ville, à l'est de Milan, a donné son nom à un fromage bleu ?",
+    "correct": "Gorgonzola",
+    "incorrect": [
+      "Corbetta",
+      "Dresano",
+      "Bresso"
+    ],
+    "difficulty": "easy",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=390",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Qu'est-ce qu'une bombilla glissée dans le thé en Argentine ?",
+    "correct": "Paille filtrante",
+    "incorrect": [
+      "Cuillère plate",
+      "Pâte de fruit",
+      "Cerise confite"
+    ],
+    "difficulty": "hard",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=396",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelles pâtes italiennes farcies ont une forme de petites couronnes ?",
+    "correct": "Tortellini",
+    "incorrect": [
+      "Fusilli",
+      "Gnocchi",
+      "Capellini"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=445",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle préparation propose du boeuf cru coupé en tranches très fines ?",
+    "correct": "Carpaccio",
+    "incorrect": [
+      "Risotto",
+      "Crostino",
+      "Frico"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=519",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que contient l'eau tonique qui est versée dans votre gin tonic ?",
+    "correct": "Quinine",
+    "incorrect": [
+      "Sulfadoxine",
+      "Nivaquine",
+      "Ferroquine"
+    ],
+    "difficulty": "medium",
+    "theme": "Mat och dryck",
+    "source_url": "https://www.openquizzdb.org/download.php?id=575",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que voit-on au verso de la pochette l'album « Laundry Service », de Shakira ?",
+    "correct": "Machine à laver",
+    "incorrect": [
+      "Téléphone",
+      "Menottes",
+      "Radio"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=203",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "De quel pays est originaire Shakira, la reine de la musique latine ?",
+    "correct": "Colombie",
+    "incorrect": [
+      "États-Unis",
+      "Mexique",
+      "Bolivie"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=203",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel alter ego Eminem utilise-t-il parfois dans ses chansons ?",
+    "correct": "Slim Shady",
+    "incorrect": [
+      "Posh",
+      "Love symbol",
+      "Fat Man"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=239",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle activité très populaire au Japon signifie « orchestre vide » ?",
+    "correct": "Karaoké",
+    "incorrect": [
+      "Temari",
+      "Origami",
+      "Karaté"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=411",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle chanteuse britannique a interprété le hit « Kids in America » ?",
+    "correct": "Kim Wilde",
+    "incorrect": [
+      "Madonna",
+      "Bonnie Thyler",
+      "Kim Carnes"
+    ],
+    "difficulty": "hard",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=511",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel groupe de rock suédois a chanté « The Final Countdown » ?",
+    "correct": "Europe",
+    "incorrect": [
+      "ACDC",
+      "Trust",
+      "Scorpions"
+    ],
+    "difficulty": "easy",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=511",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel groupe musical a interprété « Sweet Dreams (Are Made of This) » ?",
+    "correct": "Eurythmics",
+    "incorrect": [
+      "Sweet Sensation",
+      "Sister Sledge",
+      "Europe"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=511",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de pistons une trompette possède-t-elle généralement ?",
+    "correct": "Trois",
+    "incorrect": [
+      "Quatre",
+      "Deux",
+      "Un seul"
+    ],
+    "difficulty": "easy",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=558",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de cordes possède un ukulélé standard, au son caractéristique ?",
+    "correct": "Quatre",
+    "incorrect": [
+      "Douze",
+      "Six",
+      "Huit"
+    ],
+    "difficulty": "easy",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=576",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel tube de Village People évoque un mouvement de jeunesse ?",
+    "correct": "Y.M.C.A.",
+    "incorrect": [
+      "Go West",
+      "In the Navy",
+      "Macho Man"
+    ],
+    "difficulty": "easy",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=612",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec qui Britney Spears a-t-elle chanté en duo « Me Against the Music » ?",
+    "correct": "Madonna",
+    "incorrect": [
+      "Dido",
+      "Jennifer Lopez",
+      "Christina Aguilera"
+    ],
+    "difficulty": "medium",
+    "theme": "Musik",
+    "source_url": "https://www.openquizzdb.org/download.php?id=622",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien d'os compose le squelette humain adulte ?",
+    "correct": "206 os",
+    "incorrect": [
+      "226 os",
+      "216 os",
+      "186 os"
+    ],
+    "difficulty": "medium",
+    "theme": "Människokroppen",
+    "source_url": "https://www.openquizzdb.org/download.php?id=486",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "De combien de paires de côtes est constitué le squelette humain ?",
+    "correct": "12",
+    "incorrect": [
+      "32",
+      "24",
+      "6"
+    ],
+    "difficulty": "easy",
+    "theme": "Människokroppen",
+    "source_url": "https://www.openquizzdb.org/download.php?id=557",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la durée de vie moyenne d'un globule rouge ?",
+    "correct": "120 jours",
+    "incorrect": [
+      "6 mois",
+      "1 an",
+      "24 heures"
+    ],
+    "difficulty": "medium",
+    "theme": "Människokroppen",
+    "source_url": "https://www.openquizzdb.org/download.php?id=564",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec quel pays la Finlande partage-t-elle sa plus grande frontière ?",
+    "correct": "Russie",
+    "incorrect": [
+      "Estonie",
+      "Suède",
+      "Norvège"
+    ],
+    "difficulty": "medium",
+    "theme": "Norden",
+    "source_url": "https://www.openquizzdb.org/download.php?id=245",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle monnaie est utilisée quotidiennement au Danemark ?",
+    "correct": "Couronne danoise",
+    "incorrect": [
+      "Franc",
+      "Euro",
+      "Dollar"
+    ],
+    "difficulty": "easy",
+    "theme": "Norden",
+    "source_url": "https://www.openquizzdb.org/download.php?id=263",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec les os de quel animal jouait-on aux osselets en Grèce antique ?",
+    "correct": "Mouton",
+    "incorrect": [
+      "Macaque",
+      "Mangouste",
+      "Marmotte"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=25",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À quelle période Léonard de Vinci a-t-il débuté « La Joconde » ?",
+    "correct": "Vers 1503",
+    "incorrect": [
+      "Vers 1525",
+      "Vers 1490",
+      "Vers 1515"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=462",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien d'années le mur de Berlin sépara-t-il la ville en deux ?",
+    "correct": "28 ans",
+    "incorrect": [
+      "15 ans",
+      "42 ans",
+      "35 ans"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=564",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année a été célébré le mariage de Charles et Lady Diana ?",
+    "correct": "1981",
+    "incorrect": [
+      "2001",
+      "1971",
+      "1991"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=606",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quel triangle cinq bombardiers disparurent en 1945 ?",
+    "correct": "Des Bermudes",
+    "incorrect": [
+      "Équilatéral",
+      "De Pascal",
+      "Rose"
+    ],
+    "difficulty": "medium",
+    "theme": "Oväntad historia",
+    "source_url": "https://www.openquizzdb.org/download.php?id=634",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle étoile, vue de la Terre, est la plus brillante ?",
+    "correct": "Le Soleil",
+    "incorrect": [
+      "Sirius",
+      "Canopus",
+      "Véga"
+    ],
+    "difficulty": "easy",
+    "theme": "Rymden",
+    "source_url": "https://www.openquizzdb.org/download.php?id=57",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est le plus grand satellite naturel de notre système solaire ?",
+    "correct": "Ganymède",
+    "incorrect": [
+      "La Lune",
+      "Umbriel",
+      "Titan"
+    ],
+    "difficulty": "hard",
+    "theme": "Rymden",
+    "source_url": "https://www.openquizzdb.org/download.php?id=63",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de passagers peuvent embarquer à bords de l'Airbus A380 ?",
+    "correct": "Environ 850",
+    "incorrect": [
+      "Environ 250",
+      "Environ 1 000",
+      "Environ 400"
+    ],
+    "difficulty": "hard",
+    "theme": "Siffror som överraskar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=540",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de zéros comptabilise-t-on dans le nombre 150 millions ?",
+    "correct": "Sept",
+    "incorrect": [
+      "Neuf",
+      "Huit",
+      "Six"
+    ],
+    "difficulty": "easy",
+    "theme": "Siffror som överraskar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=552",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Au bout de combien d'années célèbre-t-on les noces de bois ?",
+    "correct": "Cinq ans",
+    "incorrect": [
+      "Quinze ans",
+      "Vingt ans",
+      "Dix ans"
+    ],
+    "difficulty": "medium",
+    "theme": "Siffror som överraskar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=558",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel gorille est un des premiers personnages célèbres de Nintendo ?",
+    "correct": "Donkey Kong",
+    "incorrect": [
+      "Abu",
+      "Mookie",
+      "King Kong"
+    ],
+    "difficulty": "easy",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=297",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que signifie le sigle DS de la Nintendo DS ?",
+    "correct": "Dual Screen",
+    "incorrect": [
+      "Detect System",
+      "Data Super",
+      "Direct Shot"
+    ],
+    "difficulty": "medium",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=297",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel personnage rose de Nintendo vit à Dream Land ?",
+    "correct": "Kirby",
+    "incorrect": [
+      "Kirin",
+      "Kulfi",
+      "Kheer"
+    ],
+    "difficulty": "easy",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=297",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec quoi joue-t-on au « Boggle » ?",
+    "correct": "Dés lettres",
+    "incorrect": [
+      "Cartes",
+      "Pions",
+      "Billes"
+    ],
+    "difficulty": "hard",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=316",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Combien de Pokémon un dresseur peut-il transporter ?",
+    "correct": "Six",
+    "incorrect": [
+      "Dix",
+      "Quatre",
+      "Un seul"
+    ],
+    "difficulty": "medium",
+    "theme": "Spel",
+    "source_url": "https://www.openquizzdb.org/download.php?id=426",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que portent les silhouettes du trophée de la Coupe du monde ?",
+    "correct": "Globe terrestre",
+    "incorrect": [
+      "Flamme",
+      "Sifflet",
+      "Chaussure"
+    ],
+    "difficulty": "medium",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=87",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Dans quelle ville se sont déroulés les Jeux olympiques de 2016 ?",
+    "correct": "Rio de Janeiro",
+    "incorrect": [
+      "Tokyo",
+      "Londres",
+      "Pékin"
+    ],
+    "difficulty": "medium",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=261",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel anneau du drapeau olympique est le plus proche du mât ?",
+    "correct": "Bleu",
+    "incorrect": [
+      "Vert",
+      "Rouge",
+      "Jaune"
+    ],
+    "difficulty": "medium",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=261",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle gymnaste à obtenu le premier 10 aux Jeux olympiques ?",
+    "correct": "Nadia Comaneci",
+    "incorrect": [
+      "Diana Mocanu",
+      "Doina Ignat",
+      "Tatiana Gutsu"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=267",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "À quel « trou » se trouve le bar dans un parcours de golf ?",
+    "correct": "Trou 19",
+    "incorrect": [
+      "Trou 18",
+      "Trou 12",
+      "Trou 9"
+    ],
+    "difficulty": "medium",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=480",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la longueur réglementaire d'une piste de bowling ?",
+    "correct": "Environ 18 m",
+    "incorrect": [
+      "Environ 21 m",
+      "Environ 15 m",
+      "Environ 12 m"
+    ],
+    "difficulty": "hard",
+    "theme": "Sport",
+    "source_url": "https://www.openquizzdb.org/download.php?id=570",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Que ne faut-il pas ouvrir à l'intérieur de sa maison ?",
+    "correct": "Parapluie",
+    "incorrect": [
+      "Fenêtre",
+      "Coffre à bijoux",
+      "Tenture"
+    ],
+    "difficulty": "easy",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=501",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle plante protégerait contre les esprits maléfiques et les vampires ?",
+    "correct": "Ail",
+    "incorrect": [
+      "Estragon",
+      "Origan",
+      "Romarin"
+    ],
+    "difficulty": "easy",
+    "theme": "Sägner och skrock",
+    "source_url": "https://www.openquizzdb.org/download.php?id=501",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année Steve Jobs a-t-il racheté le studio d'animation Pixar ?",
+    "correct": "1986",
+    "incorrect": [
+      "1979",
+      "1995",
+      "2001"
+    ],
+    "difficulty": "hard",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=191",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quelle est la couleur de la « boîte noire » en aviation ?",
+    "correct": "Orange",
+    "incorrect": [
+      "Blanche",
+      "Noire",
+      "Verte"
+    ],
+    "difficulty": "easy",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=460",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Avec qui Nikola Tesla a-t-il travaillé après avoir émigré aux États-Unis ?",
+    "correct": "Thomas Edison",
+    "incorrect": [
+      "James Cash Jr.",
+      "Nela Park",
+      "Bob Wright"
+    ],
+    "difficulty": "medium",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=503",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "En quelle année la marque Apple a-t-elle lancé le premier iPhone ?",
+    "correct": "2007",
+    "incorrect": [
+      "2008",
+      "2006",
+      "2005"
+    ],
+    "difficulty": "medium",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=588",
+    "source_author": "Philippe Bresoux"
+  },
+  {
+    "question": "Quel est le diamètre officiel d'un disque compact standard ?",
+    "correct": "12 cm",
+    "incorrect": [
+      "8 cm",
+      "14 cm",
+      "10 cm"
+    ],
+    "difficulty": "medium",
+    "theme": "Uppfinningar och prylar",
+    "source_url": "https://www.openquizzdb.org/download.php?id=600",
+    "source_author": "Philippe Bresoux"
+  }
+]

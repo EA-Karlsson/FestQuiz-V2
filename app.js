@@ -11,7 +11,7 @@ let selectedCategory = "";
 let results = [];     // sparar facitdata
 let mode = "quiz";    // quiz | facit
 
-const CATEGORY_IDS = ["9", "11", "12", "21", "15", "23", "17", "22"];
+const CATEGORY_IDS = ["9", "11", "12", "21", "15", "23", "17", "22", "party"];
 
 // ================== DOM READY ==================
 document.addEventListener("DOMContentLoaded", () => {

@@ -1,0 +1,698 @@
+[
+  {
+    "theme": "djur",
+    "difficulty": "easy",
+    "question": "Vilket djur är känt för att bajsa små kuber?",
+    "correct": "Vombaten",
+    "incorrect": [
+      "Koalan",
+      "Bävern",
+      "Sengångaren"
+    ],
+    "source_url": "https://www.utas.edu.au/about/news-and-stories/articles/2021/scientists-get-to-the-bottom-of-wombat-cubed-poo-mystery2"
+  },
+  {
+    "theme": "siffror",
+    "difficulty": "hard",
+    "question": "Hur många ben hade rekordexemplaret av den australiska tusenfotingen som beskrevs 2021?",
+    "correct": "1 306",
+    "incorrect": [
+      "306",
+      "806",
+      "1 006"
+    ],
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8677783/"
+  },
+  {
+    "theme": "djur",
+    "difficulty": "easy",
+    "question": "Hur många hjärtan har en åttaarmad bläckfisk?",
+    "correct": "Tre",
+    "incorrect": [
+      "Ett",
+      "Två",
+      "Åtta"
+    ],
+    "source_url": "https://ocean.si.edu/ocean-life/invertebrates/octopuses-squids-and-relatives"
+  },
+  {
+    "theme": "djur",
+    "difficulty": "medium",
+    "question": "Med vilken kroppsdel kan en husfluga känna smaken av det den landar på?",
+    "correct": "Fötterna",
+    "incorrect": [
+      "Vingarna",
+      "Bakkroppen",
+      "Ögonen"
+    ],
+    "source_url": "https://www.si.edu/spotlight/buginfo/fun-facts-bugs"
+  },
+  {
+    "theme": "djur",
+    "difficulty": "easy",
+    "question": "Vad ger flamingons fjädrar den rosa färgen?",
+    "correct": "Färgämnen i födan",
+    "incorrect": [
+      "Saltet i vattnet",
+      "Solljuset",
+      "Kalken i marken"
+    ],
+    "source_url": "https://nationalzoo.si.edu/animals/news/why-are-flamingos-pink-and-other-flamingo-facts"
+  },
+  {
+    "theme": "djur",
+    "difficulty": "medium",
+    "question": "Vilket djur kan växa ut ett nytt ben efter att ha förlorat det?",
+    "correct": "Axolotlen",
+    "incorrect": [
+      "Vombaten",
+      "Korpen",
+      "Fladdermusen"
+    ],
+    "source_url": "https://qrius.si.edu/browse/object/10025484"
+  },
+  {
+    "theme": "djur",
+    "difficulty": "hard",
+    "question": "Vad är det ovanliga med blodet hos antarktiska isfiskar?",
+    "correct": "Det är nästan färglöst",
+    "incorrect": [
+      "Det är klart grönt",
+      "Det är svart",
+      "Det är guldgult"
+    ],
+    "source_url": "https://ocean.si.edu/ocean-life/fish/fish-adapt-icy-water"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "medium",
+    "question": "Vad grävde forskare ner för att undersöka hur biologiskt aktiv jorden var?",
+    "correct": "Bomullskalsonger",
+    "incorrect": [
+      "Metallskedar",
+      "Spelkulor",
+      "Vaxdukar"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2026"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "medium",
+    "question": "Vilket mönster målade forskare på kor för att se om det skyddade mot bitande flugor?",
+    "correct": "Zebraränder",
+    "incorrect": [
+      "Leopardfläckar",
+      "Rutnät",
+      "Sicksacklinjer"
+    ],
+    "source_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0223447"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "hard",
+    "question": "Vad mätte läkaren William B. Bean på sig själv i 35 år?",
+    "correct": "Hur snabbt en fingernagel växte",
+    "incorrect": [
+      "Hur snabbt ett ögonbryn växte",
+      "Hur bred tummen var",
+      "Hur ofta han nös"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2025"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "hard",
+    "question": "Vilken del av en mygga använde forskare som munstycke i en experimentell 3D-skrivare?",
+    "correct": "Sugsnabeln",
+    "incorrect": [
+      "En vinge",
+      "En antenn",
+      "Ett bakben"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2026"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "medium",
+    "question": "Vilket klädesplagg uppfanns i en variant som kunde göras om till två skyddsmasker och fick ett Ig Nobel-pris 2009?",
+    "correct": "En behå",
+    "incorrect": [
+      "Ett par strumpor",
+      "En mössa",
+      "Ett par hängslen"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2009"
+  },
+  {
+    "theme": "mat",
+    "difficulty": "easy",
+    "question": "Vilken av de här kryddorna kommer från frukten av en orkidé?",
+    "correct": "Vanilj",
+    "incorrect": [
+      "Kanel",
+      "Kardemumma",
+      "Muskot"
+    ],
+    "source_url": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:262578-2/general-information"
+  },
+  {
+    "theme": "mat",
+    "difficulty": "medium",
+    "question": "Vilken av de här frukterna bildas av många små frukter som växer ihop?",
+    "correct": "Ananas",
+    "incorrect": [
+      "Mango",
+      "Avokado",
+      "Persika"
+    ],
+    "source_url": "https://ask.ifas.ufl.edu/publication/MG055"
+  },
+  {
+    "theme": "mat",
+    "difficulty": "easy",
+    "question": "Vilken av de här nötterna är botaniskt en baljväxt?",
+    "correct": "Jordnöten",
+    "incorrect": [
+      "Hasselnöten",
+      "Kastanjen",
+      "Valnöten"
+    ],
+    "source_url": "https://www.nal.usda.gov/exhibits/ipd/carver/exhibits/show/homemaking/item/178"
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "medium",
+    "question": "Vad var bubbelplasten som blev Bubble Wrap ursprungligen tänkt att användas som?",
+    "correct": "Tapet",
+    "incorrect": [
+      "Badmössa",
+      "Duk till köksbordet",
+      "Åkpåse"
+    ],
+    "source_url": "https://www.sealedair.com/uk/company/our-company/who-we-are"
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "medium",
+    "question": "Vad filmade Cambridgeuniversitetets tidiga webbkamera när den lades ut på nätet 1993?",
+    "correct": "En kaffekanna",
+    "incorrect": [
+      "En skrivare",
+      "En väggklocka",
+      "Ett akvarium"
+    ],
+    "source_url": "https://www.cl.cam.ac.uk/coffee/qsf/timeline.html"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vad började Nintendo tillverka och sälja 1889?",
+    "correct": "Spelkort",
+    "incorrect": [
+      "Flipperspel",
+      "Leksaksbilar",
+      "Speldosor"
+    ],
+    "source_url": "https://www.nintendo.co.jp/corporate/en/history/index.html"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vilken hälsning skickades i det första sms:et till en mobiltelefon 1992?",
+    "correct": "Merry Christmas",
+    "incorrect": [
+      "Happy Birthday",
+      "Happy New Year",
+      "Good Morning"
+    ],
+    "source_url": "https://www.vodafone.com/news/newsroom/technology/25-anniversary-text-message"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "easy",
+    "question": "Vad släppte astronauten David Scott samtidigt som en hammare för att testa hur saker faller på månen?",
+    "correct": "En fjäder",
+    "incorrect": [
+      "Ett mynt",
+      "En boll",
+      "En skiftnyckel"
+    ],
+    "source_url": "https://science.nasa.gov/resource/the-apollo-15-hammer-feather-drop-2/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vad betyder de danska orden ”leg godt” som gav Lego sitt namn?",
+    "correct": "Lek bra",
+    "incorrect": [
+      "Liten kloss",
+      "Sätt ihop",
+      "Bygg högt"
+    ],
+    "source_url": "https://www.lego.com/en-gb/aboutus/news/2026/february/90-year-history-of-the-lego-name"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "hard",
+    "question": "Vilken sorts verksamhet började Nokia med 1865?",
+    "correct": "Ett trämassebruk",
+    "incorrect": [
+      "En cykelfabrik",
+      "En skofabrik",
+      "Ett bryggeri"
+    ],
+    "source_url": "https://www.nokia.com/fi_fi/about-us/company/historiamme/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vilken kung gav namn åt den trådlösa tekniken Bluetooth?",
+    "correct": "Harald Blåtand",
+    "incorrect": [
+      "Gustav Vasa",
+      "Knut den store",
+      "Christian IV"
+    ],
+    "source_url": "https://www.bluetooth.com/about-us/bluetooth-origin/"
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Vilken ovanlig tävling hade sitt världsmästerskap i finska Uleåborg 1996?",
+    "correct": "Luftgitarr",
+    "incorrect": [
+      "Kärringkånk",
+      "Mobilkastning",
+      "Stövelkastning"
+    ],
+    "source_url": "https://airguitarworldchampionships.com/en/air-guitar-world-championships-is-the-2026-oulus-etta/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vilken produkt sålde Ingvar Kamprads IKEA under de första åren innan företaget började sälja möbler?",
+    "correct": "Pennor",
+    "incorrect": [
+      "Skidor",
+      "Marmelad",
+      "Badkar"
+    ],
+    "source_url": "https://ikeamuseum.com/en/explore/the-story-of-ikea/the-birth-of-ikea/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vilken figur fick sitt namn när Astrid Lindgrens dotter Karin bad henne berätta en saga?",
+    "correct": "Pippi Långstrump",
+    "incorrect": [
+      "Emil i Lönneberga",
+      "Karlsson på taket",
+      "Lotta på Bråkmakargatan"
+    ],
+    "source_url": "https://www.astridlindgren.com/se/karaktarerna/pippi-langstrump/historien-bakom-pippi"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vilket av de här spelen hade sin första lansering tidigast?",
+    "correct": "Pac-Man",
+    "incorrect": [
+      "Super Mario Bros.",
+      "Sonic the Hedgehog",
+      "Minecraft"
+    ],
+    "source_url": "https://www.bandainamcoent.com/news/pac-man-happy-40th-birthday"
+  },
+  {
+    "theme": "siffror",
+    "difficulty": "medium",
+    "question": "Hur många Oscar vann filmen Titanic vid galan 1998?",
+    "correct": "11",
+    "incorrect": [
+      "7",
+      "9",
+      "14"
+    ],
+    "source_url": "https://www.oscars.org/oscars/ceremonies/1998"
+  },
+  {
+    "theme": "samband",
+    "difficulty": "easy",
+    "question": "I vilken sport betecknar birdie, eagle och albatross olika resultat?",
+    "correct": "Golf",
+    "incorrect": [
+      "Bowling",
+      "Biljard",
+      "Dart"
+    ],
+    "source_url": "https://www.usga.org/history/faq--golf-history-questions-232994f0.html"
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "easy",
+    "question": "Vad användes som korgar i den första basketmatchen som James Naismith ordnade?",
+    "correct": "Persikokorgar",
+    "incorrect": [
+      "Brödkorgar",
+      "Fiskkorgar",
+      "Tvättkorgar"
+    ],
+    "source_url": "https://springfield.edu/about/birthplace-of-basketball"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vilken David Bowie-låt spelade astronauten Chris Hadfield in en video till på rymdstationen ISS?",
+    "correct": "Space Oddity",
+    "incorrect": [
+      "Starman",
+      "Life on Mars?",
+      "Changes"
+    ],
+    "source_url": "https://www.asc-csa.gc.ca/eng/blog/2016/08/29/12-wonderful-chris-hadfield-moments-in-space.asp"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "hard",
+    "question": "Vilket förnamn fick den mekaniska hajen under arbetet med filmen Hajen?",
+    "correct": "Bruce",
+    "incorrect": [
+      "Boris",
+      "Buster",
+      "Brutus"
+    ],
+    "source_url": "https://www.academymuseum.org/en/collection/bruce-the-shark-jaws"
+  },
+  {
+    "theme": "samband",
+    "difficulty": "medium",
+    "question": "I vilket nordiskt land ligger Kronborg, slottet som förknippas med Shakespeares Hamlet?",
+    "correct": "Danmark",
+    "incorrect": [
+      "Sverige",
+      "Norge",
+      "Island"
+    ],
+    "source_url": "https://whc.unesco.org/en/list/696/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vilket djur fick bära kameror när Färöarna ville skapa sin egen version av Google Street View?",
+    "correct": "Får",
+    "incorrect": [
+      "Getter",
+      "Hästar",
+      "Kor"
+    ],
+    "source_url": "https://visitfaroeislands.com/en/about-vfi/marketing-development-campaigns/sheepview360"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vilket djur fick namnet Nils Olav när det blev maskot för det norska kungagardet?",
+    "correct": "En kungspingvin",
+    "incorrect": [
+      "En gråsäl",
+      "En ren",
+      "En fjällräv"
+    ],
+    "source_url": "https://www.edinburghzoo.org.uk/news/major-general-sir-nils-olav-baron-bouvet-islands"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vad förvaras som reserv i det globala valvet som byggts in i ett berg på Svalbard?",
+    "correct": "Frön från odlade växter",
+    "incorrect": [
+      "Isprover från glaciärer",
+      "Historiska sjökort",
+      "DNA från hotade däggdjur"
+    ],
+    "source_url": "https://seedvault.nordgen.org/Information/About"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vad uppfann den norske möbelsnickaren Thor Bjørklund med sin trähyvel som förebild?",
+    "correct": "Osthyveln",
+    "incorrect": [
+      "Potatisskalaren",
+      "Äggskäraren",
+      "Vitlökspressen"
+    ],
+    "source_url": "https://www.patentstyret.no/en/customer-stories/cheese-slicer-for-100-years"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vilken form brukar de små delarna i en traditionell norsk våffla ha?",
+    "correct": "Hjärtan",
+    "incorrect": [
+      "Rutor",
+      "Stjärnor",
+      "Cirklar"
+    ],
+    "source_url": "https://www.visitnorway.com/things-to-do/food-and-drink/baked-goods/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "hard",
+    "question": "Vilken fisk finns på baksidan av det isländska enkronemynt som gavs ut 1981?",
+    "correct": "Torsk",
+    "incorrect": [
+      "Sill",
+      "Lax",
+      "Makrill"
+    ],
+    "source_url": "https://cb.is/payments/banknotes-and-coin/valid-coins-in-circulation/"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "easy",
+    "question": "Vad ändrades för bilisterna när Sverige genomförde Dagen H 1967?",
+    "correct": "De började köra på höger sida",
+    "incorrect": [
+      "De började köra på vänster sida",
+      "Alla bilar måste bli vänsterstyrda",
+      "Alla landsvägar blev enkelriktade"
+    ],
+    "source_url": "https://www.svt.se/nyheter/lokalt/vast/50-ar-sedan-dagen-h"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Hur tog fackelbäraren Stein Gruben sig genom luften vid invigningen av vinter-OS i Lillehammer 1994?",
+    "correct": "Han gjorde ett backhopp på skidor",
+    "incorrect": [
+      "Han hoppade fallskärm",
+      "Han åkte luftballong",
+      "Han flög hängglidare"
+    ],
+    "source_url": "https://www.olympics.com/ioc/news/full-set-of-olympic-torches-from-the-olympic-museum-in-beijing-for-exhibition"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "hard",
+    "question": "Vad heter den första Muminboken, som Tove Jansson gav ut 1945?",
+    "correct": "Småtrollen och den stora översvämningen",
+    "incorrect": [
+      "Kometen kommer",
+      "Trollkarlens hatt",
+      "Farlig midsommar"
+    ],
+    "source_url": "https://tovejansson.com/sv/tovepedia-sv/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vid vilken högtid brukar man äta den finska rågpuddingen mämmi?",
+    "correct": "Påsk",
+    "incorrect": [
+      "Jul",
+      "Midsommar",
+      "Valborg"
+    ],
+    "source_url": "https://finland.fi/life-society/wandering-witches-welcome-finnish-easter/"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vilken dansk nöjespark besökte Walt Disney innan hans eget Disneyland öppnade?",
+    "correct": "Tivoli i Köpenhamn",
+    "incorrect": [
+      "Bakken",
+      "Legoland Billund",
+      "Fårup Sommerland"
+    ],
+    "source_url": "https://www.tivoli.dk/en/about-tivoli/the-history-of-tivoli-gardens"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vilken farkost heter qajaq på grönländska och har traditionellt använts för jakt?",
+    "correct": "En kajak",
+    "incorrect": [
+      "En hundsläde",
+      "En isjakt",
+      "En flotte"
+    ],
+    "source_url": "https://visitgreenland.com/activities/kayaking/"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "hard",
+    "question": "I vilket nutida land sägs den danska flaggan ha fallit från himlen under ett slag år 1219?",
+    "correct": "Estland",
+    "incorrect": [
+      "Polen",
+      "Tyskland",
+      "Nederländerna"
+    ],
+    "source_url": "https://denmark.dk/people-and-culture/dannebrog-800-years"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "easy",
+    "question": "Vilken geometrisk form hade Tetra Paks allra första förpackning?",
+    "correct": "En tetraeder",
+    "incorrect": [
+      "En kub",
+      "En cylinder",
+      "En kon"
+    ],
+    "source_url": "https://www.tetrapak.com/about-tetra-pak/news-and-events/logotypes"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Vilket år började SVT visa Kalle Anka och hans vänner på julafton?",
+    "correct": "1960",
+    "incorrect": [
+      "1958",
+      "1965",
+      "1972"
+    ],
+    "source_url": "https://www.svt.se/kultur/fler-an-tre-miljoner-sag-kalle-anka"
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vad ska en tävlande bära genom hinderbanan i det finska världsmästerskapet i eukonkanto?",
+    "correct": "En tävlingspartner",
+    "incorrect": [
+      "En säck potatis",
+      "En hink vatten",
+      "En vedtrave"
+    ],
+    "source_url": "https://eukonkanto.fi/en/competition-track-and-rules/"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "hard",
+    "question": "Vilken slags fisk tränades i en studie från 2022 att styra ett fordon på land?",
+    "correct": "Guldfisk",
+    "incorrect": [
+      "Mört",
+      "Gädda",
+      "Abborre"
+    ],
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/34896210/"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "hard",
+    "question": "Vad spelade astronauten Wally Schirra ”Jingle Bells” på i rymden 1965?",
+    "correct": "Munspel",
+    "incorrect": [
+      "Blockflöjt",
+      "Ukulele",
+      "Dragspel"
+    ],
+    "source_url": "https://www.nasa.gov/missions/gemini/dual-gemini-flights-achieved-crucial-spaceflight-milestones/"
+  },
+  {
+    "theme": "siffror",
+    "difficulty": "hard",
+    "question": "Hur många sidor har den stora polygon som vindarna bildar runt Saturnus nordpol?",
+    "correct": "Sex",
+    "incorrect": [
+      "Fyra",
+      "Fem",
+      "Åtta"
+    ],
+    "source_url": "https://science.nasa.gov/saturn/facts/"
+  },
+  {
+    "theme": "forskning",
+    "difficulty": "hard",
+    "question": "Vilken planet tar längre tid på sig att snurra ett varv runt sin egen axel än att färdas ett varv runt solen?",
+    "correct": "Venus",
+    "incorrect": [
+      "Mars",
+      "Merkurius",
+      "Jupiter"
+    ],
+    "source_url": "https://science.nasa.gov/venus/facts/"
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Vad fastnade i pälsen på George de Mestrals hund och gav honom idén till kardborreband?",
+    "correct": "Kardborrar",
+    "incorrect": [
+      "Tallbarr",
+      "Grässtrån",
+      "Björklöv"
+    ],
+    "source_url": "https://www.velcro.com/original-thinking/our-innovation-technology/"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "hard",
+    "question": "Hur tog sig höjdhopparen Dick Fosbury över ribban med sin ovanliga teknik när han vann OS 1968?",
+    "correct": "Med ryggen mot ribban",
+    "incorrect": [
+      "Med magen mot ribban",
+      "Med båda fötterna först",
+      "Med ett salto framåt"
+    ],
+    "source_url": "https://www.olympics.com/ioc/news/richard-fosbury-high-jump-revolution"
+  },
+  {
+    "theme": "mat",
+    "difficulty": "hard",
+    "question": "Vilken smak hade snabbnudlarna som Momofuku Andos företag lanserade 1958?",
+    "correct": "Kyckling",
+    "incorrect": [
+      "Räkor",
+      "Svamp",
+      "Biff"
+    ],
+    "source_url": "https://sg.nissin.com/en_sg/about/history/"
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Vilket material tänkte man bygga en flytande startbana av i projekt Habbakuk under andra världskriget?",
+    "correct": "Is förstärkt med träfiber",
+    "incorrect": [
+      "Plattor av kork",
+      "Gummiblock",
+      "Betong med vulkansten"
+    ],
+    "source_url": "https://publications.gc.ca/collections/collection_2021/cnrc-nrc/NR16-128-2017-jpn.pdf"
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "hard",
+    "question": "Vad sköt vissa brittiska väckare mot kundernas fönster för att få dem att vakna?",
+    "correct": "Ärter",
+    "incorrect": [
+      "Spik",
+      "Sockerbitar",
+      "Legoklossar"
+    ],
+    "source_url": "https://newtowntextilemuseum.co.uk/ws/media-library/f2bff8f9598f401da6dd31454b3d8a8c/knocker-upper.pdf"
+  }
+]

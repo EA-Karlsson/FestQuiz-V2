@@ -30,7 +30,7 @@ max_questions = 30
 room_lifetime = 6 * 60 * 60
 room_limit = 200
 player_limit = 50
-category_values = {"", "9", "11", "12", "15", "17", "21", "22", "23", "modern"}
+category_values = {"", "9", "11", "12", "15", "17", "21", "22", "23", "modern", "party"}
 difficulty_values = {"", "easy", "medium", "hard"}
 room_code_symbols = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 

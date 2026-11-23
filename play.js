@@ -4,7 +4,7 @@ const element = (id) => document.getElementById(id);
 const role = location.pathname === "/leda" ? "host" : location.pathname === "/spela" ? "player" : "tv";
 const roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 const letters = "ABCD";
-const categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern"];
+const categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern", "party"];
 const sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
 const roomPattern = /^[A-Z0-9]{4,8}$/;
 const main = document.querySelector("main");
@@ -751,6 +751,9 @@ element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", (event) => showHostName(event.target.checked));
 ["category", "amount", "difficulty"].forEach((id) => {
     element(id).addEventListener("change", clearRepeatShortage);
+});
+element("category").addEventListener("change", (event) => {
+    element("festmix-hint").hidden = event.target.value !== "party";
 });
 element("host-form").addEventListener("submit", (event) => {
     event.preventDefault();
