@@ -4,7 +4,7 @@ import random
 import secrets
 import threading
 import time
-from collections import deque
+from collections import Counter, deque
 from collections.abc import Collection
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -270,6 +270,14 @@ def check_deadline(room: Room) -> None:
         close_question(room)
 
 
+def require_closed_question(room: Room) -> None:
+    check_deadline(room)
+    if room.phase == "question":
+        raise HTTPException(409, "Vänta tills tiden är slut eller alla har låst sina svar.")
+    if room.phase != "closed":
+        raise HTTPException(409, "Det finns ingen avslutad fråga att gå vidare från.")
+
+
 def question_view(question: Question, *, reveal: bool) -> dict:
     return {
         "id": question.id,
@@ -300,10 +308,19 @@ def record_round(room: Room) -> None:
 
 
 def series_view(room: Room) -> dict:
+    first_places = Counter(
+        placement["round"]
+        for player in room.series_players.values()
+        for placement in player.places
+        if placement["place"] == 1
+    )
     standings = [
         {
             "name": player.name,
-            "wins": sum(placement["place"] == 1 for placement in player.places),
+            "wins": sum(
+                placement["place"] == 1 and first_places[placement["round"]] == 1
+                for placement in player.places
+            ),
             "lastPlace": player.places[-1]["place"],
             "places": [placement.copy() for placement in player.places],
         }
@@ -605,14 +622,11 @@ def submit_answer(code: str, submission: AnswerInput, token: Token):
 
 
 @app.post("/api/rooms/{code}/reveal")
-def close_room_question(code: str, token: Token):
+def closed_question_state(code: str, token: Token):
     with room_lock:
         room = active_room(code)
         require_host(room, token)
-        if room.phase == "question":
-            close_question(room)
-        if room.phase != "closed":
-            raise HTTPException(409, "Det finns ingen fråga att stänga.")
+        require_closed_question(room)
         return view_state(room, token)
 
 
@@ -621,9 +635,7 @@ def next_question(code: str, token: Token):
     with room_lock:
         room = active_room(code)
         require_host(room, token)
-        check_deadline(room)
-        if room.phase != "closed":
-            raise HTTPException(409, "Stäng frågan först.")
+        require_closed_question(room)
 
         if room.current_question + 1 == len(room.questions):
             record_round(room)

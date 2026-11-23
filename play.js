@@ -515,10 +515,7 @@ function renderGame() {
     const heading = element("question");
     heading.hidden = role !== "tv";
     heading.textContent = role === "tv" ? question.text : "";
-    element("host-actions").hidden = role !== "host";
-    element("reveal").hidden = closed;
-    element("next").hidden = !closed;
-    element("reveal").disabled = Boolean(pending);
+    element("host-actions").hidden = role !== "host" || !closed;
     element("next").disabled = Boolean(pending);
     element("next").textContent = current === total ? "Visa slutresultat" : "Nästa fråga";
     renderChoices(question);
@@ -543,14 +540,13 @@ function renderScores() {
     const key = JSON.stringify(ranked);
     if (key === scoresKey) return;
     scoresKey = key;
-    const winners = ranked.filter((player) => player.score === ranked[0].score).map((player) => player.name);
+    const leaders = ranked.filter((player) => player.score === ranked[0].score);
     const winner = element("winner");
-    winner.hidden = !winners.length;
-    if (winners.length === 1) winner.textContent = `${winners[0]} vinner!`;
-    else if (winners.length > 1) {
-        const names = `${winners.slice(0, -1).join(", ")} och ${winners[winners.length - 1]}`;
-        winner.textContent = `Delad förstaplats för ${names}`;
-    }
+    winner.hidden = !leaders.length;
+    winner.classList.toggle("winner", leaders.length === 1);
+    if (leaders.length === 1) winner.textContent = `${leaders[0].name} vinner!`;
+    else if (leaders.length > 1) winner.textContent = "Delad förstaplats";
+    else winner.textContent = "";
     let place = 1;
     replaceContents(element("scores"), ranked.map(({ name, score }, index) => {
         if (index > 0 && score !== ranked[index - 1].score) place = index + 1;
@@ -780,7 +776,6 @@ element("host-form").addEventListener("submit", (event) => {
     }
     roomAction("start", body);
 });
-element("reveal").addEventListener("click", () => roomAction("reveal"));
 element("next").addEventListener("click", () => roomAction("next"));
 element("open-review").addEventListener("click", () => roomAction("review", { questionNumber: 1 }));
 element("new-round").addEventListener("click", () => roomAction("new-round"));

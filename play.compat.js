@@ -738,10 +738,7 @@ function renderGame() {
     var heading = element("question");
     heading.hidden = role !== "tv";
     heading.textContent = role === "tv" ? question.text : "";
-    element("host-actions").hidden = role !== "host";
-    element("reveal").hidden = closed;
-    element("next").hidden = !closed;
-    element("reveal").disabled = Boolean(pending);
+    element("host-actions").hidden = role !== "host" || !closed;
     element("next").disabled = Boolean(pending);
     element("next").textContent = current === total ? "Visa slutresultat" : "Nästa fråga";
     renderChoices(question);
@@ -766,15 +763,16 @@ function renderScores() {
     if (key === scoresKey)
         return;
     scoresKey = key;
-    var winners = ranked.filter(function (player) { return player.score === ranked[0].score; }).map(function (player) { return player.name; });
+    var leaders = ranked.filter(function (player) { return player.score === ranked[0].score; });
     var winner = element("winner");
-    winner.hidden = !winners.length;
-    if (winners.length === 1)
-        winner.textContent = "".concat(winners[0], " vinner!");
-    else if (winners.length > 1) {
-        var names = "".concat(winners.slice(0, -1).join(", "), " och ").concat(winners[winners.length - 1]);
-        winner.textContent = "Delad f\u00F6rstaplats f\u00F6r ".concat(names);
-    }
+    winner.hidden = !leaders.length;
+    winner.classList.toggle("winner", leaders.length === 1);
+    if (leaders.length === 1)
+        winner.textContent = "".concat(leaders[0].name, " vinner!");
+    else if (leaders.length > 1)
+        winner.textContent = "Delad förstaplats";
+    else
+        winner.textContent = "";
     var place = 1;
     replaceContents(element("scores"), ranked.map(function (_a, index) {
         var name = _a.name, score = _a.score;
@@ -1028,7 +1026,6 @@ element("host-form").addEventListener("submit", function (event) {
     }
     roomAction("start", body);
 });
-element("reveal").addEventListener("click", function () { return roomAction("reveal"); });
 element("next").addEventListener("click", function () { return roomAction("next"); });
 element("open-review").addEventListener("click", function () { return roomAction("review", { questionNumber: 1 }); });
 element("new-round").addEventListener("click", function () { return roomAction("new-round"); });
