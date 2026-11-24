@@ -3484,19 +3484,6 @@
   {
     "theme": "märkliga händelser",
     "difficulty": "medium",
-    "question": "En bugg i datorn Mark II år 1947 gick att tejpa fast i loggboken. Vad hittade teknikerna?",
-    "correct": "En nattfjäril",
-    "incorrect": [
-      "En spindel",
-      "En geting",
-      "En silverfisk"
-    ],
-    "source_url": "https://www.si.edu/object/log-book-computer-bug%3Anmah_334663",
-    "party_highlight": true
-  },
-  {
-    "theme": "märkliga händelser",
-    "difficulty": "medium",
     "question": "När myndigheterna i Oregon skulle få bort en strandad val 1970 for ett stycke valspäck upp i luften. Vad krossade det?",
     "correct": "En parkerad bil",
     "incorrect": [
@@ -3817,6 +3804,2060 @@
       "I en vattenfylld grotta"
     ],
     "source_url": "https://www.visitwales.com/things-do/events/sport/wales-wacky-races",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad hade Marc-Antoine Fardin i sikte när han undrade om något kunde vara både fast och flytande?",
+    "correct": "Katter som formar sig efter skålar och lådor",
+    "incorrect": [
+      "Snögubbar som alltid smälter nerifrån",
+      "Sockervadd som blir fuktig i en påse",
+      "Tvål som blir hal i handen"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2017",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vad fick försökspersonerna känna lukten av medan deras avsmak undersöktes med en hjärnskanner?",
+    "correct": "Ost",
+    "incorrect": [
+      "Våt hund",
+      "Bränt hår",
+      "Kall aska"
+    ],
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5065955/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Forskarna satte in ett dött djur i en hjärnskanner för att visa hur lätt det är att feltolka data. Vilket djur?",
+    "correct": "En lax",
+    "incorrect": [
+      "En kalkon",
+      "En ödla",
+      "En manet"
+    ],
+    "source_url": "https://improbable.com/wp-content/uploads/2025/10/NeuralCorrelates.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vilken frisyr räknade fysiker på för att förstå hur buntar av hårstrån håller formen?",
+    "correct": "En hästsvans",
+    "incorrect": [
+      "En tuppkam",
+      "En fläta",
+      "En page"
+    ],
+    "source_url": "https://www.cam.ac.uk/research/news/rapunzel-leonardo-and-the-physics-of-the-ponytail",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad bar deltagarna omkring på för att forskare skulle förstå varför man spiller när man går?",
+    "correct": "En kopp kaffe",
+    "incorrect": [
+      "En tratt med ärtsoppa",
+      "En öppen vattenmelon",
+      "En kanna smält smör"
+    ],
+    "source_url": "https://doi.org/10.1103/PhysRevE.85.046117",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "De boende i ett hus i Anderslöv fick grönt hår. Vad hittade kemisten Johan Pettersson i duschvattnet?",
+    "correct": "Koppar",
+    "incorrect": [
+      "Järn från pumpen",
+      "Grönt tvättmedel",
+      "Alger från en cistern"
+    ],
+    "source_url": "https://www.thelocal.se/20111217/37994",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad kunde vissa schimpanser använda för att känna igen varandra på bilder i ett försök från 2008?",
+    "correct": "Andra schimpansers bakdelar",
+    "incorrect": [
+      "Spåren från deras fötter",
+      "Hur de brukade sitta i träd",
+      "Stenar de använde som verktyg"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2012",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "easy",
+    "question": "Vilken sorts djur skulle programmet PawSense upptäcka när det promenerade över tangentbordet?",
+    "correct": "En katt",
+    "incorrect": [
+      "En hamster",
+      "En papegoja",
+      "En iller"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2000",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vad spelade talbromsen SpeechJammer upp för att göra det svårare för någon att prata?",
+    "correct": "Personens egen röst med en kort fördröjning",
+    "incorrect": [
+      "En metronom i exakt samma tempo",
+      "Första ordet i varje mening",
+      "Ljudet av personens fotsteg"
+    ],
+    "source_url": "https://arxiv.org/abs/1202.6106",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad sa deltagarna i Richard Stephens försök medan de höll handen i isvatten, för att testa om det skulle göra mindre ont?",
+    "correct": "Svordomar",
+    "incorrect": [
+      "Kända filmtitlar",
+      "Egna mellannamn",
+      "Slumpade telefonnummer"
+    ],
+    "source_url": "https://www.keele.ac.uk/pressreleases/2017/is-swearing-big-and-clever.php",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vilket instrument fick deltagarna i en schweizisk studie lära sig att spela för att undersöka om de skulle snarka mindre?",
+    "correct": "Didgeridoo",
+    "incorrect": [
+      "Triangel",
+      "Dragspel",
+      "Blockflöjt"
+    ],
+    "source_url": "https://www.bmj.com/content/332/7536/266",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "easy",
+    "question": "Vad började Thomas Thwaites härma med hjälp av påbyggda ben när han ville leva ett tag i bergen som ett djur?",
+    "correct": "En get",
+    "incorrect": [
+      "En örn",
+      "En orm",
+      "En björn"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2016",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vad testade fysikern Len Fisher hur man bäst doppar utan att det faller sönder?",
+    "correct": "Ett kex",
+    "incorrect": [
+      "En tepåse",
+      "En rå potatis",
+      "Ett kokt ägg"
+    ],
+    "source_url": "https://www.nature.com/articles/17203",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad fick en gräshoppa titta på medan forskare mätte hur en hjärncell reagerade?",
+    "correct": "Klipp ur Star Wars",
+    "incorrect": [
+      "Ett avsnitt av Pingu",
+      "En boxningsmatch",
+      "Ett program om vädret"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2005",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vad ville fysikerna Victor Benno Meyer-Rochow och Jozsef Gal räkna ut om pingviner på boet?",
+    "correct": "Trycket när de bajsar",
+    "incorrect": [
+      "Hastigheten med vilken de sväljer fisk",
+      "Temperaturen i näbben när de sover",
+      "Hur tungt ett ägg de kan bära är"
+    ],
+    "source_url": "https://doi.org/10.1007/s00300-003-0563-3",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "medium",
+    "question": "Vad är det för insekt Fredrik Sjöberg berättar om att samla i sitt verk som fick Ig Nobel i litteratur?",
+    "correct": "Flugor",
+    "incorrect": [
+      "Getingar",
+      "Trollsländor",
+      "Myggor"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2016",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vilket vardagsföremål skulle kunna bli droppfritt enligt en Ig Nobel-belönad beräkning av formen på dess pip?",
+    "correct": "En tekanna",
+    "incorrect": [
+      "En vattenkanna för krukväxter",
+      "En bensindunk",
+      "En sirapsflaska"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig1999",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "easy",
+    "question": "Vad fick åka med upp till Skylab för att visa om det gick att spinna nät i tyngdlöshet?",
+    "correct": "Spindlar",
+    "incorrect": [
+      "Fjärilar",
+      "Myror",
+      "Humlor"
+    ],
+    "source_url": "https://www.nasa.gov/history/skylab-3-spacewalks-and-science/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "easy",
+    "question": "Vilket glädjerop öppnade Pete Conrad med när han steg ner på månen under Apollo 12?",
+    "correct": "Whoopee!",
+    "incorrect": [
+      "Help!",
+      "Good night!",
+      "Silence!"
+    ],
+    "source_url": "https://www.nasa.gov/history/50-years-ago-apollo-12-on-the-moon-whoopee/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "medium",
+    "question": "En sten rullade iväg när NASA:s InSight landade på Mars. Vilket band gav stenen dess smeknamn?",
+    "correct": "The Rolling Stones",
+    "incorrect": [
+      "Europe",
+      "Queen",
+      "Red Hot Chili Peppers"
+    ],
+    "source_url": "https://www.jpl.nasa.gov/news/nasa-jpl-names-rolling-stones-rock-on-mars/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "medium",
+    "question": "Vilken sorts godis visar astronauterna upp inne i rymdfärjan Challenger på en bild från Sally Rides första rymdfärd?",
+    "correct": "Jelly beans",
+    "incorrect": [
+      "Sockervadd",
+      "Kanderade äpplen",
+      "Chokladmynt"
+    ],
+    "source_url": "https://www.nasa.gov/gallery/sally-ride/page/2/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "medium",
+    "question": "NASA satte fast tre små figurer på sonden Juno innan den reste till Jupiter. Vilken sorts figurer?",
+    "correct": "LEGO-gubbar",
+    "incorrect": [
+      "Tennsoldater",
+      "Ryska dockor",
+      "Schackpjäser"
+    ],
+    "source_url": "https://www.jpl.nasa.gov/news/juno-spacecraft-to-carry-three-figurines-to-jupiter-orbit/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "medium",
+    "question": "Vad började sväva inne i Crew-1:s kapsel för att visa att besättningen hade blivit tyngdlös?",
+    "correct": "En Baby Yoda i plysch",
+    "incorrect": [
+      "En röd clownnäsa",
+      "En badboll formad som månen",
+      "En falukorv i plast"
+    ],
+    "source_url": "https://www.smithsonianmag.com/blogs/air-space-museum/2020/12/23/five-things-we-learned-victor-glover/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "easy",
+    "question": "Vad tog Apollo 15 med sig till månen för att kunna märka ett kuvert på plats?",
+    "correct": "En poststämpel",
+    "incorrect": [
+      "En skrivmaskin",
+      "En etikettskrivare",
+      "En lamineringsmaskin"
+    ],
+    "source_url": "https://postalmuseum.si.edu/exhibition/one-giant-leap-for-mankind-walking-on-the-moon/canceling-stamps-on-the-moon",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "medium",
+    "question": "Vad släppte forskare ner i en glaciär på Grönland för att ta reda på vart smältvattnet tog vägen?",
+    "correct": "Gula badankor",
+    "incorrect": [
+      "Pingisbollar med reflexer",
+      "Flytande korkskruvar",
+      "Hundleksaker med pipljud"
+    ],
+    "source_url": "https://assets.science.nasa.gov/content/dam/science/esd/earth-observer/2008/Nov_Dec08.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "Märkliga experiment",
+    "difficulty": "hard",
+    "question": "Vad utvann kemisten Mayu Yamamoto ur kogödsel i arbetet som fick Ig Nobel-priset i kemi 2007?",
+    "correct": "Vanillin",
+    "incorrect": [
+      "Koffein",
+      "Mentol",
+      "Kakaosmör"
+    ],
+    "source_url": "https://improbable.com/ig/winners/#ig2007",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "easy",
+    "question": "Vilken oväntad färg hade jorden som astronauten Jack Schmitt upptäckte nära en krater på månen?",
+    "correct": "Orange",
+    "incorrect": [
+      "Klarblå",
+      "Smaragdgrön",
+      "Lila"
+    ],
+    "source_url": "https://science.nasa.gov/image-article/apod-2001-may-23-strange-orange-soil-on-the-moon/",
+    "party_highlight": true
+  },
+  {
+    "theme": "Rymd och rymdfart",
+    "difficulty": "hard",
+    "question": "Besättningen på Discovery försökte slå på en strömbrytare på en satellit. Vad döpte NASA deras improviserade redskap till?",
+    "correct": "Flugsmällare",
+    "incorrect": [
+      "Dörrknackare",
+      "Galge",
+      "Långfingret"
+    ],
+    "source_url": "https://www.nasa.gov/mission/sts-51d/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "easy",
+    "question": "En tekopp på världsutställningen 1876 hade en liten brygga vid kanten. Vad skulle den hålla torrt?",
+    "correct": "Mustaschen",
+    "incorrect": [
+      "Pipans munstycke",
+      "Skjortkragen",
+      "Nästippen"
+    ],
+    "source_url": "https://americanhistory.si.edu/collections/object/nmah_1065116",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "hard",
+    "question": "Vad var tanken med en av 1800-talets glasgranater som kallades Harden?",
+    "correct": "Att släcka en brand",
+    "incorrect": [
+      "Att sprida blomfrön",
+      "Att kyla drycker",
+      "Att skrämma bort råttor"
+    ],
+    "source_url": "https://www.thehenryford.org/collections/explore/artifact/237258",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "easy",
+    "question": "Henrik VIII:s rustning från 1540 hade ett skålformat metallskydd som stack ut. Vad skyddade det?",
+    "correct": "Skrevet",
+    "incorrect": [
+      "Näsan",
+      "Naveln",
+      "Hakan"
+    ],
+    "source_url": "https://royalarmouries.org/collection/object/object-40844",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "hard",
+    "question": "Själva guldgulan gick att öppna i det första kejserliga Fabergéägget. Vad låg direkt i gulan?",
+    "correct": "En höna av guld",
+    "incorrect": [
+      "En silverminiatyr av en katt",
+      "En liten klocka",
+      "Ett pärlhalsband"
+    ],
+    "source_url": "https://www.faberge.com/blogs/news/the-architect-of-surprise-faberge-s-180th-anniversary",
+    "party_highlight": true
+  },
+  {
+    "theme": "märkliga händelser",
+    "difficulty": "medium",
+    "question": "Städarna tog bort över ett ton av något som folk hade satt fast på en och samma vägg i Seattle. Vad?",
+    "correct": "Tuggummi",
+    "incorrect": [
+      "Konsertbiljetter",
+      "Kardborreband",
+      "Godispapper"
+    ],
+    "source_url": "https://visitseattle.org/things-to-do/families/pike-place-market-for-kids/",
+    "party_highlight": true
+  },
+  {
+    "theme": "konstiga vardagsprylar",
+    "difficulty": "easy",
+    "question": "Kunderna skickade ett porträttfoto till Burnt Impressions. Var dök ansiktet sedan upp?",
+    "correct": "På en rostad brödskiva",
+    "incorrect": [
+      "På en tvålkaka",
+      "På en dammsugarpåse",
+      "På en isskrapa"
+    ],
+    "source_url": "https://www.burntimpressions.com/faq",
+    "party_highlight": true
+  },
+  {
+    "theme": "knasiga uppfinningar",
+    "difficulty": "hard",
+    "question": "På 1800-talet kunde en hund få gå på ett löpband för att sköta köksarbetet. Vad drev bandet?",
+    "correct": "En smörkärna",
+    "incorrect": [
+      "En glassmaskin",
+      "En kaffekvarn",
+      "En vedspis"
+    ],
+    "source_url": "https://www.thehenryford.org/collections/explore/artifact/15934",
+    "party_highlight": true
+  },
+  {
+    "theme": "knasiga uppfinningar",
+    "difficulty": "hard",
+    "question": "Du ska prova nya skor och expediten ber dig kliva upp i en Pedoscope. Vad gör apparaten med dina fötter?",
+    "correct": "Röntgar dem",
+    "incorrect": [
+      "Tar ett gipsavtryck",
+      "Penslar dem med talk",
+      "Blåser varm luft på dem"
+    ],
+    "source_url": "https://collection.sciencemuseumgroup.org.uk/objects/co134431/pedoscope-shoe-fitting-x-ray-viewer-pedoscope",
+    "party_highlight": true
+  },
+  {
+    "theme": "märkliga händelser",
+    "difficulty": "easy",
+    "question": "Larry Walters lyfte från Kalifornien med ballonger och hamnade där flygplanen flög. Vad satt han i?",
+    "correct": "En trädgårdsstol",
+    "incorrect": [
+      "En kundvagn",
+      "En badbalja",
+      "En resväska"
+    ],
+    "source_url": "https://airandspace.si.edu/collection-objects/chair-lawn-larry-walters/nasm_A20181388000",
+    "party_highlight": true
+  },
+  {
+    "theme": "märkliga händelser",
+    "difficulty": "medium",
+    "question": "Presidenten såg på när flygposten från Washington hade premiär. Vad hade hänt ungefär 20 minuter senare?",
+    "correct": "Piloten var vilse och flög åt fel håll",
+    "incorrect": [
+      "Breven blåste ut ur planet",
+      "Planet hade blivit omsprunget av en bil",
+      "Piloten hade glömt att ta med posten"
+    ],
+    "source_url": "https://postalmuseum.si.edu/collections/object-spotlight/autographed-airmail-envelope",
+    "party_highlight": true
+  },
+  {
+    "theme": "märkliga händelser",
+    "difficulty": "medium",
+    "question": "Charles Osborne började hicka och fortsatte i årtionden. Vad försökte han väga precis innan det började?",
+    "correct": "En gris",
+    "incorrect": [
+      "En pumpa",
+      "Sig själv",
+      "En jättestor fisk"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/67619-longest-attack-of-hiccups",
+    "party_highlight": true
+  },
+  {
+    "theme": "konstiga vardagsprylar",
+    "difficulty": "easy",
+    "question": "På brandstationen i Livermore riktas en webbkamera mot en vardagspryl från 1901. Vad vakar kameran över?",
+    "correct": "En glödlampa",
+    "incorrect": [
+      "En vattenkokare",
+      "Ett gökur",
+      "En skrivmaskin"
+    ],
+    "source_url": "https://www.centennialbulb.org/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "hard",
+    "question": "Ett av Charles Dickens husdjur står uppstoppat på ett bibliotek i Philadelphia. Vad var Grip för djur?",
+    "correct": "En korp",
+    "incorrect": [
+      "En katt",
+      "En utter",
+      "En apa"
+    ],
+    "source_url": "https://libwww.freelibrary.org/digital/item/cdc102109",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "medium",
+    "question": "I marginalen på en medeltida psalmbok går en riddare till strid mot ett litet trädgårdsdjur. Vilket?",
+    "correct": "En snäcka",
+    "incorrect": [
+      "En groda",
+      "En igelkott",
+      "En gråsugga"
+    ],
+    "source_url": "https://www.bl.uk/stories/blogs/posts/knight-v-snail",
+    "party_highlight": true
+  },
+  {
+    "theme": "djur med jobb",
+    "difficulty": "easy",
+    "question": "Vilka ovanliga nattarbetare äter insekter som annars skulle kunna ge sig på böckerna i Coimbras gamla bibliotek?",
+    "correct": "Fladdermöss",
+    "incorrect": [
+      "Geckoödlor",
+      "Grodor",
+      "Igelkottar"
+    ],
+    "source_url": "https://visit.uc.pt/en/program-list/15/space-details/joanina?school=1",
+    "party_highlight": true
+  },
+  {
+    "theme": "knasiga uppfinningar",
+    "difficulty": "hard",
+    "question": "Zeniths tv-fjärrkontroll från 1950-talet klarade sig utan batterier. Vad hände inuti när man tryckte på en knapp?",
+    "correct": "En liten hammare slog mot en metallstav",
+    "incorrect": [
+      "En magnet studsade genom ett rör",
+      "Ett fjäderverk snurrade en spegel",
+      "En bälg blåste luft genom en visselpipa"
+    ],
+    "source_url": "https://www.thehenryford.org/collections/explore/artifact/365218",
+    "party_highlight": true
+  },
+  {
+    "theme": "märkliga händelser",
+    "difficulty": "easy",
+    "question": "En polis jagade ikapp en bilist som körde för fort i England 1896. Hur tog sig polisen fram under jakten?",
+    "correct": "På cykel",
+    "incorrect": [
+      "Till häst",
+      "I en annan bil",
+      "Med en spårvagn"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/414379-first-person-charged-with-a-speeding-offence",
+    "party_highlight": true
+  },
+  {
+    "theme": "knasig forskning",
+    "difficulty": "medium",
+    "question": "Två metallhalvor satt fast i varandra med hjälp av lufttrycket. Vilka fick Otto von Guericke att försöka dra isär dem?",
+    "correct": "Sexton hästar",
+    "incorrect": [
+      "Två elefanter",
+      "En grupp brandmän",
+      "Ett kompani soldater"
+    ],
+    "source_url": "https://www.deutsches-museum.de/en/museum-island/exhibitions/physics",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "hard",
+    "question": "En nästan 4 000 år gammal lertavla innehåller ett surt kundklagomål. Vad tyckte kunden höll för dålig kvalitet?",
+    "correct": "Kopparn",
+    "incorrect": [
+      "Sandalerna",
+      "Ölet",
+      "Fikonbrödet"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/537889-oldest-written-customer-complaint",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "medium",
+    "question": "Konstnären Invader gjorde en pixlig Mona Lisa. Vad byggde han upp porträttet av?",
+    "correct": "Rubiks kuber",
+    "incorrect": [
+      "Legobitar",
+      "Färgade karameller",
+      "Vikta sedlar"
+    ],
+    "source_url": "https://www.artcurial.com/en/articles/invaders-mona-lisa-be-auctioned-paris",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda museiföremål",
+    "difficulty": "hard",
+    "question": "I en rostig burk från Antarktis låg något som såg nästan ätbart ut trots hundra år i kylan. Vad var det?",
+    "correct": "En fruktkaka",
+    "incorrect": [
+      "En ostsmörgås",
+      "En köttbulle",
+      "En korv"
+    ],
+    "source_url": "https://nzaht.org/century-old-fruitcake/",
+    "party_highlight": true
+  },
+  {
+    "theme": "bakom_kameran",
+    "difficulty": "medium",
+    "question": "Vilken lukt kunde biopubliken skrapa fram på sitt doftkort under filmen Polyester?",
+    "correct": "Smutsiga gymnastikskor",
+    "incorrect": [
+      "En sur disktrasa",
+      "En kattlåda",
+      "Brända popcorn"
+    ],
+    "source_url": "https://www.criterion.com/current/posts/6605-a-whiff-of-polyester-inside-the-odorama-process",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad använde konstnären Barney Smith som underlag för över tusen konstverk?",
+    "correct": "Toalettsitsar",
+    "incorrect": [
+      "Stekpannor",
+      "Biltak",
+      "Lock från syltburkar"
+    ],
+    "source_url": "https://truckyard.com/the-colony/toilet-seat-museum/",
+    "party_highlight": true
+  },
+  {
+    "theme": "retro",
+    "difficulty": "medium",
+    "question": "Vad kunde man få på posten när man skickade Campbell’s en dollar och två soppburksetiketter?",
+    "correct": "En pappersklänning med soppburkar som mönster",
+    "incorrect": [
+      "Ett förkläde av plåt",
+      "En rock av disktrasor",
+      "Ett par skor av konservburkar"
+    ],
+    "source_url": "https://archived.metmuseum.org/art/online-features/metkids/explore/79778",
+    "party_highlight": true
+  },
+  {
+    "theme": "bakom_kameran",
+    "difficulty": "medium",
+    "question": "Vad ersatte metallen i Oscarsstatyetterna under andra världskriget?",
+    "correct": "Målad gips",
+    "incorrect": [
+      "Lackerat trä",
+      "Glaserat porslin",
+      "Pressad papp"
+    ],
+    "source_url": "https://www.oscars.org/oscars/statuette",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilken frukt föreställde komikern Billy Connollys jättestora scenstövlar?",
+    "correct": "Bananer",
+    "incorrect": [
+      "Citroner",
+      "Päron",
+      "Vattenmeloner"
+    ],
+    "source_url": "https://www.glasgowlife.org.uk/about-us/colleague-information/colleague-news/billy-connolly-s-iconic-banana-boots-on-display-to-celebrate-50th-anniversary",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Studenter satte en låtsaspolisbil på MIT:s kupol 1994. Vad låg bredvid polisdockan?",
+    "correct": "En kartong munkar",
+    "incorrect": [
+      "En termos soppa",
+      "Ett paket korvbröd",
+      "En påse ostbågar"
+    ],
+    "source_url": "https://news.mit.edu/2001/hacks-0228",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilket monument tycktes sticka upp ur den frusna sjön Mendota i ett studentskämt 1979?",
+    "correct": "Frihetsgudinnan",
+    "incorrect": [
+      "Sfinxen",
+      "Eiffeltornet",
+      "Lutande tornet i Pisa"
+    ],
+    "source_url": "https://news.wisc.edu/history-of-lady-liberty-on-lake-mendota/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilka sprang ut för att fira innan Cal gjorde segertouchdownen mot Stanford 1982?",
+    "correct": "Stanfords marschorkester",
+    "incorrect": [
+      "Bollkallarna",
+      "En grupp cheerleaders",
+      "Matchfotograferna"
+    ],
+    "source_url": "https://calbears.com/sports/2023/7/14/cms-100-great-moments-in-cms-history",
+    "party_highlight": true
+  },
+  {
+    "theme": "retro",
+    "difficulty": "easy",
+    "question": "Vad provade kunderna i The Bum Shop på en skämtbild från 1780-talets London?",
+    "correct": "Stoppning för att få större rumpa",
+    "incorrect": [
+      "Lösnäsor för att se rikare ut",
+      "Knäskydd för att kunna niga",
+      "Löständer för att le bredare"
+    ],
+    "source_url": "https://www.metmuseum.org/art/collection/search/392859",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "medium",
+    "question": "När Ghostbusters täcks av gegga från den exploderande marshmallowgubben är det egentligen något från badrumsskåpet. Vad?",
+    "correct": "Raklödder",
+    "incorrect": [
+      "Tandkräm",
+      "Schampo",
+      "Hårgelé"
+    ],
+    "source_url": "https://catalog.afi.com/Film/57089-ghostbusters",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "easy",
+    "question": "Riddarna i Monty Pythons jakt på den heliga graalen har inga hästar. Vad klapprar deras följe med?",
+    "correct": "Kokosnötshalvor",
+    "incorrect": [
+      "Tomma plåtmuggar",
+      "Träskor",
+      "Musselskal"
+    ],
+    "source_url": "https://montypython.com/film_Monty%2BPython%2Band%2Bthe%2BHoly%2BGrail%2B%281975%29/15",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "easy",
+    "question": "Nick Park tänkte ge Wallace en annan sorts husdjur innan han gjorde Gromit till hund. Vad skulle Gromit vara?",
+    "correct": "En katt",
+    "incorrect": [
+      "En kanin",
+      "En papegoja",
+      "En minigris"
+    ],
+    "source_url": "https://www.thecrimson.com/article/2005/10/13/wallace-and-gromit-creator-park-as/",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "hard",
+    "question": "Scream behövde en otäck mask. Hur hittade teamet den som blev Ghostface?",
+    "correct": "Under letandet efter inspelningsplatser",
+    "incorrect": [
+      "I regissörens gamla skolteater",
+      "På en provspelning med en clown",
+      "Bland rekvisitan från en reklamfilm"
+    ],
+    "source_url": "https://www.fangoria.com/25-years-of-scream-exclusive-interview-with-craven-producing-partner-marianne-maddalena/",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "hard",
+    "question": "Johnny Depp tog hjälp av både Keith Richards och en tecknad figur för att hitta Jack Sparrow. Vilken figur?",
+    "correct": "Skunken Pepé le Pew",
+    "incorrect": [
+      "Snurre Sprätt",
+      "Långben",
+      "Tjuren Ferdinand"
+    ],
+    "source_url": "https://weliveentertainment.com/welivefilm/pirates-caribbean-dead-men-tell-no-tells-interview-jerry-bruckheimer/",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "easy",
+    "question": "Nintendo döpte Super Mario efter en riktig Mario som företaget hade att göra med. Vad gjorde han?",
+    "correct": "Hyrde ut ett lager till Nintendo",
+    "incorrect": [
+      "Lagade deras vattenledningar",
+      "Körde deras budbil",
+      "Fixade pizzan till personalen"
+    ],
+    "source_url": "https://arstechnica.com/gaming/2018/11/mario-segale-namesake-for-nintendos-mascot-dies-at-84/",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "medium",
+    "question": "Pikachus runda kinder fick inspiration från ett djur som gömmer mat i kinderna. Vilket tänkte formgivaren på?",
+    "correct": "En ekorre",
+    "incorrect": [
+      "En hamster",
+      "En iller",
+      "En chinchilla"
+    ],
+    "source_url": "https://kotaku.com/pikachu-wasnt-based-on-a-mouse-but-a-squirrel-1825738117",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Spelprinsessan Zelda fick sitt förnamn från en person i litteraturvärlden. Vilken?",
+    "correct": "Författaren Zelda Fitzgerald",
+    "incorrect": [
+      "En spådam i en Agatha Christie-roman",
+      "En alv i Sagan om ringen",
+      "Ett namn ur Bröderna Grimms sagor"
+    ],
+    "source_url": "https://www.washingtonpost.com/entertainment/2024/06/19/zelda-echoes-of-wisdom-nintendo/",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Utomjordingarna i Space Invaders började rusa när de blev färre. Vad kom det sig ursprungligen av?",
+    "correct": "Maskinen hade färre figurer att rita",
+    "incorrect": [
+      "Fienderna fick en fartbonus när spelaren missade",
+      "Spelet växlade läge när myntet nästan var slut",
+      "Farten följde musikens tempo"
+    ],
+    "source_url": "https://www.wired.com/story/space-invaders-45-years-tomohiro-nishikado/",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "easy",
+    "question": "Innan Crazy Frog blev en plågsamt klibbig ringsignal härmade svensken Daniel Malmedahl något för sina kompisar. Vad?",
+    "correct": "En tvåtaktsmotor",
+    "incorrect": [
+      "En trasig kaffekvarn",
+      "En eltandborste i en mugg",
+      "En dammsugare som fastnat i en gardin"
+    ],
+    "source_url": "https://internetmuseum.se/utstallningar/virala-succeer/crazy-frog/",
+    "party_highlight": true
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "easy",
+    "question": "Nyan Cat flög genom rymden med regnbågssvans. Vad fick pixelkatten för kropp?",
+    "correct": "En Pop-Tart, ett bakverk för brödrosten",
+    "incorrect": [
+      "En kassettbandspelare",
+      "En våffla med sylt",
+      "En rulle toalettpapper"
+    ],
+    "source_url": "https://www.inverse.com/input/culture/nyan-cat-meme-gif-nft-10th-birthday-chris-torres-history",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "hard",
+    "question": "Hur fick ljudteknikern fram tidsmaskinen Tardis skrapande läte i Doctor Who?",
+    "correct": "Drog en nyckel längs en pianosträng",
+    "incorrect": [
+      "Drog en dragkedja mot en cymbal",
+      "Skrapade en plåtburk mot ett element",
+      "Lät en dammsugare blåsa baklänges"
+    ],
+    "source_url": "https://www.radiotimes.com/tv/sci-fi/interview-doctor-whos-brian-hodgson-on-creating-the-sounds-of-the-tardis-and-daleks/",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "easy",
+    "question": "Händerna på den svenske kocken i Mupparna ser ovanligt äkta ut. Varför?",
+    "correct": "De är dockspelarens bara händer",
+    "incorrect": [
+      "De är gjutna direkt från Hensons händer",
+      "De styrs av en robot under köksbänken",
+      "Händerna tillhör en annan docka som aldrig syns"
+    ],
+    "source_url": "https://americanhistory.si.edu/collections/object/nmah_1448975",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "easy",
+    "question": "Francesco Gabbani fick en ovanlig danspartner i Italiens Eurovisionnummer. Vad hade dansaren klätt ut sig till?",
+    "correct": "En gorilla",
+    "incorrect": [
+      "En discokula",
+      "En astronaut",
+      "En mänsklig väckarklocka"
+    ],
+    "source_url": "https://www.abc.net.au/news/2017-05-14/eurovision-2017-glitz-glam-and-a-gorilla-in-photographs/8524602",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "hard",
+    "question": "Van Halen ville inte ha några bruna M&M:s i logen. Varför, enligt sångaren David Lee Roth?",
+    "correct": "För att se om arrangören läst kontraktet",
+    "incorrect": [
+      "För att logen skulle passa skivomslagets färger",
+      "För att det var basistens ritual mot otur",
+      "För att godiset på scenen skulle synas bättre"
+    ],
+    "source_url": "https://www.smithsonianmag.com/arts-culture/why-did-van-halen-demand-concert-venues-remove-brown-mms-from-the-menu-180982570/",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "easy",
+    "question": "Vad fick man se om man öppnade det riktiga blixtlåset på originalomslaget till Rolling Stones-skivan Sticky Fingers?",
+    "correct": "Vita kalsonger",
+    "incorrect": [
+      "En tatuerad navel",
+      "En till dragkedja",
+      "En hemlig bild på bandet"
+    ],
+    "source_url": "https://www.smb.museum/fileadmin/website/Presse/Pressematerial/2024/06/Final_Wandtexte.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "hard",
+    "question": "Belgiska Telex gick in i Eurovision med ett märkligt mål, enligt bandmedlemmen Marc Moulin. Vad hoppades de på?",
+    "correct": "Att komma sist",
+    "incorrect": [
+      "Att få exakt samma poäng som Storbritannien",
+      "Att få hela publiken att vissla",
+      "Att bli ombedda att spela låten två gånger"
+    ],
+    "source_url": "https://esctoday.com/14320/belgium_3-cd_tribute_to_marc_moulin_of_tlex/",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "easy",
+    "question": "Owe Thörnqvist tog med sig ett tilltugg till repetitionen av Boogieman Blues i Melodifestivalen. Vad höll han i handen?",
+    "correct": "En varmkorv",
+    "incorrect": [
+      "En kanelbulle",
+      "En ostbåge",
+      "En strut popcorn"
+    ],
+    "source_url": "https://www.svt.se/nyheter/lokalt/uppsala/med-varmkorv-sticker-thornqvist-ut",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "hard",
+    "question": "Beatles lade in en mycket hög ton på den brittiska Sgt. Pepper-skivan. Vilken lyssnare tänkte Paul McCartney på?",
+    "correct": "En hund som lyssnar i vardagsrummet",
+    "incorrect": [
+      "En papegoja som kunde härma refrängen",
+      "En katt som skulle jaga högtalaren",
+      "En undulat som kunde sjunga med"
+    ],
+    "source_url": "https://www.paulmccartney.com/news/you-gave-me-the-answer-sgt-pepper-special",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "medium",
+    "question": "Filmteamet odlade ett riktigt majsfält till Interstellar. Vad gjorde de med majsen när den inte behövdes längre?",
+    "correct": "Sålde den",
+    "incorrect": [
+      "Poppade den till premiären",
+      "Gjorde majslabyrint för fans",
+      "Byggde en kuliss av kolvarna"
+    ],
+    "source_url": "https://www.bafta.org/media-centre/press-releases/a-life-in-pictures-christopher-nolan/",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "De som gjorde Bond-spelet GoldenEye 007 smög in en funktion på slutet utan att berätta för cheferna. Vilken?",
+    "correct": "Flerspelarläget",
+    "incorrect": [
+      "En James Bond som blev osynlig",
+      "Möjligheten att köra alla bilar baklänges",
+      "Ett hemligt uppdrag där man spelar städare"
+    ],
+    "source_url": "https://www.engadget.com/2012-09-03-james-bond-meets-virtua-cop-the-development-of-rares-goldeneye.html",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "hard",
+    "question": "Kulissen i Alien räckte inte för Ridley Scott. Vilka fick bära rymddräkterna för att landningsstället skulle se större ut?",
+    "correct": "Barn till filmteamet",
+    "incorrect": [
+      "Balettdansare som gick på tå",
+      "Vuxna på rullskridskor",
+      "Stuntmän på styltor"
+    ],
+    "source_url": "https://www.slashfilm.com/851269/ridley-scott-put-his-kids-to-good-use-on-the-set-of-alien/",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "I en tidig idé var Sonic en kanin. Vad skulle han kunna plocka upp saker med?",
+    "correct": "Öronen",
+    "incorrect": [
+      "Svansen",
+      "En sugkopp på nosen",
+      "Magneter under skorna"
+    ],
+    "source_url": "https://shmuplations.com/sonicteam/",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "hard",
+    "question": "Vad stoppade Queen in i trummorna för att få rätt dunk i Another One Bites the Dust?",
+    "correct": "Filtar",
+    "incorrect": [
+      "Tomma läskburkar",
+      "Kokosnötter",
+      "Pappersservetter"
+    ],
+    "source_url": "https://brianmay.com/queen-news/2026/08/another-one-bites-the-dust-behind-queens-dance-floor-detonating-hit/",
+    "party_highlight": true
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "medium",
+    "question": "Tove Jansson ritade en tidig föregångare till Mumintrollet efter ett gräl. Var hamnade teckningen?",
+    "correct": "På väggen i ett utedass",
+    "incorrect": [
+      "På en äggkartong",
+      "På undersidan av en eka",
+      "På sin brors sovrumsdörr"
+    ],
+    "source_url": "https://www.muumimuseo.fi/en/etusivu/the-museum/tove-jansson/",
+    "party_highlight": true
+  },
+  {
+    "theme": "festhits",
+    "difficulty": "easy",
+    "question": "Två gula vargar från Norge sjöng i Eurovision om att ge vargen mat så att mormor klarar sig. Vad skulle den få?",
+    "correct": "En banan",
+    "incorrect": [
+      "En limpa",
+      "En gurka",
+      "En lax"
+    ],
+    "source_url": "https://www.eurovision.com/eurovision-song-contest/turin-2022/participants/subwoolfer-1/",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "medium",
+    "question": "Enligt Disneyfamiljens museum tyckte Lillian att musens föreslagna namn lät för märkvärdigt. Vad föreslog Walt först?",
+    "correct": "Mortimer",
+    "incorrect": [
+      "Melvin",
+      "Morris",
+      "Morgan"
+    ],
+    "source_url": "https://d23.com/the-walt-disney-family-museum-celebration-of-walt-trains/",
+    "party_highlight": true
+  },
+  {
+    "theme": "tvnostalgi",
+    "difficulty": "medium",
+    "question": "Scenen där Babe och ankan gör en stöld tog flera veckor att träna in. Vad skulle grisen bära iväg med i munnen?",
+    "correct": "En väckarklocka",
+    "incorrect": [
+      "En ficklampa",
+      "En toffel",
+      "En tvål"
+    ],
+    "source_url": "https://www.latimes.com/archives/la-xpm-1995-08-05-ca-31737-story.html",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad kan en hornödla spruta ur ögonvrån när den blir hotad?",
+    "correct": "Blod",
+    "incorrect": [
+      "Saliv",
+      "Sand",
+      "Vatten"
+    ],
+    "source_url": "https://www.nps.gov/band/learn/nature/hornedliz.htm",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Fingerdjuret på Madagaskar knackar på trä för att hitta larver. Vilket finger knackar det med?",
+    "correct": "Långfingret",
+    "incorrect": [
+      "Pekfingret",
+      "Ringfingret",
+      "Tummen"
+    ],
+    "source_url": "https://lemur.duke.edu/accordions/aye-aye-species-info-page/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilken fågel visade sig kunna somna medan den flög över havet i en studie från 2016?",
+    "correct": "En fregattfågel",
+    "incorrect": [
+      "En havssula",
+      "En kungsörn",
+      "En strandskata"
+    ],
+    "source_url": "https://www.nature.com/articles/ncomms12468",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilket havsdjur väntade på en godare räka i en undervattensvariant av marshmallowtestet?",
+    "correct": "En sepiabläckfisk",
+    "incorrect": [
+      "En krabba",
+      "En sjöhäst",
+      "En havsaborre"
+    ],
+    "source_url": "https://www.cam.ac.uk/research/news/cuttlefish-show-their-intelligence-by-snubbing-sub-standard-snacks",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken fågel lärde sig skilja målningar av Monet från målningar av Picasso i ett försök 1995?",
+    "correct": "Duvor",
+    "incorrect": [
+      "Skator",
+      "Höns",
+      "Papegojor"
+    ],
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1334394/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilket ljud spelade forskare in från giraffer på natten vid tre djurparker?",
+    "correct": "Ett hummande",
+    "incorrect": [
+      "Ett kacklande",
+      "Ett kvackande",
+      "Ett skall"
+    ],
+    "source_url": "https://bmcresnotes.biomedcentral.com/articles/10.1186/s13104-015-1394-3",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Var gömmer havsuttern sin fångst när den vill dyka vidare med fria tassar?",
+    "correct": "I hudveck under frambenen",
+    "incorrect": [
+      "I kindpåsar",
+      "I pälsen under hakan",
+      "I ett hudveck vid svansen"
+    ],
+    "source_url": "https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/sea-otter",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vad blåser det australiska myrpiggsvinet ur nosen för att svalka sig?",
+    "correct": "Bubblor",
+    "incorrect": [
+      "Sandkorn",
+      "Långa salivtrådar",
+      "Ånga"
+    ],
+    "source_url": "https://www.curtin.edu.au/news/media-release/study-finds-blowing-bubbles-among-echidnas-tricks-to-beat-the-heat/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad fångade en ultraljudsmikrofon när forskare kittlade råttor?",
+    "correct": "Korta pip",
+    "incorrect": [
+      "Dova morrningar",
+      "Små nysningar",
+      "Långa snarkningar"
+    ],
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9489288/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kan en sjögurka göra sig av med för att försvara sig mot ett rovdjur?",
+    "correct": "Delar av sina inälvor",
+    "incorrect": [
+      "Sina tänder",
+      "Sina fjäll",
+      "Sina ögon"
+    ],
+    "source_url": "https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/johnsons-sea-cucumber",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilken akrobatisk ställning kan en pandahane ta för att sätta sin doftmarkering högt upp?",
+    "correct": "Stå på händer",
+    "incorrect": [
+      "Gå ner i spagat",
+      "Slå en kullerbytta",
+      "Stå på ett bakben"
+    ],
+    "source_url": "https://nationalzoo.si.edu/animals/pandastory",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad såg dykare att en åttaarmad bläckfisk ibland gjorde mot fiskarna som den jagade tillsammans med?",
+    "correct": "Gav dem en snyting",
+    "incorrect": [
+      "Red på deras ryggar",
+      "Gömde sig bakom deras stjärtar",
+      "Blåste bubblor över dem"
+    ],
+    "source_url": "https://www.nature.com/articles/s41559-024-02525-2",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilket ljud kan fungera som ett personligt namn hos flasknosdelfiner?",
+    "correct": "En egen vissling",
+    "incorrect": [
+      "En egen hostning",
+      "En vattenstråle",
+      "Ett slag med stjärten"
+    ],
+    "source_url": "https://www.whoi.edu/oceanus/feature/decoding-dolphin-whistles-communication/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vad är den röda pandans extra tumme, som hjälper den att greppa bambu, egentligen gjord av?",
+    "correct": "Ett omformat handledsben",
+    "incorrect": [
+      "Ett extra fingerben",
+      "En vass klo",
+      "En bit brosk från armbågen"
+    ],
+    "source_url": "https://nationalzoo.si.edu/animals/red-panda",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilket av de här kattdjuren kan kvittra som en fågel men inte ryta?",
+    "correct": "Geparden",
+    "incorrect": [
+      "Lejonet",
+      "Tigern",
+      "Jaguaren"
+    ],
+    "source_url": "https://cheetah.org/learn/about-cheetahs/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Ungefär en gång i veckan klättrar den tretåiga sengångaren ner till marken för ett ärende. Vad gör den där?",
+    "correct": "Den bajsar",
+    "incorrect": [
+      "Den vässar klorna",
+      "Den gräver efter nötter",
+      "Den rullar sig i sand"
+    ],
+    "source_url": "https://www.slothconservation.org/blog/what-do-sloths-eat-sloth-diet-food-and-digestion",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vilken färg får det speglande skiktet längst bak i renens öga under den arktiska vintern?",
+    "correct": "Mörkblå",
+    "incorrect": [
+      "Guldgul",
+      "Orange",
+      "Vit"
+    ],
+    "source_url": "https://discovery.ucl.ac.uk/id/eprint/1424253/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vad gör den stjärnnästa mullvaden med sina luftbubblor när den nosar under vatten?",
+    "correct": "Drar in dem i nosen igen",
+    "incorrect": [
+      "Viftar mot dem med svansen",
+      "Gömmer dem i sanden",
+      "Följer dem upp till ytan"
+    ],
+    "source_url": "https://www.nature.com/articles/4441024a",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vad sparar havssnigeln Elysia crispata från algerna den äter för att kunna ta vara på solljus?",
+    "correct": "Kloroplaster",
+    "incorrect": [
+      "Rottrådar",
+      "Sporer",
+      "Frön"
+    ],
+    "source_url": "https://ocean.si.edu/holding-tank/mangroves/lettuce-sea-slug",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilket däggdjur kan bilda en underjordisk koloni där bara en hona, drottningen, får ungar?",
+    "correct": "Nakenråttan",
+    "incorrect": [
+      "Bävern",
+      "Hamstern",
+      "Dvärgkaninen"
+    ],
+    "source_url": "https://nationalzoo.si.edu/animals/naked-mole-rat",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Vad innehåller de mörka fjällen på foten hos en särskild djuphavssnäcka som lever vid järnrika källor?",
+    "correct": "Järnsulfid",
+    "incorrect": [
+      "Kvartssand",
+      "Bivax",
+      "Koksalt"
+    ],
+    "source_url": "https://www.nature.com/articles/s41467-020-15522-3",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilka små delar i huden kan sitta tätare eller glesare när panterkameleonten skiftar färg?",
+    "correct": "Kristaller",
+    "incorrect": [
+      "Fjädrar",
+      "Luftbubblor",
+      "Silverglänsande hår"
+    ],
+    "source_url": "https://www.nature.com/articles/ncomms7368",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Hur använder den flygoförmögna papegojan kakapo vingarna när den hoppar ner från ett träd?",
+    "correct": "Den bromsar fallet",
+    "incorrect": [
+      "Den täcker ögonen",
+      "Den slår av grenar",
+      "Den flyger vidare till nästa träd"
+    ],
+    "source_url": "https://blog.doc.govt.nz/2023/07/25/restoring-the-mauri-of-kakapo-in-aotearoa/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vad höll en lunnefågel mot kroppen i en video som forskarna spelade in på Island?",
+    "correct": "En pinne",
+    "incorrect": [
+      "Ett äggskal",
+      "En sten",
+      "En fjäder"
+    ],
+    "source_url": "https://www.biology.ox.ac.uk/publication/1076485/ora-hyrax",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken färg fick pälsen på näbbdjur från en museisamling när forskare lyste på den med UV-ljus?",
+    "correct": "Grönblå",
+    "incorrect": [
+      "Knallröd",
+      "Guldgul",
+      "Sotgrå"
+    ],
+    "source_url": "https://blog.degruyter.com/not-to-be-outdone-the-platypus-fluoresces-too-2/",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kan en stormfågel spotta mot den som kommer för nära boet?",
+    "correct": "Illaluktande olja",
+    "incorrect": [
+      "Torr sand",
+      "Saltvatten",
+      "Fjädrar från bröstet"
+    ],
+    "source_url": "https://www.rspb.org.uk/birds-and-wildlife/fulmar/",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "hard",
+    "question": "Argentina och Uruguay ville båda använda sin egen boll i VM-finalen 1930. Hur löste domaren det?",
+    "correct": "En boll i varje halvlek",
+    "incorrect": [
+      "En boll för frisparkar och en för vanligt spel",
+      "Lagen bytte boll efter varje mål",
+      "Domaren tog fram en tredje boll"
+    ],
+    "source_url": "https://inside.fifa.com/tournaments/mens/worldcup/1930uruguay/news/uruguay-1930-in-numbers-2865046",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "easy",
+    "question": "Vad gjorde Nigel Mansell när rivalen Ayrton Senna fick bensinstopp i Storbritanniens GP 1991?",
+    "correct": "Gav honom skjuts på sin F1-bil",
+    "incorrect": [
+      "Sköt hans bil framför sin till mållinjen",
+      "Sprang till depån efter en bensindunk",
+      "Lät honom låna sin reservbil"
+    ],
+    "source_url": "https://www.formula1.com/en/latest/article/16-iconic-photos-that-depict-the-history-of-f1.1M5Hv48dAe3BoEl53bUD8O",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "medium",
+    "question": "Hur använde Sylvain Lefebvre Stanley Cup-bucklan när Colorado hade vunnit 1996?",
+    "correct": "Som dopfunt åt sin dotter",
+    "incorrect": [
+      "Som hundens matskål",
+      "Som kruka åt familjens julgran",
+      "Som fruktskål på en auktion"
+    ],
+    "source_url": "https://www.hhof.com/StanleyCupJournal/exSCJ_09.shtml",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "hard",
+    "question": "En match på Madagaskar slutade 149–0 år 2002. Hur kom alla 149 målen till?",
+    "correct": "Förloraren gjorde avsiktliga självmål",
+    "incorrect": [
+      "Vinnaren slog in 149 straffar",
+      "Mål från mittcirkeln räknades dubbelt",
+      "Förloraren spelade utan målvakt efter paus"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/101619-most-own-goals-in-a-domestic-league-football-match",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Simon Berry hade en tekopp som mål när han satte Guinnessrekord i bungyjump 2016. Vad doppade han i den?",
+    "correct": "En kaka",
+    "incorrect": [
+      "En sockerbit",
+      "En citronklyfta",
+      "En tepåse"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/news/2016/11/guinness-world-records-day-british-thrill-seeker-dunks-biscuit-into-teacup-durin-450757",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Vad fick över 2 300 personer i Filippinerna att falla som dominobrickor i ett Guinnessrekord 2023?",
+    "correct": "Madrasser som föll i en kedja",
+    "incorrect": [
+      "Höbalar som välte",
+      "Badbollar som rullade mot dem",
+      "Kontorsstolar som fälldes bakåt"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/largest-human-mattress-dominoes",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "hard",
+    "question": "En specialbyggd farkost kallad HAWC Mk1 kom upp i över 113 km/h 2018. Vilket badrumsföremål körde föraren på?",
+    "correct": "En toalettstol",
+    "incorrect": [
+      "Ett badkar",
+      "Ett handfat",
+      "En tvättmaskin"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/fastest-toilet",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Abolfazl Saber Mokhtari slog Guinnessrekord genom att balansera 96 bestick på kroppen 2025. Vad var det för bestick?",
+    "correct": "Skedar",
+    "incorrect": [
+      "Gafflar",
+      "Ätpinnar",
+      "Smörknivar"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/news/2025/5/man-balances-96-spoons-on-body-to-break-own-record-i-can-stick-any-object-to-my-skin",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "easy",
+    "question": "Vad häller man varm lönnsirap på i Québec för att kunna rulla upp den stelnade sirapen på en pinne?",
+    "correct": "Snö",
+    "incorrect": [
+      "Våfflor",
+      "Äppelskivor",
+      "Havregryn"
+    ],
+    "source_url": "https://www.bonjourquebec.com/en/to-see-and-do/getaways-in-quebec/top-5-foodies-musts",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "hard",
+    "question": "Vilken fisk får en puss av gäster som vill bli hedersinvånare på Newfoundland vid en så kallad screech-in?",
+    "correct": "Torsk",
+    "incorrect": [
+      "Makrill",
+      "Lax",
+      "Sill"
+    ],
+    "source_url": "https://www.newfoundlandlabrador.com/plan-and-book/attractions/36373934",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "medium",
+    "question": "Varför flyttade ridsporten vid sommar-OS 1956 från Melbourne till Stockholm?",
+    "correct": "Australiens karantänregler för hästar",
+    "incorrect": [
+      "Melbourne hade ingen bana för terrängritt",
+      "Ryttarna kunde inte ta sig dit efter en flygstrejk",
+      "Det fanns för få veterinärer på plats"
+    ],
+    "source_url": "https://www.olympics.com/ioc/news/stockholm-celebrates-50-year-anniversary-of-equestrian-events",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "easy",
+    "question": "Rodden gick bra för Bobby Pearce vid OS 1928. Varför slutade han plötsligt ro mitt i kvartsfinalen?",
+    "correct": "Han lät en andfamilj simma förbi",
+    "incorrect": [
+      "Han tappade sin keps i vattnet",
+      "Hans åror fastnade i ett fiskenät",
+      "Han trodde att loppet redan var slut"
+    ],
+    "source_url": "https://www.olympics.com.au/olympians/henry-pearce/",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "easy",
+    "question": "Fred Lorz var först över mållinjen vid OS-maraton 1904 men diskades. Hur hade han tagit sig en del av vägen?",
+    "correct": "Han hade åkt bil",
+    "incorrect": [
+      "Han hade åkt spårvagn",
+      "Han hade cyklat",
+      "Han hade ridit på en häst"
+    ],
+    "source_url": "https://www.olympics.com/ioc/news/the-strange-case-of-the-st-louis-1904-marathon",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "hard",
+    "question": "Två japanska stavhoppare fick silver och brons vid OS 1936 trots samma hopphöjd. Vad gjorde de med medaljerna hemma i Japan?",
+    "correct": "Satte ihop två medaljer med en halva av varje",
+    "incorrect": [
+      "Smälte ner båda till en gemensam pokal",
+      "Lämnade in dem i utbyte mot varsitt silver",
+      "Gav båda medaljerna till sin tränare"
+    ],
+    "source_url": "https://www.joc.or.jp/olympism/inheritance/fairplay/oe_nishida.html",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "hard",
+    "question": "Det walesiska namnet laverbread låter som något från ett bageri. Vad är huvudingrediensen?",
+    "correct": "Ätbara havsalger",
+    "incorrect": [
+      "Rivna rödbetor",
+      "Malda kastanjer",
+      "Krossade musslor"
+    ],
+    "source_url": "https://www.visitwales.com/things-do/food-and-drink/welsh-food-and-drink-experiences",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "medium",
+    "question": "Den isländska maträtten hákarl är känd för sin starka doft. Vilket djur kommer den från?",
+    "correct": "Haj",
+    "incorrect": [
+      "Säl",
+      "Hälleflundra",
+      "Bläckfisk"
+    ],
+    "source_url": "https://www.visiticeland.com/article/enjoy-icelandic-food/",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "easy",
+    "question": "I Tornedalen finns det en ost som traditionellt läggs i en dryck. Vilken?",
+    "correct": "Kaffe",
+    "incorrect": [
+      "Svart te",
+      "Lingondricka",
+      "Varm choklad"
+    ],
+    "source_url": "https://www.swedishlapland.com/stories/the-way-we-eat/",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "easy",
+    "question": "Vad är det mjuka innehållet i en klassisk nyzeeländsk chocolate fish?",
+    "correct": "Marshmallow",
+    "incorrect": [
+      "Mandelmassa",
+      "Saltlakrits",
+      "Kola"
+    ],
+    "source_url": "https://collectables.nzpost.co.nz/kiwiana-ii/",
+    "party_highlight": true
+  },
+  {
+    "theme": "sport",
+    "difficulty": "medium",
+    "question": "När ryssen Anton Gafarov åkte sönder en skida i OS-sprinten 2014 fick han oväntad hjälp. Vem kom med en reservskida?",
+    "correct": "Kanadas längdskidtränare",
+    "incorrect": [
+      "En publikvärd vid målet",
+      "Rysslands skidskyttetränare",
+      "Ledaren för ett TV-team"
+    ],
+    "source_url": "https://olympic.ca/wp-content/uploads/2015/08/cosp2014_as_jwadsworth_engld_fin.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "hard",
+    "question": "I Istanbul 2021 fick Mohammed Muqbel fyra ömtåliga livsmedel att balansera rakt ovanpå varandra. Vad staplade han?",
+    "correct": "Ägg",
+    "incorrect": [
+      "Kiwi",
+      "Tomater",
+      "Champinjoner"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/82517-most-eggs-stacked",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Ryusei Yonee tog sig 100 meter på 14,55 sekunder när han slog Guinnessrekord 2025. Hur sprang han?",
+    "correct": "På alla fyra",
+    "incorrect": [
+      "Baklänges",
+      "Sicksack runt koner",
+      "Med benen ihopbundna"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/88771-fastest-100-m-running-on-all-fours",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "medium",
+    "question": "Vilken uppblåsbar leksak använde Glenn Valentin när han hoppade nästan 33 kilometer på ett dygn för ett Guinnessrekord 2021?",
+    "correct": "En hoppboll med handtag",
+    "incorrect": [
+      "En badring",
+      "En uppblåsbar krokodil",
+      "En luftmadrass"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/79321-space-hopper-greatest-distance-in-24-hours",
+    "party_highlight": true
+  },
+  {
+    "theme": "rekord",
+    "difficulty": "easy",
+    "question": "I Bhubaneswar i Indien gjorde över 26 000 personer samma badrumssyssla samtidigt för ett Guinnessrekord 2019. Vilken?",
+    "correct": "Borstade tänderna",
+    "incorrect": [
+      "Kammade håret",
+      "Tvättade ansiktet",
+      "Klippte naglarna"
+    ],
+    "source_url": "https://www.guinnessworldrecords.com/world-records/most-people-brushing-their-teeth",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "På Cooper’s Hill i England springer tävlande nedför en brant backe. Vilken matvara jagar de?",
+    "correct": "En rund ost",
+    "incorrect": [
+      "En stor potatis",
+      "En limpa bröd",
+      "Ett kålhuvud"
+    ],
+    "source_url": "https://www.gloucestershire.gov.uk/archives/learning-for-all/online-exhibitions/here-we-are-now-entertain-us/",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Vad kan isländska barn enligt jultraditionen hitta i sin sko i stället för en present?",
+    "correct": "En potatis",
+    "incorrect": [
+      "Ett rått ägg",
+      "En lök",
+      "En torkad fisk"
+    ],
+    "source_url": "https://www.visiticeland.com/article/iceland-in-december/",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "Barnen slår på en hängande tunna under danska fastelavn. Vad brukar de få ut ur den?",
+    "correct": "Godis",
+    "incorrect": [
+      "Knappar",
+      "Vedträn",
+      "Små bjällror"
+    ],
+    "source_url": "https://www.visitdenmark.com/press/latest-news/quirky-danish-pancake-tradition",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "hard",
+    "question": "I Danmark kan en singel på sin 25-årsdag bli täckt av en krydda av sina vänner. Vilken?",
+    "correct": "Kanel",
+    "incorrect": [
+      "Ingefära",
+      "Kardemumma",
+      "Muskot"
+    ],
+    "source_url": "https://www.visitdenmark.com/denmark/things-do/traditions-lifestyle/danish-traditions",
+    "party_highlight": true
+  },
+  {
+    "theme": "norden",
+    "difficulty": "medium",
+    "question": "Vilket plagg hör till vårens norska russetid för gymnasieelever som ska ta studenten?",
+    "correct": "En färgad overall",
+    "incorrect": [
+      "En stickad poncho",
+      "En rutig kilt",
+      "En lång läderrock"
+    ],
+    "source_url": "https://www.visitnorway.com/typically-norwegian/unique-norwegian-words/",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "På Shetlandsöarna avslutas fackeltåget vid Up Helly Aa med att något tänds på. Vad?",
+    "correct": "En kopia av ett vikingaskepp",
+    "incorrect": [
+      "En kopia av en borgport",
+      "En gigantisk trollmask",
+      "En väderkvarn i miniatyr"
+    ],
+    "source_url": "https://www.shetland.org/blog/what-happens-lerwick-up-helly-aa",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Volkswagen har gett ett eget artikelnummer åt vilken lunch från fabrikens matsalar?",
+    "correct": "En currykorv",
+    "incorrect": [
+      "En schnitzel",
+      "En surkålsgryta",
+      "En potatiskaka"
+    ],
+    "source_url": "https://www.volkswagen-newsroom.com/en/publications/more/mission-maximum-180/download",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "medium",
+    "question": "Vad sålde KFC i USA som skulle få vardagsrummet att lukta friterad kyckling?",
+    "correct": "Ett doftande vedträ",
+    "incorrect": [
+      "En sprej för örngott",
+      "En doftande blomkruka",
+      "En doftande dörrmatta"
+    ],
+    "source_url": "https://global.kfc.com/press-releases/kfcs-famous-fried-chicken-scented-firelogs-return-for-sale-starting-today-exclusively-at-walmartcom",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "medium",
+    "question": "I den belgiska kustbyn Oostduinkerke kan man fiska räkor utan båt. Vad sitter fiskarna på?",
+    "correct": "En häst",
+    "incorrect": [
+      "En cykel",
+      "En oljetunna",
+      "En uppblåsbar madrass"
+    ],
+    "source_url": "https://ich.unesco.org/en/RL/shrimp-fishing-on-horseback-in-oostduinkerke-00673",
+    "party_highlight": true
+  },
+  {
+    "theme": "prylar",
+    "difficulty": "hard",
+    "question": "Vilken sorts flaska från en antikaffär i Gamla stan inspirerade Absolut Vodkas form?",
+    "correct": "En gammal apoteksflaska",
+    "incorrect": [
+      "En gammal mjölkflaska",
+      "En gammal parfymflaska",
+      "En gammal bläckflaska"
+    ],
+    "source_url": "https://www.absolut.com/en-us/blog/vodka-and-spirits/the-story-of-the-absolut-bottle-and-brand/",
+    "party_highlight": true
+  },
+  {
+    "theme": "norden",
+    "difficulty": "hard",
+    "question": "Vad sätter studenterna på Helsingforsstatyn Havis Amanda med hjälp av en lyftkran vid valborg?",
+    "correct": "En studentmössa",
+    "incorrect": [
+      "En blomsterkrans",
+      "En basker",
+      "En guldkrona"
+    ],
+    "source_url": "https://finland.fi/life-society/learning-finnish-graduation-hat-tricks/",
+    "party_highlight": true
+  },
+  {
+    "theme": "traditioner",
+    "difficulty": "easy",
+    "question": "I Danmark kan en enda gäst vinna ett pris för ett fynd i julens risdessert. Vad göms i den?",
+    "correct": "En hel mandel",
+    "incorrect": [
+      "Ett russin",
+      "En kanelstång",
+      "En kaffeböna"
+    ],
+    "source_url": "https://www.visitdenmark.com/denmark/inspiration/christmas/traditions",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilken gräns passerade Felix Baumgartner i fritt fall under Red Bulls uppmärksammade hopp 2012?",
+    "correct": "Ljudvallen",
+    "incorrect": [
+      "Ljusets hastighet",
+      "Nollpunkten för tyngdkraften",
+      "Jordens omloppsbana"
+    ],
+    "source_url": "https://www.redbull.com/int-en/stratos-space-jump-key-facts-numbers",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "hard",
+    "question": "Under en festival i australiska Chinchilla åker folk skidor över en presenning. Vad har de på fötterna?",
+    "correct": "Vattenmeloner",
+    "incorrect": [
+      "Strandtofflor",
+      "Brödlimpor",
+      "Plastkälkar"
+    ],
+    "source_url": "https://www.slq.qld.gov.au/blog/watermelon-skiing-dunny-derbies-liangs-great-aussie-adventure",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "På en festival i Nebraska går en tävling ut på att härma ljudet från vilket djur?",
+    "correct": "En höna",
+    "incorrect": [
+      "En get",
+      "En ko",
+      "En gris"
+    ],
+    "source_url": "https://visitnebraska.com/trip-idea/summer-events-festivals-nebraska",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad paddlar deltagarna i vid det udda världsmästerskapet i Castletowns hamn på Isle of Man?",
+    "correct": "Badkar av plåt",
+    "incorrect": [
+      "Tomma kylboxar",
+      "Uppblåsbara sängar",
+      "Gamla blomlådor"
+    ],
+    "source_url": "https://www.visitisleofman.com/dbimgs/Travel%20Trade%202024%20Events%20Guide_Revised.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "nostalgi",
+    "difficulty": "easy",
+    "question": "Vad var ovanligt med utseendet på läsken Crystal Pepsi som dök upp på 90-talet?",
+    "correct": "Den var genomskinlig",
+    "incorrect": [
+      "Den var självlysande",
+      "Den var skimrande grön",
+      "Den var randig i två färger"
+    ],
+    "source_url": "https://www.prnewswire.com/news-releases/celebrate-the-90s-with-crystal-pepsi----iconic-clear-cola-to-hit-shelves-this-summer-300292028.html",
+    "party_highlight": true
+  },
+  {
+    "theme": "norden",
+    "difficulty": "easy",
+    "question": "Vilken leksak tar finländska tävlande med sig när de själva ska hoppa över hästhinder?",
+    "correct": "En käpphäst",
+    "incorrect": [
+      "En jojo",
+      "En hoppstylta",
+      "En leksakstraktor"
+    ],
+    "source_url": "https://finland.fi/life-society/finnish-hobbyhorse-phenomenon-gains-new-ground-gallop/",
+    "party_highlight": true
+  },
+  {
+    "theme": "aprilskämt",
+    "difficulty": "hard",
+    "question": "Vilken sorts amerikansk nationalsymbol låtsades Taco Bell ha köpt i ett aprilskämt 1996?",
+    "correct": "En klocka",
+    "incorrect": [
+      "En fyr",
+      "En järnvägsbro",
+      "En staty"
+    ],
+    "source_url": "https://www.nps.gov/common/uploads/teachers/lessonplans/Liberty-Bell-timeline%20activity%20middle%20school.pdf",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "easy",
+    "question": "Vilken snabbmat levererades hela vägen till den internationella rymdstationen som reklamjippo 2001?",
+    "correct": "Pizza",
+    "incorrect": [
+      "Hamburgare",
+      "Burritos",
+      "Grillkorv"
+    ],
+    "source_url": "https://www.smithsonianmag.com/smart-news/space-no-one-can-hear-you-nom-space-station-getting-cookie-baking-oven-1-180973455/",
+    "party_highlight": true
+  },
+  {
+    "theme": "mat",
+    "difficulty": "medium",
+    "question": "Vilken pastarätt blev till glass när tillverkaren Van Leeuwen samarbetade med Kraft?",
+    "correct": "Makaroner med ostsås",
+    "incorrect": [
+      "Spaghetti med köttbullar",
+      "Penne med pesto",
+      "Lasagne med tomat"
+    ],
+    "source_url": "https://www.prnewswire.com/news-releases/guinness-and-van-leeuwen-churn-out-the-ultimate-lovely-day-ice-cream-collab-302508945.html",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vilken burkmat har ett helt museum med egna guider i amerikanska Austin, Minnesota?",
+    "correct": "Spam, konserverat kött",
+    "incorrect": [
+      "Campbell’s tomatsoppa",
+      "Heinz vita bönor",
+      "Del Montes fruktcocktail"
+    ],
+    "source_url": "https://www.spam.com/museum",
+    "party_highlight": true
+  },
+  {
+    "theme": "udda",
+    "difficulty": "medium",
+    "question": "Vad kan en deltagare få poäng för i det engelska VM:et i såsbrottning?",
+    "correct": "Att få publiken att skratta",
+    "incorrect": [
+      "Att äta sås under matchen",
+      "Att hålla andan länge",
+      "Att behålla kläderna fläckfria"
+    ],
+    "source_url": "https://worldgravywrestling.com/info/",
     "party_highlight": true
   }
 ]
