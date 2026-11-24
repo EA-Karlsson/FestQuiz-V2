@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const difficultySelect = document.getElementById("difficulty");
 
     const categoryButtons = document.querySelectorAll("#categories button[data-category]");
+    const festmixThemes = document.getElementById("solo-festmix-themes");
     const randomBtn = document.getElementById("randomCategory");
     const musicBtn = document.getElementById("musicBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add("active");
 
             selectedCategory = btn.dataset.category;
+            festmixThemes.hidden = selectedCategory !== "party";
         });
     });
 
@@ -67,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const random =
             CATEGORY_IDS[Math.floor(Math.random() * CATEGORY_IDS.length)];
         selectedCategory = random;
+        festmixThemes.hidden = selectedCategory !== "party";
 
         categoryButtons.forEach(b => {
             b.style.opacity = b.dataset.category === random ? "1" : "0.5";
@@ -131,6 +134,11 @@ async function startQuiz(
         category: selectedCategory,
         difficulty: difficultySelect.value
     });
+    if (selectedCategory === "party") {
+        document.querySelectorAll("#solo-festmix-themes input:checked").forEach(theme => {
+            params.append("themes", theme.value);
+        });
+    }
 
     try {
         const res = await fetch("/quiz?" + params);
@@ -215,7 +223,10 @@ function nextQuestion(questionText, answersDiv) {
     results.push({
         question: q.question,
         correct_answer: q.correct_answer,
-        correct_letter: correctLetter
+        correct_letter: correctLetter,
+        source: q.source,
+        source_url: q.source_url,
+        report_ticket: q.report_ticket
     });
 
     currentIndex++;
@@ -277,6 +288,11 @@ function showFacit() {
         letter.textContent = item.correct_letter;
         answer.append("Rätt svar: ", letter, " – " + item.correct_answer);
         entry.append(question, answer);
+        const source = facitSource(item);
+        if (source) entry.appendChild(source);
+        if (typeof item.report_ticket === "string" && item.report_ticket) {
+            entry.appendChild(facitReport(item.report_ticket));
+        }
         return entry;
     }));
 
@@ -299,6 +315,53 @@ function showFacit() {
     });
 
     answersDiv.appendChild(btn);
+}
+
+function facitSource(item) {
+    const source = document.createElement("p");
+    source.className = "facit-source";
+    source.textContent = item.source ? `Fråga från ${item.source}` : "";
+    if (typeof item.source_url === "string" && /^https?:\/\//i.test(item.source_url)) {
+        const link = document.createElement("a");
+        link.href = item.source_url;
+        if (link.hostname && (link.protocol === "https:" || link.protocol === "http:")) {
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = source.textContent || "Visa frågans källa";
+            source.replaceChildren(link);
+        }
+    }
+    return source.textContent ? source : null;
+}
+
+function facitReport(ticket) {
+    const action = document.createElement("div");
+    action.className = "facit-report";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "report-question";
+    button.textContent = "Rapportera frågan";
+    const status = document.createElement("p");
+    status.setAttribute("role", "status");
+    action.append(button, status);
+
+    button.addEventListener("click", async () => {
+        button.disabled = true;
+        status.textContent = "Skickar rapporten…";
+        try {
+            const response = await fetch("/api/question-reports", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ticket })
+            });
+            if (!response.ok) throw new Error("Rapporten kunde inte skickas.");
+            status.textContent = "Frågan är rapporterad.";
+        } catch {
+            status.textContent = "Rapporten kunde inte skickas. Försök igen.";
+            button.disabled = false;
+        }
+    });
+    return action;
 }
 
 // ================== UTILS ==================

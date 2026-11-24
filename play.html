@@ -11,7 +11,10 @@
 </head>
 <body>
     <header class="topbar">
-        <a class="brand" href="/" aria-label="FestQuiz, startsida"><span aria-hidden="true">?</span>FestQuiz</a>
+        <a class="brand" href="/" aria-label="FestQuiz, startsida">
+            <img class="brand-logo" src="/assets/festquiz-logo.png" width="36" height="36" alt="">
+            <span class="brand-wordmark"><span class="brand-fest">Fest</span><span class="brand-quiz">Quiz</span></span>
+        </a>
         <div class="topbar-end">
             <button class="utility" id="fullscreen-button" type="button" aria-pressed="false" hidden>Spela i helskärm</button>
             <button class="utility" id="music-button" type="button" aria-pressed="false" hidden>Spela musik</button>
@@ -68,7 +71,17 @@
                         <option value="22">Geografi</option>
                         <option value="modern">2000-talet</option>
                     </select>
-                    <p id="festmix-hint" hidden>Knasiga men sanna fakta, oväntade prylar och nostalgi.</p>
+                    <fieldset class="festmix-theme-picker" id="festmix-themes" aria-describedby="festmix-hint" hidden>
+                        <legend>Teman i Festmix</legend>
+                        <p class="festmix-theme-hint" id="festmix-hint">Lämna alla omarkerade för att blanda alla teman.</p>
+                        <div class="festmix-theme-options">
+                            <label><input type="checkbox" name="themes" value="odd"> Knasiga fakta</label>
+                            <label><input type="checkbox" name="themes" value="film"> Film och tv</label>
+                            <label><input type="checkbox" name="themes" value="music"> Musik</label>
+                            <label><input type="checkbox" name="themes" value="retro"> Spel och prylar</label>
+                            <label><input type="checkbox" name="themes" value="world"> Mat och traditioner</label>
+                        </div>
+                    </fieldset>
                     <div class="settings-row">
                         <div>
                             <label for="amount">Antal frågor</label>
@@ -176,6 +189,10 @@
                     <div class="choices" id="review-choices"></div>
                     <p class="review-correct" id="review-correct"></p>
                     <p class="question-source" id="review-source" hidden></p>
+                    <div class="review-report" id="review-report" hidden>
+                        <button class="utility" id="report-question" type="button">Rapportera frågan</button>
+                        <p id="report-status" role="status" hidden></p>
+                    </div>
                 </div>
                 <div class="panel">
                     <h2>Spelarnas svar</h2>

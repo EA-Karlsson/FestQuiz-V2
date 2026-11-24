@@ -20,6 +20,33 @@ body {
     text-align: center;
 }
 
+.solo-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.solo-brand img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.solo-brand .brand-wordmark {
+    font-family: "Arial Black", "Trebuchet MS", Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: -.045em;
+}
+
+.solo-brand .brand-fest {
+    color: #fff4dd;
+}
+
+.solo-brand .brand-quiz {
+    color: #f8b942;
+}
+
 #quizScreen {
     padding: 16px;
 }
@@ -81,6 +108,47 @@ button:active {
 
 #categories button {
     opacity: 0.6;
+}
+
+.solo-festmix-theme-picker {
+    max-width: 530px;
+    margin: 16px auto 0;
+    padding: 8px 14px 14px;
+    border: 1px solid #616161;
+    border-radius: 12px;
+    background: #1c1c1c;
+}
+
+.solo-festmix-theme-picker legend {
+    padding: 0 5px;
+    font-weight: bold;
+}
+
+.solo-festmix-theme-picker p {
+    margin: 4px 0 8px;
+    color: #dedede;
+    font-size: 14px;
+}
+
+.solo-festmix-theme-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px 12px;
+}
+
+.solo-festmix-theme-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 5px;
+    cursor: pointer;
+}
+
+.solo-festmix-theme-options input {
+    width: 18px;
+    height: 18px;
+    accent-color: #ffcc33;
 }
 
 /* 2025 & Nutid */
@@ -166,6 +234,30 @@ button:active {
     color: #a8ff60;
 }
 
+.facit-source,
+.facit-report p {
+    margin: 10px 0 0;
+    color: #dedede;
+    font-size: 14px;
+}
+
+.facit-source a {
+    color: #ffcc33;
+}
+
+.facit-report button {
+    margin: 10px 0 0;
+}
+
+.facit-report p:empty {
+    margin: 0;
+}
+
+.facit-report button:disabled {
+    opacity: .65;
+    cursor: default;
+}
+
 /* Facit-knapp */
 .restart-btn {
     margin-top: 24px;
@@ -199,6 +291,11 @@ button:active {
 @media (max-width: 600px) {
     #answers {
         grid-template-columns: 1fr;
+    }
+
+    .solo-festmix-theme-picker {
+        margin-right: 12px;
+        margin-left: 12px;
     }
 
     h1 {

@@ -12,7 +12,10 @@
 
     <!-- STARTSKÄRM -->
     <div id="startScreen">
-        <h1>🎉 FestQuiz</h1>
+        <h1 class="solo-brand" aria-label="FestQuiz">
+            <img src="/assets/festquiz-logo.png" width="46" height="46" alt="">
+            <span class="brand-wordmark"><span class="brand-fest">Fest</span><span class="brand-quiz">Quiz</span></span>
+        </h1>
 
         <h2>Välj kategori</h2>
         <div id="categories">
@@ -29,6 +32,18 @@
             <button data-category="22">Geografi</button>
             <button id="randomCategory">🎲 Slumpa kategori</button>
         </div>
+
+        <fieldset class="solo-festmix-theme-picker" id="solo-festmix-themes" aria-describedby="solo-festmix-theme-hint" hidden>
+            <legend>Teman i Festmix</legend>
+            <p id="solo-festmix-theme-hint">Lämna alla omarkerade för att blanda alla teman.</p>
+            <div class="solo-festmix-theme-options">
+                <label><input type="checkbox" name="themes" value="odd"> Knasiga fakta</label>
+                <label><input type="checkbox" name="themes" value="film"> Film och tv</label>
+                <label><input type="checkbox" name="themes" value="music"> Musik</label>
+                <label><input type="checkbox" name="themes" value="retro"> Spel och prylar</label>
+                <label><input type="checkbox" name="themes" value="world"> Mat och traditioner</label>
+            </div>
+        </fieldset>
 
         <h2>Antal frågor</h2>
         <select id="questionCount">

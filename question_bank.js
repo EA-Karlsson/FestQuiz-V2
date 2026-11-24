@@ -2,6 +2,7 @@
 
 const element = (id) => document.getElementById(id);
 const apiPath = "/api/question-bank";
+const reportsPath = "/api/question-reports";
 const bankStatus = element("bank-status");
 const editStatus = element("bank-edit-status");
 const originalQuestion = element("bank-original-question");
@@ -66,12 +67,13 @@ async function callBank(path, { method = "GET", body, credential = adminKey } = 
 }
 
 function updateControls() {
-    ["bank-login", "bank-key", "bank-query", "bank-search", "bank-lock", "bank-fields", "bank-reload"].forEach((id) => {
+    ["bank-login", "bank-key", "bank-query", "bank-search", "bank-lock", "bank-fields", "bank-reload", "bank-reports-reload"].forEach((id) => {
         element(id).disabled = busy;
     });
     element("bank-save").disabled = busy || !activeQuestion || reloadNeeded;
     element("bank-reload").hidden = !reloadNeeded;
     element("bank-results").querySelectorAll("button").forEach((button) => { button.disabled = busy; });
+    element("bank-reports-list").querySelectorAll("button").forEach((button) => { button.disabled = busy; });
 }
 
 async function perform(action, output = bankStatus) {
@@ -118,6 +120,9 @@ function clearAccess() {
     element("bank-query").value = "";
     element("bank-results").textContent = "";
     element("bank-results-summary").textContent = "";
+    element("bank-reports").open = false;
+    element("bank-reports-list").textContent = "";
+    element("bank-reports-summary").textContent = "";
     element("bank-editor-meta").textContent = "";
     originalQuestion.textContent = "";
     element("bank-original-correct").textContent = "";
@@ -207,6 +212,66 @@ async function loadQuestions(query, credential) {
     if (!Array.isArray(result.questions)) throw new Error("Frågorna kunde inte läsas in.");
     return result;
 }
+
+async function loadReports() {
+    const result = await callBank(reportsPath);
+    if (!Array.isArray(result.reports)) throw new Error("Rapporterna kunde inte läsas in.");
+    const reports = result.reports;
+    element("bank-reports-summary").textContent = reports.length
+        ? `${reports.length} öppna rapporter`
+        : "Inga öppna rapporter.";
+    element("bank-reports-list").replaceChildren(...reports.map((report) => {
+        const item = document.createElement("li");
+        const prompt = document.createElement("strong");
+        prompt.textContent = report.question;
+        const answer = document.createElement("p");
+        answer.textContent = `Sparat facit: ${report.correct} · ${report.source}`;
+        const alternatives = document.createElement("p");
+        alternatives.textContent = report.incorrect.join(" · ");
+        const open = document.createElement("button");
+        open.type = "button";
+        open.className = "utility";
+        open.textContent = "Öppna frågan";
+        open.addEventListener("click", () => {
+            if (busy || !allowLeavingEditor()) return;
+            perform(async () => {
+                const found = await loadQuestions(report.question_key, adminKey);
+                if (!found.questions.length) throw new Error("Den rapporterade frågan finns ännu inte i frågebanken.");
+                questions = found.questions;
+                element("bank-query").value = report.question_key;
+                const matchingSource = questions.filter((entry) => entry.source === report.source);
+                const matchingText = matchingSource.filter(
+                    (entry) => entry.question === report.question && entry.correct === report.correct,
+                );
+                const exact = matchingText.length === 1 ? matchingText[0] :
+                    matchingSource.length === 1 ? matchingSource[0] : null;
+                activeQuestion = null;
+                editor.hidden = true;
+                renderResults(report.question_key);
+                if (exact) openEditor(exact, true);
+                else status(bankStatus, "Välj rätt version bland träffarna.");
+            });
+        });
+        const resolve = document.createElement("button");
+        resolve.type = "button";
+        resolve.className = "utility";
+        resolve.textContent = "Markera som hanterad";
+        resolve.addEventListener("click", () => perform(async () => {
+            await callBank(`${reportsPath}/${encodeURIComponent(report.id)}/resolve`, { method: "PUT" });
+            await loadReports();
+        }));
+        const actions = document.createElement("div");
+        actions.className = "bank-actions";
+        actions.append(open, resolve);
+        item.append(prompt, answer, alternatives, actions);
+        return item;
+    }));
+}
+
+element("bank-reports").addEventListener("toggle", () => {
+    if (adminKey && element("bank-reports").open) perform(loadReports);
+});
+element("bank-reports-reload").addEventListener("click", () => perform(loadReports));
 
 element("bank-auth-form").addEventListener("submit", (event) => {
     event.preventDefault();

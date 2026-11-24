@@ -19,6 +19,8 @@ from pydantic import BaseModel, Field
 from qrcode.image.pure import PyPNGImage
 
 import question_bank
+from question_reports import report_ticket, verify_report_ticket
+from festmix_themes import FESTMIX_THEMES
 from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions, valid_question_edit
 
 
@@ -60,6 +62,8 @@ class Question:
     choices: list[str]
     correct_choice: int
     source: str
+    key: str
+    source_url: str | None = None
     answers: dict[str, int] = field(default_factory=dict)
     drafts: dict[str, AnswerDraft] = field(default_factory=dict)
 
@@ -101,6 +105,7 @@ class StartInput(BaseModel):
     hostName: str | None = Field(default=None, min_length=1, max_length=32)
     seconds: Literal[15, 20, 30] = default_round_seconds
     allowRepeats: bool = Field(default=False, strict=True)
+    themes: list[str] = Field(default_factory=list, max_length=len(FESTMIX_THEMES))
 
 
 class AnswerInput(BaseModel):
@@ -124,6 +129,10 @@ class QuestionBankEdit(BaseModel):
     correct: BankText
     incorrect: Annotated[list[BankText], Field(min_length=3, max_length=3)]
     revision: int = Field(ge=1, strict=True)
+
+
+class QuestionReportInput(BaseModel):
+    ticket: str = Field(min_length=1, max_length=24000)
 
 
 def token_from(
@@ -207,14 +216,21 @@ def deal_questions(
     *,
     exclude: Collection[str] = (),
     allow_repeats: bool = False,
+    themes: Collection[str] = (),
 ) -> list[dict]:
     if category not in category_values or difficulty not in difficulty_values:
         raise HTTPException(400, "Välj en kategori och svårighetsgrad från listan.")
+    theme_filter = frozenset(themes)
+    if theme_filter and category != "party":
+        raise HTTPException(400, "Teman kan bara väljas i Festmix.")
+    if not theme_filter.issubset(FESTMIX_THEMES):
+        raise HTTPException(400, "Välj giltiga teman i Festmix.")
     with question_lock:
         recent = tuple(recent_questions)
     try:
         questions = get_questions(
-            amount, category, difficulty, exclude=exclude, avoid_recent=recent, allow_repeats=allow_repeats
+            amount, category, difficulty, exclude=exclude, avoid_recent=recent,
+            allow_repeats=allow_repeats, themes=theme_filter,
         )
     except NewQuestionsUnavailable as error:
         raise HTTPException(409, {
@@ -243,6 +259,8 @@ def shuffle_question(source: dict) -> Question:
         choices=choices,
         correct_choice=choices.index(source["correct"]),
         source=source["source"],
+        key=source["key"],
+        source_url=source.get("source_url"),
     )
 
 
@@ -279,13 +297,16 @@ def require_closed_question(room: Room) -> None:
 
 
 def question_view(question: Question, *, reveal: bool) -> dict:
-    return {
+    result = {
         "id": question.id,
         "text": question.text,
         "choices": question.choices,
         "correctChoice": question.correct_choice if reveal else None,
         "source": question.source if reveal else None,
     }
+    if reveal and question.source_url:
+        result["sourceUrl"] = question.source_url
+    return result
 
 
 def place_for(score: int, players: Collection[Player]) -> int:
@@ -349,10 +370,17 @@ def view_state(room: Room, token: str | None) -> dict:
     review = None
     if room.phase == "review":
         reviewed = room.questions[room.review_question]
+        review_question = question_view(reviewed, reveal=True)
+        if token is not None and (token in room.players or token == room.host_token):
+            correct = reviewed.choices[reviewed.correct_choice]
+            incorrect = [choice for i, choice in enumerate(reviewed.choices) if i != reviewed.correct_choice]
+            ticket = report_ticket(reviewed.key, reviewed.text, correct, incorrect, reviewed.source)
+            if ticket:
+                review_question["reportTicket"] = ticket
         review = {
             "current": room.review_question + 1,
             "total": len(room.questions),
-            "question": question_view(reviewed, reveal=True),
+            "question": review_question,
             "answers": [
                 {"name": player.name, "choice": reviewed.answers.get(credential)}
                 for credential, player in room.players.items()
@@ -403,6 +431,11 @@ def play_style():
     return FileResponse(root / "play.css", media_type="text/css", headers={"Cache-Control": "no-cache"})
 
 
+@app.get("/assets/festquiz-logo.png")
+def festquiz_logo():
+    return FileResponse(root / "festquiz-logo.png", media_type="image/png", headers={"Cache-Control": "no-cache"})
+
+
 @app.get("/fragabank", include_in_schema=False)
 def question_bank_page(_key: Annotated[str, Depends(bank_admin_key)]):
     return FileResponse(root / "question_bank.html", headers={"Cache-Control": "no-store", "X-Robots-Tag": "noindex"})
@@ -442,6 +475,39 @@ def edit_bank_question(question_id: Annotated[str, PathParam(pattern=r"^[0-9a-f]
     return {"question": bank_question_view(record)}
 
 
+@app.post("/api/question-reports", status_code=201)
+def submit_question_report(submission: QuestionReportInput):
+    try:
+        identifier, report = verify_report_ticket(submission.ticket)
+    except ValueError as error:
+        raise HTTPException(422, str(error)) from error
+    try:
+        if not question_bank.store_question_report(identifier, **report):
+            raise HTTPException(503, "Rapporten kunde inte sparas. Försök igen.")
+    except question_bank.QuestionBankUnavailable as error:
+        raise HTTPException(503, "Rapporten kunde inte sparas. Försök igen.") from error
+    return {"reported": True}
+
+
+@app.get("/api/question-reports", dependencies=[Depends(require_bank_admin)], include_in_schema=False)
+def read_question_reports():
+    try:
+        return {"reports": question_bank.list_question_reports()}
+    except question_bank.QuestionBankUnavailable as error:
+        raise HTTPException(503, "Rapporterna är tillfälligt otillgängliga.") from error
+
+
+@app.put("/api/question-reports/{report_id}/resolve", dependencies=[Depends(require_bank_admin)], include_in_schema=False)
+def close_question_report(report_id: Annotated[str, PathParam(pattern=r"^[0-9a-f]{32}$")]):
+    try:
+        resolved = question_bank.resolve_question_report(report_id)
+    except question_bank.QuestionBankUnavailable as error:
+        raise HTTPException(503, "Rapporten kunde inte sparas. Försök igen.") from error
+    if not resolved:
+        raise HTTPException(404, "Rapporten har redan hanterats eller saknas.")
+    return {"resolved": True}
+
+
 @app.get("/solo")
 def solo_page():
     return RedirectResponse("/static/index.html")
@@ -467,16 +533,25 @@ def solo_quiz(
     amount: Annotated[int, Query(ge=1, le=max_questions)] = 10,
     category: str = "",
     difficulty: str = "",
+    themes: Annotated[list[str] | None, Query(max_length=len(FESTMIX_THEMES))] = None,
 ):
-    return [
-        {
+    questions = []
+    for question in deal_questions(amount, category, difficulty, themes=themes or ()):
+        result = {
             "question": question["question"],
             "correct_answer": question["correct"],
             "incorrect_answers": question["incorrect"],
             "source": question["source"],
         }
-        for question in deal_questions(amount, category, difficulty)
-    ]
+        if question.get("source_url"):
+            result["source_url"] = question["source_url"]
+        ticket = report_ticket(
+            question["key"], question["question"], question["correct"], question["incorrect"], question["source"],
+        )
+        if ticket:
+            result["report_ticket"] = ticket
+        questions.append(result)
+    return questions
 
 
 @app.post("/api/rooms", status_code=201)
@@ -559,6 +634,7 @@ def start_room(code: str, submission: StartInput, token: Token):
             submission.difficulty,
             exclude=used,
             allow_repeats=submission.allowRepeats,
+            themes=submission.themes,
         )
         questions = [shuffle_question(question) for question in dealt]
         with room_lock:

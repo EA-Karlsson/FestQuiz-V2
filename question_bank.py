@@ -29,6 +29,9 @@ class QuestionBankConflict(RuntimeError):
     pass
 
 
+ARCHIVED_CATEGORY = "Arkiverad"
+
+
 @dataclass(frozen=True)
 class BankQuestion:
     id: str
@@ -75,6 +78,18 @@ Index("question_bank_category_difficulty_idx", _table.c.category, _table.c.diffi
 Index("question_bank_updated_at_idx", _table.c.updated_at)
 _columns = tuple(field.name for field in fields(BankQuestion))
 _question_select = select(*(_table.c[name] for name in _columns))
+_report_table = Table(
+    "question_reports",
+    MetaData(),
+    Column("id", String(32), primary_key=True),
+    Column("question_key", String(32), nullable=False),
+    Column("question", Text, nullable=False),
+    Column("correct", Text, nullable=False),
+    Column("incorrect", JSON, nullable=False),
+    Column("source", Text, nullable=False),
+    Column("created_at", DateTime(timezone=True), nullable=False),
+    Column("resolved_at", DateTime(timezone=True)),
+)
 _engine_lock = Lock()
 _default_path = Path(__file__).resolve().parent / "data" / "question-bank.sqlite3"
 _batch_size = 300
@@ -123,6 +138,7 @@ def _engine_for(url: URL):
             connection.execute(CreateTable(_table, if_not_exists=True))
             for index in _table.indexes:
                 connection.execute(CreateIndex(index, if_not_exists=True))
+            connection.execute(CreateTable(_report_table, if_not_exists=True))
     except (SQLAlchemyError, OSError):
         engine.dispose()
         raise
@@ -220,7 +236,9 @@ def fallback_questions(
 ) -> list[BankQuestion]:
     if limit <= 0 or sources is not None and not sources:
         return []
-    statement = _question_select.order_by(func.random())
+    statement = _question_select.where(
+        or_(_table.c.category.is_(None), _table.c.category != ARCHIVED_CATEGORY)
+    ).order_by(func.random())
     if category:
         statement = statement.where(_table.c.category == category)
     if difficulty:
@@ -253,6 +271,7 @@ def list_questions(query: str = "", limit: int = 50, offset: int = 0) -> list[Ba
     term = _fold(query.strip())
     if term:
         statement = statement.where(or_(
+            _table.c.key == term,
             _table.c.original_search.contains(term, autoescape=True),
             _table.c.translated_search.contains(term, autoescape=True),
         ))
@@ -294,3 +313,35 @@ def update_question(
         if updated != 1:
             raise QuestionBankConflict("Frågan har ändrats sedan du öppnade den. Hämta senaste versionen.")
         return _as_question(row)
+
+
+def store_question_report(id: str, *, question_key: str, question: str, correct: str,
+                          incorrect: Sequence[str], source: str) -> bool:
+    with _connection() as connection:
+        if connection is None:
+            return False
+        insert = postgres_insert if connection.dialect.name == "postgresql" else sqlite_insert
+        statement = insert(_report_table).values(
+            id=id, question_key=question_key, question=question, correct=correct,
+            incorrect=list(incorrect), source=source, created_at=datetime.now(UTC),
+        ).on_conflict_do_nothing(index_elements=[_report_table.c.id])
+        connection.execute(statement)
+        return True
+
+
+def list_question_reports() -> list[dict]:
+    statement = select(_report_table).where(_report_table.c.resolved_at.is_(None)).order_by(
+        _report_table.c.created_at.desc(), _report_table.c.id,
+    ).limit(100)
+    with _connection() as connection:
+        if connection is None:
+            return []
+        return [dict(row) for row in connection.execute(statement).mappings()]
+
+
+def resolve_question_report(id: str) -> bool:
+    statement = _report_table.update().where(
+        _report_table.c.id == id, _report_table.c.resolved_at.is_(None),
+    ).values(resolved_at=datetime.now(UTC))
+    with _connection() as connection:
+        return connection is not None and connection.execute(statement).rowcount == 1

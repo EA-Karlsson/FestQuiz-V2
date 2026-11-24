@@ -6,6 +6,7 @@ const roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 const letters = "ABCD";
 const categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern", "party"];
 const sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
+const reportStatuses = Object.create(null);
 const roomPattern = /^[A-Z0-9]{4,8}$/;
 const main = document.querySelector("main");
 let room = readParameter(location.search, "room").trim().toUpperCase();
@@ -73,6 +74,22 @@ function showSection(visible = "") {
 function replaceContents(node, children) {
     node.textContent = "";
     children.forEach((child) => node.appendChild(child));
+}
+
+function renderReviewSource(question) {
+    const source = element("review-source");
+    source.textContent = question.source ? `Fråga från ${question.source}` : "";
+    source.hidden = !question.source;
+    if (typeof question.sourceUrl !== "string" || !/^https?:\/\//i.test(question.sourceUrl)) return;
+
+    const link = document.createElement("a");
+    link.href = question.sourceUrl;
+    if (!link.hostname || (link.protocol !== "https:" && link.protocol !== "http:")) return;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = source.textContent || "Visa frågans källa";
+    replaceContents(source, [link]);
+    source.hidden = false;
 }
 
 function notice(message = "") {
@@ -246,8 +263,17 @@ async function joinRoom(event) {
 function startSettingsKey() {
     return JSON.stringify([
         room, (state && state.roundNumber) || 1, element("category").value,
-        element("amount").value, element("difficulty").value,
+        element("amount").value, element("difficulty").value, selectedFestmixThemes(),
     ]);
+}
+
+function selectedFestmixThemes() {
+    const themes = [];
+    if (element("category").value === "party") {
+        const checked = element("festmix-themes").querySelectorAll("input:checked");
+        for (let index = 0; index < checked.length; index++) themes.push(checked[index].value);
+    }
+    return themes;
 }
 
 function clearRepeatShortage() {
@@ -604,6 +630,43 @@ function namedChoice(question, choice) {
     return `${letters[choice]} · ${question.choices[choice]}`;
 }
 
+function reviewReportTicket() {
+    if (role === "tv" || !state || state.phase !== "review" || !state.review) return "";
+    const ticket = state.review.question.reportTicket;
+    return typeof ticket === "string" ? ticket : "";
+}
+
+function renderReviewReport() {
+    const ticket = reviewReportTicket();
+    const wrapper = element("review-report");
+    wrapper.hidden = !ticket;
+    if (!ticket) return;
+    const status = reportStatuses[state.review.question.id];
+    const message = status === "sent" ? "Frågan är rapporterad."
+        : status === "failed" ? "Rapporten kunde inte skickas. Försök igen."
+        : status === "sending" ? "Skickar rapporten…" : "";
+    element("report-question").disabled = status === "sent" || status === "sending";
+    const statusLine = element("report-status");
+    if (statusLine.textContent !== message) statusLine.textContent = message;
+    statusLine.hidden = !message;
+}
+
+async function reportReviewQuestion() {
+    const ticket = reviewReportTicket();
+    if (!ticket) return;
+    const { id } = state.review.question;
+    if (reportStatuses[id] === "sent" || reportStatuses[id] === "sending") return;
+    reportStatuses[id] = "sending";
+    renderReviewReport();
+    try {
+        await request("/api/question-reports", { method: "POST", body: { ticket } });
+        reportStatuses[id] = "sent";
+    } catch {
+        reportStatuses[id] = "failed";
+    }
+    renderReviewReport();
+}
+
 function renderReview() {
     showSection("review");
     const { current, total, question, answers } = state.review;
@@ -614,14 +677,13 @@ function renderReview() {
     element("new-round-review").disabled = Boolean(pending);
     element("restart-review").hidden = role !== "tv";
     element("restart-review").disabled = Boolean(pending);
+    renderReviewReport();
     if (reviewKey === question.id) return;
     reviewKey = question.id;
     element("review-round").textContent = `Fråga ${current} av ${total}`;
     element("review-question").textContent = question.text;
     element("review-correct").textContent = `Rätt svar är ${namedChoice(question, question.correctChoice)}`;
-    const source = element("review-source");
-    source.hidden = !question.source;
-    source.textContent = question.source ? `Fråga från ${question.source}` : "";
+    renderReviewSource(question);
     replaceContents(element("review-choices"), question.choices.map((answer, index) => {
         const option = choiceCard(answer, index, "div");
         option.classList.toggle("correct", index === question.correctChoice);
@@ -749,12 +811,14 @@ element("retry-qr").addEventListener("click", () => {
 });
 element("join-form").addEventListener("submit", joinRoom);
 element("host-plays").addEventListener("change", (event) => showHostName(event.target.checked));
-["category", "amount", "difficulty"].forEach((id) => {
+["category", "amount", "difficulty", "festmix-themes"].forEach((id) => {
     element(id).addEventListener("change", clearRepeatShortage);
 });
-element("category").addEventListener("change", (event) => {
-    element("festmix-hint").hidden = event.target.value !== "party";
-});
+function updateFestmixThemeVisibility() {
+    element("festmix-themes").hidden = element("category").value !== "party";
+}
+element("category").addEventListener("change", updateFestmixThemeVisibility);
+updateFestmixThemeVisibility();
 element("host-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const selected = element("category").value;
@@ -769,6 +833,8 @@ element("host-form").addEventListener("submit", (event) => {
         difficulty: element("difficulty").value,
         seconds: Number(element("seconds").value),
     };
+    const themes = selectedFestmixThemes();
+    if (themes.length) body.themes = themes;
     if (allowRepeats) body.allowRepeats = true;
     if (element("host-plays").checked) {
         body.hostName = element("host-name").value.trim();
@@ -781,6 +847,7 @@ element("host-form").addEventListener("submit", (event) => {
 });
 element("next").addEventListener("click", () => roomAction("next"));
 element("open-review").addEventListener("click", () => roomAction("review", { questionNumber: 1 }));
+element("report-question").addEventListener("click", reportReviewQuestion);
 element("new-round").addEventListener("click", () => roomAction("new-round"));
 element("new-round-review").addEventListener("click", () => roomAction("new-round"));
 element("review-prev").addEventListener("click", () => roomAction("review", { questionNumber: state.review.current - 1 }));

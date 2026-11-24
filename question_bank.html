@@ -6,6 +6,7 @@
     <meta name="referrer" content="no-referrer">
     <meta name="theme-color" content="#151124">
     <title>Frågebank · FestQuiz</title>
+    <link rel="icon" href="/assets/festquiz-logo.png" type="image/png">
     <link rel="stylesheet" href="/assets/play.css">
     <script src="/assets/question-bank.js" defer></script>
     <style>
@@ -79,6 +80,11 @@
         .bank-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .7rem; }
         .bank-actions .primary { width: auto; margin-top: 0; }
         .bank-actions .utility { margin-top: 0; }
+        .bank-reports { margin-bottom: .9rem; }
+        .bank-reports summary { cursor: pointer; font-weight: 750; }
+        .bank-reports ul { margin-bottom: 0; padding-left: 0; list-style: none; }
+        .bank-reports li { padding: .7rem 0; border-top: 1px solid #493957; }
+        .bank-reports li p { margin: .35rem 0; overflow-wrap: anywhere; }
         @media (min-width: 52rem) {
             .bank-columns { grid-template-columns: minmax(15rem, .62fr) minmax(0, 1.38fr); }
             .bank-results ul { max-height: 70vh; }
@@ -90,7 +96,7 @@
 </head>
 <body>
     <header class="topbar">
-        <a class="brand" href="/" aria-label="FestQuiz, startsida"><span aria-hidden="true">?</span>FestQuiz</a>
+        <a class="brand" href="/" aria-label="FestQuiz, startsida"><img class="brand-logo" src="/assets/festquiz-logo.png" width="36" height="36" alt=""><span class="brand-wordmark">Fest<span>Quiz</span></span></a>
     </header>
     <main class="page bank-page">
         <h1>Frågebank</h1>
@@ -106,6 +112,12 @@
         </section>
 
         <div id="bank-workspace" hidden>
+            <details class="panel bank-reports" id="bank-reports">
+                <summary>Rapporterade frågor</summary>
+                <button class="utility" id="bank-reports-reload" type="button">Uppdatera</button>
+                <p class="bank-muted" id="bank-reports-summary"></p>
+                <ul id="bank-reports-list"></ul>
+            </details>
             <div class="bank-toolbar">
                 <form id="bank-search-form" role="search">
                     <label for="bank-query">Sök bland frågor</label>

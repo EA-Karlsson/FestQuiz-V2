@@ -2,11 +2,13 @@
 
 Öppna startsidan på TV:n. Skanna QR-koden som visas automatiskt med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, svårighetsgrad, upp till 30 frågor och 15, 20 eller 30 sekunders svarstid. Standard är 20 sekunder.
 
-**Festmix** blandar knasiga men sanna fakta med film, musik, retroprylar och traditioner. Spelet ger knasiga frågor förtur när det finns oanvända på vald svårighetsnivå. Välj kategorin i spelrummet eller i solospelet.
+**Festmix** blandar knasiga men sanna fakta med film, musik, retroprylar och traditioner. I spelrummet eller solospelet kan du välja ett eller flera teman. Lämna temana tomma för att blanda alla. Spelet ger knasiga frågor förtur när det finns oanvända på vald svårighetsnivå.
 
 TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att markera den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. När tiden går ut räknas det senast markerade alternativet automatiskt för den som inte har låst sitt svar. Spelledaren kan gå vidare när tiden har gått ut eller när alla har låst sina svar. Mobiler med stöd för vibration vibrerar kort vid fem sekunder för spelare som ännu inte låst sitt svar.
 
 Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Spelledaren kan välja **Ny omgång** för att spela vidare med samma deltagare. Poängtavlan visar vinster och placeringar för spelrummets omgångar. Endast en ensam förstaplats ger en vinst i statistiken. Vid lika högsta poäng visas en delad förstaplats.
+
+När FestQuiz har en direkt källänk visas den i facit. Frågor från den egna banken kan rapporteras från mobilen eller solospelets facit. Rapporterna finns under **Rapporterade frågor** i frågebanken.
 
 FestQuiz hoppar över frågor som redan använts i samma spelrum. Om det finns för få nya frågor kan spelledaren ändra inställningarna eller välja **Tillåt tidigare frågor**. Det valet gäller en omgång och de nya frågorna visas först.
 
