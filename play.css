@@ -263,6 +263,31 @@ input:not([type="checkbox"]), select {
 
 form select, form input { margin-bottom: .65rem; }
 form .primary, #host-actions .primary { width: 100%; }
+.host-help { margin-bottom: .85rem; }
+.host-help summary { font-size: .92rem; }
+.host-help summary::-webkit-details-marker { display: none; }
+.host-help summary::after {
+    width: .45rem;
+    height: .45rem;
+    margin: -.22rem 0 0 .7rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    content: "";
+}
+.host-help[open] summary::after { margin-top: .22rem; transform: rotate(225deg); }
+.host-guide {
+    margin: .65rem 0 0;
+    padding: .82rem .9rem .82rem 2.1rem;
+    border: 1px solid #615178;
+    border-radius: .65rem;
+    color: #e4d8ef;
+    background: #231b36;
+    font-size: .94rem;
+}
+.host-guide li + li { margin-top: .55rem; }
+.host-guide strong { color: #ffe0a0; }
+
 .settings-row { display: flex; }
 .settings-row > div { flex: 1 1 0%; min-width: 0; }
 .settings-row > div + div { margin-left: .68rem; }
