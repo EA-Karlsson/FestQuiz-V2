@@ -82,10 +82,12 @@ var hostParticipationTimer;
 var hostParticipationRevision = 0;
 var hostParticipationWrite = Promise.resolve();
 var repeatShortage = null;
+var tvAudio = null;
+var audioSettingRequest = false;
+var audioSettingRetryAt = 0;
+var narrationPlayback = null;
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
-element("music-button").hidden = role !== "tv";
-element("solo-link").hidden = role !== "tv";
 element("host-guide").hidden = role !== "host";
 function storage(key, value) {
     try {
@@ -1018,12 +1020,18 @@ function renderReview() {
 }
 function updateTimer() {
     var timer = element("timer");
-    timer.hidden = !state || state.phase !== "question" || !state.deadline;
+    var questionOpen = state && state.phase === "question";
+    var hasDeadline = questionOpen && state.deadline;
+    var waitingForNarration = Boolean(questionOpen && !hasDeadline && state.narration);
+    var remaining = hasDeadline ? Math.max(0, Math.ceil(state.deadline - Date.now() / 1000)) : 0;
+    if (role === "tv")
+        syncTvPlayback(remaining);
+    timer.hidden = !hasDeadline && !waitingForNarration;
     if (timer.hidden)
         return;
-    var remaining = Math.max(0, Math.ceil(state.deadline - Date.now() / 1000));
-    timer.classList.toggle("ending", remaining <= 5);
-    var label = "".concat(remaining, " s kvar");
+    timer.classList.toggle("waiting", waitingForNarration);
+    timer.classList.toggle("ending", !waitingForNarration && remaining <= 5);
+    var label = waitingForNarration ? "Frågan läses upp" : "".concat(remaining, " s kvar");
     if (timer.textContent !== label) {
         timer.textContent = label;
         if (remaining === 0 && role !== "tv" && state.canAnswer) {
@@ -1043,6 +1051,8 @@ function updateTimer() {
     }
 }
 function render() {
+    if (role === "tv")
+        syncTvAudioSetting();
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
     if (repeatShortage && (!state || state.phase !== "lobby" || repeatShortage.settingsKey !== startSettingsKey())) {
@@ -1190,6 +1200,234 @@ element("new-round").addEventListener("click", function () { return roomAction("
 element("new-round-review").addEventListener("click", function () { return roomAction("new-round"); });
 element("review-prev").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current - 1 }); });
 element("review-next").addEventListener("click", function () { return roomAction("review", { questionNumber: state.review.current + 1 }); });
+function playMedia(media) {
+    try {
+        return Promise.resolve(media.play()).then(function () { return true; }, function () { return false; });
+    }
+    catch (_a) {
+        return Promise.resolve(false);
+    }
+}
+function activateTvAudio() {
+    if (tvAudio)
+        return tvAudio.ready;
+    if (typeof Audio !== "function")
+        return Promise.resolve();
+    // Reuse the two gesture-activated elements for every subsequent clip.
+    var silence = "data:audio/wav;base64,UklGRnQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+    var voice;
+    var music;
+    try {
+        voice = new Audio(silence);
+        music = new Audio(silence);
+    }
+    catch (_a) {
+        return Promise.resolve();
+    }
+    var audio = {
+        voice: voice,
+        music: music,
+        voiceReady: false,
+        musicReady: false,
+        musicQuestion: "",
+        musicBlocked: "",
+        musicTarget: 0,
+        musicFade: null,
+    };
+    tvAudio = audio;
+    audio.ready = Promise.all([playMedia(audio.voice), playMedia(audio.music)]).then(function (_a) {
+        var voice = _a[0], music = _a[1];
+        audio.voiceReady = voice;
+        audio.musicReady = music;
+        if (music) {
+            audio.music.pause();
+            audio.music.preload = "auto";
+            audio.music.loop = true;
+            setMusicVolume(audio.music, 0);
+            audio.music.src = "/assets/countdown.mp3";
+        }
+        if (!voice && !music)
+            tvAudio = null;
+        updateTimer();
+    });
+    return audio.ready;
+}
+function syncTvAudioSetting() {
+    if (!state || !room || !token || pending === "setup" || audioSettingRequest || Date.now() < audioSettingRetryAt)
+        return;
+    var enabled = Boolean(tvAudio && tvAudio.voiceReady);
+    if (typeof state.tvAudioEnabled !== "boolean" || state.tvAudioEnabled === enabled)
+        return;
+    var requestedRoom = room;
+    var credential = token;
+    audioSettingRequest = true;
+    request(roomPath("/tv-audio"), {
+        method: "PUT", body: { enabled: enabled },
+        credential: credential,
+        timeout: 4000,
+    }).then(function (update) {
+        audioSettingRequest = false;
+        if (state && room === requestedRoom && token === credential)
+            state.tvAudioEnabled = update.tvAudioEnabled;
+    }, function () {
+        audioSettingRequest = false;
+        audioSettingRetryAt = Date.now() + 2500;
+    });
+}
+function localAudioUrl(path) {
+    if (typeof path !== "string" || path.charAt(0) !== "/")
+        return "";
+    try {
+        var url = new URL(path, location.href);
+        return url.origin === location.origin ? url.href : "";
+    }
+    catch (_a) {
+        return "";
+    }
+}
+function sendNarrationStatus(playback, status) {
+    request("/api/rooms/".concat(encodeURIComponent(playback.room), "/narrated"), {
+        method: "POST",
+        body: { questionId: playback.questionId, status: status },
+        credential: playback.credential,
+        timeout: 4000,
+    }).then(function (update) {
+        if (status !== "done" || pending || room !== playback.room || token !== playback.credential
+            || !state || !state.narration || state.narration.questionId !== playback.questionId
+            || !update.deadline || !update.question || update.question.id !== playback.questionId)
+            return;
+        ++revision;
+        state = update;
+        render();
+    }, function () {
+        // The server starts the timer if it does not receive a playback acknowledgement.
+    });
+}
+function stopVoice(playback) {
+    var voice = playback.voice;
+    if (!voice)
+        return;
+    voice.onplaying = voice.onended = voice.onerror = null;
+    voice.pause();
+    playback.voice = null;
+}
+function finishNarration(playback) {
+    if (narrationPlayback !== playback || playback.done)
+        return;
+    playback.done = true;
+    stopVoice(playback);
+    sendNarrationStatus(playback, "done");
+}
+function syncNarration(cue) {
+    if (narrationPlayback && (!cue || narrationPlayback.questionId !== cue.questionId || narrationPlayback.room !== room)) {
+        stopVoice(narrationPlayback);
+        narrationPlayback = null;
+    }
+    if (!cue || !room || !token)
+        return;
+    if (narrationPlayback) {
+        if (document.hidden)
+            finishNarration(narrationPlayback);
+        return;
+    }
+    var playback = { room: room, credential: token, questionId: cue.questionId, started: false, done: false, voice: null };
+    narrationPlayback = playback;
+    var url = localAudioUrl(cue.url);
+    if (!tvAudio || !tvAudio.voiceReady || !url || document.hidden) {
+        finishNarration(playback);
+        return;
+    }
+    var voice = tvAudio.voice;
+    playback.voice = voice;
+    voice.onplaying = function () {
+        if (narrationPlayback !== playback || playback.done || playback.started)
+            return;
+        playback.started = true;
+        sendNarrationStatus(playback, "playing");
+    };
+    voice.onended = voice.onerror = function () { return finishNarration(playback); };
+    voice.src = url;
+    playMedia(voice).then(function (playing) { if (!playing)
+        finishNarration(playback); });
+}
+function setMusicVolume(music, volume) {
+    try {
+        music.volume = volume;
+    }
+    catch (_a) {
+        // Some TV media players manage volume at the device level.
+    }
+}
+function fadeMusic(audio, target, immediate) {
+    if (immediate === void 0) { immediate = false; }
+    if (!immediate && audio.musicTarget === target)
+        return;
+    clearInterval(audio.musicFade);
+    audio.musicTarget = target;
+    var music = audio.music;
+    if (immediate) {
+        setMusicVolume(music, target);
+        if (target === 0)
+            music.pause();
+        return;
+    }
+    var from = music.volume;
+    var step = 0;
+    audio.musicFade = setInterval(function () {
+        step += 1;
+        setMusicVolume(music, from + (target - from) * step / 5);
+        if (step === 5) {
+            clearInterval(audio.musicFade);
+            if (target === 0)
+                music.pause();
+        }
+    }, 75);
+}
+function syncTvMusic(questionId, remaining) {
+    var audio = tvAudio;
+    if (!audio || !audio.musicReady)
+        return;
+    if (!questionId || remaining <= 0 || document.hidden) {
+        audio.musicQuestion = "";
+        fadeMusic(audio, 0, document.hidden);
+        return;
+    }
+    if (audio.musicBlocked === questionId)
+        return;
+    var music = audio.music;
+    if (audio.musicQuestion !== questionId) {
+        audio.musicQuestion = questionId;
+        try {
+            music.currentTime = 0;
+        }
+        catch (_a) {
+            // A new track may still be loading its metadata.
+        }
+        playMedia(music).then(function (playing) {
+            if (!playing && audio.musicQuestion === questionId) {
+                audio.musicBlocked = questionId;
+                fadeMusic(audio, 0, true);
+            }
+        });
+    }
+    var urgency = Math.max(0, (6 - remaining) / 5);
+    var target = 0.14 + 0.09 * urgency;
+    if (audio.musicTarget === target)
+        return;
+    try {
+        music.playbackRate = 1 + 0.12 * urgency;
+    }
+    catch (_b) {
+        // The volume ramp still signals the last five seconds.
+    }
+    fadeMusic(audio, target);
+}
+function syncTvPlayback(remaining) {
+    syncTvAudioSetting();
+    var question = state && state.phase === "question" && pending !== "setup" && state.question;
+    syncNarration(question && !state.deadline ? state.narration : null);
+    syncTvMusic(question && state.deadline ? question.id : "", remaining);
+}
 function configureFullscreen() {
     var _this = this;
     if (role !== "tv")
@@ -1197,16 +1435,24 @@ function configureFullscreen() {
     var screen = document.documentElement;
     var standard = screen.requestFullscreen && document.fullscreenEnabled !== false;
     var enter = standard ? screen.requestFullscreen : screen.webkitRequestFullscreen || screen.webkitRequestFullScreen;
-    if (!enter)
-        return;
     var button = element("fullscreen-button");
+    var canPlayAudio = typeof Audio === "function";
+    if (!enter && !canPlayAudio)
+        return;
+    if (!enter) {
+        button.textContent = "Spela med ljud";
+        button.title = "Starta uppläsning och musik";
+        button.removeAttribute("aria-pressed");
+    }
     var active = function () { return Boolean(document.fullscreenElement || document.webkitFullscreenElement
         || document.webkitCurrentFullScreenElement || document.webkitIsFullScreen); };
     var sync = function () {
         var fullscreen = active();
         document.body.classList.toggle("fullscreen-active", fullscreen);
-        button.hidden = fullscreen;
-        button.setAttribute("aria-pressed", String(fullscreen));
+        var soundReady = tvAudio && (tvAudio.voiceReady || tvAudio.musicReady);
+        button.hidden = fullscreen || (!enter && Boolean(soundReady));
+        if (enter)
+            button.setAttribute("aria-pressed", String(fullscreen));
     };
     document.addEventListener("fullscreenchange", sync);
     document.addEventListener("webkitfullscreenchange", sync);
@@ -1215,65 +1461,45 @@ function configureFullscreen() {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 5, , 6]);
-                    if (!standard) return [3 /*break*/, 2];
-                    return [4 /*yield*/, enter.call(screen, { navigationUI: "hide" })];
+                    activateTvAudio().then(sync);
+                    _b.label = 1;
                 case 1:
+                    _b.trys.push([1, 6, , 7]);
+                    if (!standard) return [3 /*break*/, 3];
+                    return [4 /*yield*/, enter.call(screen, { navigationUI: "hide" })];
+                case 2:
                     _b.sent();
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, enter.call(screen)];
+                    return [3 /*break*/, 5];
                 case 3:
+                    if (!enter) return [3 /*break*/, 5];
+                    return [4 /*yield*/, enter.call(screen)];
+                case 4:
                     _b.sent();
-                    _b.label = 4;
-                case 4: return [3 /*break*/, 6];
-                case 5:
+                    _b.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     _a = _b.sent();
                     notice("Det gick inte att öppna helskärm.");
-                    return [3 /*break*/, 6];
-                case 6:
+                    return [3 /*break*/, 7];
+                case 7:
                     sync();
                     return [2 /*return*/];
             }
         });
     }); });
+    document.addEventListener("visibilitychange", updateTimer);
+    window.addEventListener("pagehide", function () {
+        if (narrationPlayback)
+            finishNarration(narrationPlayback);
+        if (!tvAudio)
+            return;
+        tvAudio.musicQuestion = "";
+        fadeMusic(tvAudio, 0, true);
+    });
     sync();
     if (!button.hidden)
         button.focus();
 }
-var music;
-element("music-button").addEventListener("click", function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var button, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                button = event.currentTarget;
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 5, , 6]);
-                if (!music) {
-                    music = new Audio("/static/music.mp3");
-                    music.loop = true;
-                }
-                if (!music.paused) return [3 /*break*/, 3];
-                return [4 /*yield*/, music.play()];
-            case 2:
-                _b.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                music.pause();
-                _b.label = 4;
-            case 4:
-                button.textContent = music.paused ? "Spela musik" : "Pausa musik";
-                button.setAttribute("aria-pressed", String(!music.paused));
-                return [3 /*break*/, 6];
-            case 5:
-                _a = _b.sent();
-                notice("Musiken kunde inte starta.");
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
-        }
-    });
-}); });
 configureFullscreen();
 init();
 element("boot-status").hidden = true;

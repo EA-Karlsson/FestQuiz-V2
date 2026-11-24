@@ -37,11 +37,13 @@ let hostParticipationTimer;
 let hostParticipationRevision = 0;
 let hostParticipationWrite = Promise.resolve();
 let repeatShortage = null;
+let tvAudio = null;
+let audioSettingRequest = false;
+let audioSettingRetryAt = 0;
+let narrationPlayback = null;
 
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
-element("music-button").hidden = role !== "tv";
-element("solo-link").hidden = role !== "tv";
 element("host-guide").hidden = role !== "host";
 
 function storage(key, value) {
@@ -749,11 +751,16 @@ function renderReview() {
 
 function updateTimer() {
     const timer = element("timer");
-    timer.hidden = !state || state.phase !== "question" || !state.deadline;
+    const questionOpen = state && state.phase === "question";
+    const hasDeadline = questionOpen && state.deadline;
+    const waitingForNarration = Boolean(questionOpen && !hasDeadline && state.narration);
+    const remaining = hasDeadline ? Math.max(0, Math.ceil(state.deadline - Date.now() / 1000)) : 0;
+    if (role === "tv") syncTvPlayback(remaining);
+    timer.hidden = !hasDeadline && !waitingForNarration;
     if (timer.hidden) return;
-    const remaining = Math.max(0, Math.ceil(state.deadline - Date.now() / 1000));
-    timer.classList.toggle("ending", remaining <= 5);
-    const label = `${remaining} s kvar`;
+    timer.classList.toggle("waiting", waitingForNarration);
+    timer.classList.toggle("ending", !waitingForNarration && remaining <= 5);
+    const label = waitingForNarration ? "Frågan läses upp" : `${remaining} s kvar`;
     if (timer.textContent !== label) {
         timer.textContent = label;
         if (remaining === 0 && role !== "tv" && state.canAnswer) {
@@ -773,6 +780,7 @@ function updateTimer() {
 }
 
 function render() {
+    if (role === "tv") syncTvAudioSetting();
     element("fullscreen-button").classList.toggle("fullscreen-compact", Boolean(state && state.phase !== "lobby"));
     renderPersonalResult();
     if (repeatShortage && (!state || state.phase !== "lobby" || repeatShortage.settingsKey !== startSettingsKey())) {
@@ -904,52 +912,264 @@ element("new-round-review").addEventListener("click", () => roomAction("new-roun
 element("review-prev").addEventListener("click", () => roomAction("review", { questionNumber: state.review.current - 1 }));
 element("review-next").addEventListener("click", () => roomAction("review", { questionNumber: state.review.current + 1 }));
 
+function playMedia(media) {
+    try {
+        return Promise.resolve(media.play()).then(() => true, () => false);
+    } catch {
+        return Promise.resolve(false);
+    }
+}
+
+function activateTvAudio() {
+    if (tvAudio) return tvAudio.ready;
+    if (typeof Audio !== "function") return Promise.resolve();
+
+    // Reuse the two gesture-activated elements for every subsequent clip.
+    const silence = "data:audio/wav;base64,UklGRnQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+    let voice;
+    let music;
+    try {
+        voice = new Audio(silence);
+        music = new Audio(silence);
+    } catch {
+        return Promise.resolve();
+    }
+    const audio = {
+        voice,
+        music,
+        voiceReady: false,
+        musicReady: false,
+        musicQuestion: "",
+        musicBlocked: "",
+        musicTarget: 0,
+        musicFade: null,
+    };
+    tvAudio = audio;
+    audio.ready = Promise.all([playMedia(audio.voice), playMedia(audio.music)]).then(([voice, music]) => {
+        audio.voiceReady = voice;
+        audio.musicReady = music;
+        if (music) {
+            audio.music.pause();
+            audio.music.preload = "auto";
+            audio.music.loop = true;
+            setMusicVolume(audio.music, 0);
+            audio.music.src = "/assets/countdown.mp3";
+        }
+        if (!voice && !music) tvAudio = null;
+        updateTimer();
+    });
+    return audio.ready;
+}
+
+function syncTvAudioSetting() {
+    if (!state || !room || !token || pending === "setup" || audioSettingRequest || Date.now() < audioSettingRetryAt) return;
+    const enabled = Boolean(tvAudio && tvAudio.voiceReady);
+    if (typeof state.tvAudioEnabled !== "boolean" || state.tvAudioEnabled === enabled) return;
+
+    const requestedRoom = room;
+    const credential = token;
+    audioSettingRequest = true;
+    request(roomPath("/tv-audio"), {
+        method: "PUT", body: { enabled }, credential, timeout: 4000,
+    }).then((update) => {
+        audioSettingRequest = false;
+        if (state && room === requestedRoom && token === credential) state.tvAudioEnabled = update.tvAudioEnabled;
+    }, () => {
+        audioSettingRequest = false;
+        audioSettingRetryAt = Date.now() + 2500;
+    });
+}
+
+function localAudioUrl(path) {
+    if (typeof path !== "string" || path.charAt(0) !== "/") return "";
+    try {
+        const url = new URL(path, location.href);
+        return url.origin === location.origin ? url.href : "";
+    } catch {
+        return "";
+    }
+}
+
+function sendNarrationStatus(playback, status) {
+    request(`/api/rooms/${encodeURIComponent(playback.room)}/narrated`, {
+        method: "POST",
+        body: { questionId: playback.questionId, status },
+        credential: playback.credential,
+        timeout: 4000,
+    }).then((update) => {
+        if (status !== "done" || pending || room !== playback.room || token !== playback.credential
+            || !state || !state.narration || state.narration.questionId !== playback.questionId
+            || !update.deadline || !update.question || update.question.id !== playback.questionId) return;
+        ++revision;
+        state = update;
+        render();
+    }, () => {
+        // The server starts the timer if it does not receive a playback acknowledgement.
+    });
+}
+
+function stopVoice(playback) {
+    const voice = playback.voice;
+    if (!voice) return;
+    voice.onplaying = voice.onended = voice.onerror = null;
+    voice.pause();
+    playback.voice = null;
+}
+
+function finishNarration(playback) {
+    if (narrationPlayback !== playback || playback.done) return;
+    playback.done = true;
+    stopVoice(playback);
+    sendNarrationStatus(playback, "done");
+}
+
+function syncNarration(cue) {
+    if (narrationPlayback && (!cue || narrationPlayback.questionId !== cue.questionId || narrationPlayback.room !== room)) {
+        stopVoice(narrationPlayback);
+        narrationPlayback = null;
+    }
+    if (!cue || !room || !token) return;
+    if (narrationPlayback) {
+        if (document.hidden) finishNarration(narrationPlayback);
+        return;
+    }
+
+    const playback = { room, credential: token, questionId: cue.questionId, started: false, done: false, voice: null };
+    narrationPlayback = playback;
+    const url = localAudioUrl(cue.url);
+    if (!tvAudio || !tvAudio.voiceReady || !url || document.hidden) {
+        finishNarration(playback);
+        return;
+    }
+    const voice = tvAudio.voice;
+    playback.voice = voice;
+    voice.onplaying = () => {
+        if (narrationPlayback !== playback || playback.done || playback.started) return;
+        playback.started = true;
+        sendNarrationStatus(playback, "playing");
+    };
+    voice.onended = voice.onerror = () => finishNarration(playback);
+    voice.src = url;
+    playMedia(voice).then((playing) => { if (!playing) finishNarration(playback); });
+}
+
+function setMusicVolume(music, volume) {
+    try {
+        music.volume = volume;
+    } catch {
+        // Some TV media players manage volume at the device level.
+    }
+}
+
+function fadeMusic(audio, target, immediate = false) {
+    if (!immediate && audio.musicTarget === target) return;
+    clearInterval(audio.musicFade);
+    audio.musicTarget = target;
+    const music = audio.music;
+    if (immediate) {
+        setMusicVolume(music, target);
+        if (target === 0) music.pause();
+        return;
+    }
+    const from = music.volume;
+    let step = 0;
+    audio.musicFade = setInterval(() => {
+        step += 1;
+        setMusicVolume(music, from + (target - from) * step / 5);
+        if (step === 5) {
+            clearInterval(audio.musicFade);
+            if (target === 0) music.pause();
+        }
+    }, 75);
+}
+
+function syncTvMusic(questionId, remaining) {
+    const audio = tvAudio;
+    if (!audio || !audio.musicReady) return;
+    if (!questionId || remaining <= 0 || document.hidden) {
+        audio.musicQuestion = "";
+        fadeMusic(audio, 0, document.hidden);
+        return;
+    }
+    if (audio.musicBlocked === questionId) return;
+
+    const music = audio.music;
+    if (audio.musicQuestion !== questionId) {
+        audio.musicQuestion = questionId;
+        try {
+            music.currentTime = 0;
+        } catch {
+            // A new track may still be loading its metadata.
+        }
+        playMedia(music).then((playing) => {
+            if (!playing && audio.musicQuestion === questionId) {
+                audio.musicBlocked = questionId;
+                fadeMusic(audio, 0, true);
+            }
+        });
+    }
+    const urgency = Math.max(0, (6 - remaining) / 5);
+    const target = 0.14 + 0.09 * urgency;
+    if (audio.musicTarget === target) return;
+    try {
+        music.playbackRate = 1 + 0.12 * urgency;
+    } catch {
+        // The volume ramp still signals the last five seconds.
+    }
+    fadeMusic(audio, target);
+}
+
+function syncTvPlayback(remaining) {
+    syncTvAudioSetting();
+    const question = state && state.phase === "question" && pending !== "setup" && state.question;
+    syncNarration(question && !state.deadline ? state.narration : null);
+    syncTvMusic(question && state.deadline ? question.id : "", remaining);
+}
+
 function configureFullscreen() {
     if (role !== "tv") return;
     const screen = document.documentElement;
     const standard = screen.requestFullscreen && document.fullscreenEnabled !== false;
     const enter = standard ? screen.requestFullscreen : screen.webkitRequestFullscreen || screen.webkitRequestFullScreen;
-    if (!enter) return;
     const button = element("fullscreen-button");
+    const canPlayAudio = typeof Audio === "function";
+    if (!enter && !canPlayAudio) return;
+    if (!enter) {
+        button.textContent = "Spela med ljud";
+        button.title = "Starta uppläsning och musik";
+        button.removeAttribute("aria-pressed");
+    }
     const active = () => Boolean(document.fullscreenElement || document.webkitFullscreenElement
         || document.webkitCurrentFullScreenElement || document.webkitIsFullScreen);
     const sync = () => {
         const fullscreen = active();
         document.body.classList.toggle("fullscreen-active", fullscreen);
-        button.hidden = fullscreen;
-        button.setAttribute("aria-pressed", String(fullscreen));
+        const soundReady = tvAudio && (tvAudio.voiceReady || tvAudio.musicReady);
+        button.hidden = fullscreen || (!enter && Boolean(soundReady));
+        if (enter) button.setAttribute("aria-pressed", String(fullscreen));
     };
     document.addEventListener("fullscreenchange", sync);
     document.addEventListener("webkitfullscreenchange", sync);
     button.addEventListener("click", async () => {
+        activateTvAudio().then(sync);
         try {
             if (standard) await enter.call(screen, { navigationUI: "hide" });
-            else await enter.call(screen);
+            else if (enter) await enter.call(screen);
         } catch {
             notice("Det gick inte att öppna helskärm.");
         }
         sync();
     });
+    document.addEventListener("visibilitychange", updateTimer);
+    window.addEventListener("pagehide", () => {
+        if (narrationPlayback) finishNarration(narrationPlayback);
+        if (!tvAudio) return;
+        tvAudio.musicQuestion = "";
+        fadeMusic(tvAudio, 0, true);
+    });
     sync();
     if (!button.hidden) button.focus();
 }
-
-let music;
-element("music-button").addEventListener("click", async (event) => {
-    const button = event.currentTarget;
-    try {
-        if (!music) {
-            music = new Audio("/static/music.mp3");
-            music.loop = true;
-        }
-        if (music.paused) await music.play();
-        else music.pause();
-        button.textContent = music.paused ? "Spela musik" : "Pausa musik";
-        button.setAttribute("aria-pressed", String(!music.paused));
-    } catch {
-        notice("Musiken kunde inte starta.");
-    }
-});
 
 configureFullscreen();
 init();

@@ -382,6 +382,14 @@ form .primary, #host-actions .primary { width: 100%; }
     box-shadow: 0 0 0 3px #f78a97;
 }
 
+body[data-role] .timer.waiting {
+    min-width: 0;
+    border-color: #8771ab;
+    color: #f0e4ff;
+    background: #2a2141;
+    font-size: 1.12rem;
+}
+
 .choices { display: flex; flex-wrap: wrap; margin: .8rem -.38rem 0; }
 .choice {
     --choice-accent: #d5c4ff;

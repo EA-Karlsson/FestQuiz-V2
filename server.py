@@ -1,4 +1,5 @@
 import io
+import logging
 import os
 import random
 import secrets
@@ -6,6 +7,7 @@ import threading
 import time
 from collections import Counter, deque
 from collections.abc import Collection
+from concurrent.futures import Future
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Annotated, Literal
@@ -23,12 +25,18 @@ import question_bank
 from question_reports import report_ticket, verify_report_ticket
 from festmix_themes import FESTMIX_THEMES
 from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions, valid_question_edit
+from voice import NarrationClip, prepare_narration, warm_narration
 
 
 app = FastAPI(title="FestQuiz")
+logger = logging.getLogger(__name__)
 root = Path(__file__).resolve().parent
 bearer = HTTPBearer(auto_error=False)
 default_round_seconds = 20
+narration_prepare_wait = 9
+narration_start_wait = 3
+narration_max_duration = 18
+narration_finish_grace = 1
 max_questions = 30
 room_lifetime = 6 * 60 * 60
 room_limit = 200
@@ -57,6 +65,13 @@ class AnswerDraft:
 
 
 @dataclass
+class Narration:
+    clip: NarrationClip
+    ends_at: float
+    playing: bool = False
+
+
+@dataclass
 class Question:
     id: str
     text: str
@@ -67,6 +82,7 @@ class Question:
     source_url: str | None = None
     answers: dict[str, int] = field(default_factory=dict)
     drafts: dict[str, AnswerDraft] = field(default_factory=dict)
+    narration_future: Future[NarrationClip | None] | None = None
 
 
 @dataclass
@@ -88,6 +104,8 @@ class Room:
     series_players: dict[str, SeriesPlayer] = field(default_factory=dict)
     previous_host_name: str | None = None
     host_preview_name: str | None = None
+    tv_audio_enabled: bool = False
+    narration: Narration | None = None
 
 
 rooms: dict[str, Room] = {}
@@ -103,6 +121,15 @@ class JoinInput(BaseModel):
 class HostParticipationInput(BaseModel):
     hostName: str | None = Field(min_length=1, max_length=32)
     roundNumber: int | None = Field(default=None, strict=True, ge=1)
+
+
+class TvAudioInput(BaseModel):
+    enabled: bool = Field(strict=True)
+
+
+class NarratedInput(BaseModel):
+    questionId: str = Field(min_length=1, max_length=32)
+    status: Literal["playing", "done"]
 
 
 class StartInput(BaseModel):
@@ -276,9 +303,60 @@ def shuffle_question(source: dict) -> Question:
     )
 
 
+def queue_question_narration(question: Question) -> None:
+    if question.narration_future is None:
+        try:
+            question.narration_future = prepare_narration(question.text)
+        except Exception:
+            logger.warning("Frågeuppläsningen kunde inte förberedas.")
+
+
+def warm_question_narration() -> None:
+    try:
+        warm_narration()
+    except Exception:
+        logger.warning("Frågeuppläsningen kunde inte värmas upp.")
+
+
+def get_narration_clip(question: Question, timeout: float = 0) -> NarrationClip | None:
+    future = question.narration_future
+    if future is None:
+        return None
+    try:
+        clip = future.result(timeout=timeout)
+    except TimeoutError:
+        return None
+    except Exception:
+        logger.warning("Frågeuppläsningen kunde inte hämtas.")
+        return None
+    if clip and clip.audio and 0 < clip.duration <= narration_max_duration:
+        return clip
+    return None
+
+
+def queue_next_narration(room: Room) -> None:
+    next_index = room.current_question + 1
+    if room.tv_audio_enabled and next_index < len(room.questions):
+        queue_question_narration(room.questions[next_index])
+
+
+def start_answer_clock(room: Room, now: float) -> None:
+    room.narration = None
+    room.deadline = now + room.seconds
+
+
 def open_question(room: Room) -> None:
     room.phase = "question"
-    room.deadline = time.time() + room.seconds
+    question = room.questions[room.current_question]
+    clip = get_narration_clip(question) if room.tv_audio_enabled else None
+    question.narration_future = None
+    now = time.time()
+    if clip is None:
+        start_answer_clock(room, now)
+    else:
+        room.narration = Narration(clip, now + narration_start_wait)
+        room.deadline = None
+    queue_next_narration(room)
 
 
 def close_question(room: Room) -> None:
@@ -293,10 +371,14 @@ def close_question(room: Room) -> None:
             room.players[token].score += 1
     room.phase = "closed"
     room.deadline = None
+    room.narration = None
 
 
 def check_deadline(room: Room) -> None:
-    if room.deadline is not None and time.time() >= room.deadline:
+    now = time.time()
+    if room.narration is not None and now >= room.narration.ends_at:
+        start_answer_clock(room, room.narration.ends_at)
+    if room.deadline is not None and now >= room.deadline:
         close_question(room)
 
 
@@ -402,11 +484,21 @@ def view_state(room: Room, token: str | None) -> dict:
             ],
         }
 
+    narration = None
+    if room.narration is not None and current is not None:
+        narration = {
+            "questionId": current.id,
+            "url": f"/api/rooms/{room.code}/audio/{current.id}",
+            "endsAt": room.narration.ends_at,
+        }
+
     return {
         "code": room.code,
         "phase": room.phase,
         "hostReady": room.host_ready,
         "hostPreviewName": host_preview_name,
+        "tvAudioEnabled": room.tv_audio_enabled,
+        "narration": narration,
         "starting": room.starting,
         "players": [{"name": player.name, "score": player.score if finished else 0} for player in players],
         "question": question_view(current, reveal=False) if current is not None else None,
@@ -416,7 +508,7 @@ def view_state(room: Room, token: str | None) -> dict:
         "deadline": room.deadline,
         "yourChoice": answers.get(token),
         "yourDraft": {"choice": your_draft.choice, "revision": your_draft.revision} if your_draft else None,
-        "canAnswer": room.phase == "question" and token in room.players and token not in answers,
+        "canAnswer": room.phase == "question" and room.narration is None and token in room.players and token not in answers,
         "yourPlace": your_place,
         "yourScore": your_score,
         "review": review,
@@ -524,50 +616,19 @@ def close_question_report(report_id: Annotated[str, PathParam(pattern=r"^[0-9a-f
     return {"resolved": True}
 
 
-@app.get("/solo")
-def solo_page():
-    return RedirectResponse("/static/index.html")
-
-
 @app.get("/static/start.html", include_in_schema=False)
 def old_tv_page():
     return RedirectResponse("/")
 
 
-@app.get("/static/{filename}")
-def solo_file(filename: Literal["index.html", "app.js", "style.css", "music.mp3"]):
-    return FileResponse(root / filename)
+@app.get("/assets/countdown.mp3", include_in_schema=False)
+def countdown_music():
+    return FileResponse(root / "music.mp3", media_type="audio/mpeg", headers={"Cache-Control": "public, max-age=86400"})
 
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-
-@app.get("/quiz")
-def solo_quiz(
-    amount: Annotated[int, Query(ge=1, le=max_questions)] = 10,
-    category: str = "",
-    difficulty: str = "",
-    themes: Annotated[list[str] | None, Query(max_length=len(FESTMIX_THEMES))] = None,
-):
-    questions = []
-    for question in deal_questions(amount, category, difficulty, themes=themes or ()):
-        result = {
-            "question": question["question"],
-            "correct_answer": question["correct"],
-            "incorrect_answers": question["incorrect"],
-            "source": question["source"],
-        }
-        if question.get("source_url"):
-            result["source_url"] = question["source_url"]
-        ticket = report_ticket(
-            question["key"], question["question"], question["correct"], question["incorrect"], question["source"],
-        )
-        if ticket:
-            result["report_ticket"] = ticket
-        questions.append(result)
-    return questions
 
 
 @app.post("/api/rooms", status_code=201)
@@ -585,7 +646,8 @@ def create_room():
             code = "".join(secrets.choice(room_code_symbols) for _ in range(5))
         room = Room(code, secrets.token_urlsafe(32), now + room_lifetime)
         rooms[code] = room
-        return {"code": code, "hostToken": room.host_token}
+    warm_question_narration()
+    return {"code": code, "hostToken": room.host_token}
 
 
 @app.get("/api/rooms/{code}")
@@ -593,6 +655,54 @@ def read_room(code: str, token: Token, response: Response):
     response.headers["Cache-Control"] = "no-store"
     with room_lock:
         return view_state(active_room(code), token)
+
+
+@app.put("/api/rooms/{code}/tv-audio")
+def set_tv_audio(code: str, submission: TvAudioInput, token: Token):
+    with room_lock:
+        room = active_room(code)
+        require_host(room, token)
+        check_deadline(room)
+        room.tv_audio_enabled = submission.enabled
+        if submission.enabled:
+            if room.phase in {"question", "closed"}:
+                queue_next_narration(room)
+        elif room.narration is not None:
+            start_answer_clock(room, time.time())
+        state = view_state(room, None)
+    if submission.enabled:
+        warm_question_narration()
+    return state
+
+
+@app.get("/api/rooms/{code}/audio/{question_id}")
+def narration_audio(code: str, question_id: str):
+    with room_lock:
+        room = active_room(code)
+        check_deadline(room)
+        if room.narration is None or room.questions[room.current_question].id != question_id:
+            raise HTTPException(404, "Uppläsningen är inte tillgänglig.")
+        audio = room.narration.clip.audio
+    return Response(audio, media_type="audio/wav", headers={"Cache-Control": "no-store"})
+
+
+@app.post("/api/rooms/{code}/narrated")
+def acknowledge_narration(code: str, submission: NarratedInput, token: Token):
+    with room_lock:
+        room = active_room(code)
+        require_host(room, token)
+        check_deadline(room)
+        if room.phase not in {"question", "closed"} or room.questions[room.current_question].id != submission.questionId:
+            raise HTTPException(409, "Frågan är inte längre aktuell.")
+        narration = room.narration
+        if narration is not None:
+            now = time.time()
+            if submission.status == "done":
+                start_answer_clock(room, now)
+            elif not narration.playing:
+                narration.playing = True
+                narration.ends_at = now + narration.clip.duration + narration_finish_grace
+        return view_state(room, None)
 
 
 @app.post("/api/rooms/{code}/claim")
@@ -676,6 +786,11 @@ def start_room(code: str, submission: StartInput, token: Token):
         )
         questions = [shuffle_question(question) for question in dealt]
         with room_lock:
+            prepare_first = room.tv_audio_enabled
+        if prepare_first:
+            queue_question_narration(questions[0])
+            get_narration_clip(questions[0], timeout=narration_prepare_wait)
+        with room_lock:
             if active_room(code) is not room:
                 raise HTTPException(404, "Spelrummet finns inte längre. Skapa ett nytt spel på TV:n.")
             if host_name is not None:
@@ -701,6 +816,8 @@ def question_to_answer(room: Room, question_id: str, token: str | None) -> tuple
     question = room.questions[room.current_question]
     if question.id != question_id:
         raise HTTPException(409, "Frågan är inte längre aktuell.")
+    if room.narration is not None:
+        raise HTTPException(409, "Vänta tills frågan har lästs upp.")
     return question, token
 
 
@@ -792,6 +909,7 @@ def new_round(code: str, token: Token):
         room.review_question = 0
         room.seconds = default_round_seconds
         room.deadline = None
+        room.narration = None
         room.phase = "lobby"
         return view_state(room, token)
 
