@@ -77,12 +77,16 @@ var scoreboardUntil = 0;
 var vibratedQuestion = "";
 var draftAnswer = null;
 var draftRevision = 0;
-var hostNameRestored = false;
+var hostLobbyKey = "";
+var hostParticipationTimer;
+var hostParticipationRevision = 0;
+var hostParticipationWrite = Promise.resolve();
 var repeatShortage = null;
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
 element("solo-link").hidden = role !== "tv";
+element("host-guide").hidden = role !== "host";
 function storage(key, value) {
     try {
         if (value === undefined)
@@ -115,8 +119,16 @@ function readParameter(source, name) {
 function showSection(visible) {
     if (visible === void 0) { visible = ""; }
     sections.forEach(function (id) { element(id).hidden = id !== visible; });
-    if (visible !== visibleSection && role === "tv")
-        main.scrollTop = 0;
+    if (visible !== visibleSection) {
+        if (role === "tv")
+            main.scrollTop = 0;
+        else if (visible === "join" || visible === "lobby") {
+            var form = element(visible === "join" ? "join-form" : "host-form");
+            var guide = element("game-help");
+            if (form.previousElementSibling !== guide)
+                form.parentNode.insertBefore(guide, form);
+        }
+    }
     visibleSection = visible;
 }
 function replaceContents(node, children) {
@@ -549,6 +561,49 @@ function showHostName(enabled) {
     element("host-name-field").hidden = !enabled;
     element("host-name").required = enabled;
 }
+function hostParticipationFeedback(message) {
+    if (message === void 0) { message = ""; }
+    var feedback = element("host-participation-feedback");
+    feedback.textContent = message;
+    feedback.hidden = !message;
+}
+function scheduleHostParticipation() {
+    var _this = this;
+    clearTimeout(hostParticipationTimer);
+    var change = ++hostParticipationRevision;
+    hostParticipationFeedback();
+    if (!state || state.phase !== "lobby")
+        return;
+    var path = roomPath("/host-participation");
+    var roundNumber = state.roundNumber;
+    var hostName = element("host-plays").checked ? element("host-name").value.trim() || null : null;
+    var current = function () { return change === hostParticipationRevision && state && state.phase === "lobby"; };
+    hostParticipationTimer = setTimeout(function () {
+        hostParticipationWrite = hostParticipationWrite.then(function () { return __awaiter(_this, void 0, void 0, function () {
+            var error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!current())
+                            return [2 /*return*/];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, request(path, { method: "PUT", credential: token, body: { hostName: hostName, roundNumber: roundNumber }, timeout: 10000 })];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_5 = _a.sent();
+                        if (current())
+                            hostParticipationFeedback(error_5.message);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); });
+    }, 250);
+}
 function renderLobby() {
     showSection("lobby");
     element("room-lobby").textContent = "Rum ".concat(room);
@@ -567,12 +622,16 @@ function renderLobby() {
     else if (role === "host") {
         element("lobby-title").textContent = "Ställ in spelet";
         element("lobby-note").textContent = "Deltagarna går med via QR-koden på TV:n.";
-        if (!hostNameRestored && state.previousHostName) {
-            element("host-plays").checked = true;
-            element("host-name").value = state.previousHostName;
-            showHostName(true);
+        var lobbyKey = "".concat(room, "-").concat(state.roundNumber);
+        if (hostLobbyKey !== lobbyKey) {
+            hostLobbyKey = lobbyKey;
+            ++hostParticipationRevision;
+            var name_1 = state.hostPreviewName || "";
+            element("host-plays").checked = Boolean(name_1);
+            element("host-name").value = name_1;
+            showHostName(Boolean(name_1));
+            hostParticipationFeedback();
         }
-        hostNameRestored = true;
         var start = element("start-game");
         var loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
@@ -1077,7 +1136,11 @@ element("retry-qr").addEventListener("click", function () {
     element(id).addEventListener("click", function () { return openTvRoom(true); });
 });
 element("join-form").addEventListener("submit", joinRoom);
-element("host-plays").addEventListener("change", function (event) { return showHostName(event.target.checked); });
+element("host-plays").addEventListener("change", function (event) {
+    showHostName(event.target.checked);
+    scheduleHostParticipation();
+});
+element("host-name").addEventListener("input", scheduleHostParticipation);
 ["category", "amount", "difficulty", "festmix-themes"].forEach(function (id) {
     element(id).addEventListener("change", clearRepeatShortage);
 });
@@ -1112,7 +1175,13 @@ element("host-form").addEventListener("submit", function (event) {
             return;
         }
     }
-    roomAction("start", body);
+    clearTimeout(hostParticipationTimer);
+    ++hostParticipationRevision;
+    hostParticipationFeedback();
+    roomAction("start", body).then(function () {
+        if (state && state.phase === "lobby")
+            scheduleHostParticipation();
+    });
 });
 element("next").addEventListener("click", function () { return roomAction("next"); });
 element("open-review").addEventListener("click", function () { return roomAction("review", { questionNumber: 1 }); });

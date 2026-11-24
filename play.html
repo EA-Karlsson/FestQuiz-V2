@@ -40,6 +40,24 @@
 
         <section class="panel" id="join" hidden>
             <h1>Gå med i spelet</h1>
+            <details class="game-help" id="game-help">
+                <summary class="utility">Så funkar spelet</summary>
+                <div class="game-guide">
+                    <ol class="game-rules">
+                        <li>Läs frågan och svarsalternativen på TV:n.</li>
+                        <li>Välj <strong>A, B, C eller D</strong> på mobilen. Du kan byta bokstav innan du låser svaret.</li>
+                        <li>Tryck igen på samma bokstav för att låsa direkt. När tiden går ut räknas det senast sparade valet.</li>
+                    </ol>
+                    <section id="host-guide" hidden>
+                        <h2>För spelledaren</h2>
+                        <ol>
+                            <li>Be deltagarna skanna QR-koden på TV:n och skriva sitt namn.</li>
+                            <li>Välj kategori, antal frågor, svårighetsgrad och svarstid. Kryssa i <strong>Jag vill också spela</strong> om du vill delta. Tryck på <strong>Starta spelet</strong> när alla är med.</li>
+                            <li>Tryck på <strong>Nästa fråga</strong> när alla har låst sina svar eller tiden är slut. Efter sista frågan väljer du <strong>Visa slutresultat</strong> och sedan <strong>Visa facit</strong> för att se rätt svar och vem som svarade vad.</li>
+                        </ol>
+                    </section>
+                </div>
+            </details>
             <form id="join-form">
                 <label for="room-input">Rumskod</label>
                 <input id="room-input" name="room" maxlength="8" autocapitalize="characters" autocomplete="off" required>
@@ -61,15 +79,6 @@
                 </div>
 
                 <form id="host-form" hidden>
-                    <details class="host-help">
-                        <summary class="utility">Så funkar spelet</summary>
-                        <ol class="host-guide">
-                            <li><strong>Samla spelarna.</strong> Be deltagarna skanna QR-koden på TV:n och skriva sitt namn.</li>
-                            <li><strong>Ställ in omgången.</strong> Välj kategori, antal frågor, svårighetsgrad och svarstid. Kryssa i <strong>Jag vill också spela</strong> om du vill delta. Tryck på <strong>Starta spelet</strong> när alla är med.</li>
-                            <li><strong>Svara på mobilen.</strong> Läs frågan och alternativen på TV:n. Välj A, B, C eller D på mobilen. Du kan byta bokstav tills du låser svaret genom att trycka igen på samma bokstav. När tiden går ut räknas det senast sparade valet.</li>
-                            <li><strong>Gå vidare och visa facit.</strong> Tryck på <strong>Nästa fråga</strong> när alla har låst sina svar eller tiden är slut. Efter sista frågan väljer du <strong>Visa slutresultat</strong> och sedan <strong>Visa facit</strong> för att se rätt svar och vem som svarade vad.</li>
-                        </ol>
-                    </details>
                     <label for="category">Kategori</label>
                     <select id="category" name="category">
                         <option value="">Alla kategorier</option>
@@ -131,6 +140,7 @@
                         <label for="host-name">Ditt namn</label>
                         <input id="host-name" name="hostName" maxlength="24" autocomplete="nickname">
                     </div>
+                    <p class="notice" id="host-participation-feedback" role="status" hidden></p>
                     <label class="check" id="allow-repeats-field" for="allow-repeats" hidden>
                         <input type="checkbox" id="allow-repeats" autocomplete="off">
                         Tillåt tidigare frågor

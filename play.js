@@ -32,13 +32,17 @@ let scoreboardUntil = 0;
 let vibratedQuestion = "";
 let draftAnswer = null;
 let draftRevision = 0;
-let hostNameRestored = false;
+let hostLobbyKey = "";
+let hostParticipationTimer;
+let hostParticipationRevision = 0;
+let hostParticipationWrite = Promise.resolve();
 let repeatShortage = null;
 
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
 element("solo-link").hidden = role !== "tv";
+element("host-guide").hidden = role !== "host";
 
 function storage(key, value) {
     try {
@@ -67,7 +71,14 @@ function readParameter(source, name) {
 
 function showSection(visible = "") {
     sections.forEach((id) => { element(id).hidden = id !== visible; });
-    if (visible !== visibleSection && role === "tv") main.scrollTop = 0;
+    if (visible !== visibleSection) {
+        if (role === "tv") main.scrollTop = 0;
+        else if (visible === "join" || visible === "lobby") {
+            const form = element(visible === "join" ? "join-form" : "host-form");
+            const guide = element("game-help");
+            if (form.previousElementSibling !== guide) form.parentNode.insertBefore(guide, form);
+        }
+    }
     visibleSection = visible;
 }
 
@@ -352,6 +363,33 @@ function showHostName(enabled) {
     element("host-name").required = enabled;
 }
 
+function hostParticipationFeedback(message = "") {
+    const feedback = element("host-participation-feedback");
+    feedback.textContent = message;
+    feedback.hidden = !message;
+}
+
+function scheduleHostParticipation() {
+    clearTimeout(hostParticipationTimer);
+    const change = ++hostParticipationRevision;
+    hostParticipationFeedback();
+    if (!state || state.phase !== "lobby") return;
+    const path = roomPath("/host-participation");
+    const roundNumber = state.roundNumber;
+    const hostName = element("host-plays").checked ? element("host-name").value.trim() || null : null;
+    const current = () => change === hostParticipationRevision && state && state.phase === "lobby";
+    hostParticipationTimer = setTimeout(() => {
+        hostParticipationWrite = hostParticipationWrite.then(async () => {
+            if (!current()) return;
+            try {
+                await request(path, { method: "PUT", credential: token, body: { hostName, roundNumber }, timeout: 10000 });
+            } catch (error) {
+                if (current()) hostParticipationFeedback(error.message);
+            }
+        });
+    }, 250);
+}
+
 function renderLobby() {
     showSection("lobby");
     element("room-lobby").textContent = `Rum ${room}`;
@@ -369,12 +407,16 @@ function renderLobby() {
     } else if (role === "host") {
         element("lobby-title").textContent = "Ställ in spelet";
         element("lobby-note").textContent = "Deltagarna går med via QR-koden på TV:n.";
-        if (!hostNameRestored && state.previousHostName) {
-            element("host-plays").checked = true;
-            element("host-name").value = state.previousHostName;
-            showHostName(true);
+        const lobbyKey = `${room}-${state.roundNumber}`;
+        if (hostLobbyKey !== lobbyKey) {
+            hostLobbyKey = lobbyKey;
+            ++hostParticipationRevision;
+            const name = state.hostPreviewName || "";
+            element("host-plays").checked = Boolean(name);
+            element("host-name").value = name;
+            showHostName(Boolean(name));
+            hostParticipationFeedback();
         }
-        hostNameRestored = true;
         const start = element("start-game");
         const loading = pending === "start" || state.starting;
         start.textContent = loading ? "Laddar frågor…" : "Starta spelet";
@@ -810,7 +852,11 @@ element("retry-qr").addEventListener("click", () => {
     element(id).addEventListener("click", () => openTvRoom(true));
 });
 element("join-form").addEventListener("submit", joinRoom);
-element("host-plays").addEventListener("change", (event) => showHostName(event.target.checked));
+element("host-plays").addEventListener("change", (event) => {
+    showHostName(event.target.checked);
+    scheduleHostParticipation();
+});
+element("host-name").addEventListener("input", scheduleHostParticipation);
 ["category", "amount", "difficulty", "festmix-themes"].forEach((id) => {
     element(id).addEventListener("change", clearRepeatShortage);
 });
@@ -843,7 +889,12 @@ element("host-form").addEventListener("submit", (event) => {
             return;
         }
     }
-    roomAction("start", body);
+    clearTimeout(hostParticipationTimer);
+    ++hostParticipationRevision;
+    hostParticipationFeedback();
+    roomAction("start", body).then(() => {
+        if (state && state.phase === "lobby") scheduleHostParticipation();
+    });
 });
 element("next").addEventListener("click", () => roomAction("next"));
 element("open-review").addEventListener("click", () => roomAction("review", { questionNumber: 1 }));

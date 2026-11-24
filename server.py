@@ -9,6 +9,7 @@ from collections.abc import Collection
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Annotated, Literal
+from unicodedata import normalize
 from urllib.parse import urlencode
 
 import qrcode
@@ -86,6 +87,7 @@ class Room:
     completed_rounds: int = 0
     series_players: dict[str, SeriesPlayer] = field(default_factory=dict)
     previous_host_name: str | None = None
+    host_preview_name: str | None = None
 
 
 rooms: dict[str, Room] = {}
@@ -96,6 +98,11 @@ recent_questions: deque[str] = deque(maxlen=250)
 
 class JoinInput(BaseModel):
     name: str = Field(min_length=1, max_length=32)
+
+
+class HostParticipationInput(BaseModel):
+    hostName: str | None = Field(min_length=1, max_length=32)
+    roundNumber: int | None = Field(default=None, strict=True, ge=1)
 
 
 class StartInput(BaseModel):
@@ -193,7 +200,7 @@ def require_host(room: Room, token: str | None) -> str:
 
 
 def normalized_name(value: str) -> str:
-    name = " ".join(value.split())
+    name = normalize("NFC", " ".join(value.split()))
     if not name or not name.isprintable():
         raise HTTPException(400, "Skriv ett namn för att gå med.")
     return name
@@ -201,7 +208,12 @@ def normalized_name(value: str) -> str:
 
 def require_available_name(room: Room, name: str, except_token: str | None = None) -> None:
     normalized = name.casefold()
-    if any(
+    preview_conflict = (
+        except_token != room.host_token
+        and room.host_preview_name is not None
+        and room.host_preview_name.casefold() == normalized
+    )
+    if preview_conflict or any(
         token != except_token and player.name.casefold() == normalized
         for roster in (room.players, room.series_players)
         for token, player in roster.items()
@@ -357,7 +369,10 @@ def view_state(room: Room, token: str | None) -> dict:
     answers = current.answers if current is not None else {}
     your_draft = current.drafts.get(token) if current is not None and token is not None else None
     finished = room.phase in {"finished", "review"}
+    host_preview_name = room.host_preview_name if room.phase == "lobby" else None
     players = list(room.players.values())
+    if host_preview_name is not None:
+        players.append(Player(host_preview_name))
     if finished:
         players.sort(key=lambda player: -player.score)
 
@@ -391,6 +406,7 @@ def view_state(room: Room, token: str | None) -> dict:
         "code": room.code,
         "phase": room.phase,
         "hostReady": room.host_ready,
+        "hostPreviewName": host_preview_name,
         "starting": room.starting,
         "players": [{"name": player.name, "score": player.score if finished else 0} for player in players],
         "question": question_view(current, reveal=False) if current is not None else None,
@@ -588,6 +604,28 @@ def claim_host(code: str, token: Token):
         return view_state(room, token)
 
 
+@app.put("/api/rooms/{code}/host-participation")
+def update_host_participation(code: str, submission: HostParticipationInput, token: Token):
+    with room_lock:
+        room = active_room(code)
+        host_token = require_host(room, token)
+        if not room.host_ready:
+            raise HTTPException(409, "Anslut som spelledare först.")
+        if room.phase != "lobby" or room.starting:
+            raise HTTPException(409, "Ändra deltagandet innan omgången startar.")
+        if submission.roundNumber is not None and submission.roundNumber != room.completed_rounds + 1:
+            raise HTTPException(409, "Ändringen gäller en annan omgång.")
+
+        name = None
+        if submission.hostName is not None:
+            if len(room.players) >= player_limit:
+                raise HTTPException(409, "Spelrummet är fullt.")
+            name = normalized_name(submission.hostName)
+            require_available_name(room, name, except_token=host_token)
+        room.host_preview_name = name
+        return view_state(room, host_token)
+
+
 @app.post("/api/rooms/{code}/join", status_code=201)
 def join_room(code: str, submission: JoinInput):
     with room_lock:
@@ -596,7 +634,7 @@ def join_room(code: str, submission: JoinInput):
             raise HTTPException(409, "Vänta tills spelledaren har gått med.")
         if room.phase != "lobby" or room.starting:
             raise HTTPException(409, "Spelet har redan startat.")
-        if len(room.players) >= player_limit:
+        if len(room.players) + (room.host_preview_name is not None) >= player_limit:
             raise HTTPException(409, "Spelrummet är fullt.")
 
         name = normalized_name(submission.name)
@@ -642,6 +680,7 @@ def start_room(code: str, submission: StartInput, token: Token):
                 raise HTTPException(404, "Spelrummet finns inte längre. Skapa ett nytt spel på TV:n.")
             if host_name is not None:
                 room.players[host_token] = Player(host_name)
+            room.host_preview_name = None
             room.questions = questions
             room.seconds = submission.seconds
             open_question(room)
@@ -745,6 +784,7 @@ def new_round(code: str, token: Token):
             raise HTTPException(409, "Spela klart omgången innan du startar en ny.")
 
         room.players.pop(room.host_token, None)
+        room.host_preview_name = room.previous_host_name
         for player in room.players.values():
             player.score = 0
         room.questions = []

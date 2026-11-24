@@ -263,10 +263,10 @@ input:not([type="checkbox"]), select {
 
 form select, form input { margin-bottom: .65rem; }
 form .primary, #host-actions .primary { width: 100%; }
-.host-help { margin-bottom: .85rem; }
-.host-help summary { font-size: .92rem; }
-.host-help summary::-webkit-details-marker { display: none; }
-.host-help summary::after {
+.game-help { margin-top: .85rem; }
+.game-help summary { font-size: .92rem; }
+.game-help summary::-webkit-details-marker { display: none; }
+.game-help summary::after {
     width: .45rem;
     height: .45rem;
     margin: -.22rem 0 0 .7rem;
@@ -275,18 +275,21 @@ form .primary, #host-actions .primary { width: 100%; }
     transform: rotate(45deg);
     content: "";
 }
-.host-help[open] summary::after { margin-top: .22rem; transform: rotate(225deg); }
-.host-guide {
+.game-help[open] summary::after { margin-top: .22rem; transform: rotate(225deg); }
+.game-guide {
     margin: .65rem 0 0;
-    padding: .82rem .9rem .82rem 2.1rem;
+    padding: .82rem .9rem;
     border: 1px solid #615178;
     border-radius: .65rem;
     color: #e4d8ef;
     background: #231b36;
     font-size: .94rem;
 }
-.host-guide li + li { margin-top: .55rem; }
-.host-guide strong { color: #ffe0a0; }
+.game-guide ol { margin: 0; padding-left: 1.25rem; }
+.game-guide li + li { margin-top: .55rem; }
+.game-guide strong { color: #ffe0a0; }
+#host-guide { margin-top: .85rem; padding-top: .85rem; border-top: 1px solid #615178; }
+#host-guide h2 { margin-bottom: .55rem; font-size: 1rem; }
 
 .settings-row { display: flex; }
 .settings-row > div { flex: 1 1 0%; min-width: 0; }
