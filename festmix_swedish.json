@@ -4914,14 +4914,14 @@
   {
     "theme": "tvnostalgi",
     "difficulty": "medium",
-    "question": "Scenen där Babe och ankan gör en stöld tog flera veckor att träna in. Vad skulle grisen bära iväg med i munnen?",
+    "question": "Babe och ankan Ferdinand gör inbrott i bondens hus. Vilken pryl är de ute efter?",
     "correct": "En väckarklocka",
     "incorrect": [
       "En ficklampa",
       "En toffel",
       "En tvål"
     ],
-    "source_url": "https://www.latimes.com/archives/la-xpm-1995-08-05-ca-31737-story.html",
+    "source_url": "https://catalog.afi.com/Film/55728-BABE",
     "party_highlight": true
   },
   {
@@ -5233,7 +5233,7 @@
       "En sten",
       "En fjäder"
     ],
-    "source_url": "https://www.biology.ox.ac.uk/publication/1076485/ora-hyrax",
+    "source_url": "https://ora.ox.ac.uk/objects/uuid%3A900bcb1a-a860-44e6-ad04-746a27f11f6f",
     "party_highlight": true
   },
   {
@@ -5688,7 +5688,7 @@
       "En gammal parfymflaska",
       "En gammal bläckflaska"
     ],
-    "source_url": "https://www.absolut.com/en-us/blog/vodka-and-spirits/the-story-of-the-absolut-bottle-and-brand/",
+    "source_url": "https://theabsolutcompany.com/legacy/post/lo-smith-swedish/historien-om-absolutflaskan/",
     "party_highlight": true
   },
   {
