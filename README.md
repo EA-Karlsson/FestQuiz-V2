@@ -2,7 +2,7 @@
 
 Öppna startsidan på TV:n. Skanna QR-koden som visas automatiskt med spelledarens mobil. När spelledaren är ansluten visar TV:n deltagarnas QR-kod. Spelledaren väljer kategori, svårighetsgrad, upp till 30 frågor och 15, 20 eller 30 sekunders svarstid. Standard är 20 sekunder.
 
-**Festmix** har 500 granskade frågor om udda men sanna fakta, festhits och artistnamn, film bakom kulisserna, retroprylar, ord, traditioner och symboler. Välj kategorin i spelrummet eller i solospelet.
+**Festmix** blandar knasiga men sanna fakta med film, musik, retroprylar och traditioner. Spelet ger knasiga frågor förtur när det finns oanvända på vald svårighetsnivå. Välj kategorin i spelrummet eller i solospelet.
 
 TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att markera den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. När tiden går ut räknas det senast markerade alternativet automatiskt för den som inte har låst sitt svar. Spelledaren kan gå vidare när tiden har gått ut eller när alla har låst sina svar. Mobiler med stöd för vibration vibrerar kort vid fem sekunder för spelare som ännu inte låst sitt svar.
 

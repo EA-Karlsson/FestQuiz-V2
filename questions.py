@@ -57,6 +57,7 @@ class _Candidate:
     language: str = "EN"
     category: str | None = None
     difficulty: str | None = None
+    party_highlight: bool = False
 
 
 _OPENTDB_URL = "https://opentdb.com/api.php"
@@ -172,7 +173,8 @@ def valid_question_edit(question: str, correct: str, incorrect: list[str]) -> bo
 
 
 def _candidate(
-    question, correct, incorrect, *, source: str, language: str = "EN", category=None, difficulty=None
+    question, correct, incorrect, *, source: str, language: str = "EN", category=None, difficulty=None,
+    party_highlight: bool = False,
 ) -> _Candidate | None:
     if not isinstance(incorrect, (list, tuple)) or len(incorrect) != 3:
         return None
@@ -197,7 +199,7 @@ def _candidate(
         return None
     category = category if isinstance(category, str) and category and category in _TRIVIA_FILTERS else None
     difficulty = difficulty if isinstance(difficulty, str) and difficulty and difficulty in _DIFFICULTIES else None
-    return _Candidate(question, correct, (first, second, third), source, language, category, difficulty)
+    return _Candidate(question, correct, (first, second, third), source, language, category, difficulty, party_highlight)
 
 
 def _fetch_json(url: str, params: dict, headers: dict[str, str] | None = None) -> dict | list | None:
@@ -431,6 +433,7 @@ def _party_candidates(filename: str, source: str, language: str, difficulty: str
         candidate = _candidate(
             row.get("question"), row.get("correct"), row.get("incorrect"), source=source,
             category=_PARTY_CATEGORY, difficulty=level, language=language,
+            party_highlight=row.get("party_highlight") is True,
         )
         if candidate:
             results.append(candidate)
@@ -598,11 +601,14 @@ def get_questions(
                 seen_originals.add(original)
                 candidates.append(candidate)
 
-    fresh, recent, repeated = [], [], []
+    if category == _PARTY_CATEGORY:
+        candidates.sort(key=lambda candidate: not candidate.party_highlight)
+    highlight_target = (amount * 3 + 3) // 4 if category == _PARTY_CATEGORY else 0
+    highlights, fresh, recent, repeated = [], [], [], []
     excluded, avoid = set(exclude), set(avoid_recent)
     seen_keys, seen_prompts = set(), set()
 
-    def add(question: Question) -> None:
+    def add(question: Question, *, party_highlight: bool = False) -> None:
         key = question["key"]
         prompt = _normalized(question["question"])
         if key in seen_keys or prompt in seen_prompts:
@@ -613,8 +619,13 @@ def get_questions(
             repeated.append(question)
         elif key in avoid:
             recent.append(question)
+        elif party_highlight:
+            highlights.append(question)
         else:
             fresh.append(question)
+
+    def select_fresh() -> list[Question]:
+        return (highlights[:highlight_target] + fresh + highlights[highlight_target:])[:amount]
 
     bank_sources = (
         {_PARTY_SWEDISH_SOURCE, _PARTY_FRENCH_SOURCE, "The Trivia API"}
@@ -663,25 +674,26 @@ def get_questions(
                 continue
             if save_to_bank and record_id and previous is None:
                 new_records.append(_bank_record(candidate, record_id, question))
-            add(question)
+            add(question, party_highlight=candidate.party_highlight)
         if new_records:
             try:
                 question_bank.store_questions(new_records)
             except question_bank.QuestionBankUnavailable:
                 logger.warning("De hämtade frågorna kunde inte sparas i frågebanken.")
                 save_to_bank = False
-        if len(fresh) >= amount:
-            fresh = fresh[:amount]
-            random.shuffle(fresh)
-            return fresh
+        if len(fresh) + min(len(highlights), highlight_target) >= amount:
+            selected = select_fresh()
+            random.shuffle(selected)
+            return selected
 
     for record in stored:
         add(_bank_value(record))
-    if bank_enabled and excluded and len(fresh) + len(recent) < amount:
+    if bank_enabled and excluded and len(highlights) + len(fresh) + len(recent) < amount:
         for record in _read_bank(category, difficulty, bank_sources) or ():
             add(_bank_value(record))
 
-    unused = fresh[:amount] + recent[:max(0, amount - len(fresh))]
+    unused = select_fresh()
+    unused += recent[:amount - len(unused)]
     repeats = repeated[:amount - len(unused)] if allow_repeats else []
     available = len(unused) + len(repeats)
     if available != amount:
