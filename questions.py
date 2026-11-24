@@ -474,9 +474,29 @@ def _party_candidates(
     return results
 
 
-def _keep_answer(text: str, language: str = "EN") -> bool:
-    if language != "EN":
-        return False
+_TITLE_KIND = (
+    r"(?:film|movie|comic strip|comic book|book|novel|song|album|"
+    r"(?:tv|television) (?:series|show|miniseries|program(?:me)?)|(?:board|video|arcade) game)(?: title)?\b"
+)
+_TITLE_QUALIFIER = r"(?:(?:\d{4}|['’]?\d{2}s|animated|classic|iconic|silent|studio)\s+)*"
+_TITLE_QUESTION = re.compile(
+    r"^(?:(?:(?:in|from)\s+)?(?:which|what)\s+"
+    r"|what (?:is|was) the (?:name|title) of (?:the|an?)\s+"
+    r"|which of (?:these|the following) (?:is|was) an?\s+)"
+    rf"{_TITLE_QUALIFIER}{_TITLE_KIND}"
+    r"(?=\s+(?:(?:first|originally)\s+)?"
+    r"(?:do|did|does|is|was|has|had|won|features?|stars?|starring|tells?|contains?|appears?|aired|became|by|from|where)"
+    r"\b|[?,]|$)"
+    rf"|\b(?:which|what)\s+{_TITLE_KIND}\s*\?$",
+    re.IGNORECASE,
+)
+_TITLE_PLACEHOLDER = re.compile(
+    r"(?:unknown|not known|not applicable|no answer|(?:all|none|both|neither) of (?:the )?following)[.!?]?",
+    re.IGNORECASE,
+)
+
+
+def _keep_answer(text: str) -> bool:
     # Behåll uttryckliga citat och korta namn eller titlar, som i FestQuiz 2.0.
     if len(text) < 2 or (text[0], text[-1]) in {('"', '"'), ("'", "'"), ("“", "”"), ("«", "»")}:
         return True
@@ -489,13 +509,26 @@ def _keep_answer(text: str, language: str = "EN") -> bool:
     )
 
 
+def _kept_answers(candidate: _Candidate) -> set[str]:
+    if candidate.language != "EN":
+        return set()
+    answers = (candidate.correct, *candidate.incorrect)
+    if _TITLE_QUESTION.search(candidate.question):
+        return {
+            answer for answer in answers
+            if not _POSITIONAL_ANSWER.search(answer) and not _TITLE_PLACEHOLDER.fullmatch(answer)
+        }
+    return {answer for answer in answers if _keep_answer(answer)}
+
+
 def _translate_batch(candidates: list[_Candidate], translations: dict[tuple[str, str], str], api_key: str) -> bool:
     needed: dict[str, dict[str, None]] = {}
     cacheable: set[tuple[str, str]] = set()
     for candidate in candidates:
         language = candidate.language
         answers = (candidate.correct, *candidate.incorrect)
-        texts = [candidate.question, *(answer for answer in answers if not _keep_answer(answer, language))]
+        kept_answers = _kept_answers(candidate)
+        texts = [candidate.question, *(answer for answer in answers if answer not in kept_answers)]
         needed.setdefault(language, {}).update(dict.fromkeys(texts))
         # TriviaAPI.games tillåter visning i spelet men förbjuder att bygga en frågedatabas.
         if candidate.source != _TRIVIAAPI_GAMES_SOURCE:
@@ -548,8 +581,9 @@ def _resolved(candidate: _Candidate, translations: dict[tuple[str, str], str]) -
         question = translations.get((language, candidate.question), "")
         if not question or _normalized(question) == _normalized(candidate.question):
             return None
+        kept_answers = _kept_answers(candidate)
         answers = [
-            text if _keep_answer(text, language) else translations.get((language, text), "")
+            text if text in kept_answers else translations.get((language, text), "")
             for text in (candidate.correct, *candidate.incorrect)
         ]
         if not all(answers) or len({_normalized(answer) for answer in answers}) != 4:

@@ -64,7 +64,7 @@
   {
     "theme": "djur",
     "difficulty": "medium",
-    "question": "Vilket djur kan växa ut ett nytt ben efter att ha förlorat det?",
+    "question": "Vilket djur kan få ett nytt ben att växa ut efter att ha förlorat ett?",
     "correct": "Axolotlen",
     "incorrect": [
       "Vombaten",
@@ -743,7 +743,7 @@
   {
     "theme": "udda",
     "difficulty": "easy",
-    "question": "Vilket fysiskt ljudmedium skickade NASA med Voyager-sonderna 1977?",
+    "question": "Vad använde NASA för att lagra ljuden som följde med Voyager-sonderna 1977?",
     "correct": "En grammofonskiva",
     "incorrect": [
       "Ett kassettband",
@@ -1108,7 +1108,7 @@
     "theme": "traditioner",
     "difficulty": "medium",
     "question": "Vilket motiv brukar lysa på en traditionell papperslykta på kräftskivan?",
-    "correct": "Ett mångubbeansikte",
+    "correct": "En måne med ett ansikte",
     "incorrect": [
       "En stor snöflinga",
       "En midsommarstång",
@@ -1572,7 +1572,7 @@
     "source_url": "https://mellopedia.svt.se/index.php/Melodifestivalen_2008"
   },
   {
-    "question": "Vilken Mellotvåa från 2009 har samma vädjan två gånger i titeln?",
+    "question": "Vilken låt kom tvåa i Melodifestivalen 2009 och har samma vädjan två gånger i titeln?",
     "correct": "Snälla, snälla",
     "incorrect": [
       "Baby Goodbye",
@@ -2385,7 +2385,7 @@
     "correct": "Minigolf",
     "incorrect": [
       "Bowling",
-      "Rollerskate",
+      "Rullskridskor",
       "Bordtennis"
     ],
     "difficulty": "medium",

@@ -120,7 +120,7 @@ h1 { font-size: 2.45rem; letter-spacing: -.042em; }
 h2 { font-size: 1.3rem; letter-spacing: -.02em; }
 
 p { margin: .75rem 0; }
-.panel > p:not(.room), #answer-count { color: #d8cee8; }
+.panel > p:not(.room), #lobby-note, #answer-count { color: #d8cee8; }
 
 .room {
     display: inline-block;
@@ -210,6 +210,7 @@ body[data-role="tv"].fullscreen-active * { cursor: none !important; }
 }
 
 .lobby-main { flex: 1 1 0%; min-width: 0; }
+.lobby-mascot { display: none; }
 
 .qr-card {
     display: flex;
@@ -587,6 +588,16 @@ body[data-role="tv"] .lobby-main {
     background: #251b3c;
     background: radial-gradient(ellipse at 0 0, #3d2a60, transparent 78%), #251b3c;
 }
+body[data-role="tv"] .lobby-intro { display: flex; align-items: center; }
+body[data-role="tv"] .lobby-intro-copy { flex: 1 1 0%; min-width: 0; }
+body[data-role="tv"] .lobby-mascot {
+    display: block;
+    flex: 0 0 auto;
+    width: 29%;
+    max-width: 12rem;
+    height: auto;
+    margin-right: 1.4rem;
+}
 body[data-role="tv"] .lobby-main h1 {
     max-width: 13em;
     font-size: 4rem;
@@ -718,10 +729,20 @@ body[data-role="tv"] .review-question-panel .choice-letter {
 
     body[data-role="tv"] .page { padding: .85rem; }
     body[data-role="tv"] .lobby { flex-direction: column; min-height: 0; }
-    body[data-role="tv"] .qr-card { order: -1; margin: 0 0 .85rem; }
+    body[data-role="tv"] #fullscreen-button:not(.fullscreen-compact) {
+        min-width: 0;
+        min-height: 2.75rem;
+        padding: .5rem .75rem;
+        font-size: .96rem;
+    }
+    body[data-role="tv"] .qr-card { order: -1; margin: 0 0 .65rem; padding: .8rem; }
     body[data-role="tv"] .qr-card img { max-width: 12rem; }
-    body[data-role="tv"] .lobby-main h1 { font-size: 2.18rem; }
-    body[data-role="tv"] #lobby-note { font-size: 1.1rem; }
+    body[data-role="tv"] .lobby-main { padding: 1rem; }
+    body[data-role="tv"] .lobby-mascot { max-width: 7rem; margin-right: .75rem; }
+    body[data-role="tv"] .lobby-intro .room { margin-bottom: .5rem; font-size: .9rem; }
+    body[data-role="tv"] .lobby-main h1 { font-size: 1.7rem; }
+    body[data-role="tv"] #lobby-note { margin: .5rem 0 0; font-size: 1rem; }
+    body[data-role="tv"] #cancel-room { margin-top: .65rem; }
 
     body[data-role="tv"] .game-meta { min-height: 5.4rem; padding-bottom: 3rem; }
     body[data-role="tv"] .timer { top: auto; bottom: 0; transform: translateX(-50%); font-size: 1.48rem; }
@@ -744,6 +765,13 @@ body[data-role="tv"] .review-question-panel .choice-letter {
     .role { letter-spacing: .04em; }
     .primary, .utility { padding-right: .68rem; padding-left: .68rem; }
     #series th, #series td { padding-right: .2rem; padding-left: .2rem; }
+    body[data-role="tv"] .page { padding-top: .65rem; padding-bottom: .65rem; }
+    body[data-role="tv"] .qr-card { padding: .65rem; }
+    body[data-role="tv"] .qr-card img { max-width: 11.25rem; }
+    body[data-role="tv"] .lobby-main { padding: .62rem .8rem; }
+    body[data-role="tv"] .lobby-mascot { width: 26%; margin-right: .55rem; }
+    body[data-role="tv"] .lobby-main h1 { font-size: 1.42rem; }
+    body[data-role="tv"] #lobby-note { font-size: .9rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
