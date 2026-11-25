@@ -85,7 +85,6 @@ var repeatShortage = null;
 document.body.dataset.role = role;
 element("role").textContent = roles[role];
 element("music-button").hidden = role !== "tv";
-element("solo-link").hidden = role !== "tv";
 element("host-guide").hidden = role !== "host";
 function storage(key, value) {
     try {

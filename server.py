@@ -524,50 +524,19 @@ def close_question_report(report_id: Annotated[str, PathParam(pattern=r"^[0-9a-f
     return {"resolved": True}
 
 
-@app.get("/solo")
-def solo_page():
-    return RedirectResponse("/static/index.html")
-
-
 @app.get("/static/start.html", include_in_schema=False)
 def old_tv_page():
     return RedirectResponse("/")
 
 
-@app.get("/static/{filename}")
-def solo_file(filename: Literal["index.html", "app.js", "style.css", "music.mp3"]):
-    return FileResponse(root / filename)
+@app.get("/static/music.mp3", include_in_schema=False)
+def play_music():
+    return FileResponse(root / "music.mp3", media_type="audio/mpeg")
 
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-
-@app.get("/quiz")
-def solo_quiz(
-    amount: Annotated[int, Query(ge=1, le=max_questions)] = 10,
-    category: str = "",
-    difficulty: str = "",
-    themes: Annotated[list[str] | None, Query(max_length=len(FESTMIX_THEMES))] = None,
-):
-    questions = []
-    for question in deal_questions(amount, category, difficulty, themes=themes or ()):
-        result = {
-            "question": question["question"],
-            "correct_answer": question["correct"],
-            "incorrect_answers": question["incorrect"],
-            "source": question["source"],
-        }
-        if question.get("source_url"):
-            result["source_url"] = question["source_url"]
-        ticket = report_ticket(
-            question["key"], question["question"], question["correct"], question["incorrect"], question["source"],
-        )
-        if ticket:
-            result["report_ticket"] = ticket
-        questions.append(result)
-    return questions
 
 
 @app.post("/api/rooms", status_code=201)
