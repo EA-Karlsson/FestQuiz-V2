@@ -82,6 +82,7 @@
                     <select id="category" name="category">
                         <option value="">Alla kategorier</option>
                         <option value="party">Festmix</option>
+                        <option value="made-up">Det låter påhittat</option>
                         <option value="random">Slumpa kategori</option>
                         <option value="9">Allmänbildning</option>
                         <option value="11">Film</option>
@@ -93,6 +94,7 @@
                         <option value="22">Geografi</option>
                         <option value="modern">2000-talet</option>
                     </select>
+                    <p class="festmix-theme-hint" id="fixed-round-note" hidden>Tio fasta Festmix-frågor med förklaringar och källor i facit.</p>
                     <fieldset class="festmix-theme-picker" id="festmix-themes" aria-describedby="festmix-hint" hidden>
                         <legend>Teman i Festmix</legend>
                         <p class="festmix-theme-hint" id="festmix-hint">Lämna alla omarkerade för att blanda alla teman.</p>
@@ -104,7 +106,7 @@
                             <label><input type="checkbox" name="themes" value="world"> Mat och traditioner</label>
                         </div>
                     </fieldset>
-                    <div class="settings-row">
+                    <div class="settings-row" id="round-settings">
                         <div>
                             <label for="amount">Antal frågor</label>
                             <select id="amount" name="amount">
@@ -211,6 +213,7 @@
                     <h2 id="review-question"></h2>
                     <div class="choices" id="review-choices"></div>
                     <p class="review-correct" id="review-correct"></p>
+                    <p class="review-explanation" id="review-explanation" hidden></p>
                     <p class="question-source" id="review-source" hidden></p>
                     <div class="review-report" id="review-report" hidden>
                         <button class="utility" id="report-question" type="button">Rapportera frågan</button>

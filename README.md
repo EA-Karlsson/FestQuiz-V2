@@ -4,6 +4,8 @@
 
 **Festmix** blandar knasiga men sanna fakta med film, musik, retroprylar och traditioner. I spelrummet kan du välja ett eller flera teman. Lämna temana tomma för att blanda alla. Spelet ger knasiga frågor förtur när det finns oanvända på vald svårighetsnivå.
 
+Välj **Det låter påhittat** i kategorilistan för tio fasta Festmix-frågor om verkliga men osannolika djur, uppfinningar och händelser. Varje fråga har en förklaring och en direkt källänk i facit.
+
 TV:n visar frågan och alternativen med A, B, C och D. Deltagarna trycker på en bokstav på mobilen för att markera den och trycker igen på samma bokstav för att låsa svaret. Fram till dess kan de byta val. När tiden går ut räknas det senast markerade alternativet automatiskt för den som inte har låst sitt svar. Spelledaren kan gå vidare när tiden har gått ut eller när alla har låst sina svar. Mobiler med stöd för vibration vibrerar kort vid fem sekunder för spelare som ännu inte låst sitt svar.
 
 Efter sista frågan visar TV:n poängtavlan och spelarna ser sin placering och sina poäng på mobilen. Spelledaren öppnar facit från mobilen och bläddrar mellan frågorna. Där visas rätt svar och vad varje deltagare valde. Spelledaren kan välja **Ny omgång** för att spela vidare med samma deltagare. Poängtavlan visar vinster och placeringar för spelrummets omgångar. Endast en ensam förstaplats ger en vinst i statistiken. Vid lika högsta poäng visas en delad förstaplats.

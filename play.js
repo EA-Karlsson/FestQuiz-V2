@@ -4,6 +4,7 @@ const element = (id) => document.getElementById(id);
 const role = location.pathname === "/leda" ? "host" : location.pathname === "/spela" ? "player" : "tv";
 const roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 const letters = "ABCD";
+const fixedRoundCategory = "made-up";
 const categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern", "party"];
 const sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
 const reportStatuses = Object.create(null);
@@ -724,6 +725,9 @@ function renderReview() {
     element("review-round").textContent = `Fråga ${current} av ${total}`;
     element("review-question").textContent = question.text;
     element("review-correct").textContent = `Rätt svar är ${namedChoice(question, question.correctChoice)}`;
+    const explanation = element("review-explanation");
+    explanation.textContent = question.explanation || "";
+    explanation.hidden = !question.explanation;
     renderReviewSource(question);
     replaceContents(element("review-choices"), question.choices.map((answer, index) => {
         const option = choiceCard(answer, index, "div");
@@ -859,11 +863,15 @@ element("host-name").addEventListener("input", scheduleHostParticipation);
 ["category", "amount", "difficulty", "festmix-themes"].forEach((id) => {
     element(id).addEventListener("change", clearRepeatShortage);
 });
-function updateFestmixThemeVisibility() {
-    element("festmix-themes").hidden = element("category").value !== "party";
+function updateRoundSettings() {
+    const category = element("category").value;
+    const fixedRound = category === fixedRoundCategory;
+    element("festmix-themes").hidden = category !== "party";
+    element("fixed-round-note").hidden = !fixedRound;
+    element("round-settings").hidden = fixedRound;
 }
-element("category").addEventListener("change", updateFestmixThemeVisibility);
-updateFestmixThemeVisibility();
+element("category").addEventListener("change", updateRoundSettings);
+updateRoundSettings();
 element("host-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const selected = element("category").value;
@@ -872,10 +880,11 @@ element("host-form").addEventListener("submit", (event) => {
     if (selected === "random") {
         category = allowRepeats ? repeatShortage.category : categories[Math.floor(Math.random() * categories.length)];
     }
+    const fixedRound = category === fixedRoundCategory;
     const body = {
-        amount: Number(element("amount").value),
+        amount: fixedRound ? 10 : Number(element("amount").value),
         category,
-        difficulty: element("difficulty").value,
+        difficulty: fixedRound ? "" : element("difficulty").value,
         seconds: Number(element("seconds").value),
     };
     const themes = selectedFestmixThemes();

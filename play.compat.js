@@ -48,6 +48,7 @@ var element = function (id) { return document.getElementById(id); };
 var role = location.pathname === "/leda" ? "host" : location.pathname === "/spela" ? "player" : "tv";
 var roles = { tv: "TV-spelplan", host: "Spelledare", player: "Spelare" };
 var letters = "ABCD";
+var fixedRoundCategory = "made-up";
 var categories = ["9", "11", "12", "21", "15", "23", "17", "22", "modern", "party"];
 var sections = ["startup", "join", "lobby", "game", "scoreboard", "review"];
 var reportStatuses = Object.create(null);
@@ -992,6 +993,9 @@ function renderReview() {
     element("review-round").textContent = "Fr\u00E5ga ".concat(current, " av ").concat(total);
     element("review-question").textContent = question.text;
     element("review-correct").textContent = "R\u00E4tt svar \u00E4r ".concat(namedChoice(question, question.correctChoice));
+    var explanation = element("review-explanation");
+    explanation.textContent = question.explanation || "";
+    explanation.hidden = !question.explanation;
     renderReviewSource(question);
     replaceContents(element("review-choices"), question.choices.map(function (answer, index) {
         var option = choiceCard(answer, index, "div");
@@ -1143,11 +1147,15 @@ element("host-name").addEventListener("input", scheduleHostParticipation);
 ["category", "amount", "difficulty", "festmix-themes"].forEach(function (id) {
     element(id).addEventListener("change", clearRepeatShortage);
 });
-function updateFestmixThemeVisibility() {
-    element("festmix-themes").hidden = element("category").value !== "party";
+function updateRoundSettings() {
+    var category = element("category").value;
+    var fixedRound = category === fixedRoundCategory;
+    element("festmix-themes").hidden = category !== "party";
+    element("fixed-round-note").hidden = !fixedRound;
+    element("round-settings").hidden = fixedRound;
 }
-element("category").addEventListener("change", updateFestmixThemeVisibility);
-updateFestmixThemeVisibility();
+element("category").addEventListener("change", updateRoundSettings);
+updateRoundSettings();
 element("host-form").addEventListener("submit", function (event) {
     event.preventDefault();
     var selected = element("category").value;
@@ -1156,10 +1164,11 @@ element("host-form").addEventListener("submit", function (event) {
     if (selected === "random") {
         category = allowRepeats ? repeatShortage.category : categories[Math.floor(Math.random() * categories.length)];
     }
+    var fixedRound = category === fixedRoundCategory;
     var body = {
-        amount: Number(element("amount").value),
+        amount: fixedRound ? 10 : Number(element("amount").value),
         category: category,
-        difficulty: element("difficulty").value,
+        difficulty: fixedRound ? "" : element("difficulty").value,
         seconds: Number(element("seconds").value),
     };
     var themes = selectedFestmixThemes();

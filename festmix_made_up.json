@@ -1,0 +1,82 @@
+[
+  {
+    "question": "I ett amerikanskt patent från 1896 räcker det att du bugar. Vilken artighet sköter uppfinningen åt dig?",
+    "correct": "Lyfter på hatten",
+    "incorrect": ["Räcker fram ett visitkort", "Skakar hand", "Spelar en hälsningsmelodi"],
+    "explanation": "Mekanismen skulle lyfta och vrida hatten när bäraren bugade och sedan sätta tillbaka den på huvudet.",
+    "source": "USA:s patentverk",
+    "source_url": "https://patents.google.com/patent/US556248A/en"
+  },
+  {
+    "question": "Vad håller boxarkrabban i klorna som ett par levande boxhandskar?",
+    "correct": "Havsanemoner",
+    "incorrect": ["Sjöstjärnor", "Musslor", "Sjögurkor"],
+    "explanation": "Krabban håller en anemon i varje klo. I en studie delade krabbor sin kvarvarande anemon i två, och båda delarna växte till hela anemoner.",
+    "source": "PeerJ",
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/28168117/"
+  },
+  {
+    "question": "Vad gjorde att Apollo 12:s tv-bild från månen försvann under astronauternas första månpromenad?",
+    "correct": "Kameran riktades mot solen",
+    "incorrect": ["Kameran ramlade ner i en krater", "En astronaut trampade av kabeln", "Ett moln av måndamm täckte linsen"],
+    "explanation": "Tv-sändningen upphörde när kameran riktades mot solen strax efter att den hade lossats från månlandaren.",
+    "source": "NASA",
+    "source_url": "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_12a_Summary.htm"
+  },
+  {
+    "question": "Det svenska frimärket Gula treskillingen blev känt för ett tryckfel. Vilken färg skulle det ha haft?",
+    "correct": "Grön",
+    "incorrect": ["Blå", "Röd", "Violett"],
+    "explanation": "Tre skilling banco skulle tryckas i grönt. Den gula färgen hörde till frimärket för åtta skilling.",
+    "source": "Postmuseum",
+    "source_url": "https://www.postmuseum.se/bocker/2005/2005_7-127-164_Mattson.pdf"
+  },
+  {
+    "question": "Hiram Codds läskflaska från 1870-talet hade ingen kork. Vad pressade kolsyran upp mot flaskans öppning för att täta den?",
+    "correct": "En glaskula",
+    "incorrect": ["En träkula", "En bricka av plåt", "En kula av bivax"],
+    "explanation": "Trycket höll glaskulan mot en gummiring. För att öppna flaskan tryckte man ner kulan i flaskhalsen.",
+    "source": "Brora Heritage Centre",
+    "source_url": "https://museumofthehighlands.org/project/marble-in-codd-bottle"
+  },
+  {
+    "question": "Vilken vanlig matfisk spelade forskare in när den lät som om den pruttade på natten?",
+    "correct": "Sill",
+    "incorrect": ["Torsk", "Lax", "Abborre"],
+    "explanation": "Forskarna såg små gasbubblor komma ut bakvägen samtidigt som undervattensmikrofonerna fångade ljudet.",
+    "source": "Scottish Association for Marine Science",
+    "source_url": "https://www.sams.ac.uk/news/archive/archive-2005--sams/name-129919-en.html"
+  },
+  {
+    "question": "Sinbad hade uniform och egen koj på ett amerikanskt kustbevakningsfartyg under andra världskriget. Vad var Sinbad?",
+    "correct": "En hund",
+    "incorrect": ["En katt", "En apa", "En papegoja"],
+    "explanation": "Besättningen på fartyget Campbell tog ombord Sinbad som valp. Han fick egna tjänstepapper och följde med till sjöss under kriget.",
+    "source": "U.S. Coast Guard Historian’s Office",
+    "source_url": "https://www.history.uscg.mil/Frequently-Asked-Questions/"
+  },
+  {
+    "question": "George Merryweathers stormvarnare hade tolv flaskor. Vilka små djur skulle få apparaten att ringa i en klocka?",
+    "correct": "Blodiglar",
+    "incorrect": ["Syrsor", "Daggmaskar", "Tusenfotingar"],
+    "explanation": "När en igel tog sig upp i flaskhalsen kunde den rubba en del som fick en hammare att slå mot klockan.",
+    "source": "Whitby Museum",
+    "source_url": "https://whitbymuseum.org.uk/tempest-prognosticator/"
+  },
+  {
+    "question": "En uppfinning som fick amerikanskt patent 1999 lämnade plats för både vingar och stjärt. Vad var det?",
+    "correct": "En blöja för tamfåglar",
+    "incorrect": ["En regnjacka för brevduvor", "En badring för ankor", "En reflexväst för papegojor"],
+    "explanation": "Blöjan hade en sydd ficka som fångade spillningen när fågeln flög omkring utanför buren.",
+    "source": "USA:s patentverk",
+    "source_url": "https://patents.google.com/patent/US5934226A/en"
+  },
+  {
+    "question": "Vad bäddar vissa papegojfiskar in sig i när de vilar på natten?",
+    "correct": "En sovsäck av eget slem",
+    "incorrect": ["Ett täcke av alger", "Ett nät av koralltrådar", "En bubbla fylld med luft"],
+    "explanation": "Slemmet bildar en kokong. I en studie fick fiskar med kokong färre attacker från små blodsugande kräftdjur.",
+    "source": "Biology Letters, The Royal Society",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3061186/"
+  }
+]

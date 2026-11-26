@@ -16,13 +16,21 @@ import qrcode
 from fastapi import Depends, FastAPI, HTTPException, Path as PathParam, Query, Request, Response
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from qrcode.image.pure import PyPNGImage
 
 import question_bank
 from question_reports import report_ticket, verify_report_ticket
 from festmix_themes import FESTMIX_THEMES
-from questions import NewQuestionsUnavailable, QuestionUnavailable, get_questions, valid_question_edit
+from questions import (
+    MADE_UP_CATEGORY,
+    InvalidQuestionSettings,
+    NewQuestionsUnavailable,
+    QuestionUnavailable,
+    get_questions,
+    valid_question_edit,
+    validate_made_up_settings,
+)
 
 
 app = FastAPI(title="FestQuiz")
@@ -33,7 +41,7 @@ max_questions = 30
 room_lifetime = 6 * 60 * 60
 room_limit = 200
 player_limit = 50
-category_values = {"", "9", "11", "12", "15", "17", "21", "22", "23", "modern", "party"}
+category_values = {"", "9", "11", "12", "15", "17", "21", "22", "23", "modern", "party", MADE_UP_CATEGORY}
 difficulty_values = {"", "easy", "medium", "hard"}
 room_code_symbols = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 
@@ -65,6 +73,7 @@ class Question:
     source: str
     key: str
     source_url: str | None = None
+    explanation: str | None = None
     answers: dict[str, int] = field(default_factory=dict)
     drafts: dict[str, AnswerDraft] = field(default_factory=dict)
 
@@ -113,6 +122,16 @@ class StartInput(BaseModel):
     seconds: Literal[15, 20, 30] = default_round_seconds
     allowRepeats: bool = Field(default=False, strict=True)
     themes: list[str] = Field(default_factory=list, max_length=len(FESTMIX_THEMES))
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_fixed_pack(cls, values: object) -> object:
+        if isinstance(values, dict) and values.get("category") == MADE_UP_CATEGORY:
+            try:
+                validate_made_up_settings(values.get("amount"), values.get("difficulty", ""), values.get("themes", ()))
+            except InvalidQuestionSettings as error:
+                raise HTTPException(400, str(error)) from error
+        return values
 
 
 class AnswerInput(BaseModel):
@@ -250,6 +269,8 @@ def deal_questions(
             "message": str(error),
             "available": error.available,
         }) from error
+    except InvalidQuestionSettings as error:
+        raise HTTPException(400, str(error)) from error
     except QuestionUnavailable as error:
         raise HTTPException(503, str(error)) from error
     keys = [question["key"] for question in questions]
@@ -273,6 +294,7 @@ def shuffle_question(source: dict) -> Question:
         source=source["source"],
         key=source["key"],
         source_url=source.get("source_url"),
+        explanation=source.get("explanation"),
     )
 
 
@@ -318,6 +340,8 @@ def question_view(question: Question, *, reveal: bool) -> dict:
     }
     if reveal and question.source_url:
         result["sourceUrl"] = question.source_url
+    if reveal and question.explanation:
+        result["explanation"] = question.explanation
     return result
 
 

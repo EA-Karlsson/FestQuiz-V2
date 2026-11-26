@@ -32,14 +32,18 @@ class QuestionUnavailable(RuntimeError):
     pass
 
 
+class InvalidQuestionSettings(QuestionUnavailable):
+    pass
+
+
 class NewQuestionsUnavailable(QuestionUnavailable):
-    def __init__(self, available: int):
+    def __init__(self, available: int, *, message: str | None = None):
         self.available = available
         count = "1 ny fråga" if available == 1 else f"{available} nya frågor"
-        super().__init__(
+        super().__init__(message or (
             f"Jag hittade bara {count} med de här valen. "
             "Välj färre frågor, byt kategori eller svårighetsgrad, eller tillåt tidigare frågor."
-        )
+        ))
 
 
 class Question(TypedDict):
@@ -49,6 +53,7 @@ class Question(TypedDict):
     incorrect: list[str]
     source: str
     source_url: NotRequired[str]
+    explanation: NotRequired[str]
 
 
 @dataclass(frozen=True)
@@ -71,6 +76,9 @@ _TRIVIAAPI_GAMES_URL = "https://triviaapi.games/v1/questions"
 _TRIVIAAPI_GAMES_SOURCE = "TriviaAPI.games"
 _BANK_SOURCES = {"Open Trivia DB", "The Trivia API", "QuizBase (OpenTriviaQA)", "SciQ", "TriviaRoomQA"}
 _PARTY_CATEGORY = "party"
+MADE_UP_CATEGORY = "made-up"
+MADE_UP_COUNT = 10
+_MADE_UP_UNAVAILABLE = "Frågorna för Det låter påhittat kunde inte läsas."
 _PARTY_SWEDISH_SOURCE = "FestQuiz · Källgranskat"
 _PARTY_FRENCH_SOURCE = "OpenQuizzDB"
 _PARTY_CATALOGS = (
@@ -652,6 +660,66 @@ def _read_bank(
         return None
 
 
+def validate_made_up_settings(amount: object, difficulty: object, themes: object) -> None:
+    empty_themes = isinstance(themes, (list, tuple, set, frozenset)) and not themes
+    if amount != MADE_UP_COUNT or difficulty != "" or not empty_themes:
+        raise InvalidQuestionSettings(
+            "Det låter påhittat spelas med 10 frågor och blandad svårighet. Temaval finns i Festmix."
+        )
+
+
+@lru_cache(maxsize=1)
+def _made_up_pack() -> tuple[Question, ...]:
+    try:
+        rows = json.loads(Path(__file__).with_name("festmix_made_up.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        raise QuestionUnavailable(_MADE_UP_UNAVAILABLE) from error
+    if not isinstance(rows, list) or len(rows) != MADE_UP_COUNT:
+        raise QuestionUnavailable(_MADE_UP_UNAVAILABLE)
+
+    questions: list[Question] = []
+    keys: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            raise QuestionUnavailable(_MADE_UP_UNAVAILABLE)
+        explanation = row.get("explanation")
+        source = row.get("source")
+        if (not isinstance(explanation, str) or not _normalized(explanation)
+                or not isinstance(source, str) or not _normalized(source)):
+            raise QuestionUnavailable(_MADE_UP_UNAVAILABLE)
+        candidate = _candidate(
+            row.get("question"), row.get("correct"), row.get("incorrect"),
+            source=source.strip(), language="SV", source_url=row.get("source_url"),
+        )
+        if candidate is None or candidate.source_url is None:
+            raise QuestionUnavailable(_MADE_UP_UNAVAILABLE)
+        question = _resolved(candidate, {})
+        if question is None or question["key"] in keys:
+            raise QuestionUnavailable(_MADE_UP_UNAVAILABLE)
+        question["explanation"] = explanation.strip()
+        questions.append(question)
+        keys.add(question["key"])
+    return tuple(questions)
+
+
+def _get_made_up_questions(exclude: Collection[str], allow_repeats: bool) -> list[Question]:
+    pack = _made_up_pack()
+    available = sum(question["key"] not in exclude for question in pack)
+    if available < MADE_UP_COUNT and not allow_repeats:
+        raise NewQuestionsUnavailable(
+            available,
+            message=f"Du har {available} av paketets 10 frågor kvar att spela i rummet. "
+            "Tillåt tidigare frågor för att spela hela paketet eller välj en annan kategori.",
+        )
+    questions = []
+    for original in pack:
+        question = original.copy()
+        question["incorrect"] = original["incorrect"].copy()
+        questions.append(question)
+    random.shuffle(questions)
+    return questions
+
+
 def get_questions(
     amount: int,
     category: str = "",
@@ -663,6 +731,9 @@ def get_questions(
     themes: Collection[str] = (),
 ) -> list[Question]:
     """Returnera exakt antal unika svenska frågor med bibehållna kategori- och nivåval."""
+    if category == MADE_UP_CATEGORY:
+        validate_made_up_settings(amount, difficulty, themes)
+        return _get_made_up_questions(exclude, allow_repeats)
     if not 1 <= amount <= 30 or category not in _TRIVIA_FILTERS or difficulty not in _DIFFICULTIES:
         raise QuestionUnavailable("Välj en giltig kategori, svårighetsgrad och mellan 1 och 30 frågor.")
     theme_filter = frozenset(themes)

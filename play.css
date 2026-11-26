@@ -499,7 +499,7 @@ body[data-role="host"] .timer, body[data-role="player"] .timer { font-size: 1.42
     line-height: 1.3;
 }
 body[data-role="player"] #answer-note { text-align: center; }
-.question-source { color: #e4d8ef; font-size: .94rem; }
+.question-source, .review-explanation { color: #e4d8ef; font-size: .94rem; }
 .question-source a { color: #ffe0a0; text-underline-offset: .18em; }
 .question-source a:hover { color: #fff1cf; }
 .review-report { margin-top: .75rem; }
@@ -692,7 +692,7 @@ body[data-role="tv"] #series th, body[data-role="tv"] #series td { padding: .54r
 body[data-role="tv"] #review-question { font-size: 1.85rem; }
 body[data-role="tv"] .review-question-panel .choice { min-height: 3.85rem; font-size: 1.32rem; }
 body[data-role="tv"] .review-correct, body[data-role="tv"] .review-table { font-size: 1.22rem; }
-body[data-role="tv"] .question-source { font-size: 1rem; }
+body[data-role="tv"] .question-source, body[data-role="tv"] .review-explanation { font-size: 1rem; }
 body[data-role="tv"] .review-question-panel .choice-letter {
     width: 2rem;
     height: 2rem;
